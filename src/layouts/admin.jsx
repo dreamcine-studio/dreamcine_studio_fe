@@ -1,7 +1,6 @@
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet,  } from "react-router-dom";
 
 export default function AdminLayout() {
-  
   return (
     <>
       <nav className="fixed top-0 z-50 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
@@ -48,13 +47,11 @@ export default function AdminLayout() {
                     className="text-right text-sm text-gray-900 dark:text-white"
                     role="none"
                   >
-                    
                   </p>
                   <p
                     className="text-sm font-medium text-gray-900 truncate dark:text-gray-300"
                     role="none"
                   >
-                    
                   </p>
                 </div>
                 <div>
@@ -177,7 +174,7 @@ export default function AdminLayout() {
                 >
                   <path d="M6.143 0H1.857A1.857 1.857 0 0 0 0 1.857v4.286C0 7.169.831 8 1.857 8h4.286A1.857 1.857 0 0 0 8 6.143V1.857A1.857 1.857 0 0 0 6.143 0Zm10 0h-4.286A1.857 1.857 0 0 0 10 1.857v4.286C10 7.169 10.831 8 11.857 8h4.286A1.857 1.857 0 0 0 18 6.143V1.857A1.857 1.857 0 0 0 16.143 0Zm-10 10H1.857A1.857 1.857 0 0 0 0 11.857v4.286C0 17.169.831 18 1.857 18h4.286A1.857 1.857 0 0 0 8 16.143v-4.286A1.857 1.857 0 0 0 6.143 10Zm10 0h-4.286A1.857 1.857 0 0 0 10 11.857v4.286c0 1.026.831 1.857 1.857 1.857h4.286A1.857 1.857 0 0 0 18 16.143v-4.286A1.857 1.857 0 0 0 16.143 10Z" />
                 </svg>
-                <span className="flex-1 ms-3 whitespace-nowrap">Authors</span>
+                <span className="flex-1 ms-3 whitespace-nowrap">Studios</span>
               </Link>
             </li>
             <li>
@@ -210,7 +207,7 @@ export default function AdminLayout() {
                 className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
               >
                 <i className="fa-solid fa-book fa-lg"></i>
-                <span className="flex-1 ms-3 whitespace-nowrap">Books</span>
+                <span className="flex-1 ms-3 whitespace-nowrap">Movies</span>
               </Link>
             </li>
             <li>
@@ -232,7 +229,6 @@ export default function AdminLayout() {
               </Link>
             </li>
 
-          
             <li>
               <Link
                 to="admin/users"
@@ -243,10 +239,8 @@ export default function AdminLayout() {
               </Link>
             </li>
             
-            
             <li>
               <button
-                
                 to="admin/users"
                 className="flex items-center bg-rose-50 border-2 border-rose-200 p-2 text-gray-900 rounded-lg dark:text-white hover:bg-rose-200 dark:hover:bg-gray-700 group"
               >
