@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom"
+import movies from "../../../utils/constants/Movies"
 
 export default function Movies() {
   return (
@@ -57,28 +58,33 @@ export default function Movies() {
           </thead>
           <tbody>
 
-            <tr className="hover:bg-gray-50">
+          {movies.map((movie) => ( 
+            <tr key={movie.id} className="hover:bg-gray-50">
               <td
                 className="px-4 py-5 pl-9 xl:pl-11"
               >
-                <h5 className="font-medium text-black dark:text-white">title</h5>
-                <p className="text-sm">price</p>
+                <h5 className="font-medium text-black dark:text-white">{movie.title}</h5>
               </td>
               <td className="px-4 py-5">
-                <p className="text-black dark:text-white">description</p>
+                <p className="text-black dark:text-white">{movie.description}</p>
               </td>
               <td className="px-4 py-5">
-                <p className="text-black dark:text-white">stock</p>
+                <img src={movie.poster}/>
               </td>
               <td className="px-4 py-5">
-                <p className="text-black dark:text-white">photo</p>
-                {/* <img src= {`http://127.0.0.1:8000/storage/books/${book.cover_photo}`}/> */}
+                <p className="text-black dark:text-white">{movie.price}</p>
               </td>
               <td className="px-4 py-5">
-                <p className="text-black dark:text-white">genre</p>
+                <p className="text-black dark:text-white">{movie.cast}</p>
               </td>
               <td className="px-4 py-5">
-                <p className="text-black dark:text-white">author</p>
+                <p className="text-black dark:text-white">{movie.genre}</p>
+              </td>
+              <td className="px-4 py-5">
+                <p className="text-black dark:text-white">{movie.duration}</p>
+              </td>
+              <td className="px-4 py-5">
+                <p className="text-black dark:text-white">{movie.release_date}</p>
               </td>
               <td className="px-4 py-5">
                 <div className="flex items-center space-x-3.5">
@@ -90,6 +96,7 @@ export default function Movies() {
                 </div>  
               </td>
             </tr>
+            ))} 
           </tbody>
         </table>
       </div>
