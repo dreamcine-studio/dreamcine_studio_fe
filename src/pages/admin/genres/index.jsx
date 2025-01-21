@@ -1,11 +1,38 @@
 import { Link } from "react-router-dom";
-import genres from "../../../utils/constants/genres";
+import { useEffect, useState } from "react";
+import { deleteGenre, getGenres } from "../../../services/genre";
 // import { useEffect, useState } from "react";
 // import { getGenres } from "../../../services/genre";
 
 export default function GenreMovies() {
 
+    const [genres, setGenres] = useState([]);
+
+    useEffect(() => {  
+      const fetchGenres = async () => {  
+        const data = await getGenres();  
+        setGenres(data);  
+      };  
     
+      fetchGenres();  
+    }, []);
+  
+    console.log(genres)
+
+
+
+    const handleDelete = async (id) => {
+      // deleteBook dari services jangan lupa di inport
+     const confirmDelete =  window.confirm("Apakah Anda yakin ingin Menghapus Data ini ?");
+  
+     if(confirmDelete){
+        await deleteGenre(id)
+  
+      // ini kita update pakai setter Books
+      setGenres(genres.filter(genre => genre.id !== id))
+      }
+    }
+
 
   return (
     <div
@@ -37,31 +64,26 @@ export default function GenreMovies() {
           <tbody>
 
      
-            {genres.map((genre) => ( 
+     
+          {genres.length > 0 ?
+           genres.map((genre) => (
             <tr key={genre.id} className="hover:bg-gray-50">
-            {/* <tr  className="hover:bg-gray-50"> */}
               <td
                 className="px-4 py-5 pl-9 xl:pl-11"
               >
                 <h5 className="font-medium text-black dark:text-white">{genre.name}</h5>
-                {/* <h5 className="font-medium text-black dark:text-white">Name</h5> */}
          
               </td>
               <td className="px-4 py-5">
                 <p className="text-black dark:text-white">{genre.description}</p>
-                {/* <p className="text-black dark:text-white">Description</p> */}
               </td>
-
-
 
           
               <td className="px-4 py-5">
                 <div className="flex items-center space-x-3.5">
                   <Link to="/admin/genres/create"><i className="fa-solid fa-plus"></i></Link>
-                  {/* <Link to={`/admin/genres/edit/${genre.id}`}><i className="fa-solid fa-pen-to-square"></i></Link> */}
-                  <Link to={`/admin/genres/edit/${genre.name}`}><i className="fa-solid fa-pen-to-square"></i></Link>
-                  {/* <button onClick={ () =>  handleDelete(genre.id)}> */}
-                  <button>
+                  <Link to={`/admin/genres/edit/${genre.id}`}><i className="fa-solid fa-pen-to-square"></i></Link>
+                  <button onClick={ () =>  handleDelete(genre.id)}>
                     <i className="fa-solid fa-trash"></i>
                   </button>
                 </div>
@@ -69,8 +91,11 @@ export default function GenreMovies() {
             </tr>
 
 
-))} 
-        
+)): (
+  <p>Tidak ada data Buku</p>
+)}
+     
+             
 
           </tbody>
         </table>
