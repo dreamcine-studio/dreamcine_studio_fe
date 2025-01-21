@@ -2,7 +2,6 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 // import AdminLayout from './layouts/admin'
 import PublicLayout from './layouts/public'
 import Home from './pages/public'
-import ProductDetail from './components/ProductDetail'
 import AdminLayout from './layouts/admin'
 import Dashboard from './pages/admin'
 import Register from './pages/auth/register'
@@ -18,6 +17,9 @@ import Studios from './pages/admin/studios'
 import StudioEdit from './pages/admin/studios/edit'
 import StudioCreate from './pages/admin/studios/create'
 import Hero from './components/Hero'
+import Schedules from './pages/admin/schedules'
+import ScheduleCreate from './pages/admin/schedules/create'
+import ScheduleEdit from './pages/admin/schedules/edit'
 
 function App() {
 
@@ -41,24 +43,29 @@ function App() {
                 <Route index element={<AdminMovies />} />
                 {/* <Route path="create" element={<BookCreate />} />
                 <Route path="edit/:id" element={<BookEdit />} /> */}
-              </Route>
+          </Route>
           <Route path="genres">
                 <Route index element={<GenreMovies />} />
                 <Route path="create" element={<GenreCreate />} />
                 <Route path="edit/:id" element={<GenreEdit />} />
-              </Route>   
+          </Route>   
           <Route path="payment_methods">
                 <Route index element={<PayMethods />} />
                 <Route path="create" element={<PaymentMethodCreate />} />
                 <Route path="edit/:id" element={<PaymentMethodEdit />} />
-              </Route>      
+          </Route>      
           <Route path="studios">
                 <Route index element={<Studios />} />
                 <Route path="create" element={<StudioCreate />} />
                 <Route path="edit/:id" element={<StudioEdit />} />
-              </Route>   
-
+          </Route>  
+          <Route path="schedules">
+                <Route index element={<Schedules />} />
+                <Route path="create" element={<ScheduleCreate />} />
+                <Route path="edit" element={<ScheduleEdit />} />
+          </Route> 
           </Route>
+          
         </Routes>
       </BrowserRouter>
     </>
