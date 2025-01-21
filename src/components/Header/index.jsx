@@ -13,7 +13,7 @@ export default function Header() {
               className="rounded-full mr-3 h-6 sm:h-9 "
               alt="Dream Cine Studios"
             />
-            <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500 self-center text-xl font-semibold whitespace-nowrap dark:text-white">
               DreamCine - Studios
             </span>
           </Link>
