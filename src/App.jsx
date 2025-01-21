@@ -7,6 +7,7 @@ import AdminLayout from './layouts/admin'
 import Dashboard from './pages/admin'
 import Register from './pages/auth/register'
 import Login from './pages/auth/login'
+import AdminMovies from './pages/admin/movies'
 
 function App() {
 
@@ -25,6 +26,12 @@ function App() {
 
           <Route path="admin" element={<AdminLayout />}>
           <Route index element={<Dashboard />} />
+
+          <Route path="movies">
+                <Route index element={<AdminMovies />} />
+                {/* <Route path="create" element={<BookCreate />} />
+                <Route path="edit/:id" element={<BookEdit />} /> */}
+              </Route>
           </Route>
         </Routes>
       </BrowserRouter>
