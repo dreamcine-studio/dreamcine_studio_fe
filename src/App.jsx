@@ -17,6 +17,7 @@ import PaymentMethodEdit from './pages/admin/payment_methods/edit'
 import Studios from './pages/admin/studios'
 import StudioEdit from './pages/admin/studios/edit'
 import StudioCreate from './pages/admin/studios/create'
+import Hero from './components/Hero'
 
 function App() {
 
@@ -26,7 +27,7 @@ function App() {
         <Routes>
           <Route element={<PublicLayout />}>
             <Route index element={<Home />} />
-            <Route path="Movies" element={<ProductDetail />} />
+            <Route path="Movies" element={<Hero />} />
           </Route>
 
           {/* Auth Routes */}
