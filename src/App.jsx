@@ -8,6 +8,9 @@ import Dashboard from './pages/admin'
 import Register from './pages/auth/register'
 import Login from './pages/auth/login'
 import AdminMovies from './pages/admin/movies'
+import GenreMovies from './pages/admin/genres'
+import GenreCreate from './pages/admin/genres/create'
+import GenreEdit from './pages/admin/genres/edit'
 
 function App() {
 
@@ -32,6 +35,11 @@ function App() {
                 {/* <Route path="create" element={<BookCreate />} />
                 <Route path="edit/:id" element={<BookEdit />} /> */}
               </Route>
+          <Route path="genres">
+                <Route index element={<GenreMovies />} />
+                <Route path="create" element={<GenreCreate />} />
+                <Route path="edit/:id" element={<GenreEdit />} />
+              </Route>   
           </Route>
         </Routes>
       </BrowserRouter>
