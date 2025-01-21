@@ -2,9 +2,10 @@
 // import { useEffect, useState } from "react"
 // import { getPaymentMethods } from "../../../services/paymentMethods";
 import { Link } from "react-router-dom";
-import paymentMethods from "../../../utils/constants/paymentMethods";
 
-export default function PayMethods() {
+import studios from "../../../utils/constants/studios";
+
+export default function Studios() {
  
   
   return (
@@ -25,38 +26,50 @@ export default function PayMethods() {
               <th
                 className="min-w-[150px] px-4 py-4 font-medium text-black dark:text-white"
               >
-                account_number
+              Location
               </th>
            
 
               <th
                 className="min-w-[150px] px-4 py-4 font-medium text-black dark:text-white"
               >
+                Max Seat
+              </th>
+
+              
+              <th
+                className="min-w-[150px] px-4 py-4 font-medium text-black dark:text-white"
+              >
                 Action
               </th>
+            
             
             </tr>
           </thead>
           <tbody>
 
         
-          {paymentMethods.map((pm) => ( 
-            <tr key={pm.id} className="hover:bg-gray-50">
+          {studios.map((studio) => ( 
+            <tr key={studio.id} className="hover:bg-gray-50">
             <td
               className="px-4 py-5 pl-9 xl:pl-11"
             >
-              <h5 className="font-medium text-black dark:text-white">{pm.name}</h5>         
+              <h5 className="font-medium text-black dark:text-white">{studio.name}</h5>         
             </td>
             <td className="px-4 py-5">
-              <p className="text-black dark:text-white">{pm.account_number}</p>
+              <p className="text-black dark:text-white">{studio.location}</p>
+              
+            </td>
+            <td className="px-4 py-5">
+              <p className="text-black dark:text-white">{studio.maxSeat}</p>
               
             </td>
 
 
             <td className="px-4 py-5">
               <div className="flex items-center space-x-3.5">
-                <Link to="/admin/payment_methods/create"><i className="fa-solid fa-plus"></i></Link>
-                <Link to={`/admin/payment_methods/edit/${pm.name}`}><i className="fa-solid fa-pen-to-square"></i></Link>
+                <Link to="/admin/studios/create"><i className="fa-solid fa-plus"></i></Link>
+                <Link to={`/admin/studios/edit/${studio.name}`}><i className="fa-solid fa-pen-to-square"></i></Link>
                 <button>
                   <i className="fa-solid fa-trash"></i>
                 </button>
