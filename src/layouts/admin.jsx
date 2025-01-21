@@ -29,6 +29,7 @@ export default function AdminLayout() {
                   ></path>
                 </svg>
               </button>
+              
               <Link to="https://flowbite.com" className="flex ms-2 md:me-24">
                 <img
                   src="https://flowbite.com/docs/images/logo.svg"
@@ -46,12 +47,12 @@ export default function AdminLayout() {
                   <p
                     className="text-right text-sm text-gray-900 dark:text-white"
                     role="none"
-                  >
+                  >Neil Sims
                   </p>
                   <p
                     className="text-sm font-medium text-gray-900 truncate dark:text-gray-300"
                     role="none"
-                  >
+                  >neil.sims@flowbite.com
                   </p>
                 </div>
                 <div>
