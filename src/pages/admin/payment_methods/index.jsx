@@ -62,8 +62,8 @@ export default function PayMethods() {
           </thead>
           <tbody>
 
-        
-          {paymentMethods.map((payMentmethod) => ( 
+          {paymentMethods.length > 0 ?
+          paymentMethods.map((payMentmethod) => ( 
             <tr key={payMentmethod.id} className="hover:bg-gray-50">
             <td
               className="px-4 py-5 pl-9 xl:pl-11"
@@ -87,7 +87,9 @@ export default function PayMethods() {
             </td>
           </tr>
 
-))} 
+)): (
+  <p>Tidak ada data PM</p>
+)} 
 
           </tbody>
         </table>
