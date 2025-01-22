@@ -2,20 +2,20 @@ const studios = [
     {
         id: 1,
         name : "Cinema XXI",
-        location: "KALIBATA XXI",
-        maxSeat: 12
+        location: "Lanta 1 A",
+        maxSeat: 25
     },
     {
         id: 2,
         name : "IMAX",
-        location: "GANDARIA CITY IMAX",
-        maxSeat: 5
+        location: "Lantai 2 A",
+        maxSeat: 25
     },
     {
         id: 3,
         name : "PREMIERE",
-        location: "Pondok Indah Mall",
-        maxSeat: 8
+        location: "Lantai 3 A",
+        maxSeat: 25
     }
 ]
 

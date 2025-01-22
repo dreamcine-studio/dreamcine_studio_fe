@@ -22,8 +22,12 @@ import ScheduleCreate from './pages/admin/schedules/create'
 import ScheduleEdit from './pages/admin/schedules/edit'
 import MovieEdit from './pages/admin/movies/edit'
 import MovieCreate from './pages/admin/movies/create'
+<<<<<<< HEAD
 import Team from './components/Team'
 import Contact from './components/Contact'
+=======
+import Seats from './pages/admin/seats'
+>>>>>>> cf77f2aad705619df31965a637a19a65d76a5242
 
 function App() {
 
@@ -72,6 +76,12 @@ function App() {
 
           <Route path="schedules">
                 <Route index element={<Schedules />} />
+                <Route path="create" element={<ScheduleCreate />} />
+                <Route path="edit" element={<ScheduleEdit />} />
+          </Route> 
+
+          <Route path="seats">
+                <Route index element={<Seats />} />
                 <Route path="create" element={<ScheduleCreate />} />
                 <Route path="edit" element={<ScheduleEdit />} />
           </Route> 

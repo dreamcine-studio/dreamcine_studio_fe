@@ -38,6 +38,8 @@ export default function GenreMovies() {
     <div
       className="rounded-sm shadow-default dark:bg-boxdark sm:px-7.5 xl:pb-1"
     >
+      <Link to={"/admin/genres/create"} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Tambah data</Link>
+
       <div className="max-w-full overflow-x-auto">
         <table className="w-full table-auto">
           <thead className="border-b bg-gray-50 text-white">
@@ -81,7 +83,7 @@ export default function GenreMovies() {
           
               <td className="px-4 py-5">
                 <div className="flex items-center space-x-3.5">
-                  <Link to="/admin/genres/create"><i className="fa-solid fa-plus"></i></Link>
+                  {/* <Link to="/admin/genres/create"><i className="fa-solid fa-plus"></i></Link> */}
                   <Link to={`/admin/genres/edit/${genre.id}`}><i className="fa-solid fa-pen-to-square"></i></Link>
                   <button onClick={ () =>  handleDelete(genre.id)}>
                     <i className="fa-solid fa-trash"></i>
@@ -92,7 +94,7 @@ export default function GenreMovies() {
 
 
 )): (
-  <p>Tidak ada data Buku</p>
+  <p>Tidak ada data Genre</p>
 )}
      
              
