@@ -22,6 +22,8 @@ import ScheduleCreate from './pages/admin/schedules/create'
 import ScheduleEdit from './pages/admin/schedules/edit'
 import MovieEdit from './pages/admin/movies/edit'
 import MovieCreate from './pages/admin/movies/create'
+import Team from './components/Team'
+import Contact from './components/Contact'
 
 function App() {
 
@@ -29,10 +31,12 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
-          
+
           <Route element={<PublicLayout />}>
             <Route index element={<Home />} />
             <Route path="Movies" element={<Hero />} />
+            <Route path="teams" element={<Team />} />
+            <Route path="contacts" element={<Contact />} />
           </Route>
 
           {/* Auth Routes */}
