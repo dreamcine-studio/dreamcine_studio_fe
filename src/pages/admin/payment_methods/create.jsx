@@ -1,7 +1,44 @@
+import { useState } from "react"
+import { useNavigate } from "react-router-dom"
+import { createPaymentmethod } from "../../../services/paymentMethod"
 
 
 export default function PaymentMethodCreate() {
+  const[errors,setErrors] = useState({})
 
+    const[paymentMethodData, setPaymentMethodData] = useState({
+        name: "",
+        account_number:""
+    })
+
+    const navigate = useNavigate()
+
+    const handleInputChange = (e) => {
+        const{ name, value} = e.target
+        setPaymentMethodData({...paymentMethodData, [name]: value})
+    }
+
+     //Handle submit
+    const storePaymentMethod = async (e) => {
+        e.preventDefault()
+    
+        const formDataToSend = new FormData()
+    
+        formDataToSend.append('name', paymentMethodData.name)
+        formDataToSend.append('account_number', paymentMethodData.account_number)
+
+        try {
+            await createPaymentmethod(formDataToSend)
+            return navigate('/admin/payment_methods')
+        }   catch (err) {
+            // console.log(err.response.data.message)
+            setErrors(err.response.data.message)
+        }
+
+    }  
+
+    console.log(paymentMethodData);
+    
 
 
   return (
@@ -16,7 +53,7 @@ export default function PaymentMethodCreate() {
             Add Data Payment Methods
           </h3>
         </div>
-        <form action="#" className="py-5">
+        <form onSubmit={storePaymentMethod} className="py-5">
           <div className="p-6.5 flex flex-col gap-5">
             
             <div className="mb-4.5">
@@ -25,10 +62,15 @@ export default function PaymentMethodCreate() {
               >
                 Name
               </label>
-             
-               
+              {errors.name &&(
+                <div className="p-2 my-2 text-sm text-red-800 rounded-lg bg-red-50" role="alert">
+                    <span className="font-medium">{errors.name[0]}</span>
+                </div>
+              )}
               <input
                 type="text"
+                value={paymentMethodData.name}
+                onChange={handleInputChange}
                 name="name"
                 // bookData itu adalah useState yang di atas
                 
@@ -40,14 +82,18 @@ export default function PaymentMethodCreate() {
               <label
                 className="mb-3 block text-base font-medium text-black dark:text-white"
               >
-                Account Naumber
+                Account Number
               </label>
-              
-             
+              {errors.account_number &&(
+                <div className="p-2 my-2 text-sm text-red-800 rounded-lg bg-red-50" role="alert">
+                    <span className="font-medium">{errors.account_number[0]}</span>
+                </div>
+              )}
               <textarea
                 name="account_number"
+                value={paymentMethodData.account_number}
+                onChange={handleInputChange}
                 // bookData itu adalah useState yang di atas
-                
                 rows="6"
                 className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-indigo-600 active:border-indigo-600 disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-indigo-600"
               ></textarea>
