@@ -17,6 +17,8 @@ import PaymentMethodEdit from './pages/admin/payment_methods/edit'
 import Studios from './pages/admin/studios'
 import StudioEdit from './pages/admin/studios/edit'
 import StudioCreate from './pages/admin/studios/create'
+import MovieEdit from './pages/admin/movies/edit'
+import MovieCreate from './pages/admin/movies/create'
 
 function App() {
 
@@ -38,19 +40,22 @@ function App() {
 
           <Route path="movies">
                 <Route index element={<AdminMovies />} />
-                {/* <Route path="create" element={<BookCreate />} />
-                <Route path="edit/:id" element={<BookEdit />} /> */}
+                <Route path="create" element={<MovieCreate />} />
+                <Route path="edit/:id" element={<MovieEdit />} />
               </Route>
+
           <Route path="genres">
                 <Route index element={<GenreMovies />} />
                 <Route path="create" element={<GenreCreate />} />
                 <Route path="edit/:id" element={<GenreEdit />} />
               </Route>   
+
           <Route path="payment_methods">
                 <Route index element={<PayMethods />} />
                 <Route path="create" element={<PaymentMethodCreate />} />
                 <Route path="edit/:id" element={<PaymentMethodEdit />} />
               </Route>      
+              
           <Route path="studios">
                 <Route index element={<Studios />} />
                 <Route path="create" element={<StudioCreate />} />
