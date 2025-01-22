@@ -1,8 +1,55 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { createStudio } from "../../../services/studios";
 
 
 export default function StudioCreate() {
 
   
+
+  const[errors, setErrors] = useState({})
+
+  const [studioData, setGenreData] = useState({
+    name: "",
+    location: "",
+    maxseats: ""
+  })
+
+  const navigate = useNavigate();
+  
+
+  // di sini kita kasih Handle
+// Handle input change
+const handleInputChange = (event) => {
+  // ini kita destructoring, name adalah properti di HTML, value tempat ngirim data ke server
+  // kalau di Postmane itu nama nya Key
+  // value itu di Postman itu value juga
+  const {name, value} = event.target
+  setGenreData({...studioData, [name]: value});
+}
+
+
+const studioGenre = async (e) => {
+  e.preventDefault()
+
+
+ // ini nama objec nya, bebas, berfungsi untuk menambahkan data
+  const formDataToSendGenre = new FormData()
+
+  formDataToSendGenre.append('name', studioData.name)
+  formDataToSendGenre.append('location', studioData.location)
+  formDataToSendGenre.append('maxseats', studioData.maxseats)
+
+
+  // biar lebih bagus kita bisa pakai try catch
+  try{
+      await createStudio(formDataToSendGenre);
+      navigate('/admin/studios')
+  }catch(error){
+ 
+    setErrors(error.response.data.message)
+  }
+}
 
 
 
@@ -18,7 +65,7 @@ export default function StudioCreate() {
             Create Studios
             </h3>
           </div>
-          <form className="py-5">
+          <form onSubmit={studioGenre}  className="py-5">
             <div className="p-6.5 flex flex-col gap-5">
               
 
@@ -29,14 +76,17 @@ export default function StudioCreate() {
                 >
                   Name
                 </label>
-                
-                  <div className="p-2 my-2 text-sm text-red-800 rounded-lg bg-red-50">
-                      <span className="font-medium"></span>
-                  </div>
-                
+                {errors.name && (
+                <div className="p-2 my-2 text-sm text-red-800 rounded-lg bg-red-50">
+                    <span className="font-medium">{errors.name[0]}</span>
+                </div>
+              )}
+
                 <input
                   type="text"
-               
+                   name="name"
+                value={studioData.name}
+                onChange={handleInputChange}
                   className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-indigo-600 active:border-indigo-600 disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-indigo-600"
                 />
               </div>
@@ -49,14 +99,17 @@ export default function StudioCreate() {
                 >
                   Location
                 </label>
-                
-                  <div className="p-2 my-2 text-sm text-red-800 rounded-lg bg-red-50">
-                      <span className="font-medium"></span>
-                  </div>
+                {errors.location && (
+                <div className="p-2 my-2 text-sm text-red-800 rounded-lg bg-red-50">
+                    <span className="font-medium">{errors.location[0]}</span>
+                </div>
+              )}
                 
                 <input
                   type="text"
-               
+                  name="location"
+                  value={studioData.location}
+                  onChange={handleInputChange}
                   className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-indigo-600 active:border-indigo-600 disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-indigo-600"
                 />
               </div>
@@ -68,14 +121,18 @@ export default function StudioCreate() {
                 >
                   Max Seat
                 </label>
-            
-                  <div className="p-2 my-2 text-sm text-red-800 rounded-lg bg-red-50">
-                      <span className="font-medium"></span>
-                  </div>
-               
+                {errors.maxseats && (
+                <div className="p-2 my-2 text-sm text-red-800 rounded-lg bg-red-50">
+                    <span className="font-medium">{errors.maxseats[0]}</span>
+                </div>
+              )}
+
+                
                 <textarea
                   rows="6"
-         
+                  name="maxseats"
+                  value={studioData.maxseats}
+                  onChange={handleInputChange}
                   className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-indigo-600 active:border-indigo-600 disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-indigo-600"
                 ></textarea>
               </div>

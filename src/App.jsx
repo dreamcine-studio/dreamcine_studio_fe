@@ -22,12 +22,9 @@ import ScheduleCreate from './pages/admin/schedules/create'
 import ScheduleEdit from './pages/admin/schedules/edit'
 import MovieEdit from './pages/admin/movies/edit'
 import MovieCreate from './pages/admin/movies/create'
-
 import Team from './components/Team'
 import Contact from './components/Contact'
-
 import Seats from './pages/admin/seats'
-
 
 function App() {
 

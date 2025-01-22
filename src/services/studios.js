@@ -45,3 +45,20 @@ export const updateStudio = async (id, data) =>{
        throw err
     }
    }
+
+
+
+   
+ //Create
+  
+ export const createStudio = async(data) =>
+  {
+ 
+     try{
+       const response  = await API.post(`/studios`, data)  // endpoint
+       return response.data;
+     }catch(error) {
+       console.log(error);
+       throw error
+     }
+  }  

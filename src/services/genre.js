@@ -44,3 +44,18 @@ export const updateGenre = async (id, data) =>{
      throw err
   }
  }
+
+
+ //Create
+  
+ export const createGenre = async(data) =>
+  {
+ 
+     try{
+       const response  = await API.post(`/genres`, data)  // endpoint
+       return response.data;
+     }catch(error) {
+       console.log(error);
+       throw error
+     }
+  }  
