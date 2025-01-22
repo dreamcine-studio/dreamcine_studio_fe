@@ -90,7 +90,7 @@ export default function Studios() {
               
             </td>
             <td className="px-4 py-5">
-              <p className="text-black dark:text-white">{studio.maxSeat}</p>
+              <p className="text-black dark:text-white">{studio.maxseats}</p>
               
             </td>
 

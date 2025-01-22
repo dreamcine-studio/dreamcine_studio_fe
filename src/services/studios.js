@@ -30,3 +30,18 @@ export const getStudios = async () => {
     throw error
   }
 }
+
+
+
+//update
+  
+// update, kita butuh id dan data
+export const updateStudio = async (id, data) =>{
+    try { 
+       const response = await API.post(`/studios/${id}`, data)  // endpoints
+       return response.data.data;
+    }catch (err){
+       console.log(err)
+       throw err
+    }
+   }
