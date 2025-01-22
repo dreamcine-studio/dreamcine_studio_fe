@@ -92,7 +92,7 @@ export default function GenreMovies() {
 
 
 )): (
-  <p>Tidak ada data Buku</p>
+  <p>Tidak ada data Genre</p>
 )}
      
              
