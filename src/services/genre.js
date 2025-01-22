@@ -18,3 +18,15 @@ export const getGenres = async () => {
    return data.data;
    
  } 
+
+
+
+ 
+ export const deleteGenre = async(id) => {
+  try{
+    await API.delete(`/genres/${id}`)      // ini pakai backtick
+  }catch (error){
+    console.log(error)
+    throw error
+  }
+}
