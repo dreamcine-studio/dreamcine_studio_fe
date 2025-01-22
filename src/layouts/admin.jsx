@@ -30,15 +30,16 @@ export default function AdminLayout() {
                 </svg>
               </button>
               
-              <Link to="https://flowbite.com" className="flex ms-2 md:me-24">
-                <img
-                  src="https://flowbite.com/docs/images/logo.svg"
+              <Link to="/" className="flex ms-2 md:me-24">
+                {/* <img
+                  src="./public/DreamCine.jpeg"
                   className="h-8 me-3"
                   alt="FlowBite Logo"
-                />
-                <span className="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">
-                  Flowbite
+                /> */}
+                <span className="bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500 text-xl  self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">
+                  DreamCine-Studio
                 </span>
+                <span>  Admin</span>
               </Link>
             </div>
             <div className="flex items-center">
@@ -213,7 +214,7 @@ export default function AdminLayout() {
             </li>
             <li>
               <Link
-                to="/admin/authors"
+                to="/admin/seats"
                 className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
               >
                 <svg
@@ -247,7 +248,7 @@ export default function AdminLayout() {
             </li>
             <li>
               <Link
-                to="/admin/orders"
+                to="/admin/bookings"
                 className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
               >
                 <i className="fa-solid fa-cart-shopping fa-lg"></i>

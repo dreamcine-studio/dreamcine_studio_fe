@@ -3,16 +3,45 @@
 // import { getPaymentMethods } from "../../../services/paymentMethods";
 import { Link } from "react-router-dom";
 
-import studios from "../../../utils/constants/studios";
+// import studios from "../../../utils/constants/studios";
+import { useEffect, useState } from "react";
+import { deleteStudio, getStudios } from "../../../services/studios";
 
 export default function Studios() {
  
+      const [studios, setStudios] = useState([]);
   
+
+        useEffect(() => {  
+            const fetchStudios = async () => {  
+              const data = await getStudios();  
+              setStudios(data);  
+            };  
+          
+            fetchStudios();  
+          }, []);
+
+      console.log(studios);
+
+      
+          const handleDelete = async (id) => {
+            // deleteBook dari services jangan lupa di inport
+           const confirmDelete =  window.confirm("Apakah Anda yakin ingin Menghapus Data ini ?");
+        
+           if(confirmDelete){
+              await deleteStudio(id)
+        
+            // ini kita update pakai setter Books
+            setStudios(studios.filter(studio => studio.id !== id))
+            }
+          }
+
   return (
     <div
       className="rounded-sm shadow-default dark:bg-boxdark sm:px-7.5 xl:pb-1"
     >
       {/* ini pakai ternary */}
+      <Link to={"/admin/studios/create"} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Tambah data</Link>
     
       <div className="max-w-full overflow-x-auto">
         <table className="w-full table-auto">
@@ -48,8 +77,8 @@ export default function Studios() {
           </thead>
           <tbody>
 
-        
-          {studios.map((studio) => ( 
+         {studios.length > 0 ?
+          studios.map((studio) => ( 
             <tr key={studio.id} className="hover:bg-gray-50">
             <td
               className="px-4 py-5 pl-9 xl:pl-11"
@@ -68,17 +97,21 @@ export default function Studios() {
 
             <td className="px-4 py-5">
               <div className="flex items-center space-x-3.5">
-                <Link to="/admin/studios/create"><i className="fa-solid fa-plus"></i></Link>
+                {/* <Link to="/admin/studios/create"><i className="fa-solid fa-plus"></i></Link> */}
                 <Link to={`/admin/studios/edit/${studio.name}`}><i className="fa-solid fa-pen-to-square"></i></Link>
-                <button>
+                <button onClick={() => handleDelete(studio.id)}> 
                   <i className="fa-solid fa-trash"></i>
                 </button>
               </div>
             </td>
           </tr>
 
-))} 
 
+        )): (
+          <p>Tidak ada data Buku</p>
+        )}
+             
+                  
           </tbody>
         </table>
       </div>
