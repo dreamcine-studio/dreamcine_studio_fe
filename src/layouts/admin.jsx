@@ -39,7 +39,7 @@ export default function AdminLayout() {
                 <span className="bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500 text-xl  self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">
                   DreamCine-Studio
                 </span>
-                <span>  Admin</span>
+                {/* <span>  Admin</span> */}
               </Link>
             </div>
             <div className="flex items-center">
