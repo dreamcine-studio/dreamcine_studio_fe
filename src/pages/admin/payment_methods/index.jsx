@@ -35,7 +35,7 @@ export default function PayMethods() {
       className="rounded-sm shadow-default dark:bg-boxdark sm:px-7.5 xl:pb-1"
     >
       {/* ini pakai ternary */}
-    
+      <Link to={"/admin/payment_methods/create"} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Tambah data</Link>
       <div className="max-w-full overflow-x-auto">
         <table className="w-full table-auto">
           <thead className="border-b bg-gray-50 text-white">
@@ -78,7 +78,6 @@ export default function PayMethods() {
 
             <td className="px-4 py-5">
               <div className="flex items-center space-x-3.5">
-                <Link to="/admin/payment_methods/create"><i className="fa-solid fa-plus"></i></Link>
                 <Link to={`/admin/payment_methods/edit/${payMentmethod.id}`}><i className="fa-solid fa-pen-to-square"></i></Link>
                 <button onClick={()=> handleDelete(payMentmethod.id)}>
                   <i className="fa-solid fa-trash"></i>
