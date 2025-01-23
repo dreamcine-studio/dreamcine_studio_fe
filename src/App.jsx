@@ -74,7 +74,7 @@ function App() {
           <Route path="schedules">
                 <Route index element={<Schedules />} />
                 <Route path="create" element={<ScheduleCreate />} />
-                <Route path="edit" element={<ScheduleEdit />} />
+                <Route path="edit/:id" element={<ScheduleEdit />} />
           </Route> 
 
           <Route path="seats">

@@ -20,7 +20,6 @@ export default function ScheduleEdit() {
                     name="name"
                     id="name"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-600 focus:border-indigo-600 block w-full p-2.5 :bg-gray-700 :border-gray-600 :placeholder-gray-400 :text-white :focus:ring-indigo-500 :focus:border-indigo-500"
-                    placeholder="Type product name"
                     required=""
                   />
                 </div>
@@ -36,7 +35,6 @@ export default function ScheduleEdit() {
                     name="brand"
                     id="brand"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-600 focus:border-indigo-600 block w-full p-2.5 :bg-gray-700 :border-gray-600 :placeholder-gray-400 :text-white :focus:ring-indigo-500 :focus:border-indigo-500"
-                    placeholder="Product brand"
                     required=""
                   />
                 </div>
@@ -52,7 +50,6 @@ export default function ScheduleEdit() {
                     name="price"
                     id="price"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-600 focus:border-indigo-600 block w-full p-2.5 :bg-gray-700 :border-gray-600 :placeholder-gray-400 :text-white :focus:ring-indigo-500 :focus:border-indigo-500"
-                    placeholder="$2999"
                     required=""
                   />
                 </div>
