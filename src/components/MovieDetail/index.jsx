@@ -14,18 +14,35 @@ export default function MovieDetail() {
               />
             </div>
 
-            <div className="w-full md:w-1/2 py-4">
+            <div className="w-full md:w-1/2">
               <h2 className="text-3xl font-bold mb-2 dark:text-white">
                 {movieDetail.title}
               </h2>
               <p className="text-gray-600 mb-4">{movieDetail.genre}</p>
+              <div>
+                <p className="mb-6 dark:text-gray-200">
+                  <i className="fa-solid fa-clock mr-2"></i>
+                  {movieDetail.duration} minutes
+                </p>
+              </div>
+
               <p className="mb-6 dark:text-gray-200">
                 {movieDetail.description}
               </p>
-              <h3 className="text-lg font-bold text-gray-800 dark:text-gray-200">
-                Cast By:
-              </h3>
-              <p className="mb-4 dark:text-gray-200">{movieDetail.cast}</p>
+
+              <div>
+                <h3 className="text-lg font-bold text-gray-800 dark:text-gray-200">
+                  Cast By:
+                </h3>
+                <p className="mb-4 dark:text-gray-200">{movieDetail.cast}</p>
+              </div>
+
+              <div>
+                <h3 className="text-lg font-bold text-gray-800 dark:text-gray-200">
+                  Release Date:
+                </h3>
+                <p className="mb-4 dark:text-gray-200">{movieDetail.releaseDate}</p>
+              </div>
 
               <div className="flex space-x-4 mb-6">
                 <button className="bg-indigo-600 flex gap-2 items-center text-white px-6 py-2 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
@@ -33,7 +50,7 @@ export default function MovieDetail() {
                   Book Your Ticket Here
                 </button>
                 <a
-                  className="px-6 py-2 mx-auto border border-black hover:bg-yellow-300 rounded cursor-pointer dark:text-gray-200 dark:border-gray-200 dark:hover:bg-yellow-700"
+                  className="px-6 py-2 mx-auto border border-black hover:bg-yellow-300 rounded cursor-pointer dark:text-gray-200 text-center dark:border-gray-200 dark:hover:bg-yellow-700"
                   href="https://www.youtube.com/watch?v=6COmYeLsz4c"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -49,14 +66,16 @@ export default function MovieDetail() {
             <div className="w-full p-4">
               <h1 className="text-xl mb-4 font-bold font-sans dark:text-gray-100">
                 Videos Related To{" "}
-                <span className="text-yellow-500 dark:text-yellow-200">{movieDetail.title}</span>
+                <span className="text-yellow-500 dark:text-yellow-200">
+                  {movieDetail.title}
+                </span>
               </h1>
-              <div className="flex gap-4">
+              <div className="flex flex-wrap gap-4 md:justify-center">
                 <iframe
                   width="280"
                   height="158"
                   src={movieDetail.video1}
-                  title="YouTube video player}"
+                  title="YouTube video player"
                   frameborder="0"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   referrerpolicy="strict-origin-when-cross-origin"
@@ -67,7 +86,7 @@ export default function MovieDetail() {
                   width="280"
                   height="158"
                   src={movieDetail.video2}
-                  title="YouTube video player}"
+                  title="YouTube video player"
                   frameborder="0"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   referrerpolicy="strict-origin-when-cross-origin"
@@ -78,7 +97,7 @@ export default function MovieDetail() {
                   width="280"
                   height="158"
                   src={movieDetail.video3}
-                  title="YouTube video player}"
+                  title="YouTube video player"
                   frameborder="0"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   referrerpolicy="strict-origin-when-cross-origin"
@@ -89,7 +108,7 @@ export default function MovieDetail() {
                   width="280"
                   height="158"
                   src={movieDetail.video4}
-                  title="YouTube video player}"
+                  title="YouTube video player"
                   frameborder="0"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   referrerpolicy="strict-origin-when-cross-origin"
