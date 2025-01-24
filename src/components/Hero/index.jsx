@@ -7,7 +7,7 @@ export default function Hero() {
   <div className="flex flex-wrap -m-4">
     <div className="p-4 md:w-1/3">
       <div className="h-full border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden">
-        <img className="lg:h-48 md:h-36 w-full object-cover object-center" src="https://dummyimage.com/720x400" alt="blog" />
+        <img className="lg:h-80 md:h-64 w-full object-cover object-center" src="https://dummyimage.com/720x400" alt="blog" />
         <div className="p-6">
           <h2 className="tracking-widest text-xs title-font font-medium text-gray-400 mb-1">CATEGORY</h2>
           <h1 className="title-font text-lg font-medium text-gray-900 mb-3">The Catalyzer</h1>
@@ -40,7 +40,7 @@ export default function Hero() {
 {/* ubah ukuran  */}
     <div className="p-4 md:w-1/3">
 <div className="h-full border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden">
-  <img className="lg:h-72 md:h-64 w-full object-cover object-center" src="https://asset-2.tstatic.net/tribunnewswiki/foto/bank/images/alita-battle-angel2.jpg" alt="blog" />
+  <img className="lg:h-80 md:h-64 w-full object-cover object-center" src="https://asset-2.tstatic.net/tribunnewswiki/foto/bank/images/alita-battle-angel2.jpg" alt="blog" />
   <div className="p-6">
     <h2 className="tracking-widest text-xs title-font font-medium text-gray-400 mb-1">CATEGORY</h2>
     <h1 className="title-font text-lg font-medium text-gray-900 mb-3">The 400 Blows</h1>
@@ -71,7 +71,7 @@ export default function Hero() {
 
 <div className="p-4 md:w-1/3">
 <div className="h-full border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden">
-  <img className="lg:h-72 md:h-64 w-full object-cover object-center" src="https://dummyimage.com/721x401" alt="blog" />
+  <img className="lg:h-80 md:h-64 w-full object-cover object-center" src="https://dummyimage.com/721x401" alt="blog" />
   <div className="p-6">
     <h2 className="tracking-widest text-xs title-font font-medium text-gray-400 mb-1">CATEGORY</h2>
     <h1 className="title-font text-lg font-medium text-gray-900 mb-3">The 400 Blows</h1>
@@ -100,7 +100,7 @@ export default function Hero() {
 </div>
     <div className="p-4 md:w-1/3">
       <div className="h-full border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden">
-        <img className="lg:h-48 md:h-36 w-full object-cover object-center" src="https://dummyimage.com/722x402" alt="blog" />
+        <img className="lg:h-80 md:h-64 w-full object-cover object-center" src="https://dummyimage.com/722x402" alt="blog" />
         <div className="p-6">
           <h2 className="tracking-widest text-xs title-font font-medium text-gray-400 mb-1">CATEGORY</h2>
           <h1 className="title-font text-lg font-medium text-gray-900 mb-3">Shooting Stars</h1>
@@ -130,7 +130,7 @@ export default function Hero() {
 
     <div className="p-4 md:w-1/3">
       <div className="h-full border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden">
-        <img className="lg:h-48 md:h-36 w-full object-cover object-center" src="https://dummyimage.com/722x402" alt="blog" />
+        <img className="lg:h-80 md:h-36 w-full object-cover object-center" src="https://dummyimage.com/722x402" alt="blog" />
         <div className="p-6">
           <h2 className="tracking-widest text-xs title-font font-medium text-gray-400 mb-1">CATEGORY</h2>
           <h1 className="title-font text-lg font-medium text-gray-900 mb-3">Shooting Stars</h1>
@@ -161,7 +161,7 @@ export default function Hero() {
 
     <div className="p-4 md:w-1/3">
       <div className="h-full border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden">
-        <img className="lg:h-48 md:h-36 w-full object-cover object-center" src="https://dummyimage.com/722x402" alt="blog" />
+        <img className="lg:h-80 md:h-72 w-full object-cover object-center" src="https://dummyimage.com/722x402" alt="blog" />
         <div className="p-6">
           <h2 className="tracking-widest text-xs title-font font-medium text-gray-400 mb-1">CATEGORY</h2>
           <h1 className="title-font text-lg font-medium text-gray-900 mb-3">Shooting Stars</h1>

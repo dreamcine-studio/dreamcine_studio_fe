@@ -1,7 +1,46 @@
 import { Link } from "react-router-dom"
-import movies from "../../../utils/constants/Movies"
+// import movies from "../../../utils/constants/Movies"
+import { useEffect, useState } from "react";
+import { deleteMovie, getMovies } from "../../../services/movies";
+import { getGenres } from "../../../services/genre";
 
 export default function Movies() {
+    const [movies, setMovies] = useState([]);  
+    const [genres, setGenres] = useState([]);
+
+    useEffect(() => {  
+        const fetchMovies = async () => {  
+          const data = await getMovies();  
+          setMovies(data);  
+        };
+        
+        const fetchGenres = async () => {  
+          const data = await getGenres();  
+          setGenres(data);  
+        };
+      
+        fetchMovies();  
+        fetchGenres();  
+      }, [])
+
+
+      const getGenreName = (id) => {
+        const genre = genres.find((g) => g.id === id);
+        return genre ? genre.name : "Uknown Genre";
+      }
+
+      const handleDelete = async (id) => {
+        const confirmdelete = window.confirm("Apakah Anda yakin ingin menghapus data ini?")
+        
+        if (confirmdelete) {
+          await deleteMovie(id)
+          setMovies(movies.filter(movie => movie.id !== id))
+          alert("Data berhasil di hapus")
+        }
+        
+      }
+
+
   return (
     <div
       className="rounded-sm shadow-default dark:bg-boxdark sm:px-7.5 xl:pb-1"
@@ -58,7 +97,8 @@ export default function Movies() {
           </thead>
           <tbody>
 
-          {movies.map((movie) => ( 
+          {movies.length > 0 ?
+          movies.map((movie) => ( 
             <tr key={movie.id} className="hover:bg-gray-50">
               <td
                 className="px-4 py-5 pl-9 xl:pl-11"
@@ -78,7 +118,7 @@ export default function Movies() {
                 <p className="text-black dark:text-white">{movie.cast}</p>
               </td>
               <td className="px-4 py-5">
-                <p className="text-black dark:text-white">{movie.genre}</p>
+                <p className="text-black dark:text-white">{getGenreName(movie.genre_id)}</p>
               </td>
               <td className="px-4 py-5">
                 <p className="text-black dark:text-white">{movie.duration}</p>
@@ -90,13 +130,15 @@ export default function Movies() {
                 <div className="flex items-center space-x-3.5">
 
                   <Link to={`/admin/movies/edit/${movie.title}`}><i className="fa-solid fa-pen-to-square"></i></Link>
-                  <button >
+                  <button onClick={() => handleDelete(movie.id)}>
                     <i className="fa-solid fa-trash"></i>
                   </button>
                 </div>  
               </td>
             </tr>
-            ))} 
+            )) : (
+                <p>Tidak ada data movie</p>
+              )}
           </tbody>
         </table>
       </div>
