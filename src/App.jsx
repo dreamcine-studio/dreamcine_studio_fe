@@ -28,6 +28,7 @@ import Seats from './pages/admin/seats'
 import Payments from './pages/admin/payments'
 import PaymentEdit from './pages/admin/payments/edit'
 import MovieDetail from './components/MovieDetail'
+import NotFound404 from './pages/Error404'
 
 function App() {
 
@@ -92,7 +93,11 @@ function App() {
                 <Route path="edit" element={<ScheduleEdit />} />
           </Route> 
           </Route>
-          
+
+          <Route path="*" element={<NotFound404/>} />
+          {/* <Route path="*">
+            <Route index element={<NotFound404 />} />
+         </Route> */}
         </Routes>
       </BrowserRouter>
     </>

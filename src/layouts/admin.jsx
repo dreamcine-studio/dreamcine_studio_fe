@@ -132,7 +132,7 @@ export default function AdminLayout() {
                 to="/admin"
                 className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
               >
-                <i class="fa-solid fa-chart-pie fa-lg"></i>
+                <i className="fa-solid fa-chart-pie fa-lg"></i>
                 <span className="ms-3">Dashboard</span>
               </Link>
             </li>
@@ -141,7 +141,7 @@ export default function AdminLayout() {
                 to="/admin/genres"
                 className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
               >
-                <i class="fa-solid fa-masks-theater fa-lg"></i>
+                <i className="fa-solid fa-masks-theater fa-lg"></i>
                 <span className="flex-1 ms-3 whitespace-nowrap">Genres</span>
               </Link>
             </li>
@@ -150,7 +150,7 @@ export default function AdminLayout() {
                 to="/admin/studios"
                 className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
               >
-                <i class="fa-solid fa-person-booth fa-lg"></i>
+                <i className="fa-solid fa-person-booth fa-lg"></i>
                 <span className="flex-1 ms-3 whitespace-nowrap">Studios</span>
               </Link>
             </li>
@@ -158,7 +158,7 @@ export default function AdminLayout() {
               <Link
                 to="/admin/payment_methods"
                 className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
-              ><i class="fa-solid fa-credit-card fa-lg"></i>
+              ><i className="fa-solid fa-credit-card fa-lg"></i>
                 <span className="flex-1 ms-3 whitespace-nowrap">
                   Payment Methods
                 </span>
@@ -183,7 +183,7 @@ export default function AdminLayout() {
                 to="/admin/seats"
                 className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
               >
-                <i class="fa-solid fa-chair fa-lg"></i>
+                <i className="fa-solid fa-chair fa-lg"></i>
                 <span className="flex-1 ms-3 whitespace-nowrap">Seats</span>
               </Link>
             </li>
@@ -192,7 +192,7 @@ export default function AdminLayout() {
                 to="/admin/schedules"
                 className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
               >
-                <i class="fa-solid fa-calendar-days fa-xl"></i>
+                <i className="fa-solid fa-calendar-days fa-xl"></i>
                 <span className="flex-1 ms-3 whitespace-nowrap">Schedules</span>
               </Link>
             </li>
