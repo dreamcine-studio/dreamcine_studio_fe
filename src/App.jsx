@@ -26,6 +26,7 @@ import Team from './components/Team'
 import Contact from './components/Contact'
 import Seats from './pages/admin/seats'
 import MovieDetail from './components/MovieDetail'
+import BookingPublic from './pages/public/booking/booking.jsx'
 
 function App() {
 
@@ -39,7 +40,9 @@ function App() {
             <Route path="Movies" element={<Hero />} />
             <Route path="teams" element={<Team />} />
             <Route path="contacts" element={<Contact />} />
+
             <Route path="moviedetail" element={<MovieDetail />} />
+            <Route path="moviebooking" element={<BookingPublic />} />
           </Route>
 
           {/* Auth Routes */}
