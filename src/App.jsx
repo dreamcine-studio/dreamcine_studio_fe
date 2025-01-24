@@ -25,6 +25,9 @@ import MovieCreate from './pages/admin/movies/create'
 import Team from './components/Team'
 import Contact from './components/Contact'
 import Seats from './pages/admin/seats'
+import Payments from './pages/admin/payments'
+import PaymentCreate from './pages/admin/payments/create'
+import PaymentEdit from './pages/admin/payments/edit'
 
 function App() {
 
@@ -63,6 +66,12 @@ function App() {
                 <Route index element={<PayMethods />} />
                 <Route path="create" element={<PaymentMethodCreate />} />
                 <Route path="edit/:id" element={<PaymentMethodEdit />} />
+          </Route>
+
+          <Route path="payments">
+                <Route index element={<Payments />} />
+                <Route path="create" element={<PaymentCreate />} />
+                <Route path="edit/:id" element={<PaymentEdit />} />
           </Route>
 
           <Route path="studios">

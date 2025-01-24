@@ -7,7 +7,7 @@ export default function Schedules() {
       <div className="w-full">
         <div className="datatable-container">
             <Link to={`/admin/schedules/create`} className="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">
-              <i class="fa-solid fa-plus mr-2"></i>
+              <i className="fa-solid fa-plus mr-2"></i>
               Add Data
             </Link>
             
@@ -51,10 +51,10 @@ export default function Schedules() {
                   <td className="py-2">
                     <div className="flex items-center gap-4 mx-2">
                       <Link to={`/admin/schedules/edit/${schedule.id}`}>
-                      <i class="fa-solid fa-pen-to-square"></i>
+                      <i className="fa-solid fa-pen-to-square"></i>
                       </Link>
                       <button>
-                      <i class="fa-solid fa-trash"></i>
+                      <i className="fa-solid fa-trash"></i>
                       </button>
                     </div>
                   </td>
