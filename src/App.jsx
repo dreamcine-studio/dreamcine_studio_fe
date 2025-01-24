@@ -28,7 +28,8 @@ import Seats from './pages/admin/seats'
 import Payments from './pages/admin/payments'
 import PaymentEdit from './pages/admin/payments/edit'
 import MovieDetail from './components/MovieDetail'
-import BookingPublic from './pages/public/booking/booking.jsx'
+import NotFound404 from './pages/Error404'
+import MovieSchedule from './components/Scedule'
 
 function App() {
 
@@ -42,9 +43,8 @@ function App() {
             <Route path="Movies" element={<Hero />} />
             <Route path="teams" element={<Team />} />
             <Route path="contacts" element={<Contact />} />
-
             <Route path="moviedetail" element={<MovieDetail />} />
-            <Route path="moviebooking" element={<BookingPublic />} />
+            <Route path="shcedule" element={<MovieSchedule />} />
           </Route>
 
           {/* Auth Routes */}
