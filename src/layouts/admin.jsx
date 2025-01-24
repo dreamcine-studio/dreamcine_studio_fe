@@ -1,6 +1,31 @@
-import { Link, Outlet,  } from "react-router-dom";
+import { Link, Outlet, useNavigate,  } from "react-router-dom";
+import { logout } from "../services/auth";
+import { useEffect } from "react";
 
 export default function AdminLayout() {
+  const navigate = useNavigate();
+
+  const accessToken = localStorage.getItem("accessToken");
+  const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+
+  const handleLogout = () => {
+    logout()
+    return navigate('/login')
+  }
+
+  console.log(userInfo);
+  useEffect(() => {
+    // cek apakah ada access token
+    if (!accessToken) {
+      return navigate("/login");
+    }
+
+    // cek apakah userInfo.role bukan admin atau staff?
+    if (userInfo.role !== "admin") {
+      return navigate("/");
+    }
+  }, [accessToken, userInfo, navigate]);
+
   return (
     <>
       <nav className="fixed top-0 z-50 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
@@ -227,6 +252,7 @@ export default function AdminLayout() {
             
             <li>
               <button
+                onClick={handleLogout}
                 to="admin/users"
                 className="flex items-center bg-rose-50 border-2 border-rose-200 p-2 text-gray-900 rounded-lg dark:text-white hover:bg-rose-200 dark:hover:bg-gray-700 group"
               >
