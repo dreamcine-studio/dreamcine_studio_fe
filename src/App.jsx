@@ -27,6 +27,7 @@ import Contact from './components/Contact'
 import Seats from './pages/admin/seats'
 import MovieDetail from './components/MovieDetail'
 import NotFound404 from './pages/Error404'
+import MovieSchedule from './components/Scedule'
 
 function App() {
 
@@ -41,6 +42,7 @@ function App() {
             <Route path="teams" element={<Team />} />
             <Route path="contacts" element={<Contact />} />
             <Route path="moviedetail" element={<MovieDetail />} />
+            <Route path="scedule" element={<MovieSchedule />} />
           </Route>
 
           {/* Auth Routes */}
