@@ -51,55 +51,57 @@ function App() {
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
 
+
+          {/* Admin Routes */} 
           <Route path="admin" element={<AdminLayout />}>
-          <Route index element={<Dashboard />} />
+            <Route index element={<Dashboard />} />
 
-          <Route path="movies">
-                <Route index element={<AdminMovies />} />
-                <Route path="create" element={<MovieCreate />} />
-                <Route path="edit/:id" element={<MovieEdit />} />
+            <Route path="movies">
+                  <Route index element={<AdminMovies />} />
+                  <Route path="create" element={<MovieCreate />} />
+                  <Route path="edit/:id" element={<MovieEdit />} />
+            </Route>
+
+            <Route path="genres">
+                  <Route index element={<GenreMovies />} />
+                  <Route path="create" element={<GenreCreate />} />
+                  <Route path="edit/:id" element={<GenreEdit />} />
+            </Route>
+
+            <Route path="payment_methods">
+                  <Route index element={<PayMethods />} />
+                  <Route path="create" element={<PaymentMethodCreate />} />
+                  <Route path="edit/:id" element={<PaymentMethodEdit />} />
+            </Route>
+
+            <Route path="payments">
+                  <Route index element={<Payments />} />
+                  <Route path="edit/:id" element={<PaymentEdit />} />
+            </Route>
+
+            <Route path="studios">
+                  <Route index element={<Studios />} />
+                  <Route path="create" element={<StudioCreate />} />
+                  <Route path="edit/:id" element={<StudioEdit />} />
+            </Route>
+
+            <Route path="schedules">
+                  <Route index element={<Schedules />} />
+                  <Route path="create" element={<ScheduleCreate />} />
+                  <Route path="edit/:id" element={<ScheduleEdit />} />
+            </Route> 
+
+            <Route path="seats">
+                  <Route index element={<Seats />} />
+                  <Route path="create" element={<ScheduleCreate />} />
+                  <Route path="edit" element={<ScheduleEdit />} />
+            </Route> 
           </Route>
 
-          <Route path="genres">
-                <Route index element={<GenreMovies />} />
-                <Route path="create" element={<GenreCreate />} />
-                <Route path="edit/:id" element={<GenreEdit />} />
-          </Route>
-
-          <Route path="payment_methods">
-                <Route index element={<PayMethods />} />
-                <Route path="create" element={<PaymentMethodCreate />} />
-                <Route path="edit/:id" element={<PaymentMethodEdit />} />
-          </Route>
-
-          <Route path="payments">
-                <Route index element={<Payments />} />
-                <Route path="edit/:id" element={<PaymentEdit />} />
-          </Route>
-
-          <Route path="studios">
-                <Route index element={<Studios />} />
-                <Route path="create" element={<StudioCreate />} />
-                <Route path="edit/:id" element={<StudioEdit />} />
-          </Route>
-
-          <Route path="schedules">
-                <Route index element={<Schedules />} />
-                <Route path="create" element={<ScheduleCreate />} />
-                <Route path="edit/:id" element={<ScheduleEdit />} />
-          </Route> 
-
-          <Route path="seats">
-                <Route index element={<Seats />} />
-                <Route path="create" element={<ScheduleCreate />} />
-                <Route path="edit" element={<ScheduleEdit />} />
-          </Route> 
-          </Route>
-
-          <Route path="*" element={<NotFound404/>} />
-          {/* <Route path="*">
-            <Route index element={<NotFound404 />} />
-         </Route> */}
+            <Route path="*" element={<NotFound404/>} />
+              {/* <Route path="*">
+                <Route index element={<NotFound404 />} />
+            </Route> */}
         </Routes>
       </BrowserRouter>
     </>
