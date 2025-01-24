@@ -96,7 +96,7 @@ function App() {
           </Route> 
           </Route>
 
-          <Route path="*" element={<NotFound404/>} />
+          {/* <Route path="*" element={<NotFound404/>} /> */}
           {/* <Route path="*">
             <Route index element={<NotFound404 />} />
          </Route> */}
