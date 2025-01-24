@@ -26,7 +26,6 @@ import Team from './components/Team'
 import Contact from './components/Contact'
 import Seats from './pages/admin/seats'
 import Payments from './pages/admin/payments'
-import PaymentCreate from './pages/admin/payments/create'
 import PaymentEdit from './pages/admin/payments/edit'
 import MovieDetail from './components/MovieDetail'
 
@@ -72,7 +71,6 @@ function App() {
 
           <Route path="payments">
                 <Route index element={<Payments />} />
-                <Route path="create" element={<PaymentCreate />} />
                 <Route path="edit/:id" element={<PaymentEdit />} />
           </Route>
 

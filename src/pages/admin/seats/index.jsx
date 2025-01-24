@@ -113,7 +113,7 @@ return (
        
 
 )): (
-    <p>Tidak ada data Buku</p>
+    <p>Tidak ada data Seats</p>
   )}
        
             

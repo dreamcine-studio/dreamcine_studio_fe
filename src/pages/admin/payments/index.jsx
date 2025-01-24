@@ -1,16 +1,36 @@
 import { Link } from "react-router-dom";
-import payments from "../../../utils/constants/payment";
+import { useEffect, useState } from "react";
+import { deletePayment, getPayments } from "../../../services/payment";
 
 export default function Payments() {
+
+  const[payments, setPayments] = useState([])
+  
+      useEffect(() => {
+          const fetchPayments = async () =>{
+              const data = await getPayments()
+              setPayments(data)
+          }
+          fetchPayments()
+      }, [])
+  
+      const handleDelete = async (id) => {
+          const confirmedDelete = window.confirm("Apakah Anda yakin ingin menghapus data ini")
+      
+          if (confirmedDelete){
+              await deletePayment(id)
+              setPayments(payments.filter(payments => payments.id !==id))
+              }
+          }
+          
+      
+    
+
     return (
+      
       <>
         <div className="w-full">
-          <div className="datatable-container">
-              <Link to={`/admin/payments/create`} className="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">
-                <i className="fa-solid fa-plus mr-2"></i>
-                Add Data
-              </Link>
-              
+          <div className="datatable-container">    
             <table className="table w-full table-auto datatable-table mt-4">
               <thead>
                 <tr className="bg-gray-50 text-left">
@@ -52,20 +72,20 @@ export default function Payments() {
                 </tr>
               </thead>
               <tbody>
-                {payments.map((schedule, index) => (
+                {payments.map((payment, index) => (
                   <tr key={index} data-index={index} className="hover:bg-gray-50 border-b border-gray-200">
-                    <td className="py-4 pl-5">{schedule.payment_code}</td>
-                    <td className="py-4 pl-7">{schedule.booking_id}</td>
-                    <td className="py-4 pl-12">{schedule.payment_method_id }</td>
-                    <td className="py-4 pl-5">{schedule.amount }</td>
-                    <td className="py-4 pl-5">{schedule.payment_date}</td>
-                    <td className="py-4 pl-5">{schedule.status}</td>
+                    <td className="py-4 pl-5">{payment.payment_code}</td>
+                    <td className="py-4 pl-7">{payment.booking_id}</td>
+                    <td className="py-4 pl-12">{payment.payment_method_id }</td>
+                    <td className="py-4 pl-5">{payment.amount}</td>
+                    <td className="py-4 pl-5">{payment.payment_date}</td>
+                    <td className="py-4 pl-5">{payment.status}</td>
                     <td className="py-4 pl-5">
                       <div className="flex items-center gap-4 mx-2">
-                        <Link to={`/admin/payments/edit/${payments.id}`}>
+                        <Link to={`/admin/payments/edit/${payment.id}`}>
                         <i className="fa-solid fa-pen-to-square"></i>
                         </Link>
-                        <button>
+                        <button onClick={()=> handleDelete(payment.id)}>
                         <i className="fa-solid fa-trash"></i>
                         </button>
                       </div>
