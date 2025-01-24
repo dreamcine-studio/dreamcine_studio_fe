@@ -28,6 +28,7 @@ import Seats from './pages/admin/seats'
 import Payments from './pages/admin/payments'
 import PaymentCreate from './pages/admin/payments/create'
 import PaymentEdit from './pages/admin/payments/edit'
+import MovieDetail from './components/MovieDetail'
 
 function App() {
 
@@ -41,6 +42,7 @@ function App() {
             <Route path="Movies" element={<Hero />} />
             <Route path="teams" element={<Team />} />
             <Route path="contacts" element={<Contact />} />
+            <Route path="moviedetail" element={<MovieDetail />} />
           </Route>
 
           {/* Auth Routes */}
