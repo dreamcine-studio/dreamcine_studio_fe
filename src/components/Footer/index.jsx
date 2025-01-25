@@ -10,7 +10,7 @@ export default function Footer() {
           <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
         </svg> */}
             <img
-              src="./public/DreamCine.jpeg"
+              src="../public/DreamCine.jpeg"
               className="rounded-full mr-3 h-6 sm:h-9"
               alt="Dream Cine Studios"
             />

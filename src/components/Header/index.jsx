@@ -7,7 +7,7 @@ export default function Header() {
         <div className="container mx-auto flex flex-wrap justify-between items-center">
           <Link to="/" className="flex items-center">
             <img
-              src="./public/DreamCine.jpeg"
+              src="../public/DreamCine.jpeg"
               className="rounded-full mr-3 h-6 sm:h-9"
               alt="Dream Cine Studios"
             />
@@ -69,14 +69,6 @@ export default function Header() {
                   className="block py-2 pr-4 pl-3 text-gray-700 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-indigo-700 lg:p-0 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700 lg:dark:hover:bg-transparent"
                 >
                   Movies
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/moviedetail"
-                  className="block py-2 pr-4 pl-3 text-gray-700 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-indigo-700 lg:p-0 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700 lg:dark:hover:bg-transparent"
-                >
-                  Movie Detail
                 </Link>
               </li>
               <li>
