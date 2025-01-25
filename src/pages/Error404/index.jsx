@@ -17,7 +17,7 @@ export default function NotFound404()
  
 
  
-		<p className="text-3xl">Sorry, You couldn't find this page.</p>
+		<p className="text-3xl">Sorry, You couldn`t find this page.</p>
 		<Link to="/" className="px-8 py-3 font-semibold rounded dark:bg-violet-600 dark:text-gray-50">Back to homepage</Link>
 	</div>
 </section>

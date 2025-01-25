@@ -38,7 +38,7 @@ export default function GenreMovies() {
     <div
       className="rounded-sm shadow-default dark:bg-boxdark sm:px-7.5 xl:pb-1"
     >
-      <Link to={"/admin/genres/create"} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Tambah data</Link>
+      <Link to={"/admin/genres/create"} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">+data</Link>
 
       <div className="max-w-full overflow-x-auto">
         <table className="w-full table-auto">
