@@ -35,9 +35,9 @@ export const deleteSchedules = async (id) => {
   }
 }
 
-export const showBook = async (id) => {
+export const showSchedules = async (id) => {
   try {
-    const {data} = await API.get(`/books/${id}`)
+    const {data} = await API.get(`/schedules/${id}`)
     return data.data
   } catch (error) {
       console.log(error)
