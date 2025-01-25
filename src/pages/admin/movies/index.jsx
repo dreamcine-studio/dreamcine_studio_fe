@@ -23,6 +23,9 @@ export default function Movies() {
         fetchGenres();  
       }, [])
 
+      console.log("tesm", movies)
+      console.log("tesg", genres)
+
 
       const getGenreName = (id) => {
         const genre = genres.find((g) => g.id === id);
@@ -129,7 +132,7 @@ export default function Movies() {
               <td className="px-4 py-5">
                 <div className="flex items-center space-x-3.5">
 
-                  <Link to={`/admin/movies/edit/${movie.title}`}><i className="fa-solid fa-pen-to-square"></i></Link>
+                  <Link to={`/admin/movies/edit/${movie.id}`}><i className="fa-solid fa-pen-to-square"></i></Link>
                   <button onClick={() => handleDelete(movie.id)}>
                     <i className="fa-solid fa-trash"></i>
                   </button>
