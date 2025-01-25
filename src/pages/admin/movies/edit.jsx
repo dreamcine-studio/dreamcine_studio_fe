@@ -82,6 +82,8 @@ export default function MovieEdit() {
         console.log(err);
         setErrors(err.response.data.message);
       });
+
+      console.log("tes",movieData)
   };
 
   return (

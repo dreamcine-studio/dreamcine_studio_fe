@@ -112,7 +112,7 @@ export default function Movies() {
                 <p className="text-black dark:text-white">{movie.description}</p>
               </td>
               <td className="px-4 py-5">
-                <img src={movie.poster}/>
+                <img src={`http://127.0.0.1:8000/storage/movies/${movie.poster}`}/>
               </td>
               <td className="px-4 py-5">
                 <p className="text-black dark:text-white">{movie.price}</p>
