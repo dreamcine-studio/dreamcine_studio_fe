@@ -45,7 +45,7 @@ function App() {
             <Route path="contacts" element={<Contact />} />
             <Route path="schedule" element={<MovieSchedule />} />
 
-            <Route path="moviedetail" element={<MovieDetail />} />
+            <Route path="movies/:id" element={<MovieDetail />} />
             <Route path="moviebooking" element={<BookingPublic />} />
           </Route>
 
