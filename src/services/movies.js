@@ -7,7 +7,11 @@ export const getMovies = async () => {
 
 export const createMovie = async (data) => {
   try {
-    const response = await API.post('/movies', data) // endpoint
+    const response = await API.post('/movies', data, {
+    headers: {
+        "Authorization": `Bearer ${localStorage.getItem('accessToken')}` 
+       }
+    })
     return response.data
   } catch (err) {
     console.log(err)
@@ -27,17 +31,25 @@ export const showMovie = async (id) => {
 
 export const updateMovie = async (id, data) => {
   try {
-    const response = await API.post(`/movies/${id}`, data)      // endpoint
+    const response = await API.post(`/movies/${id}`, data, {
+    headers: {
+        "Authorization": `Bearer ${localStorage.getItem('accessToken')}` 
+       }
+    })
     return response.data
-} catch (err) {
-    console.log(err)
-    throw err
-}
+    } catch (err) {
+        console.log(err)
+        throw err
+    }
 }
 
-export const deleteMovie = async (id) => {
+export const deleteMovie = async (id) => {  
   try {
-    await API.delete(`/movies/${id}`)
+    await API.delete(`/movies/${id}`, {
+    headers: {
+        "Authorization": `Bearer ${localStorage.getItem('accessToken')}` 
+       }
+    })
     } catch (err) {
       console.log(err)
       throw err
