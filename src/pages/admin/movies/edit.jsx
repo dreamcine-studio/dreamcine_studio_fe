@@ -79,11 +79,10 @@ export default function MovieEdit() {
         navigate("/admin/movies");
       })
       .catch((err) => {
-        console.log(err);
+        console.log(err.response.data.message);
         setErrors(err.response.data.message);
       });
 
-      console.log("tes",movieData)
   };
 
   return (

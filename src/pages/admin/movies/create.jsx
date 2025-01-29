@@ -48,8 +48,8 @@ export default function MovieCreate() {
 
     formDataToSend.append("title", movieData.title);
     formDataToSend.append("description", movieData.description);
-    formDataToSend.append("poster", movieData.price);
-    formDataToSend.append("price", movieData.poster);
+    formDataToSend.append("poster", movieData.poster);
+    formDataToSend.append("price", movieData.price);
     formDataToSend.append("cast", movieData.cast);
     formDataToSend.append("genre_id", movieData.genre_id);
     formDataToSend.append("duration", movieData.duration);
@@ -59,7 +59,7 @@ export default function MovieCreate() {
       await createMovie(formDataToSend);
       navigate("/admin/movies");
     } catch (err) {
-      // console.log(err.response.data.message)
+      console.log(err.response.data.message)
       setErrors(err.response.data.message);
     }
   };
@@ -113,6 +113,7 @@ export default function MovieCreate() {
               ></textarea>
             </div>
           </div>
+
           <div className="mb-4.5">
             <label className="mb-3 block text-sm font-medium text-black dark:text-white">
               Poster
@@ -131,6 +132,7 @@ export default function MovieCreate() {
               className="w-full cursor-pointer rounded-lg border-[1.5px] border-stroke bg-transparent font-normal outline-none transition file:mr-5 file:border-collapse file:cursor-pointer file:border-0 file:border-r file:border-solid file:border-stroke file:bg-whiter file:px-5 file:py-3 file:hover:bg-indigo-600 file:hover:bg-opacity-10 focus:border-indigo-600 active:border-indigo-600 disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:file:border-form-strokedark dark:file:bg-white/30 dark:file:text-white dark:focus:border-indigo-600"
             />
           </div>
+
           <div className="mb-4.5 flex flex-col gap-6 xl:flex-row">
             <div className="w-full xl:w-1/2">
               <label className="mb-3 block text-sm font-medium text-black dark:text-white">
@@ -178,18 +180,18 @@ export default function MovieCreate() {
               <label className="mb-3 block text-sm font-medium text-black dark:text-white">
                 Genre
               </label>
-              {errors.genre && (
+              {errors.genre_id && (
                 <div
                   className="p-2 my-2 text-red-800 rounded-lg bg-red-50"
                   role="alert"
                 >
-                  <span className="font-medium">{errors.genre[0]}</span>
+                  <span className="font-medium">{errors.genre_id[0]}</span>
                 </div>
               )}
               <div className="relative z-20 bg-transparent dark:bg-form-input">
                 <select 
-                name="genre"
-                value={movieData.genre}
+                name="genre_id"
+                value={movieData.genre_id}
                 onChange={handleInputChange}
                 className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent px-5 py-3 outline-none transition focus:border-indigo-600 active:border-indigo-600 dark:border-form-strokedark dark:bg-form-input dark:focus:border-indigo-600">
                   <option value="" className="text-body">
@@ -251,18 +253,18 @@ export default function MovieCreate() {
               <label className="mb-3 block text-sm font-medium text-black dark:text-white">
                 Releast Date
               </label>
-              {errors.releast_date && (
+              {errors.release_date && (
                 <div
                   className="p-2 my-2 text-red-800 rounded-lg bg-red-50"
                   role="alert"
                 >
-                  <span className="font-medium">{errors.releast_date[0]}</span>
+                  <span className="font-medium">{errors.release_date[0]}</span>
                 </div>
               )}
               <input
                 type="date"
-                name="releast_date"
-                value={movieData.releast_date}
+                name="release_date"
+                value={movieData.release_date}
                 onChange={handleInputChange}
                 min={1}
                 className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-indigo-600 active:border-indigo-600 disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-indigo-600"
