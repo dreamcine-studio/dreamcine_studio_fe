@@ -2,10 +2,12 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getMovies } from "../../../services/movies";
 import { getSchedules } from "../../../services/schedules";
+import { getStudios } from "../../../services/studios";
 
 export default function Schedules() {
   const [schedules, setSchedules] = useState([]);
   const [movies, setMovies] = useState([]);
+  const [studios, setStudios] = useState([]);
 
   console.log(schedules);
   useEffect(() => {
@@ -27,9 +29,20 @@ export default function Schedules() {
       }
     };
 
+    const fetchStudio = async () => {
+      try {
+        const data = await getStudios();
+        setStudios(data);
+      } catch (error) {
+        console.error("Error fetching studio:", error);
+      }
+    };
+
     fetchSchedules();
     fetchMovies();
+    fetchStudio();
   }, []);
+
   const getMovieData = (id) => {
     const movie = movies.find((m) => m.id === id);
     return movie
@@ -40,6 +53,17 @@ export default function Schedules() {
       : {
           title: "Unknown Movie",
           poster: "",
+        };
+  };
+
+  const getStudioData = (id) => {
+    const studio = studios.find((s) => s.id === id);
+    return studio
+      ? {
+          name: studio.name,
+        }
+      : {
+          name: "Unknown Studio",
         };
   };
 
@@ -102,8 +126,26 @@ export default function Schedules() {
                   <td className="py-2">
                     {getMovieData(schedule.movie_id).title}
                   </td>
-                  <td className="py-2 px-6">{schedule.studio_id}</td>
-                  <td className="py-2">{schedule.showtime}</td>
+                  <td className="py-2">
+                    {getStudioData(schedule.studio_id).name}
+                  </td>
+                  <td className="py-2">
+                    <div className="flex flex-wrap gap-2">
+                      {" "}
+                      {schedule.showtime && schedule.showtime.length > 0 ? (
+                        schedule.showtime.map((time, timeIndex) => (
+                          <div
+                            key={`${schedule.id}-${timeIndex}`}
+                            className="bg-gray-200 text-gray-800 py-2 px-4 rounded"
+                          >
+                            {time}
+                          </div>
+                        ))
+                      ) : (
+                        <div>No showtimes available</div>
+                      )}
+                    </div>
+                  </td>
                   <td className="py-2">
                     <div className="flex items-center gap-4 mx-2">
                       <Link to={`/admin/schedules/edit/${schedule.id}`}>
