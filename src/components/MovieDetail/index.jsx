@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { showMovie } from "../../services/movies";
 import { getGenres } from "../../services/genre";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 export default function MovieDetail() {
   const [movie, setMovie] = useState({});
@@ -85,11 +85,12 @@ export default function MovieDetail() {
               </div>
 
               <div className="flex space-x-4 mb-6">
-                <button className="bg-indigo-600 flex gap-2 items-center text-white px-6 py-2 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                <Link to="/schedule" className="bg-indigo-600 flex gap-2 items-center text-white px-6 py-2 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
                   <i className="fa-solid fa-ticket"></i>
                   Book Your Ticket Here
-                </button>
+                </Link>
                 <a
+                  
                   className="px-6 py-2 mx-auto border border-black hover:bg-yellow-300 rounded cursor-pointer dark:text-gray-200 text-center dark:border-gray-200 dark:hover:bg-yellow-700"
                   href="https://www.youtube.com/watch?v=6COmYeLsz4c"
                   target="_blank"

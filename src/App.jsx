@@ -47,6 +47,7 @@ function App() {
 
             <Route path="movies/:id" element={<MovieDetail />} />
             <Route path="moviebooking" element={<BookingPublic />} />
+            <Route path="schedule" element={<MovieSchedule />} />
           </Route>
 
           {/* Auth Routes */}

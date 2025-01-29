@@ -21,7 +21,7 @@ export default function Studios() {
             fetchStudios();  
           }, []);
 
-      console.log(studios);
+      console.log("tes", studios);
 
       
           const handleDelete = async (id) => {
