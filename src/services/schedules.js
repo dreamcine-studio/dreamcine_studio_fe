@@ -7,7 +7,10 @@ export const getSchedules = async () => {
 
 export const createSchedules = async (data) => {
   try {
-    const response = await API.post('/schedules', data)
+    const response = await API.post('/schedules', data, {
+      headers: {
+          "Authorization": `Bearer ${localStorage.getItem('accessToken')}` 
+  }})
     return response.data
   } catch (error) {
       console.log(error)
