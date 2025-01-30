@@ -33,7 +33,7 @@ export default function BookingCreate() {
 
         try {
             await createBooking(formDataToSend)
-            return navigate('/admin/booking')
+            return navigate('/admin/bookings')
         }   catch (err) {
             // console.log(err.response.data.message)
             setErrors(err.response.data.message)
@@ -72,7 +72,7 @@ export default function BookingCreate() {
                 type="text"
                 value={bookingData.user_id}
                 onChange={handleInputChange}
-                name="name"
+                name="user_id"
                 // bookData itu adalah useState yang di atas
                 
                 className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-indigo-600 active:border-indigo-600 disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-indigo-600"
@@ -115,7 +115,7 @@ export default function BookingCreate() {
                 type="text"
                 value={bookingData.quantity}
                 onChange={handleInputChange}
-                name="name"
+                name="quantity"
                 // bookData itu adalah useState yang di atas
                 
                 className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-indigo-600 active:border-indigo-600 disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-indigo-600"
@@ -137,7 +137,7 @@ export default function BookingCreate() {
                 type="date"
                 value={bookingData.booking_date}
                 onChange={handleInputChange}
-                name="name"
+                name="booking_date"
                 // bookData itu adalah useState yang di atas
                 
                 className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-indigo-600 active:border-indigo-600 disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-indigo-600"

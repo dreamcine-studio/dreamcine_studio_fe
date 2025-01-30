@@ -200,7 +200,7 @@ export default function BookingEdit() {
               <textarea
                 rows="6"
                 value={booking_date}
-                name="schedule_id"
+                name="booking_date"
                 onChange={(e) => setBooking_Date(e.target.value)}
                 className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-indigo-600 active:border-indigo-600 disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-indigo-600"
               ></textarea>

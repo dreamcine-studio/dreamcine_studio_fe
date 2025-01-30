@@ -1,77 +1,22 @@
 import API from "../api";
 
-// export const getDatas = async () => {
-  // kita ganti menjadi getBooks
 export const getBooking = async () => {
-  // untuk get Data.
-  // kita sudah definisikan di atas tadi axios nya
-  // tinggal panggil pakai nama varaiable api
-
-                      // object di laravel nanti ada books, genres
-  //  return await api.get('/objects');
-
-  // books kita tau nya dari backed yaitu : Laravel nya
-  //  return await API.get('/books');
-
-  // kita mau destructoring
-  const {data} = await API.get('/bookings')
+  const {data} = await API.get('/bookings', {
+    headers: {
+        "Authorization": `Bearer ${localStorage.getItem('accessToken')}` 
+       }
+    })
    return data.data;
    
- } 
-
-
-
- 
- export const deleteBooking = async(id) => {
-  try{
-    await API.delete(`/bookings/${id}`)      // ini pakai backtick
-  }catch (error){
-    console.log(error)
-    throw error
-  }
-}
-
-
-//update
-  
-// update, kita butuh id dan data
-export const updateBooking = async (id, data) =>{
-  try { 
-     const response = await API.post(`/bookings/${id}`, data)  // endpoints
-     return response.data.data;
-  }catch (err){
-     console.log(err)
-     throw err
-  }
  }
 
-
- //Create
-  
- export const createBooking = async(data) =>
-  {
- 
-     try{
-       const response  = await API.post(`/bookings`, data)  // endpoint
-       return response.data;
-     }catch(error) {
-       console.log(error);
-       throw error
-     }
-  }  
-
-
-
-
-export const getBookings = async () => {
-  const { data } = await API.get('/booking')
-  return data.data;
-} 
-
-
-export const createBookings = async (data) => {
+export const createBooking = async (data) => {
     try {
-      const response = await API.post('/bookings', data)
+      const response = await API.post('/bookings', data, {
+        headers: {
+            "Authorization": `Bearer ${localStorage.getItem('accessToken')}` 
+           }
+        })
       return response.data
     } catch (error) {
         console.log(error)
@@ -79,7 +24,7 @@ export const createBookings = async (data) => {
     }
   }
   
-  export const updateBookings = async (id, data) => {
+  export const updateBooking = async (id, data) => {
     try {
       const response = await API.post(`/bookings/${id}`, data)
       return response.data
@@ -89,20 +34,10 @@ export const createBookings = async (data) => {
     }
   }
   
-  export const deleteBookings = async (id) => {
+  export const deleteBooking = async (id) => {
     try {
       const { data: response } = await API.delete(`/bookings/${id}`)
       return response
-    } catch (error) {
-        console.log(error)
-        throw error
-    }
-  }
-  
-  export const showBook = async (id) => {
-    try {
-      const {data} = await API.get(`/books/${id}`)
-      return data.data
     } catch (error) {
         console.log(error)
         throw error
