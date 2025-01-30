@@ -29,10 +29,14 @@ import Payments from './pages/admin/payments'
 import PaymentEdit from './pages/admin/payments/edit'
 import MovieDetail from './pages/public/MovieDetail/index.jsx'
 import BookingPublic from './pages/public/booking/booking.jsx'
+<<<<<<< HEAD
 import MovieSchedule from './pages/public/Scedule/index.jsx'
 import Bookings from './pages/admin/bookings/index.jsx'
 import BookingCreate from './pages/admin/bookings/create.jsx'
 import BookingEdit from './pages/admin/bookings/edit.jsx'
+=======
+import MovieSchedule from './pages/public/Schedule/index.jsx'
+>>>>>>> fc44ec3a95bd3f61ca7eefc4a5891406f32195fb
 
 function App() {
 
