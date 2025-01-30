@@ -10,7 +10,7 @@ export default function Header() {
   };
 
   return (
-    <header className="bg-gradient-to-r from-blue-300 to-green-300 text-white p-4">
+    <header className="bg-teal-300 text-white p-4">
       <nav className="bg-gray-300 w-full bg-white border-gray-200 px-5 py-2.5 dark:bg-gray-800">
         <div className="container mx-auto flex flex-wrap justify-between items-center">
           <Link to="/" className="flex items-center">
