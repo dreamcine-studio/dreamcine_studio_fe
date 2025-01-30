@@ -2,8 +2,6 @@ import { useEffect, useState } from "react";
 import { getMovies } from "../../../services/movies";
 import { getSchedules } from "../../../services/schedules";
 import { getStudios } from "../../../services/studios";
-import { useParams } from "react-router-dom";
-
 export default function MovieSchedule () {
   // const movieData = [
   //   {
@@ -23,7 +21,6 @@ export default function MovieSchedule () {
   const [schedules, setSchedules] = useState([]);
   const [movies, setMovies] = useState([]);
   const [studios, setStudios] = useState([]);
-  const { id }  = useParams();
 
   useEffect(() => {  
     const fetchMovies = async () => {  
