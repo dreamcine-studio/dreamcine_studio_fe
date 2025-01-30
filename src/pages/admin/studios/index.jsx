@@ -108,7 +108,7 @@ export default function Studios() {
 
 
         )): (
-          <p>Tidak ada data Buku</p>
+          <p>Tidak ada data Studio</p>
         )}
              
                   

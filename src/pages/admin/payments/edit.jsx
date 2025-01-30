@@ -4,7 +4,7 @@ import { getPayments, updatePayment } from "../../../services/payment";
 
 export default function PaymentEdit() {
 
-  const [payments, setPayments] = useState();
+  const [payments, setPayments] = useState([]);
 
   //Destruct ID dari URL
   const { id } = useParams()
@@ -15,18 +15,17 @@ export default function PaymentEdit() {
      const data = await getPayments() // ambil semua data buku
 
      //cari data buku berdasarkan ID
-     const payment =data.find(payment => payment.id === parseInt(id)) //find itu mencari
+     const payment = data.find(payment => payment.id === parseInt(id)) //find itu mencari
+     
      if (payment) {
           //Assign data to state
-          setPayments(payment.status)
-     } 
-
+          setPayments(payment.status)     
+     }
   }
-  
   
   useEffect(() => {
       fetchPaymentDetails()
-  }, []);
+  }, [id]);
 
   //upload book data
   const updatePaymentDetails = async(e) => {
@@ -76,13 +75,11 @@ export default function PaymentEdit() {
                   onChange={(e) => setPayments(e.target.value)}
                   className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent px-5 py-3 outline-none transition focus:border-indigo-600 active:border-indigo-600 dark:border-form-strokedark dark:bg-form-input dark:focus:border-indigo-600"
                 >
-                  <option value="" className="text-body">
-                    --select status--
-                  </option>
+                  <option value="" className="text-body">--select status--</option>
+                  <option value="pending" className="text-body">Pending</option>
+                  <option value="confirmed" className="text-body">Confirmed</option>
+                  <option value="failed" className="text-body">Failed</option>
                 </select>
-                {payments.map((payment) => (
-                    <option key={payment.id} value={payment.id} className="text-body">{payment.status}</option>
-                ))}
                 <span
                   className="absolute right-4 top-1/2 z-30 -translate-y-1/2"
                 >
