@@ -25,10 +25,14 @@ import MovieCreate from './pages/admin/movies/create'
 import Team from './components/Team'
 import Contact from './components/Contact'
 import Seats from './pages/admin/seats'
+<<<<<<< HEAD
 import Bookings from './pages/admin/bookings'
 import BookingCreate from './pages/admin/bookings/create'
 import BookingEdit from './pages/admin/bookings/edit'
 
+=======
+import MovieDetail from './components/MovieDetail'
+>>>>>>> c3962a79a1ca78838fd369192f369f0237288f44
 
 function App() {
 
@@ -42,6 +46,7 @@ function App() {
             <Route path="Movies" element={<Hero />} />
             <Route path="teams" element={<Team />} />
             <Route path="contacts" element={<Contact />} />
+            <Route path="moviedetail" element={<MovieDetail />} />
           </Route>
 
           {/* Auth Routes */}
