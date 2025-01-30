@@ -67,6 +67,7 @@ export default function Schedules() {
         };
   };
 
+  console.log("tes", schedules)
   return (
     <>
       <div className="w-full">

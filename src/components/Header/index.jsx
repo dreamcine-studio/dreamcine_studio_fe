@@ -10,8 +10,8 @@ export default function Header() {
   };
 
   return (
-    <header className="w-full">
-      <nav className="w-full bg-white border-gray-200 px-5 py-2.5 dark:bg-gray-800">
+    <header className="bg-gradient-to-r from-blue-300 to-green-300 text-white p-4">
+      <nav className="bg-gray-300 w-full bg-white border-gray-200 px-5 py-2.5 dark:bg-gray-800">
         <div className="container mx-auto flex flex-wrap justify-between items-center">
           <Link to="/" className="flex items-center">
             <img
@@ -19,7 +19,7 @@ export default function Header() {
               className="rounded-full mr-3 h-6 sm:h-9"
               alt="Dream Cine Studios"
             />
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500 text-xl font-semibold whitespace-nowrap dark:text-white">
+            <span title="DreamCine - Studios" className="bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500 text-xl font-semibold whitespace-nowrap dark:text-white">
               DreamCine - Studios
             </span>
             
@@ -46,7 +46,7 @@ export default function Header() {
                 <button
                   onClick={handleLogout}
                   to="/"
-                  className="flex items-center bg-rose-50 border-2 border-rose-200 p-2 text-gray-900 rounded-lg dark:text-white hover:bg-rose-200 dark:hover:bg-gray-700 group"
+                  className="text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2   flex items-center bg-rose-50 border-2 border-rose-200 p-2 text-gray-900 rounded-lg dark:text-white hover:bg-rose-200 dark:hover:bg-gray-700 group"
                 >
                   Logout
                 </button>
