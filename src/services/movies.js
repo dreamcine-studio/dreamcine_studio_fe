@@ -1,7 +1,7 @@
 import API from "../api"
 
 export const getMovies = async () => {
-  const { data } = await API.get('/movies')    // ini untuk mengambil data saja
+  const { data } = await API.get('/movies')
   return data.data
 }
 
