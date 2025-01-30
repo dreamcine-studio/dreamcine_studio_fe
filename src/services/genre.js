@@ -7,40 +7,53 @@ export const getGenres = async () => {
    
  } 
 
- export const deleteGenre = async(id) => {
-  try{
-    await API.delete(`/genres/${id}`)      // ini pakai backtick
-  }catch (error){
-    console.log(error)
-    throw error
-  }
-}
-
 
 //update
   
 // update, kita butuh id dan data
-export const updateGenre = async (id, data) =>{
-  try { 
-     const response = await API.post(`/genres/${id}`, data)  // endpoints
-     return response.data.data;
-  }catch (err){
-     console.log(err)
-     throw err
-  }
- }
-
-
- //Create
-  
- export const createGenre = async(data) =>
-  {
  
-     try{
-       const response  = await API.post(`/genres`, data)  // endpoint
-       return response.data;
-     }catch(error) {
-       console.log(error);
-       throw error
-     }
-  }  
+export const updateGenre = async (id, data) => {
+  try {
+    const response = await API.post(`/genres/${id}`, data, {
+    headers: {
+        "Authorization": `Bearer ${localStorage.getItem('accessToken')}` 
+       }
+    })
+    return response.data
+    } catch (err) {
+        console.log(err)
+        throw err
+    }
+}
+
+
+
+export const createGenre = async (data) => {
+  try {
+    const response = await API.post('/genres', data, {
+    headers: {
+        "Authorization": `Bearer ${localStorage.getItem('accessToken')}` 
+       }
+    })
+    return response.data
+  } catch (err) {
+    console.log(err)
+    throw err
+  }
+}
+
+
+
+
+export const deleteGenre = async (id) => {  
+  try {
+    await API.delete(`/genres/${id}`, {
+    headers: {
+        "Authorization": `Bearer ${localStorage.getItem('accessToken')}` 
+       }
+    })
+    } catch (err) {
+      console.log(err)
+      throw err
+    }
+}
