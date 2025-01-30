@@ -51,6 +51,8 @@ const studioGenre = async (e) => {
   }
 }
 
+console.log(studioData)
+
 
 
     return (

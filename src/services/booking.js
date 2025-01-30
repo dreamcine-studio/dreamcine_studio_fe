@@ -1,14 +1,22 @@
 import API from "../api";
 
-export const getBookings = async () => {
-  const { data } = await API.get('/booking')
-  return data.data;
-} 
+export const getBooking = async () => {
+  const {data} = await API.get('/bookings', {
+    headers: {
+        "Authorization": `Bearer ${localStorage.getItem('accessToken')}` 
+       }
+    })
+   return data.data;
+   
+ }
 
-
-export const createBookings = async (data) => {
+export const createBooking = async (data) => {
     try {
-      const response = await API.post('/bookings', data)
+      const response = await API.post('/bookings', data, {
+        headers: {
+            "Authorization": `Bearer ${localStorage.getItem('accessToken')}` 
+           }
+        })
       return response.data
     } catch (error) {
         console.log(error)
@@ -16,7 +24,7 @@ export const createBookings = async (data) => {
     }
   }
   
-  export const updateBookings = async (id, data) => {
+  export const updateBooking = async (id, data) => {
     try {
       const response = await API.post(`/bookings/${id}`, data)
       return response.data
@@ -26,7 +34,7 @@ export const createBookings = async (data) => {
     }
   }
   
-  export const deleteBookings = async (id) => {
+  export const deleteBooking = async (id) => {
     try {
       const { data: response } = await API.delete(`/bookings/${id}`)
       return response
@@ -35,13 +43,5 @@ export const createBookings = async (data) => {
         throw error
     }
   }
-  
-  export const showBook = async (id) => {
-    try {
-      const {data} = await API.get(`/books/${id}`)
-      return data.data
-    } catch (error) {
-        console.log(error)
-        throw error
-    }
-  }
+
+
