@@ -73,12 +73,12 @@ export default function AdminLayout() {
                   <p
                     className="text-right text-sm text-gray-900 dark:text-white"
                     role="none"
-                  >Neil Sims
+                  >{userInfo ? userInfo.name : ""}
                   </p>
                   <p
                     className="text-sm font-medium text-gray-900 truncate dark:text-gray-300"
                     role="none"
-                  >neil.sims@flowbite.com
+                  >{userInfo ? userInfo.email : ""}
                   </p>
                 </div>
                 <div>

@@ -42,13 +42,58 @@ export default function Header() {
             </>
           )}
           {userInfo && (
-              <button
-                onClick={handleLogout}
-                className="text-white bg-indigo-700 hover:bg-indigo-800 focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 dark:bg-indigo-600 dark:hover:bg-indigo-700 focus:outline-none dark:focus:ring-indigo-800"
-              >
-                Logout
-              </button>
+             <>
+                <button
+                  onClick={handleLogout}
+                  to="/"
+                  className="flex items-center bg-rose-50 border-2 border-rose-200 p-2 text-gray-900 rounded-lg dark:text-white hover:bg-rose-200 dark:hover:bg-gray-700 group"
+                >
+                  Logout
+                </button>
+                <div className="flex items-center">
+                  <div className="flex items-center ms-3">
+                    <div className="px-4">
+                      <p
+                        className="text-right text-sm text-gray-900 dark:text-white"
+                        role="none"
+                      >
+                        {userInfo ? userInfo.name : ""}
+                      </p>
+                      <p
+                        className="text-sm font-medium text-gray-900 truncate dark:text-gray-300"
+                        role="none"
+                      >
+                        {userInfo ? userInfo.email : ""}
+                      </p>
+                    </div>
+                    <div>
+                      <button
+                        type="button"
+                        className="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
+                        aria-expanded="false"
+                        data-dropdown-toggle="dropdown-user"
+                      >
+                        <span className="sr-only">Open user menu</span>
+                        <img
+                          className="w-8 h-8 rounded-full"
+                          src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
+                          alt="user photo"
+                        />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </>
             )}
+
+            {/* {userInfo && (
+                <button
+                    onClick={handleLogout}
+                    className="text-white bg-indigo-700 hover:bg-indigo-800 focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 dark:bg-indigo-600 dark:hover:bg-indigo-700 focus:outline-none dark:focus:ring-indigo-800"
+                >
+                    Logout
+                </button>
+                )} */}
 
 
             <button

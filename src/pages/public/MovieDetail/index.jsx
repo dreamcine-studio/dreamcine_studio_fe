@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { showMovie } from "../../services/movies";
-import { getGenres } from "../../services/genre";
+import { showMovie } from "../../../services/movies";
+import { getGenres } from "../../../services/genre";
 import { Link, useParams } from "react-router-dom";
 
 export default function MovieDetail() {
