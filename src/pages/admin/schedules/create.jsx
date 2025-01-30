@@ -49,19 +49,33 @@ export default function ScheduleCreate() {
 
     const storeSchedule = async (e) => {
       e.preventDefault();
-      const formDataToSend = new FormData();
-      formDataToSend.append("movie_id", scheduleData.movie_id);
-      formDataToSend.append("studio_id", scheduleData.studio_id);
-      formDataToSend.append("showtime", scheduleData.showtime);
-      formDataToSend.append("showdate_start", scheduleData.showdate_start);
-      formDataToSend.append("showdate_end", scheduleData.showdate_end);
+
+      const showtimeArray = scheduleData.showtime.filter(time => time !== ""); // Filter out empty strings
+
+      const dataToSend = {
+          ...scheduleData,
+          showtime: showtimeArray,
+      };
+
+      console.log("Data yang akan dikirim:", showtimeArray); // Log data sebelum dikirim
+
       try {
-        await createSchedules(formDataToSend);
-        return navigate("/admin/schedules");
+          const response = await createSchedules(dataToSend); // Kirim data yang sudah diformat sebagai JSON
+          console.log("Response dari backend:", response);
+          navigate("/admin/schedules");
       } catch (error) {
-        setErrors(error.response);
+          console.error("Error saat menambahkan data:", error);
+          if (error.response) {
+              console.error("Response error:", error.response.data);
+              setErrors(error.response.data.message);
+          } else if (error.request) {
+              console.error("Request error:", error.request);
+          } else {
+              console.error("Error lainnya:", error.message);
+          }
       }
-    };
+  };
+
 
     console.log(scheduleData);
 
@@ -206,24 +220,24 @@ export default function ScheduleCreate() {
    
               </div> */}
 
-              <div className="flex gap-8">
-              {scheduleData.showtime.map((time, index) => (
-                <div className="w-1/2" key={index}> {/* Adjusted width */}
-                  <label className="block mb-2 text-sm font-medium text-gray-900">
-                    Showtime {index + 1}
-                  </label>
-                  <input
-                    type="time"
-                    name={`showtime[${index}]`}
-                    value={time}
-                    onChange={(e) => handleShowtimeChange(index, e.target.value)}
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-600 focus:border-indigo-600 block w-full p-2.5"
-                    required=""
-                  />
-                </div>
-              ))}
+<div className="flex gap-8">
+                {scheduleData.showtime.map((time, index) => (
+                    <div className="w-1/2" key={index}>
+                        <label className="block mb-2 text-sm font-medium text-gray-900">
+                            Showtime {index + 1}
+                        </label>
+                        <input
+                            type="time"
+                            name={`showtime[${index}]`}  // Penting: name tetap seperti ini
+                            value={time}
+                            onChange={(e) => handleShowtimeChange(index, e.target.value)}
+                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-600 focus:border-indigo-600 block w-full p-2.5"
+                            required=""
+                        />
+                    </div>
+                ))}
+            </div>
 
-              </div>
               
              
               
