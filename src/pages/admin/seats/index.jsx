@@ -1,23 +1,35 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { deleteSeat, getSeats } from "../../../services/seat";
+import { getStudios } from "../../../services/studios";
 
 export default function Seats(){
         
     
           const [seats, setSeats] = useState([]);
-      
+          const [studios, setStudios] = useState([]);
     
             useEffect(() => {  
-                const fetchStudios = async () => {  
+                const fetchSeats = async () => {  
                   const data = await getSeats();  
                   setSeats(data);  
                 };  
               
+                const fetchStudios = async () => {  
+                  const data = await getStudios();  
+                  setStudios(data);  
+                };  
+              
                 fetchStudios();  
+                fetchSeats();  
               }, []);
     
           console.log(seats);
+
+          const getStudioName = (id) => {
+            const studio = studios.find((g) => g.id === id);
+            return studio ? studio.name : "Unknown studio";
+          }
     
           
               const handleDelete = async (id) => {
@@ -81,7 +93,7 @@ return (
           <td
             className="px-4 py-5 pl-9 xl:pl-11"
           >
-            <h5 className="font-medium text-black dark:text-white">{seat.studio_id}</h5>         
+            <h5 className="font-medium text-black dark:text-white">{getStudioName(seat.studio_id)}</h5>         
           </td>
           <td className="px-4 py-5">
             <p className="text-black dark:text-white">{seat.seat_number}</p>
@@ -89,7 +101,7 @@ return (
           </td>
           <td className="px-4 py-5">
             <p className="text-black dark:text-white">20</p>
-            {/* <p className="text-black dark:text-white">{studio.maxSeat}</p> */}
+            <p className="text-black dark:text-white">{seat.maxSeat}</p>
             
           </td>
 
