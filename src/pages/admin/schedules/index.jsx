@@ -105,6 +105,11 @@ export default function Schedules() {
                 </th>
                 <th className="py-4 px-2">
                   <div className="flex items-center gap-1.5">
+                    <p>Showdate</p>
+                  </div>
+                </th>
+                <th className="py-4 px-2">
+                  <div className="flex items-center gap-1.5">
                     <p>Controls</p>
                   </div>
                 </th>
@@ -145,6 +150,10 @@ export default function Schedules() {
                       ) : (
                         <div>No showtimes available</div>
                       )}
+                    </div>
+                  </td>
+                  <td className="py-2">
+                    <div>{schedule.showdate_start} - {schedule.showdate_end}
                     </div>
                   </td>
                   <td className="py-2">
