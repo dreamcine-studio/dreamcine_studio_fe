@@ -25,6 +25,10 @@ import MovieCreate from './pages/admin/movies/create'
 import Team from './components/Team'
 import Contact from './components/Contact'
 import Seats from './pages/admin/seats'
+import Bookings from './pages/admin/bookings'
+import BookingCreate from './pages/admin/bookings/create'
+import BookingEdit from './pages/admin/bookings/edit'
+
 
 function App() {
 
@@ -81,6 +85,11 @@ function App() {
                 <Route index element={<Seats />} />
                 <Route path="create" element={<ScheduleCreate />} />
                 <Route path="edit" element={<ScheduleEdit />} />
+          </Route> 
+          <Route path="bookings">
+                <Route index element={<Bookings />} />
+                <Route path="create" element={<BookingCreate />} />
+                <Route path="edit" element={<BookingEdit />} />
           </Route> 
           </Route>
           
