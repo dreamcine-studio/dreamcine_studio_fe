@@ -25,22 +25,14 @@ import MovieCreate from './pages/admin/movies/create'
 import Team from './components/Team'
 import Contact from './components/Contact'
 import Seats from './pages/admin/seats'
-<<<<<<< HEAD
-<<<<<<< HEAD
-import Bookings from './pages/admin/bookings'
-import BookingCreate from './pages/admin/bookings/create'
-import BookingEdit from './pages/admin/bookings/edit'
-
-=======
-import MovieDetail from './components/MovieDetail'
->>>>>>> c3962a79a1ca78838fd369192f369f0237288f44
-=======
 import Payments from './pages/admin/payments'
 import PaymentEdit from './pages/admin/payments/edit'
 import MovieDetail from './pages/public/MovieDetail/index.jsx'
 import BookingPublic from './pages/public/booking/booking.jsx'
 import MovieSchedule from './pages/public/Scedule/index.jsx'
->>>>>>> 512c2d58312be26e296c9bfa331227ca7d69cfba
+import Bookings from './pages/admin/bookings/index.jsx'
+import BookingCreate from './pages/admin/bookings/create.jsx'
+import BookingEdit from './pages/admin/bookings/edit.jsx'
 
 function App() {
 
@@ -110,46 +102,14 @@ function App() {
                   <Route path="create" element={<ScheduleCreate />} />
                   <Route path="edit" element={<ScheduleEdit />} />
             </Route> 
+
+            <Route path="bookings">
+                  <Route index element={<Bookings />} />
+                  <Route path="create" element={<BookingCreate />} />
+                  <Route path="edit" element={<BookingEdit />} />
+            </Route> 
           </Route>
 
-<<<<<<< HEAD
-          <Route path="genres">
-                <Route index element={<GenreMovies />} />
-                <Route path="create" element={<GenreCreate />} />
-                <Route path="edit/:id" element={<GenreEdit />} />
-          </Route>
-
-          <Route path="payment_methods">
-                <Route index element={<PayMethods />} />
-                <Route path="create" element={<PaymentMethodCreate />} />
-                <Route path="edit/:id" element={<PaymentMethodEdit />} />
-          </Route>
-
-          <Route path="studios">
-                <Route index element={<Studios />} />
-                <Route path="create" element={<StudioCreate />} />
-                <Route path="edit/:id" element={<StudioEdit />} />
-          </Route>
-
-          <Route path="schedules">
-                <Route index element={<Schedules />} />
-                <Route path="create" element={<ScheduleCreate />} />
-                <Route path="edit/:id" element={<ScheduleEdit />} />
-          </Route> 
-
-          <Route path="seats">
-                <Route index element={<Seats />} />
-                <Route path="create" element={<ScheduleCreate />} />
-                <Route path="edit" element={<ScheduleEdit />} />
-          </Route> 
-          <Route path="bookings">
-                <Route index element={<Bookings />} />
-                <Route path="create" element={<BookingCreate />} />
-                <Route path="edit" element={<BookingEdit />} />
-          </Route> 
-          </Route>
-          
-=======
           {/* <Route path="*" element={<NotFound404/>} /> */}
           {/* <Route path="*">
             <Route index element={<NotFound404 />} />
@@ -158,7 +118,6 @@ function App() {
               {/* <Route path="*">
                 <Route index element={<NotFound404 />} />
             </Route> */}
->>>>>>> 512c2d58312be26e296c9bfa331227ca7d69cfba
         </Routes>
       </BrowserRouter>
     </>

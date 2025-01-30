@@ -111,7 +111,7 @@ export default function Bookings() {
 
 
 )): (
-    <p>Tidak ada data Genre</p>
+    <p>Tidak ada data Booking</p>
   )}
 
           </tbody>
