@@ -17,7 +17,7 @@ export default function GenreMovies() {
       fetchGenres();  
     }, []);
   
-    console.log(genres)
+    console.log("ada",genres)
 
 
 

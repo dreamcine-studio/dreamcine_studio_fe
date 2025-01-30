@@ -1,55 +1,96 @@
-import movieDetails from "../../utils/constants/movieDetails";
+import { useEffect, useState } from "react";
+import { showMovie } from "../../../services/movies";
+import { getGenres } from "../../../services/genre";
+import { Link, useParams } from "react-router-dom";
 
 export default function MovieDetail() {
+  const [movie, setMovie] = useState({});
+  const [genres, setGenres] = useState([]);
+  const { id }  = useParams();
+
+  useEffect(() => {
+    const fetchMovie = async () => {
+      try {
+        const data = await showMovie(id);
+        setMovie(data);
+      } catch (error) {
+        console.error("Failed to fetch movie:", error);
+      }
+    }
+
+    const fetchGenres = async () => {
+      try {
+        const data = await getGenres();
+        setGenres(data);
+      } catch (error) {
+        console.error("Failed to fetch genres:", error);
+      }
+    }
+
+    fetchMovie();
+    fetchGenres();
+
+  }, [id]);
+
+  const getGenreName = (id) => {
+    const genre = genres.find((item) => item.id === id);
+    return genre ? genre.name : "Unknown Genre";
+  };
+
   return (
+
     <div className="w-full p-4 dark:bg-gray-900">
       <div className="container mx-auto px-4 py-8">
-        {movieDetails.map((movieDetail, index) => (
-          <div key={index} className="flex flex-wrap -mx-4 p-4">
+          <div className="flex flex-wrap -mx-4 p-4">
             <div className="flex flex-col w-full md:w-1/2 px-4 mb-8 items-center">
-              <img
-                src={movieDetail.poster}
-                className="h-96 w-auto rounded-lg shadow-md mx-auto mb-4"
-                id="mainImage"
-              />
+            {movie.poster ? (
+  <img
+    src={movie.poster}
+    className="h-96 w-auto rounded-lg shadow-md mx-auto mb-4"
+    alt={movie.title}
+  />
+) : (
+  <p className="text-gray-400">Poster not available</p>
+)}
             </div>
 
             <div className="w-full md:w-1/2">
               <h2 className="text-3xl font-bold mb-2 dark:text-white">
-                {movieDetail.title}
+                {movie.title}
               </h2>
-              <p className="text-gray-600 mb-4">{movieDetail.genre}</p>
+              <p className="text-gray-600 mb-4">{getGenreName(movie.genre_id)}</p>
               <div>
                 <p className="mb-6 dark:text-gray-200">
                   <i className="fa-solid fa-clock mr-2"></i>
-                  {movieDetail.duration} minutes
+                  {movie.duration} minutes
                 </p>
               </div>
 
               <p className="mb-6 dark:text-gray-200">
-                {movieDetail.description}
+                {movie.description}
               </p>
 
               <div>
                 <h3 className="text-lg font-bold text-gray-800 dark:text-gray-200">
                   Cast By:
                 </h3>
-                <p className="mb-4 dark:text-gray-200">{movieDetail.cast}</p>
+                <p className="mb-4 dark:text-gray-200">{movie.cast}</p>
               </div>
 
               <div>
                 <h3 className="text-lg font-bold text-gray-800 dark:text-gray-200">
                   Release Date:
                 </h3>
-                <p className="mb-4 dark:text-gray-200">{movieDetail.releaseDate}</p>
+                <p className="mb-4 dark:text-gray-200">{movie.release_date}</p>
               </div>
 
               <div className="flex space-x-4 mb-6">
-                <button className="bg-indigo-600 flex gap-2 items-center text-white px-6 py-2 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                <Link to="/schedule" className="bg-indigo-600 flex gap-2 items-center text-white px-6 py-2 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
                   <i className="fa-solid fa-ticket"></i>
                   Book Your Ticket Here
-                </button>
+                </Link>
                 <a
+                  
                   className="px-6 py-2 mx-auto border border-black hover:bg-yellow-300 rounded cursor-pointer dark:text-gray-200 text-center dark:border-gray-200 dark:hover:bg-yellow-700"
                   href="https://www.youtube.com/watch?v=6COmYeLsz4c"
                   target="_blank"
@@ -67,57 +108,74 @@ export default function MovieDetail() {
               <h1 className="text-xl mb-4 font-bold font-sans dark:text-gray-100">
                 Videos Related To{" "}
                 <span className="text-yellow-500 dark:text-yellow-200">
-                  {movieDetail.title}
+                  {movie.title}
                 </span>
               </h1>
-              <div className="flex flex-wrap gap-4 md:justify-center">
-                <iframe
+              <div className="flex flex-wrap gap-4">
+                {/* <iframe
                   width="280"
                   height="158"
-                  src={movieDetail.video1}
+                  src={movie.video1}
                   title="YouTube video player"
                   frameborder="0"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   referrerpolicy="strict-origin-when-cross-origin"
                   allowfullscreen
-                ></iframe>
+                ></iframe> */}
+                <a target="_blank" href="https://www.youtube.com/embed/DJQqWbvwpPg?si=tTpTmH3c2qJhq3d">
+                  <img src="./pertama.png" alt="" />
+                </a>
+                {/* <iframe
+                  width="280"
+                  height="158"
+                  src={movie.video2}
+                  title="YouTube video player"
+                  frameborder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  referrerpolicy="strict-origin-when-cross-origin"
+                  allowfullscreen
+                ></iframe> */}
+                
+                <a target="_blank" href="https://www.youtube.com/embed/NaY91YjVbEM?si=C7gZBWBY1ANoqWAb">
+                  <img src="./kedua.png" alt="" />
+                </a>
 
-                <iframe
-                  width="280"
-                  height="158"
-                  src={movieDetail.video2}
-                  title="YouTube video player"
-                  frameborder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  referrerpolicy="strict-origin-when-cross-origin"
-                  allowfullscreen
-                ></iframe>
 
+{/* 
                 <iframe
                   width="280"
                   height="158"
-                  src={movieDetail.video3}
+                  src={movie.video3}
                   title="YouTube video player"
                   frameborder="0"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   referrerpolicy="strict-origin-when-cross-origin"
                   allowfullscreen
-                ></iframe>
+                ></iframe> */}
 
+  
+                <a target="_blank" href="https://www.youtube.com/embed/cAO-Tv7bfrk?si=6M4ed6u_p3I_CV_8">
+                  <img src="./ketiga.png" alt="" />
+                </a>
+{/* 
                 <iframe
                   width="280"
                   height="158"
-                  src={movieDetail.video4}
+                  src={movie.video4}
                   title="YouTube video player"
                   frameborder="0"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   referrerpolicy="strict-origin-when-cross-origin"
                   allowfullscreen
-                ></iframe>
+                ></iframe> */}
+
+                
+            <a target="_blank" href="https://www.youtube.com/embed/jtWMLXp1Mwk?si=QQnfTTRnR46Rz0-U">
+                  <img src="./keempat.png" alt="" />
+                </a>
               </div>
-            </div>
+            </div> 
           </div>
-        ))}
       </div>
     </div>
   );

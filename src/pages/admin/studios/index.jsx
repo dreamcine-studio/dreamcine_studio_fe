@@ -21,7 +21,7 @@ export default function Studios() {
             fetchStudios();  
           }, []);
 
-      console.log(studios);
+      console.log("tes", studios);
 
       
           const handleDelete = async (id) => {
@@ -98,7 +98,7 @@ export default function Studios() {
             <td className="px-4 py-5">
               <div className="flex items-center space-x-3.5">
                 {/* <Link to="/admin/studios/create"><i className="fa-solid fa-plus"></i></Link> */}
-                <Link to={`/admin/genres/edit/${studio.id}`}><i className="fa-solid fa-pen-to-square"></i></Link>
+                <Link to={`/admin/studios/edit/${studio.id}`}><i className="fa-solid fa-pen-to-square"></i></Link>
                 <button onClick={() => handleDelete(studio.id)}> 
                   <i className="fa-solid fa-trash"></i>
                 </button>
@@ -108,7 +108,7 @@ export default function Studios() {
 
 
         )): (
-          <p>Tidak ada data Buku</p>
+          <p>Tidak ada data Studio</p>
         )}
              
                   
