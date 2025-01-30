@@ -1,19 +1,34 @@
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { deletePayment, getPayments } from "../../../services/payment";
+import { getPaymentmethods } from "../../../services/paymentMethod";
 
 export default function Payments() {
 
   const[payments, setPayments] = useState([])
+  const [paymentMethods, setPaymentMethods] = useState([]);
+
   
       useEffect(() => {
           const fetchPayments = async () =>{
               const data = await getPayments()
               setPayments(data)
           }
+
+          const fetchPMethods = async () => {  
+            const data = await getPaymentmethods();  
+              setPaymentMethods(data);  
+          };
+                 
+          fetchPMethods(); 
           fetchPayments()
       }, [])
   
+      const getPMethodName = (id) => {
+        const paymentMethod = paymentMethods.find((g) => g.id === id);
+        return paymentMethod ? paymentMethod.name : "Unknown Payment Method";
+      }
+
       const handleDelete = async (id) => {
           const confirmedDelete = window.confirm("Apakah Anda yakin ingin menghapus data ini")
       
@@ -61,7 +76,7 @@ export default function Payments() {
                   </th>
                   <th className="py-4 px-2 pl-5">
                       <div className="flex items-center gap-1.5">
-                        <p>status</p>
+                        <p>status</p> 
                       </div>
                   </th>
                   <th className="py-4 px-2 pl-5">
@@ -76,7 +91,7 @@ export default function Payments() {
                   <tr key={index} data-index={index} className="hover:bg-gray-50 border-b border-gray-200">
                     <td className="py-4 pl-5">{payment.payment_code}</td>
                     <td className="py-4 pl-7">{payment.booking_id}</td>
-                    <td className="py-4 pl-12">{payment.payment_method_id }</td>
+                    <td className="py-4 pl-12">{getPMethodName(payment.payment_method_id )}</td>
                     <td className="py-4 pl-5">{payment.amount}</td>
                     <td className="py-4 pl-5">{payment.payment_date}</td>
                     <td className="py-4 pl-5">{payment.status}</td>
