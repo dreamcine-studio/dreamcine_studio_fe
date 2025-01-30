@@ -27,9 +27,9 @@ import Contact from './components/Contact'
 import Seats from './pages/admin/seats'
 import Payments from './pages/admin/payments'
 import PaymentEdit from './pages/admin/payments/edit'
-import MovieDetail from './components/MovieDetail'
+import MovieDetail from './pages/public/MovieDetail/index.jsx'
 import BookingPublic from './pages/public/booking/booking.jsx'
-import MovieSchedule from './components/Scedule/index.jsx'
+import MovieSchedule from './pages/public/Scedule/index.jsx'
 
 function App() {
 

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { showMovie } from "../../services/movies";
-import { getGenres } from "../../services/genre";
+import { showMovie } from "../../../services/movies";
+import { getGenres } from "../../../services/genre";
 import { Link, useParams } from "react-router-dom";
 
 export default function MovieDetail() {
@@ -104,15 +104,15 @@ export default function MovieDetail() {
               </div>
             </div>
 
-            {/* <div className="w-full p-4">
+            <div className="w-full p-4">
               <h1 className="text-xl mb-4 font-bold font-sans dark:text-gray-100">
                 Videos Related To{" "}
                 <span className="text-yellow-500 dark:text-yellow-200">
                   {movie.title}
                 </span>
               </h1>
-              <div className="flex flex-wrap gap-4 md:justify-center">
-                <iframe
+              <div className="flex flex-wrap gap-4">
+                {/* <iframe
                   width="280"
                   height="158"
                   src={movie.video1}
@@ -121,9 +121,11 @@ export default function MovieDetail() {
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   referrerpolicy="strict-origin-when-cross-origin"
                   allowfullscreen
-                ></iframe>
-
-                <iframe
+                ></iframe> */}
+                <a target="_blank" href="https://www.youtube.com/embed/DJQqWbvwpPg?si=tTpTmH3c2qJhq3d">
+                  <img src="./pertama.png" alt="" />
+                </a>
+                {/* <iframe
                   width="280"
                   height="158"
                   src={movie.video2}
@@ -132,8 +134,14 @@ export default function MovieDetail() {
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   referrerpolicy="strict-origin-when-cross-origin"
                   allowfullscreen
-                ></iframe>
+                ></iframe> */}
+                
+                <a target="_blank" href="https://www.youtube.com/embed/NaY91YjVbEM?si=C7gZBWBY1ANoqWAb">
+                  <img src="./kedua.png" alt="" />
+                </a>
 
+
+{/* 
                 <iframe
                   width="280"
                   height="158"
@@ -143,8 +151,13 @@ export default function MovieDetail() {
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   referrerpolicy="strict-origin-when-cross-origin"
                   allowfullscreen
-                ></iframe>
+                ></iframe> */}
 
+  
+                <a target="_blank" href="https://www.youtube.com/embed/cAO-Tv7bfrk?si=6M4ed6u_p3I_CV_8">
+                  <img src="./ketiga.png" alt="" />
+                </a>
+{/* 
                 <iframe
                   width="280"
                   height="158"
@@ -154,9 +167,14 @@ export default function MovieDetail() {
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   referrerpolicy="strict-origin-when-cross-origin"
                   allowfullscreen
-                ></iframe>
+                ></iframe> */}
+
+                
+            <a target="_blank" href="https://www.youtube.com/embed/jtWMLXp1Mwk?si=QQnfTTRnR46Rz0-U">
+                  <img src="./keempat.png" alt="" />
+                </a>
               </div>
-            </div> */}
+            </div> 
           </div>
       </div>
     </div>

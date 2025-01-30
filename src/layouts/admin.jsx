@@ -73,12 +73,12 @@ export default function AdminLayout() {
                   <p
                     className="text-right text-sm text-gray-900 dark:text-white"
                     role="none"
-                  >Neil Sims
+                  >{userInfo ? userInfo.name : ""}
                   </p>
                   <p
                     className="text-sm font-medium text-gray-900 truncate dark:text-gray-300"
                     role="none"
-                  >neil.sims@flowbite.com
+                  >{userInfo ? userInfo.email : ""}
                   </p>
                 </div>
                 <div>
@@ -242,7 +242,7 @@ export default function AdminLayout() {
 
             <li>
               <Link
-                to="admin/users"
+                to="/admin/users"
                 className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
               >
                 <i className="fa-solid fa-circle-user fa-lg"></i>

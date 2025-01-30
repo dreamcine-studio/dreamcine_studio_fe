@@ -110,7 +110,7 @@ export default function StudioEdit() {
 
 
     return (
-      <div className="flex flex-col gap-9">
+<div className="flex flex-col gap-9">
         <div
           className="rounded-sm bg-white shadow-default dark:bg-boxdark"
         >
@@ -118,33 +118,36 @@ export default function StudioEdit() {
             className="border-b border-stroke px-6.5 py-4 dark:border-strokedark"
           >
             <h3 className="font-medium text-black dark:text-white">
-              Edit Studios
+            Edit Studios
             </h3>
           </div>
-          <form onSubmit={updateStudioDetails} className="py-5">
+          <form onSubmit={updateStudioDetails}  className="py-5">
             <div className="p-6.5 flex flex-col gap-5">
               
+
+
               <div className="mb-4.5">
                 <label
                   className="mb-3 block text-base font-medium text-black dark:text-white"
                 >
                   Name
                 </label>
-                
                 {errors.name && (
                 <div className="p-2 my-2 text-sm text-red-800 rounded-lg bg-red-50">
                     <span className="font-medium">{errors.name[0]}</span>
                 </div>
               )}
-                
+
                 <input
                   type="text"
-                  value={name}
                   name="name"
-                  onChange={(e) => setName(e.target.value)}
+                  value={name}
+                  onChange= {(e) => setName(e.target.value)}
                   className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-indigo-600 active:border-indigo-600 disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-indigo-600"
                 />
               </div>
+
+
   
               <div className="mb-4.5">
                 <label
@@ -152,7 +155,6 @@ export default function StudioEdit() {
                 >
                   Location
                 </label>
-                
                 {errors.location && (
                 <div className="p-2 my-2 text-sm text-red-800 rounded-lg bg-red-50">
                     <span className="font-medium">{errors.location[0]}</span>
@@ -161,9 +163,9 @@ export default function StudioEdit() {
                 
                 <input
                   type="text"
-                  value={location}
                   name="location"
-                  onChange={(e) => setLocation(e.target.value)}
+                  value={location}
+                  onChange= {(e) => setLocation(e.target.value)}
                   className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-indigo-600 active:border-indigo-600 disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-indigo-600"
                 />
               </div>
@@ -180,15 +182,17 @@ export default function StudioEdit() {
                     <span className="font-medium">{errors.maxseats[0]}</span>
                 </div>
               )}
-               
+
+                
                 <textarea
                   rows="6"
-                  value={maxseats}
                   name="maxseats"
-                  onChange={(e) => setLocation(e.target.value)}
+                  value={maxseats}
+                  onChange= {(e) => setMaxSeat(e.target.value)}
                   className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-indigo-600 active:border-indigo-600 disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-indigo-600"
                 ></textarea>
               </div>
+              
   
               <button
                 type="submit"

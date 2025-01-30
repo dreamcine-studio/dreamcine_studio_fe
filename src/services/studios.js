@@ -10,44 +10,60 @@ export const getStudios = async () => {
 
 
 
- 
- export const deleteStudio= async(id) => {
-  try{
-    await API.delete(`/studios/${id}`)      // ini pakai backtick
-  }catch (error){
-    console.log(error)
-    throw error
+
+  
+ //Create
+
+
+ export const createStudio = async (data) => {
+  try {
+    const response = await API.post('/studios', data, {
+    headers: {
+        "Authorization": `Bearer ${localStorage.getItem('accessToken')}` 
+       }
+    })
+    return response.data
+  } catch (err) {
+    console.log(err)
+    throw err
   }
 }
+
+
 
 
 
 //update
   
 // update, kita butuh id dan data
-export const updateStudio = async (id, data) =>{
-    try { 
-       const response = await API.post(`/studios/${id}`, data)  // endpoints
-       return response.data.data;
-    }catch (err){
-       console.log(err)
-       throw err
-    }
-   }
 
 
-
-   
- //Create
+   export const updateStudio = async (id, data) => {
+    try {
+      const response = await API.post(`/studios/${id}`, data, {
+      headers: {
+          "Authorization": `Bearer ${localStorage.getItem('accessToken')}` 
+         }
+      })
+      return response.data
+      } catch (err) {
+          console.log(err)
+          throw err
+      }
+  }
   
- export const createStudio = async(data) =>
-  {
- 
-     try{
-       const response  = await API.post(`/studios`, data)  // endpoint
-       return response.data;
-     }catch(error) {
-       console.log(error);
-       throw error
-     }
-  }  
+
+
+
+export const deleteStudio = async (id) => {  
+  try {
+    await API.delete(`/studios/${id}`, {
+    headers: {
+        "Authorization": `Bearer ${localStorage.getItem('accessToken')}` 
+       }
+    })
+    } catch (err) {
+      console.log(err)
+      throw err
+    }
+}
