@@ -10,8 +10,8 @@ export default function Header() {
   };
 
   return (
-    <header className="bg-blue-500 text-white p-4 w-full">
-      <nav className="w-full bg-white border-gray-200 px-5 py-2.5 dark:bg-gray-800">
+    <header className="bg-gradient-to-r from-blue-300 to-green-300 text-white p-4">
+      <nav className="bg-gray-300 w-full bg-white border-gray-200 px-5 py-2.5 dark:bg-gray-800">
         <div className="container mx-auto flex flex-wrap justify-between items-center">
           <Link to="/" className="flex items-center">
             <img
@@ -19,7 +19,7 @@ export default function Header() {
               className="rounded-full mr-3 h-6 sm:h-9"
               alt="Dream Cine Studios"
             />
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500 text-xl font-semibold whitespace-nowrap dark:text-white">
+            <span title="DreamCine - Studios" className="bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500 text-xl font-semibold whitespace-nowrap dark:text-white">
               DreamCine - Studios
             </span>
             

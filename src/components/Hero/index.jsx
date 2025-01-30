@@ -30,7 +30,7 @@ export default function Hero() {
   
   return (
 
-<section className="text-gray-600 body-font">
+<section className="bg-gray-300  text-gray-600 body-font">
 
   <div  className="container px-5 py-24 mx-auto">
   <div className="flex flex-wrap -m-4">
