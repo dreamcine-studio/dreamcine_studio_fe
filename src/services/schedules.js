@@ -23,11 +23,7 @@ export const createSchedules = async (data) => {
 
 export const updateSchedules = async (id, data) => {
   try {
-<<<<<<< HEAD
     const response = await API.post(`/schedules/${id}`, data ,  {
-=======
-    const response = await API.post(`/schedules/${id}`, data, {
->>>>>>> cdc47d5c47a69dd9f2b16c217a9d4219868bc832
       headers: {
           "Authorization": `Bearer ${localStorage.getItem('accessToken')}` 
   }})
@@ -40,11 +36,7 @@ export const updateSchedules = async (id, data) => {
 
 export const deleteSchedules = async (id) => {
   try {
-<<<<<<< HEAD
     const { data: response } = await API.delete(`/schedules/${id}` ,  {
-=======
-    const { response } = await API.delete(`/schedules/${id}`, {
->>>>>>> cdc47d5c47a69dd9f2b16c217a9d4219868bc832
       headers: {
           "Authorization": `Bearer ${localStorage.getItem('accessToken')}` 
   }})
