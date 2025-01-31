@@ -4,6 +4,7 @@ import { createBooking } from "../../../services/booking"
 
 
 export default function BookingCreate() {
+
   const[errors,setErrors] = useState({})
 
     const[bookingData, setBookingData] = useState({
@@ -41,6 +42,7 @@ export default function BookingCreate() {
 
     }  
     
+    console.log(bookingData)
 
   return (
     <div className="flex flex-col gap-9">
