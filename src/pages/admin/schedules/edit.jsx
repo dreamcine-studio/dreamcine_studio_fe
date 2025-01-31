@@ -114,46 +114,45 @@ export default function ScheduleEdit() {
           <form onSubmit={updateSchedule}>
             <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
               <div className="sm:col-span-2">
-              <label
-                className="mb-3 block text-sm font-bold text-gray-900"
-              >
-                Movie
-              </label>
-                <select 
-                name="movie_id" 
-                disabled
-                value={scheduleData.movie_id}
-                className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent px-5 py-3 outline-none transition text-gray-600">
+                <label className="mb-3 block text-sm font-bold text-gray-900">
+                  Movie
+                </label>
+                <select
+                  name="movie_id"
+                  disabled
+                  value={scheduleData.movie_id}
+                  className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent px-5 py-3 outline-none transition text-gray-600"
+                >
                   <option value="">--select movie--</option>
                   {movies.map((movie) => (
-                    <option key={movie.id} value={movie.id}>{movie.title}</option>
+                    <option key={movie.id} value={movie.id}>
+                      {movie.title}
+                    </option>
                   ))}
                 </select>
-
               </div>
 
               <div className="sm:col-span-2">
-              <label
-                className="mb-3 block text-sm font-bold text-gray-900"
-              >
-                Studio
-              </label>
-              <select 
-                name="studio_id" 
-                disabled
-                value={scheduleData.studio_id}
-                className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent px-5 py-3 outline-none transition text-gray-600">
+                <label className="mb-3 block text-sm font-bold text-gray-900">
+                  Studio
+                </label>
+                <select
+                  name="studio_id"
+                  disabled
+                  value={scheduleData.studio_id}
+                  className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent px-5 py-3 outline-none transition text-gray-600"
+                >
                   <option value="">--select studio--</option>
                   {studios.map((studio) => (
-                    <option key={studio.id} value={studio.id}>{studio.name}</option>
+                    <option key={studio.id} value={studio.id}>
+                      {studio.name}
+                    </option>
                   ))}
                 </select>
               </div>
 
               <div className="sm:col-span-2">
-                <label
-                  className="block mb-2 text-sm font-medium text-gray-900 :text-white"
-                >
+                <label className="block mb-2 text-sm font-medium text-gray-900 :text-white">
                   Showdate Start
                 </label>
                 <input
@@ -161,14 +160,11 @@ export default function ScheduleEdit() {
                   name="showdate_start"
                   onChange={handleInputChangeShowdate}
                   value={scheduleData.showdate_start}
-                  className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent px-5 py-3 outline-none transition focus:border-indigo-600 active:border-indigo-600 :border-form-stroke :bg-form-input :focus:border-indigo-600"/>
-
-
+                  className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent px-5 py-3 outline-none transition focus:border-indigo-600 active:border-indigo-600 :border-form-stroke :bg-form-input :focus:border-indigo-600"
+                />
               </div>
               <div className="sm:col-span-2">
-                <label
-                  className="block mb-2 text-sm font-medium text-gray-900 :text-white"
-                >
+                <label className="block mb-2 text-sm font-medium text-gray-900 :text-white">
                   Showdate End
                 </label>
                 <input
@@ -176,32 +172,30 @@ export default function ScheduleEdit() {
                   name="showdate_end"
                   onChange={handleInputChangeShowdate}
                   value={scheduleData.showdate_end}
-                  className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent px-5 py-3 outline-none transition focus:border-indigo-600 active:border-indigo-600 :border-form-stroke :bg-form-input :focus:border-indigo-600"/>
-
-
+                  className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent px-5 py-3 outline-none transition focus:border-indigo-600 active:border-indigo-600 :border-form-stroke :bg-form-input :focus:border-indigo-600"
+                />
               </div>
 
-<div className="flex gap-8">
-                {scheduleData.showtime.map((time, index) => (
-                    <div className="w-1/2" key={index}>
-                        <label className="block mb-2 text-sm font-medium text-gray-900">
-                            Showtime {index + 1}
-                        </label>
-                        <input
-                            type="time"
-                            name={`showtime[${index}]`}  // Penting: name tetap seperti ini
-                            value={time}
-                            onChange={(e) => handleShowtimeChange(index, e.target.value)}
-                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-600 focus:border-indigo-600 block w-full p-2.5"
-                            required=""
-                        />
-                    </div>
+              <div className="sm:col-span-2">
+              <label className="block mb-2 text-sm font-medium text-gray-900 :text-white">
+                Showtimes
+              </label>
+              <div className="grid grid-cols-2 gap-4">
+                {[0, 1, 2, 3].map((index) => (
+                  <div key={index}>
+                    <label className="block mb-2 text-sm font-medium text-gray-900">
+                      Showtime {index + 1}
+                    </label>
+                    <input
+                      type="time"
+                      value={scheduleData.showtime[index]}
+                      onChange={(e) => handleShowtimeChange(index, e.target.value)}
+                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-600 focus:border-indigo-600 block w-full p-2.5"
+                    />
+                  </div>
                 ))}
+              </div>
             </div>
-
-              
-             
-              
             </div>
             <button
               type="submit"
