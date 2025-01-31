@@ -3,12 +3,14 @@ import { getGenres } from "../../services/genre";
 import { getStudios } from "../../services/studios";
 import { getPaymentmethods } from "../../services/paymentMethod";
 import { getMovies } from "../../services/movies";
+import { getSchedules } from "../../services/schedules";
 
 export default function Dashboard() {
   const [genres, setGenres] = useState([]);
   const [studios, setStudios] = useState([]);
   const [paymentMethods, setPaymentMethods] = useState([]);
-  const [paymentMovies, setmovies] = useState([]);
+  const [Movies, setmovies] = useState([]);
+  const [Schedules, setSchedules] = useState([]);
 
 
   useEffect(() => {
@@ -31,11 +33,19 @@ export default function Dashboard() {
       const data = await getMovies();
       setmovies(data);
     };
+
+
+	
+    const fetchSchedules = async () => {
+		const data = await getSchedules();
+		setSchedules(data);
+	  };
       
         fetchGenres();  
         fetchStudios();  
         fetchPaymentMethods();  
         fetchmovies();
+		fetchSchedules();
       }, []);
       // console.log("ada",genres);
     return (
@@ -60,6 +70,8 @@ export default function Dashboard() {
 			</div>
 
 
+
+
 			<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 w-full min-w-0">
 				{/* <!-- Genres --> */}
      
@@ -79,7 +91,7 @@ export default function Dashboard() {
 				</div>
 
 
-				{/* <!-- Suspended --> */}
+				{/* <!-- Payment Methods --> */}
 				<div className="flex flex-col px-6 py-2 bg-white shadow rounded-lg overflow-hidden">
 					<div className="flex flex-col items-center space-y-2">
 						<div className="text-6xl font-bold tracking-tight leading-none text-red-500">{paymentMethods.length}</div>
@@ -87,13 +99,22 @@ export default function Dashboard() {
 					</div>
 				</div>
 
-				{/* <!-- Closed --> */}
+				{/* <!-- Movies --> */}
 				<div className="flex flex-col px-6 py-2 bg-white shadow rounded-lg overflow-hidden">
 					<div className="flex flex-col items-center space-y-2">
-						<div className="text-6xl font-bold tracking-tight leading-none text-primary-900">{paymentMovies.length}</div>
+						<div className="text-6xl font-bold tracking-tight leading-none text-primary-900">{Movies.length}</div>
 						<div className="text-lg font-medium text-primary-900">Movies</div>
 					</div>
 				</div>
+
+
+					{/* <!-- Movies --> */}
+					<div className="flex flex-col px-6 py-2 bg-white shadow rounded-lg overflow-hidden">
+					<div className="flex flex-col items-center space-y-2">
+						<div className="text-6xl font-bold tracking-tight leading-none text-primary-900">{Schedules.length}</div>
+						<div className="text-lg font-medium text-primary-900">Schedules</div>
+					</div>
+				</div>	
   
 			</div>
 		</section>
