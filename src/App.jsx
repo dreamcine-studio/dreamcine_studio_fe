@@ -33,8 +33,9 @@ import BookingPublic from './pages/public/booking/booking.jsx'
 import Bookings from './pages/admin/bookings/index.jsx'
 import BookingCreate from './pages/admin/bookings/create.jsx'
 import BookingEdit from './pages/admin/bookings/edit.jsx'
+=======
 import MovieSchedule from './pages/public/Schedule/index.jsx'
-
+>>>>>>> fc44ec3a95bd3f61ca7eefc4a5891406f32195fb
 
 function App() {
 
@@ -48,11 +49,11 @@ function App() {
             <Route path="Movies" element={<Hero />} />
             <Route path="teams" element={<Team />} />
             <Route path="contacts" element={<Contact />} />
-            <Route path="schedule" element={<MovieSchedule />} />
+            {/* <Route path="schedule" element={<MovieSchedule />} /> */}
 
             <Route path="movies/:id" element={<MovieDetail />} />
             <Route path="moviebooking" element={<BookingPublic />} />
-            <Route path="schedule" element={<MovieSchedule />} />
+            {/* <Route path="schedule" element={<MovieSchedule />} /> */}
           </Route>
 
           {/* Auth Routes */}

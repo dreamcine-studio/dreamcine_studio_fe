@@ -20,7 +20,10 @@ export const createSchedules = async (data) => {
 
 export const updateSchedules = async (id, data) => {
   try {
-    const response = await API.post(`/schedules/${id}`, data)
+    const response = await API.post(`/schedules/${id}`, data, {
+      headers: {
+          "Authorization": `Bearer ${localStorage.getItem('accessToken')}` 
+  }})
     return response.data
   } catch (error) {
       console.log(error)
@@ -30,7 +33,10 @@ export const updateSchedules = async (id, data) => {
 
 export const deleteSchedules = async (id) => {
   try {
-    const { data: response } = await API.delete(`/schedules/${id}`)
+    const { response } = await API.delete(`/schedules/${id}`, {
+      headers: {
+          "Authorization": `Bearer ${localStorage.getItem('accessToken')}` 
+  }})
     return response
   } catch (error) {
       console.log(error)
