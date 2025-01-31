@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getMovies } from "../../../services/movies";
-import { getSchedules } from "../../../services/schedules";
+import { deleteSchedules, getSchedules } from "../../../services/schedules";
 import { getStudios } from "../../../services/studios";
 
 export default function Schedules() {
@@ -66,6 +66,21 @@ export default function Schedules() {
           name: "Unknown Studio",
         };
   };
+
+  const handleDelete = async (id) => {
+    const confirmDelete = window.confirm("Are you sure you want to delete this schedule?");
+    
+    if (confirmDelete) {
+      try {
+        await deleteSchedules(id); 
+        setSchedules(schedules.filter((schedule) => schedule.id !== id)); 
+        alert("Schedule deleted successfully");
+      } catch (error) {
+        console.error("Error deleting schedule:", error);
+        alert("Failed to delete the schedule. Please try again later.");
+      }
+    }
+  }
 
   console.log("tes", schedules)
   return (
@@ -161,7 +176,7 @@ export default function Schedules() {
                       <Link to={`/admin/schedules/edit/${schedule.id}`}>
                         <i className="fa-solid fa-pen-to-square"></i>
                       </Link>
-                      <button>
+                      <button onClick={() => handleDelete(schedule.id)}>
                         <i className="fa-solid fa-trash"></i>
                       </button>
                     </div>
