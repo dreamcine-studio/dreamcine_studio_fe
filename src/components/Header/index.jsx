@@ -10,7 +10,7 @@ export default function Header() {
   };
 
   return (
-    <header className="">
+    <header className="sticky top-0">
       <nav className="w-full bg-white border-gray-200 px-5 py-2.5 dark:bg-gray-800">
         <div className="container mx-auto flex flex-wrap justify-between items-center">
           <Link to="/" className="flex items-center">
@@ -142,7 +142,7 @@ export default function Header() {
               <li>
                 <Link
 
-                  to="/schedule"
+                  to="/schedules"
                   className="block py-2 pr-4 pl-3 text-gray-700 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-indigo-700 lg:p-0 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700 lg:dark:hover:bg-transparent"
                 >
                   schedule

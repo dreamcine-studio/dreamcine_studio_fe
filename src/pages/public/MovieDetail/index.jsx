@@ -85,7 +85,7 @@ export default function MovieDetail() {
               </div>
 
               <div className="flex space-x-4 mb-6">
-                <Link to="/schedule" className="bg-indigo-600 flex gap-2 items-center text-white px-6 py-2 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                <Link to="/schedules" className="bg-indigo-600 flex gap-2 items-center text-white px-6 py-2 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
                   <i className="fa-solid fa-ticket"></i>
                   Book Your Ticket Here
                 </Link>
