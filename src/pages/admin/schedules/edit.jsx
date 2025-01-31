@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { getMovies } from "../../../services/movies";
 import { getStudios } from "../../../services/studios";
 import { useNavigate, useParams } from "react-router-dom";
-import { createSchedules, getSchedules } from "../../../services/schedules";
+import { getSchedules, updateSchedules } from "../../../services/schedules";
 
 export default function ScheduleEdit() {
   const [movies, setMovies] = useState([]);
@@ -13,8 +13,8 @@ export default function ScheduleEdit() {
     showtime: ["", "", "", ""], // Initialize showtime as an array of strings
     showdate_start: "",
     showdate_end: "",
+    // _method: "PUT",
   });
-  const [errors, setErrors] = useState(null); // State untuk menyimpan pesan error
   const navigate = useNavigate();
   const { id } = useParams();
 
@@ -61,11 +61,6 @@ export default function ScheduleEdit() {
     fetchStudios();
   }, []);
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setScheduleData({ ...scheduleData, [name]: value });
-  };
-
   const handleShowtimeChange = (index, value) => {
     const updatedShowtimes = [...scheduleData.showtime];
     updatedShowtimes[index] = value;
@@ -88,7 +83,7 @@ export default function ScheduleEdit() {
     };
 
     try {
-      const response = await createSchedules(dataToSend);
+      const response = await updateSchedules(id, dataToSend); 
       console.log("Response from backend:", response);
       navigate("/admin/schedules");
     } catch (error) {
