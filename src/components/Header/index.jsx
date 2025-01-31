@@ -10,8 +10,8 @@ export default function Header() {
   };
 
   return (
-    <header className="bg-teal-300 text-white p-4">
-      <nav className="bg-gray-300 w-full bg-white border-gray-200 px-5 py-2.5 dark:bg-gray-800">
+    <header className="sticky top-0">
+      <nav className="w-full bg-white border-gray-200 px-5 py-2.5 dark:bg-gray-800">
         <div className="container mx-auto flex flex-wrap justify-between items-center">
           <Link to="/" className="flex items-center">
             <img
@@ -19,7 +19,7 @@ export default function Header() {
               className="rounded-full mr-3 h-6 sm:h-9"
               alt="Dream Cine Studios"
             />
-            <span title="DreamCine - Studios" className="bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500 text-xl font-semibold whitespace-nowrap dark:text-white">
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500 text-xl font-semibold whitespace-nowrap dark:text-white">
               DreamCine - Studios
             </span>
             
@@ -142,7 +142,7 @@ export default function Header() {
               <li>
                 <Link
 
-                  to="/schedule"
+                  to="/schedules"
                   className="block py-2 pr-4 pl-3 text-gray-700 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-indigo-700 lg:p-0 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700 lg:dark:hover:bg-transparent"
                 >
                   schedule

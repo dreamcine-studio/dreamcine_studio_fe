@@ -1,115 +1,211 @@
 import { useEffect, useState } from "react";
-import { getMovies } from "../../../services/movies";
+import {  showMovie } from "../../../services/movies";
 import { getSchedules } from "../../../services/schedules";
 import { getStudios } from "../../../services/studios";
-export default function MovieSchedule () {
-  // const movieData = [
-  //   {
-  //     location: 'KELAPA GADING XXI',
-  //     date: '24-01-2025',
-  //     times: ['13:20', '15:45', '18:10', '20:35'],
-  //     price: 'Rp 60,000',
-  //   },
-  //   {
-  //     location: 'PLAZA SENAYAN XXI',
-  //     date: '24-01-2025',
-  //     times: ['13:15', '15:40', '18:05', '20:30'],
-  //     price: 'Rp 60,000',
-  //   },
-  // ];
-
+import { Link, useParams } from "react-router-dom";
+import { getGenres } from "../../../services/genre";
+export default function MovieSchedule() {
+  const [movie, setMovie] = useState({});
+  const [genres, setGenres] = useState([]);
   const [schedules, setSchedules] = useState([]);
-  const [movies, setMovies] = useState([]);
   const [studios, setStudios] = useState([]);
+  const [selectedShowtime, setSelectedShowtime] = useState(null); // State untuk showtime yang dipilih
+  const { id } = useParams();
 
-  useEffect(() => {  
-    const fetchMovies = async () => {  
-      const data = await getMovies();  
-      setMovies(data);  
+  function formatDateString(dateString) {
+    const date = new Date(dateString);
+    const options = { day: '2-digit', month: 'long', year: 'numeric' };
+    return date.toLocaleDateString('id-ID', options);
+  }
+
+  useEffect(() => {
+    const fetchMovie = async () => {
+      try {
+        const data = await showMovie(id);
+        setMovie(data);
+      } catch (error) {
+        console.error("Failed to fetch movie:", error);
+      }
     };
-    
-    const fetchSchedules = async () => {  
-      const data = await getSchedules();  
-      setSchedules(data);  
+
+    const fetchGenres = async () => {
+      try {
+        const data = await getGenres();
+        setGenres(data);
+      } catch (error) {
+        console.error("Failed to fetch genres:", error);
+      }
     };
 
-    const fetchStudio = async () => {  
-      const data = await getStudios();  
-      setStudios(data);  
+    const fetchSchedules = async () => {
+      try {
+        const data = await getSchedules();
+        const filteredSchedules = data.filter(schedule => schedule.movie_id === parseInt(id));
+        setSchedules(filteredSchedules);
+      } catch (error) {
+        console.error("Failed to fetch schedules:", error);
+      }
     };
 
-    fetchMovies();  
-    fetchSchedules();  
-    fetchStudio();  
-  }, [])
+    const fetchStudios = async () => {
+      try {
+        const data = await getStudios();
+        setStudios(data);
+      } catch (error) {
+        console.error("Failed to fetch studios:", error);
+      }
+    };
 
-  const getMovieData = (id) => {
-    const movie = movies.find((m) => m.id === id);
-    return movie
-      ? {
-          title: movie.title,
-          poster: movie.poster,
-          duration: movie.duration,
-          price: movie.price,
-        }
-      : {
-          title: "Unknown Movie",
-          poster: "",
-          duration: "",
-        };
+    fetchMovie();
+    fetchGenres();
+    fetchSchedules();
+    fetchStudios();
+
+  }, [id]);
+
+  const getGenreName = (id) => {
+    const genre = genres.find((item) => item.id === id);
+    return genre ? genre.name : "Unknown Genre";
   };
 
-  const getStudioData = (id) => {
-    const studio = studios.find((s) => s.id === id);
-    return studio
-      ? {
-          name: studio.name,
-        }
-      : {
-          name: "Unknown Studio",
-        };
+  // Function to handle showtime click
+  const handleShowtimeClick = (schedule, timeIndex) => {
+    const selected = {
+      ...schedule,
+      time: schedule.showtime[timeIndex], // Mengambil waktu yang diklik dari showtime
+    };
+    setSelectedShowtime(selected); // Set showtime yang dipilih
   };
+
 
 
   return (
-    <div className="flex flex-col items-center bg-gray-100 min-h-screen py-8">
-      <div className="max-w-4xl w-full bg-white shadow-md rounded-md overflow-hidden">
-        <div className="flex flex-col md:flex-row">
-          {/* Poster Section */}
-          <div className="w-full md:w-1/3 p-4">
-            <img
-              src="https://via.placeholder.com/300x450" // Ganti dengan URL gambar film
-              alt="Sky Force Poster"
-              className="w-full rounded-md shadow-md"
-            />
+    <div className="w-full p-4 dark:bg-gray-900">
+      <div className="container mx-auto px-4 py-8">
+        <div className="flex flex-wrap -mx-4 p-4">
+          <div className="flex flex-col w-full md:w-1/2 px-4 mb-8 items-center">
+            {movie.poster ? (
+              <img
+                src={movie.poster}
+                className="h-96 w-auto rounded-lg shadow-md mx-auto mb-4"
+                alt={movie.title}
+              />
+            ) : (
+              <p className="text-gray-400">Poster not available</p>
+            )}
           </div>
 
-          {/* Movie Info Section */}
-          {schedules.map((schedule) => (
-          <div key={schedule.id} className="w-full md:w-2/3 p-4">
-            <h1 className="text-2xl font-bold text-gray-800">{getMovieData(schedule.movie_id).title}</h1>
-            <p className="text-sm text-gray-600 mb-2">{getMovieData(schedule.movie_id).duration} Minutes</p>
-            <div className="flex gap-2 mb-4">
+          <div className="w-full md:w-1/2">
+            <h2 className="text-3xl font-bold mb-2 dark:text-white">
+              {movie.title}
+            </h2>
+            <p className="text-gray-600 mb-4">{getGenreName(movie.genre_id)}</p>
+            <div>
+              <p className="mb-6 dark:text-gray-200">
+                <i className="fa-solid fa-clock mr-2"></i>
+                {movie.duration} minutes
+              </p>
+            </div>
 
-            {/* Schedule Section */}
-            
-              <div className="mb-4">
-                <h2 className="text-lg font-semibold text-gray-700">{getStudioData(schedule.studio_id).name}</h2>
-                <p className="text-sm text-gray-500 mb-2">{schedule.showdate_start} - {schedule.showdate_end}</p>
-                <div className="flex gap-2 flex-wrap">
-                    <button
-                      className="px-4 py-2 border border-gray-300 rounded hover:bg-gray-100 transition text-gray-800"
-                    >
-                      {schedule.showtime}
-                    </button>
-                </div>
-                <p className="text-sm text-gray-600 mt-2">Rp. {getMovieData(schedule.movie_id).price}</p>
+            <p className="mb-6 dark:text-gray-200">
+              {movie.description}
+            </p>
+
+            <div>
+              <h3 className="text-lg font-bold text-gray-800 dark:text-gray-200">
+                Cast By:
+              </h3>
+              <p className="mb-4 dark:text-gray-200">{movie.cast}</p>
+            </div>
+
+            <div>
+              <h3 className="text-lg font-bold text-gray-800 dark:text-gray-200">
+                Release Date:
+              </h3>
+              <p className="mb-4 dark:text-gray-200">{movie.release_date}</p>
+            </div>
+            <div>
+              <h3 className="text-lg font-bold text-gray-800 dark:text-gray-200">
+                Jadwal Tayang:
+              </h3>
+              <div className="flex flex-wrap gap-4">
+                {schedules.map((schedule) => (
+                  <div key={schedule.id} className="bg-gray-100 mb-4 dark:text-gray-200 dark:bg-gray-800 p-4 rounded-lg shadow-md md:w-1/4">
+                    <h3 className="text-lg font-bold mb-2 dark:text-white">
+                      {schedule.showdate_start && formatDateString(schedule.showdate_start)}
+                    </h3>
+                    <div className="flex flex-wrap gap-2">
+                      {schedule.showtime && schedule.showtime.length > 0 ? (
+                        schedule.showtime.map((time, timeIndex) => (
+                          <div
+                            key={`${schedule.id}-${timeIndex}`}
+                            className="bg-gray-200 text-gray-800 py-2 px-4 rounded cursor-pointer"
+                            onClick={() => handleShowtimeClick(schedule, timeIndex)} // Handle click
+                          >
+                            {time}
+                          </div>
+                        ))
+                      ) : (
+                        <div>No showtimes available</div>
+                      )}
+                    </div>
+                  </div>
+                ))}
               </div>
+            </div>
+
+            {/* Menampilkan showtime yang dipilih */}
+            {selectedShowtime && (
+              <div className="mt-4 p-4 bg-gray-200 rounded-lg">
+                <h4 className="text-lg font-bold">Selected Showtime:</h4>
+                <p>Date: {formatDateString(selectedShowtime.showdate_start)}</p>
+                <p>Time: {selectedShowtime.time}</p>
+                <p>Studio: {studios.find(studio => studio.id === selectedShowtime.studio_id)?.name || "Unknown Studio"}</p>
+              </div>
+            )}
+
+            <div className="flex space-x-4 mb-6">
+              <Link to={`/booking?movie=${id}`} className="bg-indigo-600 flex gap-2 items-center text-white px-6 py-2 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                <i className="fa-solid fa-ticket"></i>
+                Book Your Ticket Here
+              </Link>
+              <a
+                className="px-6 py-2 mx-auto border border-black hover:bg-yellow-300 rounded cursor-pointer dark:text-gray-200 text-center dark:border-gray-200 dark:hover:bg-yellow-700"
+                href="https://www.youtube.com/watch?v=6COmYeLsz4c"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Watch Movie Trailer
+              </a>
+              <button className="flex items-center text-gray-800 px-3 py-2 rounded-md">
+                <i className="fa-solid fa-heart text-pink-500 hover:text-pink-400 dark:text-pink-400 dark:hover:text-pink-500 fa-xl"></i>
+              </button>
+            </div>
+          </div>
+          <div className="w-full p-4">
+            <h1 className="text-xl mb-4 font-bold font-sans dark:text-gray-100">
+              Videos Related To{" "}
+              <span className="text-yellow-500 dark:text-yellow-200">
+                {movie.title}
+              </span>
+            </h1>
+            <div className="flex flex-wrap gap-4">
+              <a target="_blank" href="https://www.youtube.com/embed/DJQqWbvwpPg?si=tTpTmH3c2qJhq3d">
+                <img src="./pertama.png" alt="" />
+              </a>
+              <a target="_blank" href="https://www.youtube.com/embed/NaY91YjVbEM?si=C7gZBWBY1ANoqWAb">
+                <img src="./kedua.png" alt="" />
+              </a>
+              <a target="_blank" href="https://www.youtube.com/embed/cAO-Tv7bfrk?si=6M4ed6u_p3I_CV_8">
+                <img src="./ketiga.png" alt="" />
+              </a>
+              <a target="_blank" href="https://www.youtube.com/embed/jtWMLXp1Mwk?si=QQnfTTRnR46Rz0-U">
+                <img src="./keempat.png" alt="" />
+              </a>
+            </div>
           </div>
         </div>
-        ))}
       </div>
     </div>
-    </div>
-  )
+  );
 }
