@@ -15,6 +15,7 @@ export default function BookingEdit() {
     const [schedule_id, setSchedule_id] = useState("");
     const [quantity, setQuantity] = useState("");
     const [booking_date, setBooking_Date] = useState("");
+    
     // destruct id dari URL
     const {id} = useParams()
     

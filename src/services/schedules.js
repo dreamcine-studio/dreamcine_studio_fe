@@ -23,7 +23,7 @@ export const createSchedules = async (data) => {
 
 export const updateSchedules = async (id, data) => {
   try {
-    const response = await API.post(`/schedules/${id}`, data ,  {
+    const response = await API.put(`/schedules/${id}`, data, {
       headers: {
           "Authorization": `Bearer ${localStorage.getItem('accessToken')}` 
   }})

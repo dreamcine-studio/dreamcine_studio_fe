@@ -15,7 +15,7 @@ export default function Bookings() {
           fetchbooking();  
         }, []);
       
-        console.log(Bookings)
+        console.log("ada",Bookings)
     
     
     
