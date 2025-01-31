@@ -107,7 +107,7 @@ function App() {
             <Route path="bookings">
                   <Route index element={<Bookings />} />
                   <Route path="create" element={<BookingCreate />} />
-                  <Route path="edit" element={<BookingEdit />} />
+                  <Route path="edit/:id" element={<BookingEdit />} />
             </Route> 
           </Route>
 
