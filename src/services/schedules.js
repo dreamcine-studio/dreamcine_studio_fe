@@ -1,7 +1,10 @@
 import API from "../api"
 
 export const getSchedules = async () => {
-  const { data } = await API.get('/schedules')
+  const { data } = await API.get('/schedules', {
+    headers: {
+        "Authorization": `Bearer ${localStorage.getItem('accessToken')}` 
+}})
   return data.data
 }
 
