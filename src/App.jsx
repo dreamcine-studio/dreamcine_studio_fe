@@ -46,11 +46,11 @@ function App() {
             <Route path="Movies" element={<Hero />} />
             <Route path="teams" element={<Team />} />
             <Route path="contacts" element={<Contact />} />
-            <Route path="schedule" element={<MovieSchedule />} />
+            {/* <Route path="schedule" element={<MovieSchedule />} /> */}
 
             <Route path="movies/:id" element={<MovieDetail />} />
             <Route path="moviebooking" element={<BookingPublic />} />
-            <Route path="schedule" element={<MovieSchedule />} />
+            {/* <Route path="schedule" element={<MovieSchedule />} /> */}
           </Route>
 
           {/* Auth Routes */}
