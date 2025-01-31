@@ -1,8 +1,14 @@
 import { useEffect, useState } from "react";
 import { getGenres } from "../../services/genre";
+import { getStudios } from "../../services/studios";
+import { getPaymentmethods } from "../../services/paymentMethod";
+import { getMovies } from "../../services/movies";
 
 export default function Dashboard() {
   const [genres, setGenres] = useState([]);
+  const [studios, setStudios] = useState([]);
+  const [paymentMethods, setPaymentMethods] = useState([]);
+  const [paymentMovies, setmovies] = useState([]);
 
 
   useEffect(() => {
@@ -10,10 +16,28 @@ export default function Dashboard() {
       const data = await getGenres();
       setGenres(data);
     };
+
+    const fetchStudios  = async () => {
+      const data = await getStudios();
+      setStudios(data);
+    };
+      
+    const fetchPaymentMethods  = async () => {
+      const data = await getPaymentmethods();
+      setPaymentMethods(data);
+    };
+
+    const fetchmovies = async () => {
+      const data = await getMovies();
+      setmovies(data);
+    };
       
         fetchGenres();  
+        fetchStudios();  
+        fetchPaymentMethods();  
+        fetchmovies();
       }, []);
-      console.log("ada",genres);
+      // console.log("ada",genres);
     return (
       <>
    
@@ -49,7 +73,7 @@ export default function Dashboard() {
 				{/* <!-- Studios --> */}
 				<div className="flex flex-col px-6 py-2 bg-white shadow rounded-lg overflow-hidden">
 					<div className="flex flex-col items-center space-y-2">
-						<div className="text-6xl font-bold tracking-tight leading-none text-amber-500">{genres.length}</div>
+						<div className="text-6xl font-bold tracking-tight leading-none text-amber-500">{studios.length}</div>
 						<div className="text-lg font-medium text-amber-600">Studios</div>
 					</div>
 				</div>
@@ -58,7 +82,7 @@ export default function Dashboard() {
 				{/* <!-- Suspended --> */}
 				<div className="flex flex-col px-6 py-2 bg-white shadow rounded-lg overflow-hidden">
 					<div className="flex flex-col items-center space-y-2">
-						<div className="text-6xl font-bold tracking-tight leading-none text-red-500">{genres.length}</div>
+						<div className="text-6xl font-bold tracking-tight leading-none text-red-500">{paymentMethods.length}</div>
 						<div className="text-lg font-medium text-red-600">Payment Methods</div>
 					</div>
 				</div>
@@ -66,7 +90,7 @@ export default function Dashboard() {
 				{/* <!-- Closed --> */}
 				<div className="flex flex-col px-6 py-2 bg-white shadow rounded-lg overflow-hidden">
 					<div className="flex flex-col items-center space-y-2">
-						<div className="text-6xl font-bold tracking-tight leading-none text-primary-900">{genres.length}</div>
+						<div className="text-6xl font-bold tracking-tight leading-none text-primary-900">{paymentMovies.length}</div>
 						<div className="text-lg font-medium text-primary-900">Movies</div>
 					</div>
 				</div>
