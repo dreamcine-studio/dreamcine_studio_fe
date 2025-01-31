@@ -26,7 +26,11 @@ export const createBooking = async (data) => {
   
   export const updateBooking = async (id, data) => {
     try {
-      const response = await API.post(`/bookings/${id}`, data)
+      const response = await API.post(`/bookings/${id}`, data, {
+        headers: {
+            "Authorization": `Bearer ${localStorage.getItem('accessToken')}` 
+           }
+        })
       return response.data
     } catch (error) {
         console.log(error)
@@ -36,7 +40,11 @@ export const createBooking = async (data) => {
   
   export const deleteBooking = async (id) => {
     try {
-      const { data: response } = await API.delete(`/bookings/${id}`)
+      const { data: response } = await API.delete(`/bookings/${id}`, {
+        headers: {
+            "Authorization": `Bearer ${localStorage.getItem('accessToken')}` 
+           }
+        })
       return response
     } catch (error) {
         console.log(error)
