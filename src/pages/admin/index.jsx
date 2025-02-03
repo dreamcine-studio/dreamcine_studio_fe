@@ -71,11 +71,11 @@ export default function Dashboard() {
 
 
 
-
+  {/* <i className="fa-solid fa-film fa-lg"></i> */}
 			<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 w-full min-w-0">
 				{/* <!-- Genres --> */}
      
-				<div className="flex flex-col px-6 py-2 bg-white shadow rounded-lg overflow-hidden">
+				<div className="fa-solid fa-masks-theater fa-lg   flex flex-col px-6 py-2 bg-white shadow rounded-lg overflow-hidden">
 					<div className="flex flex-col items-center space-y-2">
 						<div className="text-6xl font-bold tracking-tight leading-none text-blue-500">{genres.length}</div>
 						<div className="text-lg font-medium text-blue-500">Genres</div>
@@ -83,7 +83,7 @@ export default function Dashboard() {
 				</div>
 
 				{/* <!-- Studios --> */}
-				<div className="flex flex-col px-6 py-2 bg-white shadow rounded-lg overflow-hidden">
+				<div className="fa-solid fa-person-booth fa-lg flex flex-col px-6 py-2 bg-white shadow rounded-lg overflow-hidden">
 					<div className="flex flex-col items-center space-y-2">
 						<div className="text-6xl font-bold tracking-tight leading-none text-amber-500">{studios.length}</div>
 						<div className="text-lg font-medium text-amber-600">Studios</div>
@@ -92,7 +92,7 @@ export default function Dashboard() {
 
 
 				{/* <!-- Payment Methods --> */}
-				<div className="flex flex-col px-6 py-2 bg-white shadow rounded-lg overflow-hidden">
+				<div className="fa-solid fa-credit-card fa-lg  flex flex-col px-6 py-2 bg-white shadow rounded-lg overflow-hidden">
 					<div className="flex flex-col items-center space-y-2">
 						<div className="text-6xl font-bold tracking-tight leading-none text-red-500">{paymentMethods.length}</div>
 						<div className="text-lg font-medium text-red-600">Payment Methods</div>
@@ -100,7 +100,7 @@ export default function Dashboard() {
 				</div>
 
 				{/* <!-- Movies --> */}
-				<div className="flex flex-col px-6 py-2 bg-white shadow rounded-lg overflow-hidden">
+				<div className="fa-solid fa-film fa-lg flex flex-col px-6 py-2 bg-white shadow rounded-lg overflow-hidden">
 					<div className="flex flex-col items-center space-y-2">
 						<div className="text-6xl font-bold tracking-tight leading-none text-primary-900">{Movies.length}</div>
 						<div className="text-lg font-medium text-primary-900">Movies</div>
@@ -109,13 +109,14 @@ export default function Dashboard() {
 
 
 					{/* <!-- Movies --> */}
-					<div className="flex flex-col px-6 py-2 bg-white shadow rounded-lg overflow-hidden">
-					<div className="flex flex-col items-center space-y-2">
-						<div className="text-6xl font-bold tracking-tight leading-none text-primary-900">{Schedules.length}</div>
-						<div className="text-lg font-medium text-primary-900">Schedules</div>
+					<div className="fa-solid fa-calendar-days fa-xl flex flex-col px-6 py-2 bg-white shadow rounded-lg overflow-hidden">
+						<div className="flex flex-col items-center space-y-2">
+					<div className="text-7xl font-extrabold tracking-tight leading-none text-primary-900">
+					{Schedules.length}
 					</div>
-				</div>	
-  
+					<div className="text-lg font-medium text-primary-900">Schedules</div>
+				</div>
+				</div>
 			</div>
 		</section>
 	</div>

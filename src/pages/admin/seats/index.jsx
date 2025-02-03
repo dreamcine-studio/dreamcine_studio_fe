@@ -50,7 +50,7 @@ return (
     className="rounded-sm shadow-default dark:bg-boxdark sm:px-7.5 xl:pb-1"
   >
     {/* ini pakai ternary */}
-    <Link to={"/admin/studios/create"} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Tambah data</Link>
+    <Link to={"/admin/seats/create"} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Tambah data</Link>
   
     <div className="max-w-full overflow-x-auto">
       <table className="w-full table-auto">
