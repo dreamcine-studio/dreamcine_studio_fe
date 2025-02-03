@@ -1,41 +1,39 @@
 import React, { useState, useEffect } from "react";
 import "./style.css";
-import { showSchedules } from "../../../services/schedules";
 import { getMovies } from "../../../services/movies";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 export default function BookingPublic() {
-  const [schedules, setSchedules] = useState([]);
-  const [movies, setMovies] = useState([]);
   const [selectedSeats, setSelectedSeats] = useState(0);
-  const [selectedMovie, setSelectedMovie] = useState(null);
-  
-  const navigate = useNavigate();
-  const { id } = useParams();
+  const [movie, setMovie] = useState([]);
+  const location = useLocation();
 
-  const fetchAllData = async () => {
-    try {
-      const [scheduleData, movieData] = await Promise.all([
-        showSchedules(id),
-        getMovies(),
-      ]);
-
-      setSchedules(scheduleData);
-      setMovies(movieData);
-      setSelectedMovie(movieData.find((m) => m.id === id));
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
+  const query = new URLSearchParams(location.search);
+  const movieId = query.get("movie_id");
+  const studioId = query.get("studio_id");
+  const showtime = query.get("showtime");
+  const showdate_start = query.get("showdate_start");
 
   useEffect(() => {
-    fetchAllData();
-  }, [id]);
+    const fetchMovie = async () => {
+      try {
+        const data = await getMovies();
+        const movie = data.find((movie) => movie.id === parseInt(movieId));
+        setMovie(movie);
+      } catch (error) {
+        console.error("Error fetching movie:", error);
+        // Handle error, e.g., display a message to the user
+      }
+    };
+    fetchMovie();
+  }, [movieId]);
 
   const handleSeatClick = (e) => {
     if (!e.target.classList.contains("sold")) {
       e.target.classList.toggle("selected");
-      const selected = document.querySelectorAll(".seat-grid .seat.selected").length;
+      const selected = document.querySelectorAll(
+        ".seat-grid .seat.selected"
+      ).length;
       setSelectedSeats(selected);
     }
   };
@@ -49,7 +47,7 @@ export default function BookingPublic() {
     }).format(number);
   };
 
-  const totalPrice = selectedMovie ? selectedSeats * selectedMovie.price : 0;
+  const totalPrice = movie.price * selectedSeats;
 
   return (
     <div className="flex flex-col items-center justify-center dark:bg-gray-900 text-white w-full p-8">
@@ -64,48 +62,61 @@ export default function BookingPublic() {
               </tr>
             </thead>
             <tbody className="text-sm text-gray-700 dark:text-gray-400">
-              {schedules.map((schedule) => (
-                <tr key={schedule.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 cursor-pointer">
-                  <td className="px-2 py-2">{selectedMovie?.title || "Unknown Movie"}</td>
-                  <td className="px-2 py-2">{schedule.showtime}</td>
-                  <td className="px-2 py-2">{schedule.booking_date}</td>
-                </tr>
-              ))}
+              <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 cursor-pointer">
+                <td className="px-2 py-2">{movie.title}</td>
+                <td className="px-2 py-2">{showtime}</td>
+                <td className="px-2 py-2">{showdate_start}</td>
+              </tr>
             </tbody>
           </table>
         </div>
       </div>
 
       <ul className="flex justify-between p-4 rounded">
-          <li className="flex items-center mx-4 text-gray-900 dark:text-white">
-            <div className="seat"></div>
-            <small className="ml-2">Available</small>
-          </li>
-          <li className="flex items-center mx-4 text-gray-900 dark:text-white">
-            <div className="seat selected"></div>
-            <small className="ml-2">Selected</small>
-          </li>
-          <li className="flex items-center mx-4 text-gray-900 dark:text-white">
-            <div className="seat sold"></div>
-            <small className="ml-2">Sold</small>
-          </li>
-        </ul>
+        <li className="flex items-center mx-4 text-gray-900 dark:text-white">
+          <div className="seat"></div>
+          <small className="ml-2">Available</small>
+        </li>
+        <li className="flex items-center mx-4 text-gray-900 dark:text-white">
+          <div className="seat selected"></div>
+          <small className="ml-2">Selected</small>
+        </li>
+        <li className="flex items-center mx-4 text-gray-900 dark:text-white">
+          <div className="seat sold"></div>
+          <small className="ml-2">Sold</small>
+        </li>
+      </ul>
 
       <div className="my-6">
         <div className="seat-grid flex flex-col items-center">
           {Array.from({ length: 11 }, (_, rowIndex) => {
             const rowLabel = String.fromCharCode(65 + rowIndex);
             return (
-              <div key={rowIndex} className="flex items-center justify-center gap-2 mb-2">
+              <div
+                key={rowIndex}
+                className="flex items-center justify-center gap-2 mb-2"
+              >
                 {[...Array(8)].map((_, index) => (
-                  <div key={index} className="seat text-center" onClick={handleSeatClick}>
-                    {rowLabel}{index + 1}
+                  <div
+                    key={index}
+                    className="seat text-center"
+                    onClick={handleSeatClick}
+                  >
+                    {rowLabel}
+                    {index + 1}
                   </div>
                 ))}
-                <div className="mx-4 text-center text-black dark:text-white">{rowLabel}</div>
+                <div className="mx-4 text-center text-black dark:text-white">
+                  {rowLabel}
+                </div>
                 {[...Array(6)].map((_, index) => (
-                  <div key={index} className="seat text-center" onClick={handleSeatClick}>
-                    {rowLabel}{index + 10}
+                  <div
+                    key={index}
+                    className="seat text-center"
+                    onClick={handleSeatClick}
+                  >
+                    {rowLabel}
+                    {index + 10}
                   </div>
                 ))}
               </div>
@@ -122,7 +133,9 @@ export default function BookingPublic() {
             </p>
           </div>
           <div className="flex flex-col dark:bg-gray-900 text-white items-left">
-            <p className="flex text-lg text-gray-900">Total Seat: {selectedSeats}</p>
+            <p className="flex text-lg text-gray-900">
+              Total Seat: {selectedSeats}
+            </p>
           </div>
         </div>
       </div>
