@@ -22,11 +22,15 @@ export default function Ticket() {
           </div>
           
           {/* <!-- Tombol untuk Info lebih lanjut --> */}
-          <div className="mt-4">
+          {/* <div className="mt-4"> */}
             {/* <button className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-4 focus:ring-blue-300">
               Info Detail
             </button> */}
-          </div>
+          {/* </div> */}
+
+
+
+          
         </div>
       </div>
     )

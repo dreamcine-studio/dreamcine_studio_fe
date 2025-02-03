@@ -48,8 +48,8 @@ export default function Hero() {
       className="max-w-sm w-full sm:max-w-xs md:max-w-sm lg:max-w-md bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700 transform transition-all duration-300 ease-in-out hover:scale-105 hover:translate-y-[-10px] hover:shadow-2xl hover:opacity-90"
     >
       <Link to={`/movies/${movie.id}`}>
-        {/* Kontainer gambar dengan ukuran lebih kecil dan proporsional */}
-        <div className="relative w-full" style={{ paddingTop: '56.25%' }}> {/* 16:9 aspect ratio */}
+        {/* Kontainer gambar dengan ukuran 4:5 aspect ratio */}
+        <div className="relative w-full" style={{ paddingTop: '125%' }}> {/* 4:5 aspect ratio */}
           <img
             className="absolute top-0 left-0 w-full h-full object-cover rounded-t-lg transition-all duration-300 ease-in-out hover:opacity-80"
             src={`http://127.0.0.1:8000/storage/movies/${movie.poster}`}
