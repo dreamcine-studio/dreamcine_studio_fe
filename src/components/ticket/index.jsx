@@ -2,105 +2,36 @@
 export default function Ticket() {
     return (
 
-        <div className="flex flex-col items-center justify-center min-h-screen bg-center bg-cover" style="background-image: url(https://images.unsplash.com/photo-1519666336592-e225a99dcd2f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1888&q=80);">
-            <div className="absolute bg-blue-900 opacity-80 inset-0 z-0"></div>
-            <div className="max-w-md w-full h-full mx-auto z-10 bg-blue-900 rounded-3xl">
-                <div className="flex flex-col">
-                    <div className="bg-white relative drop-shadow-2xl rounded-3xl p-4 m-4">
-                        <div className="flex-none sm:flex">
-                            <div className="relative h-32 w-32 sm:mb-0 mb-3 hidden">
-                                <img src="https://tailwindcomponents.com/storage/avatars/njkIbPhyZCftc4g9XbMWwVsa7aGVPajYLRXhEeoo.jpg" alt="aji" className="w-32 h-32 object-cover rounded-2xl"/>
-                                <a href="#" className="absolute -right-2 bottom-2 -ml-3 text-white p-1 text-xs bg-green-400 hover:bg-green-500 font-medium tracking-wider rounded-full transition ease-in duration-300">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4">
-                                        <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"></path>
-                                    </svg>
-                                </a>
-                            </div>
-                            <div className="flex-auto justify-evenly">
-                                <div className="flex items-center justify-between">
-                                    <div className="flex items-center my-1">
-                                        <span className="mr-3 rounded-full bg-white w-8 h-8">
-                                            <img src="https://image.winudf.com/v2/image1/Y29tLmJldHMuYWlyaW5kaWEudWlfaWNvbl8xNTU0NTM4MzcxXzA0Mw/icon.png?w=&amp;fakeurl=1" className="h-8 p-1"/>
-                                        </span>
-                                        <h2 className="font-medium">Airindia</h2>
-                                    </div>
-                                    <div className="ml-auto text-blue-800">A380</div>
-                                </div>
-                                <div className="border-b border-dashed border-b-2 my-5"></div>
-                                <div className="flex items-center">
-                                    <div className="flex flex-col">
-                                        <div className="flex-auto text-xs text-gray-400 my-1">
-                                            <span className="mr-1">MO</span><span>19 22</span>
-                                        </div>
-                                        <div className="w-full flex-none text-lg text-blue-800 font-bold leading-none">COK</div>
-                                        <div className="text-xs">Cochi</div>
-                                    </div>
-                                    <div className="flex flex-col mx-auto">
-                                        <img src="https://image.winudf.com/v2/image1/Y29tLmJldHMuYWlyaW5kaWEudWlfaWNvbl8xNTU0NTM4MzcxXzA0Mw/icon.png?w=&amp;fakeurl=1" className="w-20 p-1"/>
-                                    </div>
-                                    <div className="flex flex-col">
-                                        <div className="flex-auto text-xs text-gray-400 my-1">
-                                            <span className="mr-1">MO</span><span>19 22</span>
-                                        </div>
-                                        <div className="w-full flex-none text-lg text-blue-800 font-bold leading-none">DXB</div>
-                                        <div className="text-xs">Dubai</div>
-                                    </div>
-                                </div>
-                                <div className="border-b border-dashed border-b-2 my-5 pt-5">
-                                    <div className="absolute rounded-full w-5 h-5 bg-blue-900 -mt-2 -left-2"></div>
-                                    <div className="absolute rounded-full w-5 h-5 bg-blue-900 -mt-2 -right-2"></div>
-                                </div>
-                                <div className="flex items-center mb-5 p-5 text-sm">
-                                    <div className="flex flex-col">
-                                        <span className="text-sm">Flight</span>
-                                        <div className="font-semibold">Airbus380</div>
-                                    </div>
-                                    <div className="flex flex-col ml-auto">
-                                        <span className="text-sm">Gate</span>
-                                        <div className="font-semibold">B3</div>
-                                    </div>
-                                </div>
-                                <div className="flex items-center mb-4 px-5">
-                                    <div className="flex flex-col text-sm">
-                                        <span className="">Board</span>
-                                        <div className="font-semibold">11:50AM</div>
-                                    </div>
-                                    <div className="flex flex-col mx-auto text-sm">
-                                        <span className="">Departs</span>
-                                        <div className="font-semibold">11:30AM</div>
-                                    </div>
-                                    <div className="flex flex-col text-sm">
-                                        <span className="">Arrived</span>
-                                        <div className="font-semibold">2:00PM</div>
-                                    </div>
-                                </div>
-                                <div className="border-b border-dashed border-b-2 my-5 pt-5">
-                                    <div className="absolute rounded-full w-5 h-5 bg-blue-900 -mt-2 -left-2"></div>
-                                    <div className="absolute rounded-full w-5 h-5 bg-blue-900 -mt-2 -right-2"></div>
-                                </div>
-                                <div className="flex items-center px-5 pt-3 text-sm">
-                                    <div className="flex flex-col">
-                                        <span className="">Passanger</span>
-                                        <div className="font-semibold">Ajimon</div>
-                                    </div>
-                                    <div className="flex flex-col mx-auto">
-                                        <span className="">ClassNaclassName</span>
-                                        <div className="font-semibold">Economic</div>
-                                    </div>
-                                    <div className="flex flex-col">
-                                        <span className="">Seat</span>
-                                        <div className="font-semibold">12 E</div>
-                                    </div>
-                                </div>
-                                <div className="flex flex-col py-5 justify-center text-sm">
-                                    <h6 className="font-bold text-center">Boarding Pass</h6>
-                                    <div className="h-14 w-0 inline-block mt-4 relative left-auto" style="box-shadow: 1px 0 0 1px, 5px 0 0 1px, 10px 0 0 1px, 15px 0 0 1px, 20px 0 0 1px, 25px 0 0 1px, 30px 0 0 1px;"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div className="max-w-xs mx-auto bg-white border border-gray-200 rounded-lg shadow-md p-6">
+        {/* <!-- Bagian Nama Film --> */}
+        <div className="text-center">
+          <h2 className="text-2xl font-semibold text-gray-900">The Pursuit Happines</h2>
+          
+          {/* <!-- Bagian Jadwal --> */}
+          <p className="mt-2 text-sm text-gray-600">Jadwal: 3 Februari 2025, 19:00</p>
+          
+          {/* <!-- Status Booking --> */}
+          <p className="mt-4 text-lg font-medium text-green-600">Sudah di Booking</p>
+          
+          {/* <!-- Barcode Sederhana --> */}
+          <div className="mt-6">
+            <div className="w-full h-8 bg-black mb-2"></div> 
+            {/* <!-- Representasi barcode sederhana dengan garis hitam --> */}
+            <p className="text-xs text-gray-500">Barcode: 1234567890</p> 
+            {/* <!-- Menampilkan angka sebagai barcode --> */}
+          </div>
+          
+          {/* <!-- Tombol untuk Info lebih lanjut --> */}
+          {/* <div className="mt-4"> */}
+            {/* <button className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-4 focus:ring-blue-300">
+              Info Detail
+            </button> */}
+          {/* </div> */}
+
+
+
+          
         </div>
+      </div>
     )
   }
