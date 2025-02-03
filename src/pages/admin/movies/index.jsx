@@ -20,7 +20,7 @@ export default function Movies() {
         };
       
         fetchMovies();  
-        fetchGenres();  
+        fetchGenres();    
       }, [])
 
       console.log("tesm", movies)

@@ -24,27 +24,33 @@ export default function Login() {
         
         console.log(res)
     
-        // cek role & redirect
-        if (res.user.role === "admin"){
-          localStorage.setItem('accessToken', res.token)
-          localStorage.setItem('userInfo', JSON.stringify(res.user))
-          return navigate('/admin')
-        } else {
-          localStorage.setItem('accessToken', res.token)
-          localStorage.setItem('userInfo', JSON.stringify(res.user))
-          return navigate('/')
+        try {
+          // Kirim data login ke backend untuk verifikasi
+          const res = await login(inputData);
+    
+          // Simpan token dan user info setelah login berhasil
+          localStorage.setItem("accessToken", res.token);
+          localStorage.setItem("userInfo", JSON.stringify(res.user));
+    
+          // Redirect berdasarkan role user
+          if (res.user.role === "admin") {
+            return navigate("/admin");
+          } else {
+            return navigate("/");
+          }
+        } catch (err) {
+          console.error("Login gagal:", err);
+          // Tampilkan pesan error jika login gagal
         }
-      } 
+      };
     
-      const accessToken = localStorage.getItem('accessToken')
-    
-      // useEffect 
-    
+      const accessToken = localStorage.getItem("accessToken");
+
       useEffect(() => {
         if (accessToken) {
-          return navigate('/')
+          return navigate("/"); // Redirect jika sudah login dan ada token
         }
-      }, [accessToken, navigate])
+      }, [accessToken, navigate]);
 
     return (
       <section className="bg-gray-50 dark:bg-gray-900">
@@ -80,7 +86,7 @@ export default function Login() {
                       </div>
                       <button type="submit" className="text-white bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Sign in</button>
                       <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                          Don’t have an account yet? <a href="#" className="font-medium text-primary-600 hover:underline dark:text-primary-500">Sign up</a>
+                          Don’t have an account yet? <a href="/register" className="font-medium text-primary-600 hover:underline dark:text-primary-500">Sign up</a>
                       </p>
                   </form>
               </div>
