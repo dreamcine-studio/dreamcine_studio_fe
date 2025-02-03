@@ -24,27 +24,33 @@ export default function Login() {
         
         console.log(res)
     
-        // cek role & redirect
-        if (res.user.role === "admin"){
-          localStorage.setItem('accessToken', res.token)
-          localStorage.setItem('userInfo', JSON.stringify(res.user))
-          return navigate('/admin')
-        } else {
-          localStorage.setItem('accessToken', res.token)
-          localStorage.setItem('userInfo', JSON.stringify(res.user))
-          return navigate('/')
+        try {
+          // Kirim data login ke backend untuk verifikasi
+          const res = await login(inputData);
+    
+          // Simpan token dan user info setelah login berhasil
+          localStorage.setItem("accessToken", res.token);
+          localStorage.setItem("userInfo", JSON.stringify(res.user));
+    
+          // Redirect berdasarkan role user
+          if (res.user.role === "admin") {
+            return navigate("/admin");
+          } else {
+            return navigate("/");
+          }
+        } catch (err) {
+          console.error("Login gagal:", err);
+          // Tampilkan pesan error jika login gagal
         }
-      } 
+      };
     
-      const accessToken = localStorage.getItem('accessToken')
-    
-      // useEffect 
-    
+      const accessToken = localStorage.getItem("accessToken");
+
       useEffect(() => {
         if (accessToken) {
-          return navigate('/')
+          return navigate("/"); // Redirect jika sudah login dan ada token
         }
-      }, [accessToken, navigate])
+      }, [accessToken, navigate]);
 
     return (
       <section className="bg-gray-50 dark:bg-gray-900">

@@ -1,48 +1,106 @@
 
 export default function Ticket() {
     return (
-      <div className="relative flex items-top justify-center min-h-screen bg-white dark:bg-gray-900 sm:items-center sm:pt-0">
-          <div className="bg-gray-300 max-w-6xl mx-auto sm:px-6 lg:px-8">
-              <div className="mt-8 overflow-hidden">
-                  <div className="grid grid-cols-1 md:grid-cols-2">
-                      <div className="p-6 mr-2 bg-gray-100 dark:bg-gray-800 sm:rounded-lg">
-                          <h1 className="text-4xl sm:text-5xl text-gray-800 dark:text-white font-extrabold tracking-tight">Get in touch</h1>
-                          <p className="text-normal text-lg sm:text-2xl font-medium text-gray-600 dark:text-gray-400 mt-2">Fill in the form to start a conversation</p>
-                          <div className="flex items-center mt-4 text-gray-600 dark:text-gray-400">
-                              <svg fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" viewBox="0 0 24 24" className="w-8 h-8 text-gray-500">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
-                              </svg>
-                              <div className="ml-4 text-md tracking-wide font-semibold w-40">
-                                  +44 1234567890
-                              </div>
-                          </div>
-                          <div className="flex items-center mt-2 text-gray-600 dark:text-gray-400">
-                              <svg fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" viewBox="0 0 24 24" className="w-8 h-8 text-gray-500">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-                              </svg>
-                              <div className="ml-4 text-md tracking-wide font-semibold w-40">
-                                  <a href="https://veilmail.io/irish-geoff">https://veilmail.io/irish-geoff</a>
-                              </div>
-                          </div>
-                      </div>
-                      <form action="https://fabform.io/f/xxxxx" method="post" className="p-6 flex flex-col justify-center">
-                          <div className="flex flex-col">
-                              <label  className="hidden">Full Name</label>
-                              <input type="name" name="name" id="name" placeholder="Full Name" className="w-100 mt-2 py-3 px-3 rounded-lg bg-white dark:bg-gray-800 border border-gray-400 dark:border-gray-700 text-gray-800 font-semibold focus:border-indigo-500 focus:outline-none"/>
-                          </div>
-                          <div className="flex flex-col mt-2">
-                              <label  className="hidden">Email</label>
-                              <input type="email" name="email" id="email" placeholder="Email" className="w-100 mt-2 py-3 px-3 rounded-lg bg-white dark:bg-gray-800 border border-gray-400 dark:border-gray-700 text-gray-800 font-semibold focus:border-indigo-500 focus:outline-none"/>
-                          </div>
-                          <div className="flex flex-col mt-2">
-                              <label  className="hidden">Message</label>
-                              <textarea name="message" id="message" placeholder="Your Message" className="w-100 mt-2 py-3 px-3 rounded-lg bg-white dark:bg-gray-800 border border-gray-400 dark:border-gray-700 text-gray-800 font-semibold focus:border-indigo-500 focus:outline-none"></textarea>
-                          </div>
-                          <button type="submit" className="md:w-32 bg-black hover:bg-gray-900 text-white font-bold py-3 px-6 rounded-lg mt-3 hover:bg-indigo-500 transition ease-in-out duration-300">Submit</button>
-                      </form>
-                  </div>
-              </div>
-          </div>
-      </div>
+
+        <div className="flex flex-col items-center justify-center min-h-screen bg-center bg-cover" style="background-image: url(https://images.unsplash.com/photo-1519666336592-e225a99dcd2f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1888&q=80);">
+            <div className="absolute bg-blue-900 opacity-80 inset-0 z-0"></div>
+            <div className="max-w-md w-full h-full mx-auto z-10 bg-blue-900 rounded-3xl">
+                <div className="flex flex-col">
+                    <div className="bg-white relative drop-shadow-2xl rounded-3xl p-4 m-4">
+                        <div className="flex-none sm:flex">
+                            <div className="relative h-32 w-32 sm:mb-0 mb-3 hidden">
+                                <img src="https://tailwindcomponents.com/storage/avatars/njkIbPhyZCftc4g9XbMWwVsa7aGVPajYLRXhEeoo.jpg" alt="aji" className="w-32 h-32 object-cover rounded-2xl"/>
+                                <a href="#" className="absolute -right-2 bottom-2 -ml-3 text-white p-1 text-xs bg-green-400 hover:bg-green-500 font-medium tracking-wider rounded-full transition ease-in duration-300">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4">
+                                        <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"></path>
+                                    </svg>
+                                </a>
+                            </div>
+                            <div className="flex-auto justify-evenly">
+                                <div className="flex items-center justify-between">
+                                    <div className="flex items-center my-1">
+                                        <span className="mr-3 rounded-full bg-white w-8 h-8">
+                                            <img src="https://image.winudf.com/v2/image1/Y29tLmJldHMuYWlyaW5kaWEudWlfaWNvbl8xNTU0NTM4MzcxXzA0Mw/icon.png?w=&amp;fakeurl=1" className="h-8 p-1"/>
+                                        </span>
+                                        <h2 className="font-medium">Airindia</h2>
+                                    </div>
+                                    <div className="ml-auto text-blue-800">A380</div>
+                                </div>
+                                <div className="border-b border-dashed border-b-2 my-5"></div>
+                                <div className="flex items-center">
+                                    <div className="flex flex-col">
+                                        <div className="flex-auto text-xs text-gray-400 my-1">
+                                            <span className="mr-1">MO</span><span>19 22</span>
+                                        </div>
+                                        <div className="w-full flex-none text-lg text-blue-800 font-bold leading-none">COK</div>
+                                        <div className="text-xs">Cochi</div>
+                                    </div>
+                                    <div className="flex flex-col mx-auto">
+                                        <img src="https://image.winudf.com/v2/image1/Y29tLmJldHMuYWlyaW5kaWEudWlfaWNvbl8xNTU0NTM4MzcxXzA0Mw/icon.png?w=&amp;fakeurl=1" className="w-20 p-1"/>
+                                    </div>
+                                    <div className="flex flex-col">
+                                        <div className="flex-auto text-xs text-gray-400 my-1">
+                                            <span className="mr-1">MO</span><span>19 22</span>
+                                        </div>
+                                        <div className="w-full flex-none text-lg text-blue-800 font-bold leading-none">DXB</div>
+                                        <div className="text-xs">Dubai</div>
+                                    </div>
+                                </div>
+                                <div className="border-b border-dashed border-b-2 my-5 pt-5">
+                                    <div className="absolute rounded-full w-5 h-5 bg-blue-900 -mt-2 -left-2"></div>
+                                    <div className="absolute rounded-full w-5 h-5 bg-blue-900 -mt-2 -right-2"></div>
+                                </div>
+                                <div className="flex items-center mb-5 p-5 text-sm">
+                                    <div className="flex flex-col">
+                                        <span className="text-sm">Flight</span>
+                                        <div className="font-semibold">Airbus380</div>
+                                    </div>
+                                    <div className="flex flex-col ml-auto">
+                                        <span className="text-sm">Gate</span>
+                                        <div className="font-semibold">B3</div>
+                                    </div>
+                                </div>
+                                <div className="flex items-center mb-4 px-5">
+                                    <div className="flex flex-col text-sm">
+                                        <span className="">Board</span>
+                                        <div className="font-semibold">11:50AM</div>
+                                    </div>
+                                    <div className="flex flex-col mx-auto text-sm">
+                                        <span className="">Departs</span>
+                                        <div className="font-semibold">11:30AM</div>
+                                    </div>
+                                    <div className="flex flex-col text-sm">
+                                        <span className="">Arrived</span>
+                                        <div className="font-semibold">2:00PM</div>
+                                    </div>
+                                </div>
+                                <div className="border-b border-dashed border-b-2 my-5 pt-5">
+                                    <div className="absolute rounded-full w-5 h-5 bg-blue-900 -mt-2 -left-2"></div>
+                                    <div className="absolute rounded-full w-5 h-5 bg-blue-900 -mt-2 -right-2"></div>
+                                </div>
+                                <div className="flex items-center px-5 pt-3 text-sm">
+                                    <div className="flex flex-col">
+                                        <span className="">Passanger</span>
+                                        <div className="font-semibold">Ajimon</div>
+                                    </div>
+                                    <div className="flex flex-col mx-auto">
+                                        <span className="">ClassNaclassName</span>
+                                        <div className="font-semibold">Economic</div>
+                                    </div>
+                                    <div className="flex flex-col">
+                                        <span className="">Seat</span>
+                                        <div className="font-semibold">12 E</div>
+                                    </div>
+                                </div>
+                                <div className="flex flex-col py-5 justify-center text-sm">
+                                    <h6 className="font-bold text-center">Boarding Pass</h6>
+                                    <div className="h-14 w-0 inline-block mt-4 relative left-auto" style="box-shadow: 1px 0 0 1px, 5px 0 0 1px, 10px 0 0 1px, 15px 0 0 1px, 20px 0 0 1px, 25px 0 0 1px, 30px 0 0 1px;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     )
   }
