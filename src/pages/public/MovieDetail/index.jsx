@@ -129,27 +129,25 @@ export default function MovieDetail() {
               <p className="mb-4 dark:text-gray-200">{movie.release_date}</p>
             </div>
 
-            <div className="flex space-x-4 mb-6">
-              <button
-                onClick={handleShowSchedule}
-                className="bg-indigo-600 flex gap-2 items-center text-white px-6 py-2 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-              >
-                <i className="fa-solid fa-ticket"></i>
-                Show Schedule
-              </button>
-              <a
-                className="px-6 py-2 mx-auto border border-black hover:bg-yellow-300 rounded cursor-pointer dark:text-gray-200 text-center dark:border-gray-200 dark:hover:bg-yellow-700"
-                href="https://www.youtube.com/watch?v=6COmYeLsz4c"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Watch Movie Trailer
-              </a>
-              <button className="flex items-center text-gray-800 px-3 py-2 rounded-md">
-                <i className="fa-solid fa-heart text-pink-500 hover:text-pink-400 dark:text-pink-400 dark:hover:text-pink-500 fa-xl"></i>
-              </button>
+              <div className="flex space-x-4 mb-6">
+                <button onClick={handleShowSchedule} className="bg-indigo-600 flex gap-2 items-center text-white px-6 py-2 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                  <i className="fa-solid fa-ticket"></i>
+                  Show Schedule
+                </button>
+                <a
+                  
+                  className="px-6 py-2 mx-auto border border-black hover:bg-yellow-300 rounded cursor-pointer dark:text-gray-200 text-center dark:border-gray-200 dark:hover:bg-yellow-700"
+                  href="https://www.youtube.com/watch?v=6COmYeLsz4c"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Watch Movie Trailer
+                </a>
+                <button className="flex items-center text-gray-800 px-3 py-2 rounded-md">
+                  <i className="fa-solid fa-heart text-pink-500 hover:text-pink-400 dark:text-pink-400 dark:hover:text-pink-500 fa-xl"></i>
+                </button>
+              </div>
             </div>
-          </div>
 
           {showSchedule && (
             <div className="w-full p-4">

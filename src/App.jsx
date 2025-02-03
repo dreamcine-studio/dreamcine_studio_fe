@@ -34,6 +34,8 @@ import Bookings from './pages/admin/bookings/index.jsx'
 import BookingCreate from './pages/admin/bookings/create.jsx'
 import BookingEdit from './pages/admin/bookings/edit.jsx'
 
+// import MovieSchedule from './pages/public/Schedule/index.jsx'
+
 function App() {
 
   return (
@@ -46,7 +48,7 @@ function App() {
             <Route path="Movies" element={<Hero />} />
             <Route path="teams" element={<Team />} />
             <Route path="contacts" element={<Contact />} />
-            <Route path="schedule" element={<MovieSchedule />} />
+            <Route path="schedules" element={<MovieSchedule />} />
 
             <Route path="movies/:id" element={<MovieDetail />} />
             <Route path="moviebooking" element={<BookingPublic />} />

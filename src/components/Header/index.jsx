@@ -10,8 +10,8 @@ export default function Header() {
   };
 
   return (
-    <header className="bg-teal-300 text-white p-4">
-      <nav className="bg-gray-300 w-full bg-white border-gray-200 px-5 py-2.5 dark:bg-gray-800">
+    <header>
+      <nav className="w-full bg-white border-gray-200 px-5 py-2.5 dark:bg-gray-800">
         <div className="container mx-auto flex flex-wrap justify-between items-center">
           <Link to="/" className="flex items-center">
             <img
@@ -19,7 +19,7 @@ export default function Header() {
               className="rounded-full mr-3 h-6 sm:h-9"
               alt="Dream Cine Studios"
             />
-            <span title="DreamCine - Studios" className="bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500 text-xl font-semibold whitespace-nowrap dark:text-white">
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500 text-xl font-semibold whitespace-nowrap dark:text-white">
               DreamCine - Studios
             </span>
             
@@ -43,13 +43,14 @@ export default function Header() {
           )}
           {userInfo && (
              <>
-                <button
-                  onClick={handleLogout}
-                  to="/"
-                  className="text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2   flex items-center bg-rose-50 border-2 border-rose-200 p-2 text-gray-900 rounded-lg dark:text-white hover:bg-rose-200 dark:hover:bg-gray-700 group"
-                >
-                  Logout
-                </button>
+<button
+  onClick={handleLogout}
+  to="/"
+  className="relative inline-flex items-center justify-center p-4 text-sm font-medium text-white bg-gradient-to-r from-pink-500 to-purple-600 rounded-lg overflow-hidden focus:outline-none focus:ring-4 focus:ring-purple-200 dark:focus:ring-purple-800 transform transition-all duration-300 ease-in-out hover:bg-gradient-to-l hover:from-purple-500 hover:to-pink-600 hover:opacity-80"
+>
+  <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-pink-500 to-purple-600 opacity-20 group-hover:opacity-40 transition-all duration-300 ease-in-out"></span>
+  <span className="relative z-10">Logout</span>
+</button>
                 <div className="flex items-center">
                   <div className="flex items-center ms-3">
                     <div className="px-4">
@@ -126,7 +127,7 @@ export default function Header() {
               <li>
                 <Link
                   to="/"
-                  className="block py-2 pr-4 pl-3 text-gray-700 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-indigo-700 lg:p-0 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700 lg:dark:hover:bg-transparent"
+                  className="text-gray-900 hover:underline hover:underline-red-500 hover:scale-105 transition-all duration-300 block py-2 pr-4 pl-3 text-gray-700 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-indigo-700 lg:p-0 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700 lg:dark:hover:bg-transparent"
                 >
                   Home
                 </Link>
@@ -134,7 +135,7 @@ export default function Header() {
               <li>
                 <Link
                   to="/movies"
-                  className="block py-2 pr-4 pl-3 text-gray-700 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-indigo-700 lg:p-0 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700 lg:dark:hover:bg-transparent"
+                  className="text-gray-900 hover:underline hover:underline-blue-500 hover:scale-105 transition-all duration-300 block py-2 pr-4 pl-3 text-gray-700 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-indigo-700 lg:p-0 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700 lg:dark:hover:bg-transparent"
                 >
                   Movies
                 </Link>
@@ -142,8 +143,8 @@ export default function Header() {
               <li>
                 <Link
 
-                  to="/booking"
-                  className="block py-2 pr-4 pl-3 text-gray-700 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-indigo-700 lg:p-0 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700 lg:dark:hover:bg-transparent"
+                  to="/schedules"
+                  className="text-gray-900 hover:underline hover:underline-blue-500 hover:scale-105 transition-all duration-300 block py-2 pr-4 pl-3 text-gray-700 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-indigo-700 lg:p-0 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700 lg:dark:hover:bg-transparent"
                 >
                   schedule
                 </Link>
@@ -153,7 +154,7 @@ export default function Header() {
 
 
                   to="/teams"
-                  className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-indigo-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
+                  className="text-gray-900 hover:underline hover:underline-blue-500 hover:scale-105 transition-all duration-300 block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-indigo-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
                 >
                   Team
                 </Link>
@@ -161,7 +162,7 @@ export default function Header() {
               <li>
                 <Link
                   to="/contacts"
-                  className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-indigo-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
+                  className="text-gray-900 hover:underline hover:underline-blue-500 hover:scale-105 transition-all duration-300 block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-indigo-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
                 >
                   Contact
                 </Link>
