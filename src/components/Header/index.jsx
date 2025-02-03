@@ -146,6 +146,15 @@ export default function Header() {
                   schedule
                 </Link>
               </li>
+
+              <li>
+                <Link
+                  to="/tickets"
+                  className="text-gray-900 hover:underline hover:underline-blue-500 hover:scale-105 transition-all duration-300 block py-2 pr-4 pl-3 text-gray-700 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-indigo-700 lg:p-0 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700 lg:dark:hover:bg-transparent"
+                >
+                  Tickets
+                </Link>
+              </li>
               <li>
                 <Link
 
