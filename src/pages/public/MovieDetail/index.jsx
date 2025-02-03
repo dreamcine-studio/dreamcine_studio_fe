@@ -92,7 +92,8 @@ export default function MovieDetail() {
           <div className="flex flex-col w-full md:w-1/2 px-4 mb-8 items-center">
             {movie.poster ? (
               <img
-                src={movie.poster}
+                // src={movie.poster}
+                src={`http://127.0.0.1:8000/storage/movies/${movie.poster}`}
                 className="h-96 w-auto rounded-lg shadow-md mx-auto mb-4"
                 alt={movie.title}
               />
