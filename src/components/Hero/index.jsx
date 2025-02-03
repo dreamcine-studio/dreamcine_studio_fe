@@ -50,7 +50,7 @@ export default function Hero() {
     >
       <Link to={`/movies/${movie.id}`}>
         {/* Kontainer gambar dengan ratio lebih tinggi */}
-        <div className="relative w-full" style={{ paddingTop: '75%' }}> {/* 4:3 aspect ratio, lebih tinggi dari 16:9 */}
+        <div className="relative w-full" style={{ paddingTop: '70%' }}> {/* 4:3 aspect ratio, lebih tinggi dari 16:9 */}
           <img
             className="absolute top-0 left-0 w-full h-full object-cover rounded-t-lg transition-all duration-300 ease-in-out hover:opacity-80"
             src={`http://127.0.0.1:8000/storage/movies/${movie.poster}`}
