@@ -29,11 +29,11 @@ import Payments from './pages/admin/payments'
 import PaymentEdit from './pages/admin/payments/edit'
 import MovieDetail from './pages/public/MovieDetail/index.jsx'
 import BookingPublic from './pages/public/booking/booking.jsx'
-import MovieSchedule from './pages/public/Schedule/index.jsx'
 import Bookings from './pages/admin/bookings/index.jsx'
 import BookingCreate from './pages/admin/bookings/create.jsx'
 import BookingEdit from './pages/admin/bookings/edit.jsx'
-// import Ticket from './components/ticket/index.jsx'
+import MovieSchedule from './pages/public/Schedule/index.jsx'
+import Ticket from './components/ticket/index.jsx'
 
 // import MovieSchedule from './pages/public/Schedule/index.jsx'
 
@@ -50,10 +50,12 @@ function App() {
             <Route path="teams" element={<Team />} />
             <Route path="contacts" element={<Contact />} />
             <Route path="schedules" element={<MovieSchedule />} />
+            <Route path="tickets" element={<Ticket />} />
 
             <Route path="movies/:id" element={<MovieDetail />} />
             <Route path="moviebooking" element={<BookingPublic />} />
-            <Route path="schedule" element={<MovieSchedule />} />
+            {/* <Route path="schedule" element={<MovieSchedule />} /> */}
+            {/* <Route path="booking" element={<MovieSchedule />} /> */}
           </Route>
 
           {/* Auth Routes */}
