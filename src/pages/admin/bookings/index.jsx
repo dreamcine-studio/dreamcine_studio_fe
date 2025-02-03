@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { deleteBooking, getBooking } from "../../../services/booking";
 import { getSchedules } from "../../../services/schedules";
 
-export default function Bookings() {
+export default function AdminBookings() {
 
     const [Bookings, setBooking] = useState([]);
     const [schedules, setSchedules] = useState([]);
