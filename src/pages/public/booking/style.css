@@ -21,20 +21,6 @@
   transform: scale(1.2);
 }
 
-.showcase {
-  background: rgba(0, 0, 0, 0.1);
-  padding: 5px 10px;
-  border-radius: 5px;
-  color: #777;
-  list-style-type: none;
-}
-
-
-.row {
-  display: flex;
-  flex-wrap: wrap;
-}
-
 .divcon {
   width: 687px;
   height: auto;
