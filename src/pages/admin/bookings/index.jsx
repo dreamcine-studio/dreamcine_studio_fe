@@ -1,23 +1,40 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { deleteBooking, getBooking } from "../../../services/booking";
+import { getSchedules } from "../../../services/schedules";
 
 export default function Bookings() {
 
     const [Bookings, setBooking] = useState([]);
-    
+    const [schedules, setSchedules] = useState([]);
+
+
         useEffect(() => {  
           const fetchbooking = async () => {  
             const data = await getBooking();  
             setBooking(data);  
           };  
-        
+
+          const fetchSchedules = async () => {
+            const data = await getSchedules();
+             setSchedules(data);
+          }
+
           fetchbooking();  
+          fetchSchedules();  
         }, []);
       
         console.log("ada",Bookings)
     
-    
+
+      const getScheduledateStart= (id) => {
+        const schedule = schedules.find((g) => g.id === id);
+        return schedule ? schedule.showdate_start : "Unknown Schedule";
+      }
+      const getScheduledateEnd= (id) => {
+        const schedule = schedules.find((g) => g.id === id);
+        return schedule ? schedule.showdate_end: "Unknown Schedule";
+      }
     
         const handleDelete = async (id) => {
           // deleteBook dari services jangan lupa di inport
@@ -44,12 +61,12 @@ export default function Bookings() {
               <th
                 className="min-w-[150px] px-4 py-4 font-medium text-black dark:text-white xl:pl-11"
               >
-                user_id
+                user {/*user_id*/}
               </th>
               <th
-                className="min-w-[220px] px-4 py-4 font-medium text-black dark:text-white"
+                className="min-w-[220px] px-9 py-4 font-medium text-black dark:text-white"
               >
-                schedule_id
+                schedule {/*schedule_id*/}
               </th>
               <th
                 className="min-w-[220px] px-4 py-4 font-medium text-black dark:text-white"
@@ -83,7 +100,7 @@ export default function Bookings() {
               </td>
               
               <td className="px-4 py-5">
-                <p className="text-black dark:text-white"> {booking.schedule_id}</p>
+                <p className="text-black dark:text-white">{getScheduledateStart(booking.schedule_id)} - {getScheduledateEnd(booking.schedule_id)}</p>
               </td>
 
               <td className="px-4 py-5">
