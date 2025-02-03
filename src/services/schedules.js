@@ -1,7 +1,10 @@
 import API from "../api"
 
 export const getSchedules = async () => {
-  const { data } = await API.get('/schedules')
+  const { data } = await API.get('/schedules' , {
+    headers: {
+        "Authorization": `Bearer ${localStorage.getItem('accessToken')}` 
+}})
   return data.data
 }
 
@@ -33,7 +36,7 @@ export const updateSchedules = async (id, data) => {
 
 export const deleteSchedules = async (id) => {
   try {
-    const { response } = await API.delete(`/schedules/${id}`, {
+    const { data: response } = await API.delete(`/schedules/${id}` ,  {
       headers: {
           "Authorization": `Bearer ${localStorage.getItem('accessToken')}` 
   }})
