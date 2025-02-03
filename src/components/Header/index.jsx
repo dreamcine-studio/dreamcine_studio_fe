@@ -22,35 +22,34 @@ export default function Header() {
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500 text-xl font-semibold whitespace-nowrap dark:text-white">
               DreamCine - Studios
             </span>
-            
           </Link>
           <div className="flex items-center lg:order-2">
-          {!userInfo && (
+            {!userInfo && (
               <>
-            <Link
-              to="/login"
-              className="text-gray-800 dark:text-white hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800"
-            >
-              Log in
-            </Link>
-            <Link
-              to="/register"
-              className="ml-4 text-white bg-indigo-700 hover:bg-indigo-800 focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 dark:bg-indigo-600 dark:hover:bg-indigo-700 focus:outline-none dark:focus:ring-indigo-800"
-            >
-              Register
-            </Link>
-            </>
-          )}
-          {userInfo && (
-             <>
-<button
-  onClick={handleLogout}
-  to="/"
-  className="relative inline-flex items-center justify-center p-4 text-sm font-medium text-white bg-gradient-to-r from-pink-500 to-purple-600 rounded-lg overflow-hidden focus:outline-none focus:ring-4 focus:ring-purple-200 dark:focus:ring-purple-800 transform transition-all duration-300 ease-in-out hover:bg-gradient-to-l hover:from-purple-500 hover:to-pink-600 hover:opacity-80"
->
-  <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-pink-500 to-purple-600 opacity-20 group-hover:opacity-40 transition-all duration-300 ease-in-out"></span>
-  <span className="relative z-10">Logout</span>
-</button>
+                <Link
+                  to="/login"
+                  className="text-gray-800 dark:text-white hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800"
+                >
+                  Log in
+                </Link>
+                <Link
+                  to="/register"
+                  className="ml-4 text-white bg-indigo-700 hover:bg-indigo-800 focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 dark:bg-indigo-600 dark:hover:bg-indigo-700 focus:outline-none dark:focus:ring-indigo-800"
+                >
+                  Register
+                </Link>
+              </>
+            )}
+            {userInfo && (
+              <>
+                <button
+                  onClick={handleLogout}
+                  to="/"
+                  className="relative inline-flex items-center justify-center p-4 text-sm font-medium text-white bg-gradient-to-r from-pink-500 to-purple-600 rounded-lg overflow-hidden focus:outline-none focus:ring-4 focus:ring-purple-200 dark:focus:ring-purple-800 transform transition-all duration-300 ease-in-out hover:bg-gradient-to-l hover:from-purple-500 hover:to-pink-600 hover:opacity-80"
+                >
+                  <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-pink-500 to-purple-600 opacity-20 group-hover:opacity-40 transition-all duration-300 ease-in-out"></span>
+                  <span className="relative z-10">Logout</span>
+                </button>
                 <div className="flex items-center">
                   <div className="flex items-center ms-3">
                     <div className="px-4">
@@ -95,7 +94,6 @@ export default function Header() {
                     Logout
                 </button>
                 )} */}
-
 
             <button
               data-collapse-toggle="mobile-menu-2"
@@ -142,7 +140,6 @@ export default function Header() {
               </li>
               <li>
                 <Link
-
                   to="/schedules"
                   className="text-gray-900 hover:underline hover:underline-blue-500 hover:scale-105 transition-all duration-300 block py-2 pr-4 pl-3 text-gray-700 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-indigo-700 lg:p-0 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700 lg:dark:hover:bg-transparent"
                 >
@@ -151,8 +148,6 @@ export default function Header() {
               </li>
               <li>
                 <Link
-
-
                   to="/teams"
                   className="text-gray-900 hover:underline hover:underline-blue-500 hover:scale-105 transition-all duration-300 block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-indigo-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
                 >

@@ -1,155 +1,70 @@
-import { useEffect, useState } from "react";
-import { getMovies } from "../../../services/movies";
-import { getSchedules } from "../../../services/schedules";
-import { getStudios } from "../../../services/studios";
-import { useParams } from "react-router-dom";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-export default function MovieSchedule() {
-  const [schedules, setSchedules] = useState([]);
-  const [movies, setMovies] = useState([]);
-  const [studios, setStudios] = useState([]);
-  const { id } = useParams();
-
-  function formatDateString(dateString) {
-    const date = new Date(dateString);
-    const options = { day: "2-digit", month: "long", year: "numeric" };
-    return date.toLocaleDateString("id-ID", options);
-  }
-
-  useEffect(() => {
-    const fetchMovies = async () => {
-      try {
-        const data = await getMovies();
-        setMovies(data);
-      } catch (error) {
-        console.error("Failed to fetch movies:", error);
-      }
-    };
-
-    const fetchSchedules = async () => {
-      try {
-        const data = await getSchedules();
-        const filteredSchedules = data.filter(
-          (schedule) => schedule.movie_id === Number(id)
-        );
-        setSchedules(filteredSchedules);
-      } catch (error) {
-        console.error("Failed to fetch schedules:", error);
-      }
-    };
-
-    const fetchStudios = async () => {
-      try {
-        const data = await getStudios();
-        setStudios(data);
-      } catch (error) {
-        console.error("Failed to fetch studios:", error);
-      }
-    };
-
-    fetchMovies();
-    fetchSchedules();
-    fetchStudios();
-  }, [id]);
-
-  const getMovieData = (movieId) => {
-    const movie = movies.find((m) => m.id === movieId);
-    return movie
-      ? {
-          title: movie.title,
-          poster: movie.poster,
-          duration: movie.duration,
-          price: movie.price,
-        }
-      : {
-          title: "Unknown Movie",
-          poster: "",
-          duration: "",
-          price: "",
-        };
-  };
-
-  const getStudioData = (studioId) => {
-    const studio = studios.find((s) => s.id === studioId);
-    return studio
-      ? {
-          name: studio.name,
-        }
-      : {
-          name: "Unknown Studio",
-        };
-  };
+export default function PaymentForm() {
+  const [selectedMethod, setSelectedMethod] = useState("mastercard");
+  const navigate = useNavigate();
 
   return (
-    <div className="flex flex-col items-center bg-gray-100 min-h-screen py-8">
-      <div className="max-w-4xl w-full bg-white shadow-md rounded-md overflow-hidden">
-        {schedules.length > 0 ? (
-          schedules.map((schedule) => {
-            const movieData = getMovieData(schedule.movie_id);
-            const studioData = getStudioData(schedule.studio_id);
+    <div className="max-w-md mx-auto bg-white shadow-lg rounded-lg p-6">
+      <h2 className="text-lg font-semibold mb-4">Payment</h2>
 
-            return (
-              <div key={schedule.id} className="flex flex-col md:flex-row p-4">
-                {/* Poster Section */}
-                <div className="w-full md:w-1/3 p-4">
-                  <img
-                    src={`http://127.0.0.1:8000/storage/movies/${movieData.poster}`}
-                    alt={movieData.title}
-                    className="w-full rounded-md shadow-md"
-                  />
-                </div>
+      {/* Payment Methods */}
+      {[
+        { id: "mastercard", label: "Mastercard ending in 8429", details: "Expiry 04/2026", icon: "💳" },
+        { id: "paypal", label: "Paypal account", icon: "💰" },
+      ].map((method) => (
+        <div
+          key={method.id}
+          className={`border p-3 rounded-lg flex items-center justify-between cursor-pointer mb-3 ${
+            selectedMethod === method.id ? "border-blue-500" : "border-gray-300"
+          }`}
+          onClick={() => setSelectedMethod(method.id)}
+        >
+          <div>
+            <input type="radio" checked={selectedMethod === method.id} readOnly />
+            <span className="ml-2">{method.label}</span>
+            {method.details && <p className="text-sm text-gray-500">{method.details}</p>}
+          </div>
+          <span className={method.id === "paypal" ? "text-blue-500" : "text-red-500"}>{method.icon}</span>
+        </div>
+      ))}
 
-                {/* Movie Info Section */}
-                <div className="w-full md:w-2/3 p-4">
-                  <h1 className="text-2xl font-bold text-gray-800">
-                    {movieData.title}
-                  </h1>
-                  <p className="text-sm text-gray-600 mb-2">
-                    {movieData.duration} Minutes
-                  </p>
+      {/* New Payment Method Form */}
+      <div className="mt-4">
+        <h3 className="text-md font-semibold mb-2">Use a new payment method</h3>
+        <input type="text" placeholder="Full name (as displayed on card)" className="w-full border p-2 rounded-lg mb-3" />
+        <input type="text" placeholder="Card number" className="w-full border p-2 rounded-lg mb-3" />
+        <div className="flex gap-3">
+          <input type="text" placeholder="MM/YY" className="w-1/2 border p-2 rounded-lg" />
+          <div className="relative w-1/2">
+            <input type="text" placeholder="CVV" className="w-full border p-2 rounded-lg" />
+            <span className="absolute top-2 right-3 text-gray-500">ℹ️</span>
+          </div>
+        </div>
+      </div>
 
-                  {/* Studio and Date */}
-                  <div className="mb-4">
-                    <h2 className="text-lg font-semibold text-gray-700">
-                      {studioData.name}
-                    </h2>
-                    <p className="text-sm text-gray-500 mb-2">
-                      {formatDateString(schedule.showdate_start)} -{" "}
-                      {formatDateString(schedule.showdate_end)}
-                    </p>
+      {/* Order Summary */}
+      <div className="space-y-2 mt-4">
+        {[{ label: "Original price", value: "$6,592.00" },
+          { label: "Savings", value: "-$299.00", className: "text-green-500" },
+          { label: "Store Pickup", value: "$99" },
+          { label: "Tax", value: "$799" }].map((item, index) => (
+          <dl key={index} className="flex items-center justify-between gap-4">
+            <dt className="text-base font-normal text-gray-500">{item.label}</dt>
+            <dd className={`text-base font-medium ${item.className || "text-gray-900"}`}>{item.value}</dd>
+          </dl>
+        ))}
+        <dl className="flex items-center justify-between gap-4 border-t border-gray-200 pt-2">
+          <dt className="text-base font-bold text-gray-900">Total</dt>
+          <dd className="text-base font-bold text-gray-900">$7,191.00</dd>
+        </dl>
+      </div>
 
-                    {/* Showtime Section */}
-                    {schedule.showtime && schedule.showtime.length > 0 ? (
-                      <div className="flex gap-2 flex-wrap">
-                        {schedule.showtime.map((time, index) => (
-                          <button
-                            key={`${schedule.id}-${index}`}
-                            className="px-4 py-2 border border-gray-300 rounded hover:bg-gray-100 transition text-gray-800"
-                          >
-                            {time}
-                          </button>
-                        ))}
-                      </div>
-                    ) : (
-                      <p className="text-sm text-gray-500">
-                        No showtimes available
-                      </p>
-                    )}
-                  </div>
-
-                  {/* Price Section */}
-                  <p className="text-sm text-gray-600 mt-2">
-                    Rp. {movieData.price}
-                  </p>
-                </div>
-              </div>
-            );
-          })
-        ) : (
-          <p className="text-center text-gray-600 py-6">
-            No schedules available.
-          </p>
-        )}
+      {/* Buttons */}
+      <div className="flex justify-between mt-4">
+        <button className="bg-red-500 text-white px-4 py-2 rounded-lg">Pay now</button>
+        <button className="bg-gray-200 px-4 py-2 rounded-lg" onClick={() => navigate(-1)}>Close</button>
       </div>
     </div>
   );

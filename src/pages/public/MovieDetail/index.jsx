@@ -78,7 +78,7 @@ export default function MovieDetail() {
   const handleShowtimeClick = (schedule, timeIndex) => {
     const selected = {
       ...schedule,
-      time: schedule.showtime[timeIndex],
+      time: schedule.showtime[timeIndex], // Mengambil waktu yang diklik dari showtime
     };
     setSelectedShowtime(selected);
     console.log(schedule);
