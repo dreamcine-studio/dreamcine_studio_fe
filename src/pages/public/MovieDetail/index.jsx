@@ -22,6 +22,9 @@ export default function MovieDetail() {
   }
 
   useEffect(() => {
+     // Scroll ke atas saat halaman pertama kali ditampilkan
+    window.scrollTo(0, 0);
+
     const fetchMovie = async () => {
       try {
         const data = await showMovie(id);
