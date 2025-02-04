@@ -120,7 +120,9 @@ export default function MovieSeat() {
     
 
     const seatData = new FormData();
-    seatData.append("seat_number[]", selectedSeats);
+    selectedSeats.forEach(seatNumber => {
+      seatData.append("seat_number[]", seatNumber); // The [] is crucial for arrays
+    });
     seatData.append("studio_id", studioId);
 
     try {
