@@ -5,7 +5,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { getStudios } from "../../../services/studios";
 import { updateBooking } from "../../../services/booking";
 
-export default function BookingPublic() {
+export default function MovieSeat() {
   const [selectedSeats, setSelectedSeats] = useState(0);
   const [movie, setMovie] = useState([]);
   const [studio, setStudio] = useState([]);

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { deleteSeat, getSeats } from "../../../services/seat";
 import { getStudios } from "../../../services/studios";
 
-export default function Seats(){
+export default function AdminSeats(){
         
     
           const [seats, setSeats] = useState([]);

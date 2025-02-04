@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { deleteStudio, getStudios } from "../../../services/studios";
 
-export default function Studios() {
+export default function AdminStudios() {
  
       const [studios, setStudios] = useState([]);
   

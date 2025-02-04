@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import {deletePaymentmethod, getPaymentmethods} from "../../../services/paymentMethod";
 
-export default function PayMethods() {
+export default function AdminPaymentMethods() {
  
   const[paymentMethods, setPaymentMethods] = useState([])
 

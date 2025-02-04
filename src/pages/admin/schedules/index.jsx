@@ -4,7 +4,7 @@ import { getMovies } from "../../../services/movies";
 import { deleteSchedules, getSchedules } from "../../../services/schedules";
 import { getStudios } from "../../../services/studios";
 
-export default function Schedules() {
+export default function AdminSchedules() {
   const [schedules, setSchedules] = useState([]);
   const [movies, setMovies] = useState([]);
   const [studios, setStudios] = useState([]);

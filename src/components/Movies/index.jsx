@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { getMovies } from "../../services/movies";
 import { getGenres } from "../../services/genre";
 
-export default function Hero() {
+export default function Movies() {
   const [movies, setMovies] = useState([]);
   const [genres, setGenres] = useState([]);
 

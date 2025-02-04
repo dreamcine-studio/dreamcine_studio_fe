@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { deletePayment, getPayments } from "../../../services/payment";
 import { getPaymentmethods } from "../../../services/paymentMethod";
 
-export default function Payments() {
+export default function AdminPayments() {
 
   const[payments, setPayments] = useState([])
   const [paymentMethods, setPaymentMethods] = useState([]);
