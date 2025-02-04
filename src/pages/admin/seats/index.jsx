@@ -84,7 +84,7 @@ export default function AdminSeats() {
                   </td>
                   <td className="px-4 py-5">
                     <p className="text-black dark:text-white">
-                      {seat.seat_number}
+                      {seat.seat_number.join(", ")}
                     </p>
                   </td>
                   <td className="px-4 py-5">
