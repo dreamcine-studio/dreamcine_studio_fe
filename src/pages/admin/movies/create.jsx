@@ -65,7 +65,6 @@ export default function MovieCreate() {
   };
 
   return (
-   
     <div className="flex flex-col gap-9">
       <div className="rounded-lg bg-white shadow-lg dark:bg-boxdark">
         <div className="border-b border-stroke px-6 py-4 dark:border-strokedark">

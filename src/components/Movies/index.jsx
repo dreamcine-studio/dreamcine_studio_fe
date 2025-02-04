@@ -40,6 +40,8 @@ export default function Movies() {
     return shuffledArray;
   };
 
+  console.log("tes",movies)
+
   // Ambil 3 gambar secara acak
   const randomMovies = shuffleArray(movies).slice(0, 3);
 
