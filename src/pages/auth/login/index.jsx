@@ -7,7 +7,7 @@ export default function Login() {
     email: "",
     password: "",
   });
-  
+
   const [errorMessage, setErrorMessage] = useState(""); // State untuk menampilkan error
   const navigate = useNavigate();
 
@@ -37,7 +37,7 @@ export default function Login() {
       console.error("Login gagal:", err);
       // Tangani error jika login gagal
       if (err.response && err.response.data && err.response.data.message) {
-        alert("Password atau Email Anda tidak terdaftar")
+        alert("Password atau Email Anda tidak terdaftar");
         setErrorMessage(err.response.data.message); // Tampilkan pesan error dari server
       } else {
         setErrorMessage("Terjadi kesalahan, silakan coba lagi.");
@@ -72,7 +72,11 @@ export default function Login() {
             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
               Sign in to your account
             </h1>
-            <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6" action="#">
+            <form
+              onSubmit={handleSubmit}
+              className="space-y-4 md:space-y-6"
+              action="#"
+            >
               <div>
                 <label
                   htmlFor="email"

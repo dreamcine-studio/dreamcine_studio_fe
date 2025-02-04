@@ -49,8 +49,12 @@ export default function ScheduleList() {
               <td className="border p-2">{item.date}</td>
               <td className="border p-2">{item.times.join(" | ")}</td>
               <td className="border p-2">
-                <button className="mr-2 text-blue-500 hover:underline">✏️ Edit</button>
-                <button className="text-red-500 hover:underline">🗑️ Delete</button>
+                <button className="mr-2 text-blue-500 hover:underline">
+                  ✏️ Edit
+                </button>
+                <button className="text-red-500 hover:underline">
+                  🗑️ Delete
+                </button>
               </td>
             </tr>
           ))}
