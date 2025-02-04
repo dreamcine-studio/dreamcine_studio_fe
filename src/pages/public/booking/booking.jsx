@@ -112,16 +112,14 @@ export default function MovieSeat() {
     bookingData.append("showdate_start", showdate_start);
     bookingData.append("quantity", selectedSeats);
     bookingData.append("total_price", totalPrice);
-    
-    
 
     try {
       await createBooking(bookingData);
       alert("Booking successful!");
       return navigate("/schedules");
-    } catch (err) {
+    } catch (errors) {
       // console.log(err.response.data.message);
-      setErrors(err.response.data.message);
+      setErrors(errors.response.data.message);
     }
 
   }
