@@ -1,69 +1,55 @@
-import API from "../api"
+import API from "../api";
 
 // export const getDatas = async () => {
-  // kita ganti menjadi getBooks
+// kita ganti menjadi getBooks
 export const getStudios = async () => {
-  const {data} = await API.get('/studios')
-   return data.data
-   
- } 
+  const { data } = await API.get("/studios");
+  return data.data;
+};
 
+//Create
 
-
-
-  
- //Create
-
-
- export const createStudio = async (data) => {
+export const createStudio = async (data) => {
   try {
-    const response = await API.post('/studios', data, {
-    headers: {
-        "Authorization": `Bearer ${localStorage.getItem('accessToken')}` 
-       }
-    })
-    return response.data
+    const response = await API.post("/studios", data, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
+    });
+    return response.data;
   } catch (err) {
-    console.log(err)
-    throw err
+    console.log(err);
+    throw err;
   }
-}
-
-
-
-
+};
 
 //update
-  
+
 // update, kita butuh id dan data
 
-
-   export const updateStudio = async (id, data) => {
-    try {
-      const response = await API.post(`/studios/${id}`, data, {
+export const updateStudio = async (id, data) => {
+  try {
+    const response = await API.post(`/studios/${id}`, data, {
       headers: {
-          "Authorization": `Bearer ${localStorage.getItem('accessToken')}` 
-         }
-      })
-      return response.data
-      } catch (err) {
-          console.log(err)
-          throw err
-      }
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
+    });
+    return response.data;
+  } catch (err) {
+    console.log(err);
+    throw err;
   }
-  
+};
 
-
-
-export const deleteStudio = async (id) => {  
+export const deleteStudio = async (id) => {
   try {
     await API.delete(`/studios/${id}`, {
-    headers: {
-        "Authorization": `Bearer ${localStorage.getItem('accessToken')}` 
-       }
-    })
-    } catch (err) {
-      console.log(err)
-      throw err
-    }
-}
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
+    });
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+};

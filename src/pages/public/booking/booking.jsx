@@ -39,7 +39,7 @@ export default function MovieSeat() {
         console.error("Error fetching studio:", error);
         // Handle error, e.g., display a message to the user
       }
-    }
+    };
 
     fetchMovie();
     fetchStudio();
@@ -83,8 +83,8 @@ export default function MovieSeat() {
     bookingData.append("showdate_start", showdate_start);
     bookingData.append("quantity", selectedSeats);
     bookingData.append("total_price", totalPrice);
-    bookingData.append('_method', 'PUT')
-    
+    bookingData.append("_method", "PUT");
+
     try {
       await updateBooking(bookingData);
       return navigate("#");
@@ -92,9 +92,7 @@ export default function MovieSeat() {
       // console.log(err.response.data.message);
       setErrors(err.response.data.message);
     }
-
-  }
-  
+  };
 
   return (
     <div className="flex flex-col items-center justify-center dark:bg-gray-900 text-white w-full p-8">
@@ -189,7 +187,10 @@ export default function MovieSeat() {
         </div>
       </div>
 
-      <button onClick={updateBookingDetails} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-6">
+      <button
+        onClick={updateBookingDetails}
+        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-6"
+      >
         Book Your Ticket
       </button>
     </div>
