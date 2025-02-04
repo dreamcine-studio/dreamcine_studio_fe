@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { getPaymentmethods } from "../../../services/paymentMethod";
 
-export default function PaymentForm() {
+export default function Payment() {
   const [payment_methods, setPaymentMethods] = useState([]);
+
   const [selectedMethod, setSelectedMethod] = useState(null);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   useEffect(() => {
     const fetchPaymentMethods = async () => {
@@ -67,43 +68,12 @@ export default function PaymentForm() {
           <p>No payment methods available</p>
         )}
       </>
-      {/* New Payment Method Form */}
-      <div className="mt-4">
-        <h3 className="text-md font-semibold mb-2">Use a new payment method</h3>
-        <input
-          type="text"
-          placeholder="Full name (as displayed on card)"
-          className="w-full border p-2 rounded-lg mb-3"
-        />
-        <input
-          type="text"
-          placeholder="Card number"
-          className="w-full border p-2 rounded-lg mb-3"
-        />
-        <div className="flex gap-3">
-          <input
-            type="text"
-            placeholder="MM/YY"
-            className="w-1/2 border p-2 rounded-lg"
-          />
-          <div className="relative w-1/2">
-            <input
-              type="text"
-              placeholder="CVV"
-              className="w-full border p-2 rounded-lg"
-            />
-            <span className="absolute top-2 right-3 text-gray-500">ℹ️</span>
-          </div>
-        </div>
-      </div>
 
       {/* Order Summary */}
       <div className="space-y-2 mt-4">
         {[
-          { label: "Original price", value: "$6,592.00" },
-          { label: "Savings", value: "-$299.00", className: "text-green-500" },
-          { label: "Store Pickup", value: "$99" },
-          { label: "Tax", value: "$799" },
+          { label: "Original price", value: "Rp. 35.000" },
+          { label: "Seat", value: "2" },
         ].map((item, index) => (
           <dl key={index} className="flex items-center justify-between gap-4">
             <dt className="text-base font-normal text-gray-500">
@@ -120,21 +90,21 @@ export default function PaymentForm() {
         ))}
         <dl className="flex items-center justify-between gap-4 border-t border-gray-200 pt-2">
           <dt className="text-base font-bold text-gray-900">Total</dt>
-          <dd className="text-base font-bold text-gray-900">$7,191.00</dd>
+          <dd className="text-base font-bold text-gray-900">Rp.70.000</dd>
         </dl>
       </div>
 
       {/* Buttons */}
       <div className="flex justify-between mt-4">
-        <button className="bg-red-500 text-white px-4 py-2 rounded-lg">
+        <button className="bg-red-500 text-white w-full hover:bg-red-600 px-4 py-2 rounded-lg">
           Pay now
         </button>
-        <button
+        {/* <button
           className="bg-gray-200 px-4 py-2 rounded-lg"
           onClick={() => navigate(-1)}
         >
           Close
-        </button>
+        </button> */}
       </div>
     </div>
   );
