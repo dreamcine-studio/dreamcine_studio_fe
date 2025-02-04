@@ -46,7 +46,7 @@ function App() {
           {/* Public Routes */}
           <Route element={<PublicLayout />}>
             <Route index element={<Home />} />
-            <Route path="Movies" element={<Movies />} />
+            <Route path="movies" element={<Movies />} />
             <Route path="teams" element={<Team />} />
             <Route path="contacts" element={<Contact />} />
             <Route path="schedules" element={<MovieSchedule />} />

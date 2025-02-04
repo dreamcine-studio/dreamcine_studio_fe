@@ -43,11 +43,11 @@ export default function Movies() {
   console.log("tes",movies)
 
   // Ambil 3 gambar secara acak
-  const randomMovies = shuffleArray(movies).slice(0, 3);
+  // const randomMovies = shuffleArray(movies).slice(0, 3);
 
   return (
     <div className="flex justify-center flex-wrap gap-4">
-      {randomMovies.map((movie, index) => (
+      {movies.map((movie, index) => (
         <div
           key={index}
           className="max-w-sm w-full sm:max-w-xs md:max-w-sm lg:max-w-md bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700 transform transition-all duration-300 ease-in-out hover:scale-105 hover:translate-y-[-10px] hover:shadow-2xl hover:opacity-90"
