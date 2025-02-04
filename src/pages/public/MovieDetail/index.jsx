@@ -34,6 +34,7 @@ export default function MovieDetail() {
       }
     };
 
+
     const fetchGenres = async () => {
       try {
         const data = await getGenres();
@@ -207,7 +208,7 @@ export default function MovieDetail() {
                     )?.name || "Unknown Studio"}
                   </p>
                   <Link
-                    to={`/booking-seat?movie_id=${movie.id}&showtime=${selectedShowtime.time}&showdate_start=${selectedShowtime.showdate_start}&studio_id=${selectedShowtime.studio_id}`}
+                    to={`/booking-seat?schedule_id=${selectedShowtime.id}&movie_id=${movie.id}&showtime=${selectedShowtime.time}&showdate_start=${selectedShowtime.showdate_start}&studio_id=${selectedShowtime.studio_id}`}
                     className="bg-indigo-600 flex gap-2 items-center text-white px-6 py-2 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                   >
                     <i className="fa-solid fa-ticket"></i>

@@ -3,18 +3,22 @@ import "./style.css";
 import { getMovies } from "../../../services/movies";
 import { useLocation, useNavigate } from "react-router-dom";
 import { getStudios } from "../../../services/studios";
-import { updateBooking } from "../../../services/booking";
+import { createBooking } from "../../../services/booking";
+import { getSchedules } from "../../../services/schedules";
 
 export default function MovieSeat() {
   const [selectedSeats, setSelectedSeats] = useState(0);
   const [movie, setMovie] = useState([]);
   const [studio, setStudio] = useState([]);
+  const [schedule, setSchedule] = useState([]);
+  const [errors, setErrors] = useState([]);
   const location = useLocation();
   const navigate = useNavigate();
 
   const query = new URLSearchParams(location.search);
   const movieId = query.get("movie_id");
   const studioId = query.get("studio_id");
+  const scheduleId = query.get("schedule_id");
   const showtime = query.get("showtime");
   const showdate_start = query.get("showdate_start");
 
@@ -41,9 +45,23 @@ export default function MovieSeat() {
       }
     }
 
+    const fetchSchedule = async () => {
+      try {
+        const data = await getSchedules();
+        const schedule = data.find((schedule) => schedule.id === parseInt(scheduleId));
+        setSchedule(schedule);
+      } catch (error) {
+        console.error("Error fetching schedule:", error);
+        // Handle error, e.g., display a message to the user
+      }
+    }
+    
     fetchMovie();
     fetchStudio();
-  }, [movieId, studioId]);
+    fetchSchedule();
+  }, [movieId, studioId, scheduleId]);
+
+  console.log('schedule', schedule);
 
   const handleSeatClick = (e) => {
     if (!e.target.classList.contains("sold")) {
@@ -66,35 +84,48 @@ export default function MovieSeat() {
 
   const totalPrice = movie.price * selectedSeats;
 
-  const updateBookingDetails = async (e) => {
+  const createBookingDetails = async (e) => {
     e.preventDefault();
 
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("accessToken");
+    const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+
     if (!token) {
       alert("You must log in to place an order.");
-      const currentURL = `/moviebooking?movie_id=${movieId}&studio_id=${studioId}&showtime=${showtime}&showdate_start=${showdate_start}`;
-      return navigate("/login", { state: { from: currentURL } });
+      return navigate("/login");
+    } 
+    if (!userInfo || userInfo.role !== "customer") {
+      alert("You must be a customer to place an order.");
+      return navigate("/login");
+    }
+    if (selectedSeats === 0) {
+      alert("Please select at least one seat.");
+      return;
     }
 
     const bookingData = new FormData();
+    bookingData.append("user_id", userInfo.id);
     bookingData.append("movie_id", movieId);
     bookingData.append("studio_id", studioId);
+    bookingData.append("schedule_id", scheduleId);
     bookingData.append("showtime", showtime);
     bookingData.append("showdate_start", showdate_start);
     bookingData.append("quantity", selectedSeats);
     bookingData.append("total_price", totalPrice);
-    bookingData.append('_method', 'PUT')
     
+    
+
     try {
-      await updateBooking(bookingData);
-      return navigate("#");
+      await createBooking(bookingData);
+      alert("Booking successful!");
+      return navigate("/schedules");
     } catch (err) {
       // console.log(err.response.data.message);
       setErrors(err.response.data.message);
     }
 
   }
-  
+  console.log(selectedSeats)
 
   return (
     <div className="flex flex-col items-center justify-center dark:bg-gray-900 text-white w-full p-8">
@@ -107,6 +138,7 @@ export default function MovieSeat() {
                 <th className="px-2 py-4">Studio</th>
                 <th className="px-2 py-4">Time</th>
                 <th className="px-2 py-4">Date</th>
+                <th className="px-2 py-4">Price</th>
               </tr>
             </thead>
             <tbody className="text-sm text-gray-700 dark:text-gray-400">
@@ -115,6 +147,7 @@ export default function MovieSeat() {
                 <td className="px-2 py-2">{studio.name}</td>
                 <td className="px-2 py-2">{showtime}</td>
                 <td className="px-2 py-2">{showdate_start}</td>
+                <td className="px-2 py-2">{formatRupiah(movie.price)}</td>
               </tr>
             </tbody>
           </table>
@@ -189,7 +222,7 @@ export default function MovieSeat() {
         </div>
       </div>
 
-      <button onClick={updateBookingDetails} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-6">
+      <button onClick={createBookingDetails} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-6">
         Book Your Ticket
       </button>
     </div>
