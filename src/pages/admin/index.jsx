@@ -4,6 +4,9 @@ import { getStudios } from "../../services/studios";
 import { getPaymentmethods } from "../../services/paymentMethod";
 import { getMovies } from "../../services/movies";
 import { getSchedules } from "../../services/schedules";
+import { getSeats } from "../../services/seat";
+import { getBooking } from "../../services/booking";
+import { getPayments } from "../../services/payment";
 
 export default function Dashboard() {
   const [genres, setGenres] = useState([]);
@@ -11,6 +14,9 @@ export default function Dashboard() {
   const [paymentMethods, setPaymentMethods] = useState([]);
   const [Movies, setmovies] = useState([]);
   const [Schedules, setSchedules] = useState([]);
+  const [Seats, setSeats] = useState([]);
+  const [Bookings, setBookings] = useState([]);
+  const [Payments, setPayments] = useState([]);
 
 
   useEffect(() => {
@@ -33,6 +39,22 @@ export default function Dashboard() {
       const data = await getMovies();
       setmovies(data);
     };
+    const fetchseats = async () => {
+      const data = await getSeats();
+      setSeats(data);
+    };
+
+	const fetchbookings = async () => {
+		const data = await getBooking();
+		setBookings(data);
+	  };
+  
+
+	  const fetchPayemnts = async () => {
+		const data = await getPayments();
+		setPayments(data);
+	  };	  
+
 
 
 	
@@ -46,6 +68,9 @@ export default function Dashboard() {
         fetchPaymentMethods();  
         fetchmovies();
 		fetchSchedules();
+		fetchseats();
+		fetchbookings();
+		fetchPayemnts();
       }, []);
       // console.log("ada",genres);
     return (
@@ -109,14 +134,43 @@ export default function Dashboard() {
 
 
 					{/* <!-- Movies --> */}
+						<div className="fa-solid fa-chair fa-lg fa-solid fa-film fa-lg flex flex-col px-6 py-2 bg-white shadow rounded-lg overflow-hidden">
+					<div className="flex flex-col items-center space-y-2">
+
+						<div className="text-6xl font-bold tracking-tight leading-none text-primary-900">{Seats.length}</div>
+						<div className="text-lg font-medium text-primary-900">Seats</div>
+					</div>
+				</div>
+
+					{/* <!-- Schedules --> */}
 					<div className="fa-solid fa-calendar-days fa-xl flex flex-col px-6 py-2 bg-white shadow rounded-lg overflow-hidden">
 						<div className="flex flex-col items-center space-y-2">
-					<div className="text-7xl font-extrabold tracking-tight leading-none text-primary-900">
-					{Schedules.length}
+						<div className="text-7xl font-extrabold tracking-tight leading-none text-primary-900">{Schedules.length}
 					</div>
 					<div className="text-lg font-medium text-primary-900">Schedules</div>
-				</div>
-				</div>
+					</div>
+			   </div>
+
+
+			   
+					{/* <!-- Bookings --> */}
+					<div className="fa-solid fa-cart-shopping fa-lg  flex flex-col px-6 py-2 bg-white shadow rounded-lg overflow-hidden">
+						<div className="flex flex-col items-center space-y-2">
+						<div className="text-7xl font-extrabold tracking-tight leading-none text-primary-900">{Bookings.length}
+					</div>
+					<div className="text-lg font-medium text-primary-900">Bookings</div>
+					</div>
+			   </div>
+
+			   		{/* <!-- Payments --> */}
+					<div className="fa-solid fa-money-bill fa-lg  flex flex-col px-6 py-2 bg-white shadow rounded-lg overflow-hidden">
+						<div className="flex flex-col items-center space-y-2">
+						<div className="text-7xl font-extrabold tracking-tight leading-none text-primary-900">{Payments.length}
+					</div>
+					<div className="text-lg font-medium text-primary-900">Payments</div>
+					</div>
+			   </div>
+
 			</div>
 		</section>
 	</div>
