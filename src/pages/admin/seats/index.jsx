@@ -45,7 +45,6 @@ export default function AdminSeats() {
 
   return (
     <div className="rounded-sm shadow-default dark:bg-boxdark sm:px-7.5 xl:pb-1">
-      {/* ini pakai ternary */}
       <Link
         to={"/admin/seats/create"}
         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
@@ -95,12 +94,9 @@ export default function AdminSeats() {
 
                   <td className="px-4 py-5">
                     <div className="flex items-center space-x-3.5">
-                      {/* <Link to="/admin/studios/create"><i className="fa-solid fa-plus"></i></Link> */}
-                      {/* <Link to={`/admin/studios/edit/${studio.name}`}><i className="fa-solid fa-pen-to-square"></i></Link> */}
                       <Link to="">
                         <i className="fa-solid fa-pen-to-square"></i>
                       </Link>
-                      {/* <button onClick={() => handleDelete(studio.id)}>  */}
                       <button onClick={() => handleDelete(seat.id)}>
                         <i className="fa-solid fa-trash"></i>
                       </button>

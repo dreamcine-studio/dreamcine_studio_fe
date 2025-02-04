@@ -44,7 +44,7 @@ export default function Dashboard() {
     fetchmovies();
     fetchSchedules();
   }, []);
-  // console.log("ada",genres);
+
   return (
     <>
       <main className="py-1 px-12 space-y-2 bg-gray-100 min-h-screen w-full">
