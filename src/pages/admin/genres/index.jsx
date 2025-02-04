@@ -1,8 +1,6 @@
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { deleteGenre, getGenres } from "../../../services/genre";
-// import { useEffect, useState } from "react";
-// import { getGenres } from "../../../services/genre";
 
 export default function AdminGenres() {
   const [genres, setGenres] = useState([]);

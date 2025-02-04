@@ -1,9 +1,5 @@
-// import { Link } from "react-router-dom"
-// import { useEffect, useState } from "react"
-// import { getPaymentMethods } from "../../../services/paymentMethods";
 import { Link } from "react-router-dom";
 
-// import studios from "../../../utils/constants/studios";
 import { useEffect, useState } from "react";
 import { deleteStudio, getStudios } from "../../../services/studios";
 
@@ -22,7 +18,6 @@ export default function AdminStudios() {
   console.log("tes", studios);
 
   const handleDelete = async (id) => {
-    // deleteBook dari services jangan lupa di inport
     const confirmDelete = window.confirm(
       "Apakah Anda yakin ingin Menghapus Data ini ?"
     );
@@ -30,14 +25,12 @@ export default function AdminStudios() {
     if (confirmDelete) {
       await deleteStudio(id);
 
-      // ini kita update pakai setter Books
       setStudios(studios.filter((studio) => studio.id !== id));
     }
   };
 
   return (
     <div className="rounded-sm shadow-default dark:bg-boxdark sm:px-7.5 xl:pb-1">
-      {/* ini pakai ternary */}
       <Link
         to={"/admin/studios/create"}
         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"

@@ -53,21 +53,13 @@ export default function GenreEdit() {
     // buat FormData
     const genreData = new FormData();
 
-    // ini kita debug
-    // console.log(title);
 
-    // title (sebelah kiri) ini sama kaya di database
-    // titile (sebelah kanan) ini dari use state
     genreData.append("name", name);
     genreData.append("description", description);
 
     // ini kita tambahkan _method    put
     genreData.append("_method", "PUT");
 
-    //ini untuk melakukan pengecekan
-    // bookData.forEach((value, key) => {
-    //   console.log(key, value)
-    // })
 
     // ini updateBook ambil dari service books.js
     await updateGenre(id, genreData)
@@ -78,8 +70,6 @@ export default function GenreEdit() {
         // console.log(genreData)
       })
       .catch((err) => {
-        // console.log(err)
-        // console.log(err.response.data.mesaage)
         setErrors(err.response.data.message);
       });
   };
