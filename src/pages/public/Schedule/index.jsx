@@ -71,23 +71,16 @@ export default function Payment() {
 
       {/* Order Summary */}
       <div className="space-y-2 mt-4">
-        {[
-          { label: "Original price", value: "Rp. 35.000" },
-          { label: "Seat", value: "2" },
-        ].map((item, index) => (
-          <dl key={index} className="flex items-center justify-between gap-4">
-            <dt className="text-base font-normal text-gray-500">
-              {item.label}
-            </dt>
-            <dd
-              className={`text-base font-medium ${
-                item.className || "text-gray-900"
-              }`}
-            >
-              {item.value}
-            </dd>
-          </dl>
-        ))}
+        <dl className="flex items-center justify-between gap-4 border-t border-gray-200 pt-2">
+          <dt className="text-base text-gray-900">Original price</dt>
+          <dd className="text-base text-gray-900">Rp. 35.000</dd>
+        </dl>
+
+        <dl className="flex items-center justify-between gap-4 border-gray-200 pt-2">
+          <dt className="text-base text-gray-900">Seat</dt>
+          <dd className="text-base text-gray-900">2</dd>
+        </dl>
+
         <dl className="flex items-center justify-between gap-4 border-t border-gray-200 pt-2">
           <dt className="text-base font-bold text-gray-900">Total</dt>
           <dd className="text-base font-bold text-gray-900">Rp.70.000</dd>
