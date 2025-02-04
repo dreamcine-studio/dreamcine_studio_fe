@@ -43,7 +43,7 @@ export default function MovieSeat() {
         console.error("Error fetching studio:", error);
         // Handle error, e.g., display a message to the user
       }
-    }
+    };
 
     const fetchSchedule = async () => {
       try {

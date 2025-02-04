@@ -1,4 +1,4 @@
-import { Link, Outlet, useNavigate,  } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import { logout } from "../services/auth";
 import { useEffect } from "react";
 
@@ -9,9 +9,9 @@ export default function AdminLayout() {
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
 
   const handleLogout = () => {
-    logout()
-    return navigate('/login')
-  }
+    logout();
+    return navigate("/login");
+  };
 
   console.log(userInfo);
   useEffect(() => {
@@ -54,7 +54,7 @@ export default function AdminLayout() {
                   ></path>
                 </svg>
               </button>
-              
+
               <Link to="/" className="flex ms-2 md:me-24">
                 {/* <img
                   src="./public/DreamCine.jpeg"
@@ -73,12 +73,14 @@ export default function AdminLayout() {
                   <p
                     className="text-right text-sm text-gray-900 dark:text-white"
                     role="none"
-                  >{userInfo ? userInfo.name : ""}
+                  >
+                    {userInfo ? userInfo.name : ""}
                   </p>
                   <p
                     className="text-sm font-medium text-gray-900 truncate dark:text-gray-300"
                     role="none"
-                  >{userInfo ? userInfo.email : ""}
+                  >
+                    {userInfo ? userInfo.email : ""}
                   </p>
                 </div>
                 <div>
@@ -183,7 +185,8 @@ export default function AdminLayout() {
               <Link
                 to="/admin/payment_methods"
                 className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
-              ><i className="fa-solid fa-credit-card fa-lg"></i>
+              >
+                <i className="fa-solid fa-credit-card fa-lg"></i>
                 <span className="flex-1 ms-3 whitespace-nowrap">
                   Payment Methods
                 </span>
@@ -249,7 +252,7 @@ export default function AdminLayout() {
                 <span className="flex-1 ms-3 whitespace-nowrap">Users</span>
               </Link>
             </li>
-            
+
             <li>
               <button
                 onClick={handleLogout}

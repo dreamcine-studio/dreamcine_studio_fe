@@ -68,21 +68,23 @@ export default function AdminSchedules() {
   };
 
   const handleDelete = async (id) => {
-    const confirmDelete = window.confirm("Are you sure you want to delete this schedule?");
-    
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this schedule?"
+    );
+
     if (confirmDelete) {
       try {
-        await deleteSchedules(id); 
-        setSchedules(schedules.filter((schedule) => schedule.id !== id)); 
+        await deleteSchedules(id);
+        setSchedules(schedules.filter((schedule) => schedule.id !== id));
         alert("Schedule deleted successfully");
       } catch (error) {
         console.error("Error deleting schedule:", error);
         alert("Failed to delete the schedule. Please try again later.");
       }
     }
-  }
+  };
 
-  console.log("tes", schedules)
+  console.log("tes", schedules);
   return (
     <>
       <div className="w-full">
@@ -168,7 +170,8 @@ export default function AdminSchedules() {
                     </div>
                   </td>
                   <td className="py-2">
-                    <div>{schedule.showdate_start} - {schedule.showdate_end}
+                    <div>
+                      {schedule.showdate_start} - {schedule.showdate_end}
                     </div>
                   </td>
                   <td className="py-2">
