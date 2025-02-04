@@ -28,7 +28,8 @@ export default function Register() {
 
     try {
       await register(registerData);
-      navigate("/");
+      alert("Register Success, Please Login");
+      navigate("/login");
     } catch (error) {
       console.log(error.response.data.message);
     }
