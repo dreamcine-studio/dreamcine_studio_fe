@@ -18,19 +18,18 @@ export default function Dashboard() {
   const [Bookings, setBookings] = useState([]);
   const [Payments, setPayments] = useState([]);
 
-
   useEffect(() => {
     const fetchGenres = async () => {
       const data = await getGenres();
       setGenres(data);
     };
 
-    const fetchStudios  = async () => {
+    const fetchStudios = async () => {
       const data = await getStudios();
       setStudios(data);
     };
-      
-    const fetchPaymentMethods  = async () => {
+
+    const fetchPaymentMethods = async () => {
       const data = await getPaymentmethods();
       setPaymentMethods(data);
     };
@@ -56,8 +55,6 @@ export default function Dashboard() {
 	  };	  
 
 
-
-	
     const fetchSchedules = async () => {
 		const data = await getSchedules();
 		setSchedules(data);

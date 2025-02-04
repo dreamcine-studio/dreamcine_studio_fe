@@ -34,35 +34,39 @@ export default function PaymentForm() {
       <h2 className="text-lg font-semibold mb-4">Payment</h2>
 
       <>
-      {payment_methods.length > 0 ? (
-        payment_methods.map((payment_method) => {
-          const { name, account_number } = getPaymentMethodsName(payment_method.id);
-          const isSelected = selectedMethod === payment_method.id;
+        {payment_methods.length > 0 ? (
+          payment_methods.map((payment_method) => {
+            const { name, account_number } = getPaymentMethodsName(
+              payment_method.id
+            );
+            const isSelected = selectedMethod === payment_method.id;
 
-          return (
-            <div
-              key={payment_method.id}
-              className={`group border rounded-md p-4 m-2 cursor-pointer ${
-                isSelected ? "border-blue-500" : "border-gray-300"
-              }`}
-              onClick={() => setSelectedMethod(payment_method.id)}
-            >
-              <div className="flex items-center">
-                <div className="flex-grow">
-                  <div className="text-base font-medium">{name}</div>
-                  <div className="text-sm text-gray-500">{account_number}</div>
-                </div>
-                <div className="ml-4">
-                  <i className="fa-regular fa-credit-card"></i>
+            return (
+              <div
+                key={payment_method.id}
+                className={`group border rounded-md p-4 m-2 cursor-pointer ${
+                  isSelected ? "border-blue-500" : "border-gray-300"
+                }`}
+                onClick={() => setSelectedMethod(payment_method.id)}
+              >
+                <div className="flex items-center">
+                  <div className="flex-grow">
+                    <div className="text-base font-medium">{name}</div>
+                    <div className="text-sm text-gray-500">
+                      {account_number}
+                    </div>
+                  </div>
+                  <div className="ml-4">
+                    <i className="fa-regular fa-credit-card"></i>
+                  </div>
                 </div>
               </div>
-            </div>
-          );
-        })
-      ) : (
-        <p>No payment methods available</p>
-      )}
-    </>
+            );
+          })
+        ) : (
+          <p>No payment methods available</p>
+        )}
+      </>
       {/* New Payment Method Form */}
       <div className="mt-4">
         <h3 className="text-md font-semibold mb-2">Use a new payment method</h3>

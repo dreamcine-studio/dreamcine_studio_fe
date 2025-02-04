@@ -1,90 +1,86 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { getPaymentmethods, updatePaymentmethod } from "../../../services/paymentMethod";
+import {
+  getPaymentmethods,
+  updatePaymentmethod,
+} from "../../../services/paymentMethod";
 
 export default function PaymentMethodEdit() {
-  
-  const[errors,setErrors] = useState({})
-   
+  const [errors, setErrors] = useState({});
 
-  const [name, setName] = useState(''); //ush
-  const [account_number, setAccountNumber] = useState('');
+  const [name, setName] = useState(""); //ush
+  const [account_number, setAccountNumber] = useState("");
 
   //Destruct ID dari URL
-  const { id } = useParams()
-  const navigate = useNavigate()
+  const { id } = useParams();
+  const navigate = useNavigate();
 
   //fetch datanbuku berdasarkan ID
   const fetchPmethodDetails = async () => {
-     const data = await getPaymentmethods() // ambil semua data buku
+    const data = await getPaymentmethods(); // ambil semua data buku
 
-     //cari data buku berdasarkan ID
-     const paymentMethod =data.find(paymentMethod => paymentMethod.id === parseInt(id)) //find itu mencari
-     if (paymentMethod) {
-          //Assign data to state
-          setName(paymentMethod.name)
-          setAccountNumber(paymentMethod.account_number)
-     } 
-  //    console.log(pmethod)
-  }
+    //cari data buku berdasarkan ID
+    const paymentMethod = data.find(
+      (paymentMethod) => paymentMethod.id === parseInt(id)
+    ); //find itu mencari
+    if (paymentMethod) {
+      //Assign data to state
+      setName(paymentMethod.name);
+      setAccountNumber(paymentMethod.account_number);
+    }
+    //    console.log(pmethod)
+  };
 
   useEffect(() => {
-    fetchPmethodDetails()
-}, []);
-
+    fetchPmethodDetails();
+  }, []);
 
   //upload pmethod data
-  const updatePaymentMethodDetails = async(e) => { //utk form submit
-      e.preventDefault()
+  const updatePaymentMethodDetails = async (e) => {
+    //utk form submit
+    e.preventDefault();
 
-      //buat FormData
-      const PaymentMethodData = new FormData()
+    //buat FormData
+    const PaymentMethodData = new FormData();
 
-      PaymentMethodData.append('name', name)
-      PaymentMethodData.append('account_number', account_number)
-      PaymentMethodData.append('_method', 'PUT')
-      
+    PaymentMethodData.append("name", name);
+    PaymentMethodData.append("account_number", account_number);
+    PaymentMethodData.append("_method", "PUT");
 
-      await updatePaymentmethod(id, PaymentMethodData)
+    await updatePaymentmethod(id, PaymentMethodData)
       .then(() => {
-          // redirect ke halaman index
-          navigate('/admin/payment_methods')
-          console.log('data', PaymentMethodData)
-      }) 
-      .catch((err) => {
-          console.log(err.response.data.message)
-          setErrors(err.response.data.message)
+        // redirect ke halaman index
+        navigate("/admin/payment_methods");
+        console.log("data", PaymentMethodData);
       })
+      .catch((err) => {
+        console.log(err.response.data.message);
+        setErrors(err.response.data.message);
+      });
 
-      // console.log(PaymentMethodData)
-      
-  }
-    
+    // console.log(PaymentMethodData)
+  };
 
   return (
     <div className="flex flex-col gap-9">
-      <div
-        className="rounded-sm bg-white shadow-default dark:bg-boxdark"
-      >
-        <div
-          className="border-b border-stroke px-6.5 py-4 dark:border-strokedark"
-        >
+      <div className="rounded-sm bg-white shadow-default dark:bg-boxdark">
+        <div className="border-b border-stroke px-6.5 py-4 dark:border-strokedark">
           <h3 className="font-medium text-black dark:text-white">
             Edit Payment Methods
           </h3>
         </div>
         <form onSubmit={updatePaymentMethodDetails} className="py-5">
           <div className="p-6.5 flex flex-col gap-5">
-            
             <div className="mb-4.5">
-              <label
-                className="mb-3 block text-base font-medium text-black dark:text-white"
-              >
+              <label className="mb-3 block text-base font-medium text-black dark:text-white">
                 Name
               </label>
-              {errors.name &&(
-                <div className="p-2 my-2 text-sm text-red-800 rounded-lg bg-red-50" role="alert">
-                    <span className="font-medium">{errors.name[0]}</span>
+              {errors.name && (
+                <div
+                  className="p-2 my-2 text-sm text-red-800 rounded-lg bg-red-50"
+                  role="alert"
+                >
+                  <span className="font-medium">{errors.name[0]}</span>
                 </div>
               )}
               <input
@@ -97,14 +93,17 @@ export default function PaymentMethodEdit() {
             </div>
 
             <div className="mb-4.5">
-              <label
-                className="mb-3 block text-base font-medium text-black dark:text-white"
-              >
+              <label className="mb-3 block text-base font-medium text-black dark:text-white">
                 Account Number
               </label>
-              {errors.account_number &&(
-                <div className="p-2 my-2 text-sm text-red-800 rounded-lg bg-red-50" role="alert">
-                    <span className="font-medium">{errors.account_number[0]}</span>
+              {errors.account_number && (
+                <div
+                  className="p-2 my-2 text-sm text-red-800 rounded-lg bg-red-50"
+                  role="alert"
+                >
+                  <span className="font-medium">
+                    {errors.account_number[0]}
+                  </span>
                 </div>
               )}
               <textarea
@@ -116,9 +115,6 @@ export default function PaymentMethodEdit() {
               ></textarea>
             </div>
 
-        
-
-
             <button
               type="submit"
               className="flex w-full justify-center rounded bg-indigo-600 p-3 font-medium text-white hover:bg-opacity-90"
@@ -129,5 +125,5 @@ export default function PaymentMethodEdit() {
         </form>
       </div>
     </div>
-  )
+  );
 }

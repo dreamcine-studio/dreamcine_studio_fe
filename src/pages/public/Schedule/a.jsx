@@ -5,26 +5,26 @@ export default function PaymentForm() {
   const [selectedMethod, setSelectedMethod] = useState("mastercard");
   const navigate = useNavigate();
 
-//   const getMovieData = (id) => {
-//     const movie = movies.find((m) => m.id === id);
-//     return movie
-//       ? {
-//           title: movie.title,
-//           poster: movie.poster,
-//           duration: movie.duration,
-//           price: movie.price,
-//         }
-//       : {
-//           title: "Unknown Movie",
-//           poster: "",
-//           duration: "",
-//         };
-//   };
+  //   const getMovieData = (id) => {
+  //     const movie = movies.find((m) => m.id === id);
+  //     return movie
+  //       ? {
+  //           title: movie.title,
+  //           poster: movie.poster,
+  //           duration: movie.duration,
+  //           price: movie.price,
+  //         }
+  //       : {
+  //           title: "Unknown Movie",
+  //           poster: "",
+  //           duration: "",
+  //         };
+  //   };
 
   return (
     <div className="max-w-md mx-auto bg-white shadow-lg rounded-lg p-6">
       <h2 className="text-lg font-semibold mb-4">Payment</h2>
-    
+
       {/* Payment Methods */}
       {[
         {
@@ -33,10 +33,11 @@ export default function PaymentForm() {
           details: "Expiry 04/2026",
           icon: "💳",
         },
-        { 
-          id: "paypal", 
-          label: "Paypal account", 
-          icon: "💰" },
+        {
+          id: "paypal",
+          label: "Paypal account",
+          icon: "💰",
+        },
       ].map((method) => (
         <div
           key={method.id}
