@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import "./style.css";
 import { getMovies } from "../../../services/movies";
 import { useLocation, useNavigate } from "react-router-dom";
