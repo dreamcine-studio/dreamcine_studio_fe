@@ -43,7 +43,7 @@ export default function Team() {
                       {person.name}
                     </h1>
                     <p className="text-gray-800 text-sm text-center">
-                      {person.role}r
+                      {person.role}
                     </p>
                     <p className="text-center text-gray-600 text-base pt-3 font-normal">
                       The CEOs role in raising a companys corporate IQ is to
