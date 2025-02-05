@@ -45,7 +45,7 @@ export default function Footer() {
           </div>
 
           <div className="lg:w-1/4 md:w-1/2 w-full px-4 py-2">
-            <a href="/contact">
+            <a href="/teams">
             <h2 className="title-font font-medium text-gray-900 tracking-widest text-sm mb-3">
               TEAM
             </h2>
@@ -53,7 +53,7 @@ export default function Footer() {
           </div>
 
           <div className="lg:w-1/4 md:w-1/2 w-full px-4 py-2">
-            <a href="/contact">
+            <a href="/contacts">
             <h2 className="title-font font-medium text-gray-900 tracking-widest text-sm mb-3">
               CONTACT US
             </h2>
