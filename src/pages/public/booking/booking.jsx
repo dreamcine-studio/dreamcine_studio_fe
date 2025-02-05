@@ -5,12 +5,13 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { getStudios } from "../../../services/studios";
 import { createBooking } from "../../../services/booking";
 import { getSchedules } from "../../../services/schedules";
-import { createSeat } from "../../../services/seat";
+import { createSeat, showSeat } from "../../../services/seat";
 
 export default function MovieSeat() {
   const [selectedSeats, setSelectedSeats] = useState(0);
   const [movie, setMovie] = useState([]);
   const [studio, setStudio] = useState([]);
+  const [seat, setSeat] = useState([]);
   const [schedule, setSchedule] = useState([]);
   const [errors, setErrors] = useState([]);
   const location = useLocation();
@@ -49,20 +50,33 @@ export default function MovieSeat() {
     const fetchSchedule = async () => {
       try {
         const data = await getSchedules();
-        const schedule = data.find((schedule) => schedule.id === parseInt(scheduleId));
+        const schedule = data.find(
+          (schedule) => schedule.id === parseInt(scheduleId)
+        );
         setSchedule(schedule);
       } catch (error) {
         console.error("Error fetching schedule:", error);
         // Handle error, e.g., display a message to the user
       }
-    }
-    
+    };
+
+    const fetchSeat = async () => {
+      try {
+        const data = await showSeat(studioId);
+        setSeat(data);
+      } catch (error) {
+        console.error("Error fetching schedule:", error);
+      }
+    };
+
     fetchMovie();
     fetchStudio();
     fetchSchedule();
+    fetchSeat();
   }, [movieId, studioId, scheduleId]);
 
-  console.log('schedule', schedule);
+  console.log("schedule", schedule);
+  console.log("seat", seat);
 
   const handleSeatClick = (e) => {
     const seatElement = e.target;
@@ -70,7 +84,9 @@ export default function MovieSeat() {
     if (!seatElement.classList.contains("sold")) {
       seatElement.classList.toggle("selected");
 
-      const selectedSeatsArray = Array.from(document.querySelectorAll(".seat-grid .seat.selected")).map((seat) => seat.textContent);
+      const selectedSeatsArray = Array.from(
+        document.querySelectorAll(".seat-grid .seat.selected")
+      ).map((seat) => seat.textContent);
       setSelectedSeats(selectedSeatsArray);
       console.log(selectedSeatsArray);
     }
@@ -86,7 +102,6 @@ export default function MovieSeat() {
   };
 
   const totalPrice = movie?.price * selectedSeats.length || 0;
-  
 
   const createBookingDetails = async (e) => {
     e.preventDefault();
@@ -98,8 +113,8 @@ export default function MovieSeat() {
       sessionStorage.setItem("redirectAfterLogin", "/schedules");
       alert("You must log in to place an order.");
       return navigate("/login");
-    } 
-    
+    }
+
     if (selectedSeats === 0) {
       alert("Please select at least one seat.");
       return;
@@ -114,10 +129,9 @@ export default function MovieSeat() {
     bookingData.append("showdate_start", showdate_start);
     bookingData.append("quantity", selectedSeats.length);
     bookingData.append("amount", totalPrice);
-    
 
     const seatData = new FormData();
-    selectedSeats.forEach(seatNumber => {
+    selectedSeats.forEach((seatNumber) => {
       seatData.append("seat_number[]", seatNumber);
     });
     seatData.append("studio_id", studioId);
@@ -130,9 +144,8 @@ export default function MovieSeat() {
     } catch (errors) {
       // console.log(err.response.data.message);
       setErrors(errors.response.data.message);
-    }}
-
-
+    }
+  };
 
   return (
     <div className="flex flex-col items-center justify-center dark:bg-gray-900 text-white w-full p-8">
@@ -185,29 +198,37 @@ export default function MovieSeat() {
                 key={rowIndex}
                 className="flex items-center justify-center gap-2 mb-2"
               >
-                {[...Array(8)].map((_, index) => (
-                  <div
-                    key={index}
-                    className="seat text-center"
-                    onClick={handleSeatClick}
-                  >
-                    {rowLabel}
-                    {index + 1}
-                  </div>
-                ))}
+                {[...Array(8)].map((_, index) => {
+                  const seatNumber = `${rowLabel}${index + 1}`;
+                  const isBooked = seat?.seat_number?.includes(seatNumber);
+
+                  return (
+                    <div
+                      key={index}
+                      className={`seat text-center ${isBooked ? "sold" : ""}`}
+                      onClick={!isBooked ? handleSeatClick : undefined}
+                    >
+                      {seatNumber}
+                    </div>
+                  );
+                })}
                 <div className="mx-4 text-center text-black dark:text-white">
                   {rowLabel}
                 </div>
-                {[...Array(6)].map((_, index) => (
-                  <div
-                    key={index}
-                    className="seat text-center"
-                    onClick={handleSeatClick}
-                  >
-                    {rowLabel}
-                    {index + 10}
-                  </div>
-                ))}
+                {[...Array(6)].map((_, index) => {
+                  const seatNumber = `${rowLabel}${index + 10}`;
+                  const isBooked = seat?.seat_number?.includes(seatNumber);
+
+                  return (
+                    <div
+                      key={index}
+                      className={`seat text-center ${isBooked ? "sold" : ""}`}
+                      onClick={!isBooked ? handleSeatClick : undefined}
+                    >
+                      {seatNumber}
+                    </div>
+                  );
+                })}
               </div>
             );
           })}
@@ -218,18 +239,28 @@ export default function MovieSeat() {
         <div className="flex w-full">
           <div className="flex dark:bg-gray-900 text-white w-1/2">
             <p className="flex text-center text-lg text-gray-900">
-              Total Price: {formatRupiah(totalPrice)} ({selectedSeats.length > 0 ? selectedSeats.length : "0"} seats)
+              Total Price: {formatRupiah(totalPrice)} (
+              {selectedSeats.length > 0 ? selectedSeats.length : "0"} seats)
             </p>
           </div>
           <div className="flex flex-col dark:bg-gray-900 text-white items-left">
             <p className="flex text-lg text-gray-900 mr-2">
-              Selected Seat: {selectedSeats.length > 0 ? selectedSeats.join(", ") : "No seats selected"} 
+              Selected Seat:{" "}
+              {selectedSeats.length > 0
+                ? selectedSeats.join(", ")
+                : "No seats selected"}
             </p>
           </div>
         </div>
       </div>
 
-      <Link onChange={createBookingDetails} to={`/payment?booking-seat_id=${totalPrice,selectedSeats.length}&movie_id=${movie.id}`} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-6">
+      <Link
+        onChange={createBookingDetails}
+        to={`/payment?booking-seat_id=${
+          (totalPrice, selectedSeats.length)
+        }&movie_id=${movie.id}`}
+        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-6"
+      >
         Book Your Ticket
       </Link>
     </div>
