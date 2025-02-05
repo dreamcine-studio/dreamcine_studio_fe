@@ -3,18 +3,73 @@ import { useEffect, useState } from "react";
 import { deleteGenre, getGenres } from "../../../services/genre";
 
 export default function AdminGenres() {
+
+
+
   const [genres, setGenres] = useState([]);
+  const [Loading, setLoading] = useState([]);
+  const [error, setError] = useState([]);
 
-  useEffect(() => {
-    const fetchGenres = async () => {
-      const data = await getGenres();
-      setGenres(data);
-    };
+useEffect(() => {
+  
+const fetchData = async () => {
+  setLoading(true);
+  setError(null);
 
-    fetchGenres();
+  try {
+    const [
+      genresData,
+    ] = await Promise.all( [
+      getGenres(),
+    ]);
+
+    setGenres(genresData);
+  
+    }catch (error){
+      setError("Failed to fetch data, please try again later : ")
+    } finally {
+      setLoading(false)
+    }
+  }
+  
+    fetchData();
+    
   }, []);
 
-  console.log("ada", genres);
+ 
+
+  if (Loading) {
+    return (
+      <main className="py-6 px-12 space-y-2 bg-gray-300 min-h-screen w-full flex items-center justify-center">
+        {/* Loading Spinner */}
+        <div className="flex items-center space-x-4">
+          <div className="w-16 h-16 border-4 border-solid border-transparent rounded-full
+            animate-spin
+            border-t-purple-500 border-r-pink-500 border-b-purple-500 border-l-pink-500">
+          </div>
+          {/* Teks dengan Efek Bounce */}
+          <div className="text-2xl font-bold text-gray-800 animate-bounce">
+            Please Wait ..
+          </div>
+        </div>
+      </main>
+    );
+  }
+
+
+  if (error){
+    return (
+      <main className="py-l px-12 space-y-2 bg-gray-100 min-h-screen w-full flex items-center justify-center">
+        <div className="text-2xl font-bold text-gray-500"> {error} .. </div>
+      </main>
+    )
+  }
+  
+
+
+
+
+  // console.log("ada", genres);
 
   const handleDelete = async (id) => {
     // deleteBook dari services jangan lupa di inport

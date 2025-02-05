@@ -58,6 +58,7 @@ export default function GenreCreate() {
                 </div>
               )}
               <input
+              placeholder="Masukkan nama"
                 type="text"
                 name="name"
                 value={genreData.name}
@@ -77,6 +78,7 @@ export default function GenreCreate() {
               )}
 
               <textarea
+                placeholder="Masukkan description"
                 rows="6"
                 name="description"
                 value={genreData.description}

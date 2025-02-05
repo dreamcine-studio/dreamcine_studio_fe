@@ -5,43 +5,76 @@ import { deleteSchedules, getSchedules } from "../../../services/schedules";
 import { getStudios } from "../../../services/studios";
 
 export default function AdminSchedules() {
+ 
   const [schedules, setSchedules] = useState([]);
   const [movies, setMovies] = useState([]);
   const [studios, setStudios] = useState([]);
+  const [Loading, setLoading] = useState([]);
+  const [error, setError] = useState([]);
 
-  console.log(schedules);
+
   useEffect(() => {
-    const fetchSchedules = async () => {
-      try {
-        const data = await getSchedules();
-        setSchedules(data);
-      } catch (error) {
-        console.error("Error fetching schedules:", error);
-      }
-    };
+  
+    const fetchData = async () => {
+      setLoading(true);
+      setError(null);
 
-    const fetchMovies = async () => {
-      try {
-        const data = await getMovies();
-        setMovies(data);
-      } catch (error) {
-        console.error("Error fetching movies:", error);
-      }
-    };
 
-    const fetchStudio = async () => {
       try {
-        const data = await getStudios();
-        setStudios(data);
-      } catch (error) {
-        console.error("Error fetching studio:", error);
-      }
-    };
+        const [
+          schedulesData,
+          moviesData,
+          studiosData,
+      ] = await Promise.all( [
+        getSchedules(),
+        getMovies(),
+        getStudios(),
+        
+		]);
 
-    fetchSchedules();
-    fetchMovies();
-    fetchStudio();
-  }, []);
+    setStudios(studiosData);
+    setMovies(moviesData);
+    setSchedules(schedulesData);
+	}catch (error){
+		setError("Failed to fetch data, please try again later : ")
+    console.log(error)
+	} finally {
+		setLoading(false)
+	}
+}
+
+fetchData();
+	
+}, []);
+
+if (Loading) {
+  return (
+    <main className="py-6 px-12 space-y-2 bg-gray-300 min-h-screen w-full flex items-center justify-center">
+      {/* Loading Spinner */}
+      <div className="flex items-center space-x-4">
+        <div className="w-16 h-16 border-4 border-solid border-transparent rounded-full
+          animate-spin
+          border-t-purple-500 border-r-pink-500 border-b-purple-500 border-l-pink-500">
+        </div>
+        {/* Teks dengan Efek Bounce */}
+        <div className="text-2xl font-bold text-gray-800 animate-bounce">
+          Please Wait ..
+        </div>
+      </div>
+    </main>
+  );
+}
+
+  
+if (error){
+	return (
+		<main className="py-l px-12 space-y-2 bg-gray-100 min-h-screen w-full flex items-center justify-center">
+			<div className="text-2xl font-bold text-gray-500"> {error} .. </div>
+		</main>
+	)
+}
+
+
 
   const getMovieData = (id) => {
     const movie = movies.find((m) => m.id === id);

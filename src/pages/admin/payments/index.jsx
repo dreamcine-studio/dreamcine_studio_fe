@@ -4,23 +4,78 @@ import { deletePayment, getPayments } from "../../../services/payment";
 import { getPaymentmethods } from "../../../services/paymentMethod";
 
 export default function AdminPayments() {
+ 
+
   const [payments, setPayments] = useState([]);
   const [paymentMethods, setPaymentMethods] = useState([]);
+  const [Loading, setLoading] = useState([]);
+  const [error, setError] = useState([]);
 
+
+  
   useEffect(() => {
-    const fetchPayments = async () => {
-      const data = await getPayments();
-      setPayments(data);
-    };
+    
+  const fetchData = async () => {
+    setLoading(true);
+    setError(null);
+  
+    try {
+      const [
+        paymentsData,
+        paymentMethodsData,
+      ] = await Promise.all( [
+        getPayments(),
+        getPaymentmethods(),
+      ]);
+  
+      setPayments(paymentsData);
+      setPaymentMethods(paymentMethodsData);
 
-    const fetchPMethods = async () => {
-      const data = await getPaymentmethods();
-      setPaymentMethods(data);
-    };
+      }catch (error){
+        setError("Failed to fetch data, please try again later : ")
+        console.error("Error fetching movie:", error);
 
-    fetchPMethods();
-    fetchPayments();
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchData();
+	
   }, []);
+ 
+ 
+
+  
+  if (Loading) {
+    return (
+      <main className="py-6 px-12 space-y-2 bg-gray-300 min-h-screen w-full flex items-center justify-center">
+        {/* Loading Spinner */}
+        <div className="flex items-center space-x-4">
+          <div className="w-16 h-16 border-4 border-solid border-transparent rounded-full
+            animate-spin
+            border-t-purple-500 border-r-pink-500 border-b-purple-500 border-l-pink-500">
+          </div>
+          {/* Teks dengan Efek Bounce */}
+          <div className="text-2xl font-bold text-gray-800 animate-bounce">
+            Please Wait ..
+          </div>
+        </div>
+      </main>
+    );
+  }
+
+    
+  if (error){
+    return (
+      <main className="py-l px-12 space-y-2 bg-gray-100 min-h-screen w-full flex items-center justify-center">
+        <div className="text-2xl font-bold text-gray-500"> {error} .. </div>
+      </main>
+    )
+  }
+  
+
+
 
   const getPMethodName = (id) => {
     const paymentMethod = paymentMethods.find((g) => g.id === id);
