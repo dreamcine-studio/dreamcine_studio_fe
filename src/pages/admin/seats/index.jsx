@@ -158,8 +158,8 @@ const fetchData = async () => {
                     </p>
                   </td>
                   <td className="px-4 py-5">
-                    <p className="text-black dark:text-white">
-                      {seat.isbooked}
+                    <p className="text-indigo-800 dark:text-white">
+                    {Boolean(seat.isbooked).toString()}
                     </p>
                   </td>
 
