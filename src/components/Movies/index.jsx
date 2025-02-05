@@ -6,21 +6,59 @@ import { getGenres } from "../../services/genre";
 export default function Movies() {
   const [movies, setMovies] = useState([]);
   const [genres, setGenres] = useState([]);
+  const [Loading, setLoading] = useState([]);
+  const [error, setError] = useState([]);
 
   // ini untuk mengambil data dari api
   useEffect(() => {
-    const fetchMovie = async () => {
-      const data = await getMovies();
-      setMovies(data);
-    };
-    const fetchGenre = async () => {
-      const data = await getGenres();
-      setGenres(data);
-    };
 
-    fetchMovie();
-    fetchGenre();
+    const fetchDataMovies = async () => {
+
+      setLoading(true);
+      setError(null);
+      try {
+        const[
+          moviesData,
+          genresData
+         ] = await Promise.all( [
+          getMovies(),
+          getGenres()
+        ]);
+        
+       setMovies(moviesData),
+       setGenres(genresData)
+
+      }catch (error){
+        setError("Failed to fetch data, please try again later : ")
+      } finally {
+        setLoading(false)
+      }
+
+    }
+
+  fetchDataMovies();
   }, []);
+
+  if (Loading) {
+    return (
+      <main className="py-l px-12 space-y-2 bg-gray-100 min-h-screen w-full flex items-center justify-center">
+        {/* Loading Spinner */}
+        <div className="flex items-center space-x-2">
+          <div className="w-8 h-8 border-4 border-t-4 border-gray-200 border-t-indigo-600 rounded-full animate-spin"></div>
+          <div className="text-2xl font-bold text-gray-500">Please Wait ..</div>
+        </div>
+      </main>
+    );
+  }
+  
+  if (error){
+    return (
+      <main className="py-l px-12 space-y-2 bg-gray-100 min-h-screen w-full flex items-center justify-center">
+        <div className="text-2xl font-bold text-gray-500"> {error} .. </div>
+      </main>
+    )
+  }
+
 
   const getGenreName = (id) => {
     const genre = genres.find((g) => g.id === id);
