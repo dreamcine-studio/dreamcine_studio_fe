@@ -1,7 +1,7 @@
 export default function Footer() {
   // const currentYear = new Date().getFullYear();
   return (
-    <footer className="text-gray-600 body-font">
+    <footer className="text-gray-600 body-font dark:bg-gray-900">
       <div className="container px-5 py-10 mx-auto flex md:items-center lg:items-start md:flex-row md:flex-nowrap flex-wrap flex-col">
         <div className="w-64 flex-shrink-0 md:mx-0 mx-auto text-center md:text-left">
           <a className="flex title-font font-medium items-center md:justify-start justify-center text-gray-900">
@@ -24,7 +24,7 @@ export default function Footer() {
 
           <div className="lg:w-1/4 md:w-1/2 w-full px-4 py-2">
             <a href="/movies">
-            <h2 className="title-font font-medium text-gray-900 tracking-widest text-sm mb-3">
+            <h2 className="title-font font-medium text-gray-900 tracking-widest text-sm mb-3 dark:text-gray-400 hover:scale-110">
               MOVIES
             </h2>
             </a>
@@ -46,7 +46,7 @@ export default function Footer() {
 
           <div className="lg:w-1/4 md:w-1/2 w-full px-4 py-2">
             <a href="/teams">
-            <h2 className="title-font font-medium text-gray-900 tracking-widest text-sm mb-3">
+            <h2 className="title-font font-medium text-gray-900 tracking-widest text-sm mb-3 dark:text-gray-400 hover:scale-110">
               TEAM
             </h2>
             </a>
@@ -54,7 +54,7 @@ export default function Footer() {
 
           <div className="lg:w-1/4 md:w-1/2 w-full px-4 py-2">
             <a href="/contacts">
-            <h2 className="title-font font-medium text-gray-900 tracking-widest text-sm mb-3">
+            <h2 className="title-font font-medium text-gray-900 tracking-widest text-sm mb-3 dark:text-gray-400 hover:scale-110">
               CONTACT US
             </h2>
             </a>
