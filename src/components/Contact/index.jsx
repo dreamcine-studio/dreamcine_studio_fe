@@ -1,7 +1,8 @@
 export default function Contact() {
   return (
-    <div className="relative flex items-top justify-center min-h-screen bg-white dark:bg-gray-900 sm:items-center sm:pt-0">
-      <div className="bg-gray-300 max-w-6xl mx-auto sm:px-6 lg:px-8">
+    <div className="py-20 dark:bg-gray-900">
+    <div className="relative flex items-top justify-center bg-white dark:bg-gray-900 sm:items-center sm:pt-0">
+      <div className="max-w-6xl mx-auto sm:px-6 lg:px-8">
         <div className="mt-8 overflow-hidden">
           <div className="grid grid-cols-1 md:grid-cols-2">
             <div className="p-6 mr-2 bg-gray-100 dark:bg-gray-800 sm:rounded-lg">
@@ -29,7 +30,7 @@ export default function Contact() {
                   />
                 </svg>
                 <div className="ml-4 text-md tracking-wide font-semibold w-40">
-                  +44 1234567890
+                  (021) - 12345678
                 </div>
               </div>
               <div className="flex items-center mt-2 text-gray-600 dark:text-gray-400">
@@ -51,11 +52,12 @@ export default function Contact() {
                 </svg>
                 <div className="ml-4 text-md tracking-wide font-semibold w-40">
                   <a href="https://veilmail.io/irish-geoff">
-                    https://veilmail.io/irish-geoff
+                    dreamcine_studios@gmail.com
                   </a>
                 </div>
               </div>
             </div>
+
             <form
               action="https://fabform.io/f/xxxxx"
               method="post"
@@ -87,12 +89,12 @@ export default function Contact() {
                   name="message"
                   id="message"
                   placeholder="Your Message"
-                  className="w-100 mt-2 py-3 px-3 rounded-lg bg-white dark:bg-gray-800 border border-gray-400 dark:border-gray-700 text-gray-800 font-semibold focus:border-indigo-500 focus:outline-none"
+                  className="w-100 mt-2 py-3 px-3 rounded-lg bg-white dark:bg-gray-800 border border-gray-400 dark:border-gray-700 text-gray-800 font-semibold focus:border-indigo-500 focus:outline-none resize-none"
                 ></textarea>
               </div>
               <button
                 type="submit"
-                className="md:w-32 bg-black hover:bg-gray-900 text-white font-bold py-3 px-6 rounded-lg mt-3 hover:bg-indigo-500 transition ease-in-out duration-300"
+                className="md:w-32 bg-black hover:bg-gray-900 text-white font-bold py-3 px-6 rounded-lg mt-3 hover:bg-indigo-500 transition ease-in-out duration-300 dark:bg-indigo-700"
               >
                 Submit
               </button>
@@ -100,6 +102,7 @@ export default function Contact() {
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 }
