@@ -1,7 +1,13 @@
 import { useEffect, useState } from "react";
 import { getPaymentmethods } from "../../../services/paymentMethod";
+import { getMovies } from "../../../services/movies";
+// import { getBooking } from "../../../services/booking";
 
 export default function Payment() {
+  const [selectedSeats, setSelectedSeats] = useState(0);
+  const [movie, setMovie] = useState([]);
+  const [price, setPrice] = useState("");
+  // const [booking, setBooking] = useState([]);
   const [payment_methods, setPaymentMethods] = useState([]);
   const [selectedMethod, setSelectedMethod] = useState(null);
   const [timeRemaining, setTimeRemaining] = useState(30 * 60); // 30 menit dalam detik
@@ -12,8 +18,29 @@ export default function Payment() {
       setPaymentMethods(data);
     };
 
+    const fetchMovie = async () => {
+      const data = await getMovies();
+  
+      const movie = data.find((movie) => movie.id === parseInt(id));
+      if (movie) {
+        // Asign data to state
+        setPrice(movie.price);
+    };
+  }
+
+    // const fetchBooking = async () => {
+    //   try {
+    //     const data = await getBooking();
+    //     setBooking(data);
+    //   } catch (error) {
+    //     console.error("Failed to fetch booking:", error);
+    //   }
+    // };
+    // fetchBooking();
+    fetchMovie();
     fetchPaymentMethods();
   }, []);
+
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -23,6 +50,43 @@ export default function Payment() {
     return () => clearInterval(timer);
   }, []);
 
+  // const handleSeatClick = (e) => {
+  //   const seatElement = e.target;
+
+  //   if (!seatElement.classList.contains("sold")) {
+  //     seatElement.classList.toggle("selected");
+
+  //     const selectedSeatsArray = Array.from(document.querySelectorAll(
+  //       ".seat-grid .seat.selected")).map((seat) => seat.textContent);
+  //     setSelectedSeats(selectedSeatsArray);
+  //     console.log(selectedSeatsArray);
+  //   }
+  // };
+
+  const formatRupiah = (number) => {
+    return new Intl.NumberFormat("id-ID", {
+      style: "currency",
+      currency: "IDR",
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 2,
+    }).format(number);
+  };
+
+  const totalPrice = movie?.price * selectedSeats.length || 0;
+
+  const MovieDetail = async (e) => {
+    e.preventDefault();
+
+    // buat FormData
+    const paymentData = new FormData();
+
+    paymentData.append("price", price);
+    paymentData.append("quantity", selectedSeats.length);
+    paymentData.append("total_price", totalPrice);
+    // paymentData.append("movie_id", movieId);
+    // paymentData.append("booking_id", bookingId);
+
+  };
   const formatTime = (seconds) => {
     const minutes = Math.floor(seconds / 60);
     const secs = seconds % 60;
@@ -81,22 +145,26 @@ export default function Payment() {
       <div className="space-y-2 mt-4">
         <dl className="flex items-center justify-between gap-4 border-t border-gray-200 pt-2">
           <dt className="text-base text-gray-900">Original price</dt>
-          <dd className="text-base text-gray-900">Rp. 35.000</dd>
+          <dd className="text-base text-gray-900">{formatRupiah(movie.price)}</dd>
         </dl>
 
         <dl className="flex items-center justify-between gap-4 border-gray-200 pt-2">
           <dt className="text-base text-gray-900">Seat</dt>
-          <dd className="text-base text-gray-900">2</dd>
+          <dd className="text-base text-gray-900">({selectedSeats.length} seats)</dd>
         </dl>
 
         <dl className="flex items-center justify-between gap-4 border-gray-200 pt-2">
-          <dt className="text-base text-gray-900">Please complete the payment</dt>
-          <dd className="text-base text-red-500 font-bold">{formatTime(timeRemaining)}</dd>
+          <dt className="text-base text-gray-900">
+            Please complete the payment
+          </dt>
+          <dd className="text-base text-red-500 font-bold">
+            {formatTime(timeRemaining)}
+          </dd>
         </dl>
 
         <dl className="flex items-center justify-between gap-4 border-t border-gray-200 pt-2">
           <dt className="text-base font-bold text-gray-900">Total</dt>
-          <dd className="text-base font-bold text-gray-900">Rp.70.000</dd>
+          <dd className="text-base font-bold text-gray-900">{formatRupiah(totalPrice)}</dd>
         </dl>
       </div>
 
