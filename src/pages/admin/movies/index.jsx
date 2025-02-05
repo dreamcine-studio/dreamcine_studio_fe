@@ -51,6 +51,7 @@ export default function Movies() {
       
         }catch (error){
           setError("Failed to fetch data, please try again later : ")
+          console.log(error)
         } finally {
           setLoading(false)
         }
@@ -80,7 +81,7 @@ export default function Movies() {
       </main>
     );
   }
-  
+
 
   if (error){
     return (
