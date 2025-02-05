@@ -36,8 +36,14 @@ export default function Movies() {
       <main className="py-6 px-12 space-y-2 bg-white-300 min-h-screen w-full flex items-center justify-center">
         {/* Loading Spinner */}
         <div className="flex items-center space-x-4">
-          <div className="w-16 h-16 border-4 border-t-4 border-transparent border-b-transparent border-l-transparent rounded-full animate-spin border-t-purple-500 border-r-transparent border-b-pink-500 border-l-transparent"></div>
-          <div className="text-2xl font-bold text-gray-800">Please Wait ..</div>
+          <div className="w-16 h-16 border-4 border-solid border-transparent rounded-full
+            animate-spin
+            border-t-purple-500 border-r-pink-500 border-b-purple-500 border-l-pink-500">
+          </div>
+          {/* Teks dengan Efek Bounce */}
+          <div className="text-2xl font-bold text-gray-800 animate-bounce">
+            Please Wait ..
+          </div>
         </div>
       </main>
     );
