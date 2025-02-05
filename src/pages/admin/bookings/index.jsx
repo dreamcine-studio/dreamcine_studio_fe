@@ -91,7 +91,7 @@ export default function AdminBookings() {
 
                   <td className="px-4 py-5">
                     <p className="text-black dark:text-white">
-                      {getScheduledateStart(booking.schedule_id)} -{" "}
+                      {getScheduledateStart(booking.schedule_id)} - {" "}
                       {getScheduledateEnd(booking.schedule_id)}
                     </p>
                   </td>
