@@ -17,21 +17,7 @@ export const createSeat = async (data) => {
     console.log(error);
     throw error;
   }
-};
-
-export const updateSeat = async (id, data) => {
-  try {
-    const response = await API.put(`/seats/${id}`, data, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-      },
-    });
-    return response.data;
-  } catch (error) {
-    console.log(error);
-    throw error;
-  }
-};
+}
 
 export const deleteSeat = async (id) => {
   try {

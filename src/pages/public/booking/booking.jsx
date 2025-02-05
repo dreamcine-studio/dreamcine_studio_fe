@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import "./style.css";
 import { getMovies } from "../../../services/movies";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { getStudios } from "../../../services/studios";
 import { createBooking } from "../../../services/booking";
 import { getSchedules } from "../../../services/schedules";
+import { createSeat } from "../../../services/seat";
 
 export default function MovieSeat() {
   const [selectedSeats, setSelectedSeats] = useState(0);
@@ -64,12 +65,14 @@ export default function MovieSeat() {
   console.log('schedule', schedule);
 
   const handleSeatClick = (e) => {
-    if (!e.target.classList.contains("sold")) {
-      e.target.classList.toggle("selected");
-      const selected = document.querySelectorAll(
-        ".seat-grid .seat.selected"
-      ).length;
-      setSelectedSeats(selected);
+    const seatElement = e.target;
+
+    if (!seatElement.classList.contains("sold")) {
+      seatElement.classList.toggle("selected");
+
+      const selectedSeatsArray = Array.from(document.querySelectorAll(".seat-grid .seat.selected")).map((seat) => seat.textContent);
+      setSelectedSeats(selectedSeatsArray);
+      console.log(selectedSeatsArray);
     }
   };
 
@@ -82,7 +85,8 @@ export default function MovieSeat() {
     }).format(number);
   };
 
-  const totalPrice = movie.price * selectedSeats;
+  const totalPrice = movie?.price * selectedSeats.length || 0;
+  
 
   const createBookingDetails = async (e) => {
     e.preventDefault();
@@ -91,13 +95,11 @@ export default function MovieSeat() {
     const userInfo = JSON.parse(localStorage.getItem("userInfo"));
 
     if (!token) {
+      sessionStorage.setItem("redirectAfterLogin", "/schedules");
       alert("You must log in to place an order.");
       return navigate("/login");
     } 
-    if (!userInfo || userInfo.role !== "customer") {
-      alert("You must be a customer to place an order.");
-      return navigate("/login");
-    }
+    
     if (selectedSeats === 0) {
       alert("Please select at least one seat.");
       return;
@@ -110,20 +112,27 @@ export default function MovieSeat() {
     bookingData.append("schedule_id", scheduleId);
     bookingData.append("showtime", showtime);
     bookingData.append("showdate_start", showdate_start);
-    bookingData.append("quantity", selectedSeats);
-    bookingData.append("total_price", totalPrice);
+    bookingData.append("quantity", selectedSeats.length);
+    bookingData.append("amount", totalPrice);
+    
+
+    const seatData = new FormData();
+    selectedSeats.forEach(seatNumber => {
+      seatData.append("seat_number[]", seatNumber);
+    });
+    seatData.append("studio_id", studioId);
 
     try {
       await createBooking(bookingData);
+      await createSeat(seatData);
       alert("Booking successful!");
       return navigate("/schedules");
     } catch (errors) {
       // console.log(err.response.data.message);
       setErrors(errors.response.data.message);
-    }
+    }}
 
-  }
-  console.log(selectedSeats)
+
 
   return (
     <div className="flex flex-col items-center justify-center dark:bg-gray-900 text-white w-full p-8">
@@ -144,7 +153,7 @@ export default function MovieSeat() {
                 <td className="px-2 py-2">{movie.title}</td>
                 <td className="px-2 py-2">{studio.name}</td>
                 <td className="px-2 py-2">{showtime}</td>
-                <td className="px-2 py-2">{showdate_start}</td>
+                <td className="px-2 py-2">{schedule.showdate_start}</td>
                 <td className="px-2 py-2">{formatRupiah(movie.price)}</td>
               </tr>
             </tbody>
@@ -209,20 +218,20 @@ export default function MovieSeat() {
         <div className="flex w-full">
           <div className="flex dark:bg-gray-900 text-white w-1/2">
             <p className="flex text-center text-lg text-gray-900">
-              Total Price: {formatRupiah(totalPrice)}
+              Total Price: {formatRupiah(totalPrice)} ({selectedSeats.length} seats)
             </p>
           </div>
           <div className="flex flex-col dark:bg-gray-900 text-white items-left">
-            <p className="flex text-lg text-gray-900">
-              Total Seat: {selectedSeats}
+            <p className="flex text-lg text-gray-900 mr-2">
+              Selected Seat: {selectedSeats.length > 0 ? selectedSeats.join(", ") : "No seats selected"} 
             </p>
           </div>
         </div>
       </div>
 
-      <button onClick={createBookingDetails} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-6">
+      <Link onChange={createBookingDetails} to={`/payment?booking-seat_id=${totalPrice,selectedSeats.length}&movie_id=${movie.id}`} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-6">
         Book Your Ticket
-      </button>
+      </Link>
     </div>
   );
 }

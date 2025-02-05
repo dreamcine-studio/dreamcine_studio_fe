@@ -13,12 +13,8 @@ export default function StudioCreate() {
 
   const navigate = useNavigate();
 
-  // di sini kita kasih Handle
   // Handle input change
   const handleInputChange = (event) => {
-    // ini kita destructoring, name adalah properti di HTML, value tempat ngirim data ke server
-    // kalau di Postmane itu nama nya Key
-    // value itu di Postman itu value juga
     const { name, value } = event.target;
     setGenreData({ ...studioData, [name]: value });
   };
@@ -26,14 +22,12 @@ export default function StudioCreate() {
   const studioGenre = async (e) => {
     e.preventDefault();
 
-    // ini nama objec nya, bebas, berfungsi untuk menambahkan data
     const formDataToSendGenre = new FormData();
 
     formDataToSendGenre.append("name", studioData.name);
     formDataToSendGenre.append("location", studioData.location);
     formDataToSendGenre.append("maxseats", studioData.maxseats);
 
-    // biar lebih bagus kita bisa pakai try catch
     try {
       await createStudio(formDataToSendGenre);
       navigate("/admin/studios");

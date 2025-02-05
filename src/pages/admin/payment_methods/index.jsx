@@ -29,11 +29,8 @@ export default function AdminPaymentMethods() {
     }
   };
 
-  // console.log(pmethods)
-
   return (
     <div className="rounded-sm shadow-default dark:bg-boxdark sm:px-7.5 xl:pb-1">
-      {/* ini pakai ternary */}
       <Link
         to={"/admin/payment_methods/create"}
         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
