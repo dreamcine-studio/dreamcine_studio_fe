@@ -1,11 +1,9 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { deleteSeat, getSeats } from "../../../services/seat";
-import { getStudios } from "../../../services/studios";
 
 export default function AdminSeats() {
   const [seats, setSeats] = useState([]);
-  const [studios, setStudios] = useState([]);
 
   useEffect(() => {
     const fetchSeats = async () => {
@@ -13,19 +11,13 @@ export default function AdminSeats() {
       setSeats(data);
     };
 
-    const fetchStudios = async () => {
-      const data = await getStudios();
-      setStudios(data);
-    };
-
-    fetchStudios();
     fetchSeats();
   }, []);
 
   console.log(seats);
 
-  const getStudioName = (id) => {
-    const studio = studios.find((g) => g.id === id);
+  const getSeatName = (id) => {
+    const studio = seats.find((g) => g.id === id);
     return studio ? studio.name : "Unknown studio";
   };
 
@@ -79,7 +71,7 @@ export default function AdminSeats() {
                 <tr key={seat.id} className="hover:bg-gray-50">
                   <td className="px-4 py-5 pl-9 xl:pl-11">
                     <h5 className="font-medium text-black dark:text-white">
-                      {getStudioName(seat.studio_id)}
+                      {getSeatName(seat.studio_id)}
                     </h5>
                   </td>
                   <td className="px-4 py-5">

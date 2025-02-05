@@ -1,36 +1,38 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { getStudios, updateStudio } from "../../../services/seats";
+import { getSeat, updateSeat } from "../../../services/seats";
 
-export default function StudioEdit() {
+export default function SeatEdit() {
   // menanpilkan error
   const [errors, setErrors] = useState({});
 
   // ini dari masing masing,
-  const [name, setName] = useState("");
-  const [location, setLocation] = useState("");
-  const [maxseats, setMaxSeat] = useState("");
+  const [studio_id, setStudio_id] = useState("");
+  const [seat_number, setseat_number] = useState("");
+  const [isbooked, setisbooked] = useState("");
 
   // destruct id dari URL
   const { id } = useParams();
 
   const navigate = useNavigate();
 
-  // kita coba fetch data buku berdasarkan ID
-  const fetchStudiosDetails = async () => {
+  
+  useEffect(() => {
+    // kita coba fetch data buku berdasarkan ID
+  const fetchSeatsDetails = async () => {
     // dari sini kita ambil data nya dari sevices getBooks
 
     // getBooks ini kita masukan ke dalam variable nama nya data
-    const data = await getStudios(); // getBooks() mengambil semua data buku
+    const data = await getSeat(); // getBooks() mengambil semua data buku
 
     // kita coba, cari data buku berdasarkan id
-    const studio = data.find((book) => book.id === parseInt(id));
+    const seat = data.find((book) => book.id === parseInt(id));
     // console.log(book)
-    if (studio) {
+    if (seat) {
       // assign data to state (ini setter function  nya yang di pakai)
-      setName(studio.name); // ini format nya object json pakai titik
-      setLocation(studio.location);
-      setMaxSeat(studio.maxseats);
+      setStudio_id(seat.studio_id); // ini format nya object json pakai titik
+      setseat_number(seat.seat_number);
+      setisbooked(seat.isbooked);
     }
   };
 
@@ -39,33 +41,32 @@ export default function StudioEdit() {
 
   // lebih baik kita pakai useEffect
 
-  useEffect(() => {
-    fetchStudiosDetails();
+    fetchSeatsDetails();
   }, []);
 
   //update book data
   // ini pakai async karena di service nya pakai async pada update
   // ini untuk ke form
-  const updateStudioDetails = async (e) => {
+  const updateSeatsDetails = async (e) => {
     e.preventDefault();
 
     // di React untuk menampung data yang di edit, kita menggunakan nama nya FormData
     // bawaan React
 
     // buat FormData
-    const studioData = new FormData();
+    const seatData = new FormData();
 
     // ini kita debug
     // console.log(title);
 
     // title (sebelah kiri) ini sama kaya di database
     // titile (sebelah kanan) ini dari use state
-    studioData.append("name", name);
-    studioData.append("location", location);
-    studioData.append("maxseats", maxseats);
+    seatData.append("studio_id", studio_id);
+    seatData.append("seat_number", seat_number);
+    seatData.append("isbooked", isbooked);
 
     // ini kita tambahkan _method    put
-    studioData.append("_method", "PUT");
+    seatData.append("_method", "PUT");
 
     //ini untuk melakukan pengecekan
     // bookData.forEach((value, key) => {
@@ -73,11 +74,11 @@ export default function StudioEdit() {
     // })
 
     // ini updateBook ambil dari service books.js
-    await updateStudio(id, studioData)
+    await updateSeat(id, seatData)
       // jika berhasil kita mau apa, kita pindah pakai navigate
       .then(() => {
         //berhasil, kita redirect ke halaman index.
-        navigate("/admin/studios");
+        navigate("/admin/seats");
         // console.log(genreData)
       })
       .catch((err) => {
@@ -92,64 +93,64 @@ export default function StudioEdit() {
       <div className="rounded-sm bg-white shadow-default dark:bg-boxdark">
         <div className="border-b border-stroke px-6.5 py-4 dark:border-strokedark">
           <h3 className="font-medium text-black dark:text-white">
-            Edit Studios
+            Edit Seats
           </h3>
         </div>
-        <form onSubmit={updateStudioDetails} className="py-5">
+        <form onSubmit={updateSeatsDetails} className="py-5">
           <div className="p-6.5 flex flex-col gap-5">
             <div className="mb-4.5">
               <label className="mb-3 block text-base font-medium text-black dark:text-white">
-                Name
+                studio_id
               </label>
-              {errors.name && (
+              {errors.studio_id && (
                 <div className="p-2 my-2 text-sm text-red-800 rounded-lg bg-red-50">
-                  <span className="font-medium">{errors.name[0]}</span>
+                  <span className="font-medium">{errors.studio_id[0]}</span>
                 </div>
               )}
 
               <input
                 type="text"
-                name="name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+                name="studio_id"
+                value={studio_id}
+                onChange={(e) => setStudio_id(e.target.value)}
                 className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-indigo-600 active:border-indigo-600 disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-indigo-600"
               />
             </div>
 
             <div className="mb-4.5">
               <label className="mb-3 block text-base font-medium text-black dark:text-white">
-                Location
+                seat_number
               </label>
-              {errors.location && (
+              {errors.seat_number && (
                 <div className="p-2 my-2 text-sm text-red-800 rounded-lg bg-red-50">
-                  <span className="font-medium">{errors.location[0]}</span>
+                  <span className="font-medium">{errors.seat_number[0]}</span>
                 </div>
               )}
 
               <input
                 type="text"
-                name="location"
-                value={location}
-                onChange={(e) => setLocation(e.target.value)}
+                name="seat_number"
+                value={seat_number}
+                onChange={(e) => setseat_number(e.target.value)}
                 className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-indigo-600 active:border-indigo-600 disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-indigo-600"
               />
             </div>
 
             <div className="mb-4.5">
               <label className="mb-3 block text-base font-medium text-black dark:text-white">
-                Max Seat
+                isbooked
               </label>
-              {errors.maxseats && (
+              {errors.isbooked && (
                 <div className="p-2 my-2 text-sm text-red-800 rounded-lg bg-red-50">
-                  <span className="font-medium">{errors.maxseats[0]}</span>
+                  <span className="font-medium">{errors.isbooked[0]}</span>
                 </div>
               )}
 
               <textarea
                 rows="6"
-                name="maxseats"
-                value={maxseats}
-                onChange={(e) => setMaxSeat(e.target.value)}
+                name="isbooked"
+                value={isbooked}
+                onChange={(e) => setisbooked(e.target.value)}
                 className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-indigo-600 active:border-indigo-600 disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-indigo-600"
               ></textarea>
             </div>
