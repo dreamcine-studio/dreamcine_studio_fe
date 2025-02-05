@@ -93,14 +93,18 @@ if (error){
 
   return (
     <div className="rounded-sm shadow-default dark:bg-boxdark sm:px-7.5 xl:pb-1">
+      <div>
+        <h1 className="text-2xl font-bold mb-4">Bookings</h1>
+      </div>
       <Link
         to={"/admin/bookings/create"}
         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
       >
-        Tambah data
+        <i className="fa-solid fa-plus mr-2"></i>
+        Add Data
       </Link>
 
-      <div className="max-w-full overflow-x-auto">
+      <div className="max-w-full overflow-x-auto mt-4">
         <table className="w-full table-auto">
           <thead className="border-b bg-gray-50 text-white">
             <tr className="bg-gray-2 text-left dark:bg-meta-4">
@@ -113,10 +117,6 @@ if (error){
               <th className="min-w-[220px] px-4 py-4 font-medium text-black dark:text-white">
                 quantity
               </th>
-              <th className="min-w-[220px] px-4 py-4 font-medium text-black dark:text-white">
-                booking_date
-              </th>
-
               <th className="min-w-[220px] px-4 py-4 font-medium text-black dark:text-white">
                 Action
               </th>
@@ -135,22 +135,15 @@ if (error){
 
                   <td className="px-4 py-5">
                     <p className="text-black dark:text-white">
-                      {getScheduledateStart(booking.schedule_id)} -{" "}
+                      {getScheduledateStart(booking.schedule_id)} - {" "}
                       {getScheduledateEnd(booking.schedule_id)}
                     </p>
                   </td>
 
                   <td className="px-4 py-5">
-                    <p className="text-black dark:text-white">
+                    <p className="px-4 text-black dark:text-white">
                       {" "}
                       {booking.quantity}
-                    </p>
-                  </td>
-
-                  <td className="px-4 py-5">
-                    <p className="text-black dark:text-white">
-                      {" "}
-                      {booking.booking_date}
                     </p>
                   </td>
 

@@ -218,7 +218,7 @@ export default function MovieSeat() {
         <div className="flex w-full">
           <div className="flex dark:bg-gray-900 text-white w-1/2">
             <p className="flex text-center text-lg text-gray-900">
-              Total Price: {formatRupiah(totalPrice)} ({selectedSeats.length} seats)
+              Total Price: {formatRupiah(totalPrice)} ({selectedSeats.length > 0 ? selectedSeats.length : "0"} seats)
             </p>
           </div>
           <div className="flex flex-col dark:bg-gray-900 text-white items-left">
