@@ -33,11 +33,11 @@ export default function Movies() {
 
   if (Loading) {
     return (
-      <main className="py-l px-12 space-y-2 bg-white-100 min-h-screen w-full flex items-center justify-center">
+      <main className="py-6 px-12 space-y-2 bg-white-300 min-h-screen w-full flex items-center justify-center">
         {/* Loading Spinner */}
-        <div className="flex items-center space-x-2">
-          <div className="w-8 h-8 border-4 border-t-4 border-gray-200 border-t-indigo-600 rounded-full animate-spin"></div>
-          <div className="text-2xl font-bold text-gray-500">Please Wait ..</div>
+        <div className="flex items-center space-x-4">
+          <div className="w-16 h-16 border-4 border-t-4 border-transparent border-b-transparent border-l-transparent rounded-full animate-spin border-t-purple-500 border-r-transparent border-b-pink-500 border-l-transparent"></div>
+          <div className="text-2xl font-bold text-gray-800">Please Wait ..</div>
         </div>
       </main>
     );
