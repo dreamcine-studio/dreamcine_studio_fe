@@ -2,20 +2,20 @@ import teams from "../../utils/constants/teams";
 
 export default function Team() {
   return (
-    <div className="mb-16">
+    <div className="dark:bg-gray-900">
       <div className="container flex justify-center mx-auto pt-16">
         <div>
-          <p className="text-gray-500 text-lg text-center font-normal pb-3">
+          <p className="text-gray-500 dark:text-gray-400 text-lg text-center font-normal">
             BUILDING TEAM
           </p>
-          <h1 className="xl:text-4xl text-3xl text-center text-gray-800 font-extrabold pb-6 sm:w-4/6 w-5/6 mx-auto">
+          <h1 className="xl:text-4xl text-3xl text-center text-gray-800 dark:text-gray-200 font-extrabold pb-6 sm:w-4/6 w-5/6 mx-auto">
             who participated in creating a cinema application
           </h1>
         </div>
       </div>
 
-      <div className="w-full bg-gray-100 px-10 pt-10">
-        <div className="container flex flex-wrap m-3 px-1 py-1 mx-auto ">
+      <div className="w-full bg-gray-100 px-10 pt-10 dark:bg-gray-800">
+        <div className="container flex flex-wrap px-1 py-1 mx-auto">
           <div
             role="list"
             aria-label="Behind the scenes People "
@@ -27,7 +27,7 @@ export default function Team() {
                 role="listitem"
                 className="xl:w-1/3 sm:w-3/4 md:w-2/5 relative mt-16 mb-32 sm:mb-24 xl:max-w-sm lg:w-2/5"
               >
-                <div className="rounded overflow-hidden shadow-md bg-white">
+                <div className="rounded overflow-hidden shadow-md bg-white dark:bg-gray-200">
                   <div className="absolute -mt-20 w-full flex justify-center">
                     <div className="h-32 w-32">
                       <img
@@ -51,7 +51,11 @@ export default function Team() {
                       and collaboration.
                     </p>
                     <div className="w-full flex justify-center pt-5 pb-5">
-                      <a href="javascript:void(0)" className="mx-5">
+                      <a 
+                      href={person.github} 
+                      className="mx-5"
+                      target="_blank"
+                      >
                         <div aria-label="Github" role="img">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -69,24 +73,7 @@ export default function Team() {
                           </svg>
                         </div>
                       </a>
-                      <a href="javascript:void(0)" className="mx-5">
-                        <div aria-label="Twitter" role="img">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="24"
-                            height="24"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="#718096"
-                            strokeWidth="1.5"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            className="feather feather-twitter"
-                          >
-                            <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
-                          </svg>
-                        </div>
-                      </a>
+                      
                       <a href="javascript:void(0)" className="mx-5">
                         <div aria-label="Instagram" role="img">
                           <svg
