@@ -62,7 +62,7 @@ export default function Footer() {
           
         </div>
       </div>
-      <div className="bg-gray-800">
+      <div className="bg-gray-800 dark:bg-black">
         <div className="container mx-auto py-4 px-5 flex flex-wrap flex-col sm:flex-row">
           <p className="text-gray-300 font-bold text-sm text-center sm:text-left">
             © 2025 - {" "}
