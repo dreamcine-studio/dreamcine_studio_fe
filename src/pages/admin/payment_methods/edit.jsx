@@ -19,10 +19,10 @@ export default function PaymentMethodEdit() {
   const fetchPmethodDetails = async () => {
     const data = await getPaymentmethods(); // ambil semua data buku
 
-    //cari data buku berdasarkan ID
+
     const paymentMethod = data.find(
       (paymentMethod) => paymentMethod.id === parseInt(id)
-    ); //find itu mencari
+    ); 
     if (paymentMethod) {
       //Assign data to state
       setName(paymentMethod.name);

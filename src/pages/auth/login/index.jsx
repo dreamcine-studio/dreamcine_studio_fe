@@ -27,6 +27,13 @@ export default function Login() {
       localStorage.setItem("accessToken", res.token);
       localStorage.setItem("userInfo", JSON.stringify(res.user));
 
+      const redirectTo = sessionStorage.getItem("redirectAfterLogin");
+
+      if (redirectTo) {
+        sessionStorage.removeItem("redirectAfterLogin"); // Hapus dari sessionStorage setelah digunakan
+        return navigate(redirectTo); // Redirect ke halaman yang diinginkan
+      }
+
       // Redirect berdasarkan role user
       if (res.user.role === "admin") {
         return navigate("/admin");
@@ -118,7 +125,7 @@ export default function Login() {
               )}
               <div className="flex items-center justify-between">
                 <div className="flex items-start">
-                  <div className="flex items-center h-5">
+                  {/* <div className="flex items-center h-5">
                     <input
                       id="remember"
                       aria-describedby="remember"
@@ -126,15 +133,15 @@ export default function Login() {
                       className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
                       required=""
                     />
-                  </div>
-                  <div className="ml-3 text-sm">
+                  </div> */}
+                  {/* <div className="ml-3 text-sm">
                     <label
                       htmlFor="remember"
                       className="text-gray-500 dark:text-gray-300"
                     >
                       Remember me
                     </label>
-                  </div>
+                  </div> */}
                 </div>
                 <a
                   href="#"

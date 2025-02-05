@@ -112,8 +112,6 @@ export default function AdminBookings() {
 
                   <td className="px-4 py-5">
                     <div className="flex items-center space-x-3.5">
-                      {/* <Link to="/admin/bookings/create"><i className="fa-solid fa-plus"></i></Link> */}
-                      {/* <Link to={`/admin/bookings/edit/${booking.id}`}><i className="fa-solid fa-pen-to-square"></i></Link> */}
                       <Link to={`/admin/bookings/edit/${booking.id}`}>
                         <i className="fa-solid fa-pen-to-square"></i>
                       </Link>

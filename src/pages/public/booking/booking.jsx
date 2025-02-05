@@ -70,8 +70,7 @@ export default function MovieSeat() {
     if (!seatElement.classList.contains("sold")) {
       seatElement.classList.toggle("selected");
 
-      const selectedSeatsArray = Array.from(document.querySelectorAll(
-        ".seat-grid .seat.selected")).map((seat) => seat.textContent);
+      const selectedSeatsArray = Array.from(document.querySelectorAll(".seat-grid .seat.selected")).map((seat) => seat.textContent);
       setSelectedSeats(selectedSeatsArray);
       console.log(selectedSeatsArray);
     }
@@ -96,10 +95,12 @@ export default function MovieSeat() {
     const userInfo = JSON.parse(localStorage.getItem("userInfo"));
 
     if (!token) {
+      sessionStorage.setItem("redirectAfterLogin", "/schedules");
       alert("You must log in to place an order.");
       return navigate("/login");
     } 
     if (!userInfo || userInfo.role !== "customer") {
+      sessionStorage.setItem("redirectAfterLogin", "/schedules");
       alert("You must be a customer to place an order.");
       return navigate("/login");
     }
@@ -120,7 +121,9 @@ export default function MovieSeat() {
     
 
     const seatData = new FormData();
-    seatData.append("seat_number[]", selectedSeats);
+    selectedSeats.forEach(seatNumber => {
+      seatData.append("seat_number[]", seatNumber);
+    });
     seatData.append("studio_id", studioId);
 
     try {

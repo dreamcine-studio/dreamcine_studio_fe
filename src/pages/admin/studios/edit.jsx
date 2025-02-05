@@ -3,7 +3,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { getStudios, updateStudio } from "../../../services/studios";
 
 export default function StudioEdit() {
-  // menanpilkan error
   const [errors, setErrors] = useState({});
 
   // ini dari masing masing,
@@ -16,19 +15,12 @@ export default function StudioEdit() {
 
   const navigate = useNavigate();
 
-  // kita coba fetch data buku berdasarkan ID
   const fetchStudiosDetails = async () => {
-    // dari sini kita ambil data nya dari sevices getBooks
+    const data = await getStudios();
 
-    // getBooks ini kita masukan ke dalam variable nama nya data
-    const data = await getStudios(); // getBooks() mengambil semua data buku
-
-    // kita coba, cari data buku berdasarkan id
     const studio = data.find((book) => book.id === parseInt(id));
-    // console.log(book)
     if (studio) {
-      // assign data to state (ini setter function  nya yang di pakai)
-      setName(studio.name); // ini format nya object json pakai titik
+      setName(studio.name);
       setLocation(studio.location);
       setMaxSeat(studio.maxseats);
     }
@@ -49,40 +41,19 @@ export default function StudioEdit() {
   const updateStudioDetails = async (e) => {
     e.preventDefault();
 
-    // di React untuk menampung data yang di edit, kita menggunakan nama nya FormData
-    // bawaan React
-
-    // buat FormData
     const studioData = new FormData();
 
-    // ini kita debug
-    // console.log(title);
-
-    // title (sebelah kiri) ini sama kaya di database
-    // titile (sebelah kanan) ini dari use state
     studioData.append("name", name);
     studioData.append("location", location);
     studioData.append("maxseats", maxseats);
 
-    // ini kita tambahkan _method    put
     studioData.append("_method", "PUT");
 
-    //ini untuk melakukan pengecekan
-    // bookData.forEach((value, key) => {
-    //   console.log(key, value)
-    // })
-
-    // ini updateBook ambil dari service books.js
     await updateStudio(id, studioData)
-      // jika berhasil kita mau apa, kita pindah pakai navigate
       .then(() => {
-        //berhasil, kita redirect ke halaman index.
         navigate("/admin/studios");
-        // console.log(genreData)
       })
       .catch((err) => {
-        // console.log(err)
-        // console.log(err.response.data.mesaage)
         setErrors(err.response.data.message);
       });
   };
