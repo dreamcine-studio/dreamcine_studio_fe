@@ -45,10 +45,11 @@ export default function AdminSchedules() {
 
   const getMovieData = (id) => {
     const movie = movies.find((m) => m.id === id);
+    const baseURL = "http://127.0.0.1:8000/storage/movies/";
     return movie
       ? {
           title: movie.title,
-          poster: movie.poster,
+          poster: baseURL + movie.poster,
         }
       : {
           title: "Unknown Movie",
@@ -85,6 +86,8 @@ export default function AdminSchedules() {
   };
 
   console.log("tes", schedules);
+  console.log("Movie Data:", movies);
+
   return (
     <>
       <div className="w-full">
