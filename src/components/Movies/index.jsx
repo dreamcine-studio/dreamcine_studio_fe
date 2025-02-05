@@ -43,7 +43,6 @@ export default function Movies() {
   const randomMovies = shuffleArray(movies).slice(0, 3);
 
   return (
-
 <div className="flex justify-center flex-wrap gap-4">
   {randomMovies.map((movie, index) => (
     <div
@@ -51,10 +50,10 @@ export default function Movies() {
       className="max-w-sm w-full sm:max-w-xs md:max-w-sm lg:max-w-md bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700 transform transition-all duration-300 ease-in-out hover:scale-105 hover:translate-y-[-10px] hover:shadow-2xl hover:opacity-90"
     >
       <Link to={`/movies/${movie.id}`}>
-        {/* Kontainer gambar dengan ratio lebih tinggi */}
-        <div className="relative w-full" style={{ paddingTop: '70%' }}> {/* 4:3 aspect ratio, lebih tinggi dari 16:9 */}
+        {/* Kontainer gambar dengan rasio tinggi lebih besar */}
+        <div className="relative w-full" style={{ paddingTop: '120%' }}> {/* Rasio lebih tinggi dengan padding-top */}
           <img
-            className="absolute top-0 left-0 w-full h-full object-cover rounded-t-lg transition-all duration-300 ease-in-out hover:opacity-80"
+            className="absolute top-0 left-0 w-full h-full object-contain rounded-t-lg transition-all duration-300 ease-in-out hover:opacity-80"
             src={`http://127.0.0.1:8000/storage/movies/${movie.poster}`}
             alt={movie.title}
           />
@@ -82,5 +81,6 @@ export default function Movies() {
     </div>
   ))}
 </div>
+
   );
 }
