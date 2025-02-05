@@ -152,7 +152,7 @@ export default function MovieSeat() {
       <div className="w-full flex items-center justify-center">
         <div className="w-1/2 mb-4">
           <table className="w-full">
-            <thead className="text-sm text-black uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-200 text-left">
+            <thead className="text-sm text-black uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-200 text-left">
               <tr>
                 <th className="px-2 py-4">Movie</th>
                 <th className="px-2 py-4">Studio</th>
@@ -238,13 +238,13 @@ export default function MovieSeat() {
       <div className="flex flex-col items-center dark:bg-gray-900 text-white divcon">
         <div className="flex w-full">
           <div className="flex dark:bg-gray-900 text-white w-1/2">
-            <p className="flex text-center text-lg text-gray-900">
+            <p className="flex text-center text-lg text-gray-900 dark:text-gray-200">
               Total Price: {formatRupiah(totalPrice)} (
               {selectedSeats.length > 0 ? selectedSeats.length : "0"} seats)
             </p>
           </div>
           <div className="flex flex-col dark:bg-gray-900 text-white items-left">
-            <p className="flex text-lg text-gray-900 mr-2">
+            <p className="flex text-lg text-gray-900 mr-4 dark:text-gray-200">
               Selected Seat:{" "}
               {selectedSeats.length > 0
                 ? selectedSeats.join(", ")
