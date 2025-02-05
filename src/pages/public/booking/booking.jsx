@@ -99,11 +99,7 @@ export default function MovieSeat() {
       alert("You must log in to place an order.");
       return navigate("/login");
     } 
-    if (!userInfo || userInfo.role !== "customer") {
-      sessionStorage.setItem("redirectAfterLogin", "/schedules");
-      alert("You must be a customer to place an order.");
-      return navigate("/login");
-    }
+    
     if (selectedSeats === 0) {
       alert("Please select at least one seat.");
       return;
@@ -117,7 +113,7 @@ export default function MovieSeat() {
     bookingData.append("showtime", showtime);
     bookingData.append("showdate_start", showdate_start);
     bookingData.append("quantity", selectedSeats.length);
-    bookingData.append("total_price", totalPrice);
+    bookingData.append("amount", totalPrice);
     
 
     const seatData = new FormData();
