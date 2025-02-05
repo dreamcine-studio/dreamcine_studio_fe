@@ -41,6 +41,10 @@ export default function AdminPayments() {
   return (
     <>
       <div className="w-full">
+      <div>
+        <h1 className="text-2xl font-bold mb-4">Payment</h1>
+      </div>
+
         <div className="datatable-container">
           <table className="table w-full table-auto datatable-table mt-4">
             <thead>
@@ -72,7 +76,7 @@ export default function AdminPayments() {
                 </th>
                 <th className="py-4 px-2 pl-5">
                   <div className="flex items-center gap-1.5">
-                    <p>status</p>
+                    <p>Status</p>
                   </div>
                 </th>
                 <th className="py-4 px-2 pl-5">
@@ -91,7 +95,7 @@ export default function AdminPayments() {
                 >
                   <td className="py-4 pl-5">{payment.payment_code}</td>
                   <td className="py-4 pl-7">{payment.booking_id}</td>
-                  <td className="py-4 pl-12">
+                  <td className="py-4 pl-7">
                     {getPMethodName(payment.payment_method_id)}
                   </td>
                   <td className="py-4 pl-5">{payment.amount}</td>
