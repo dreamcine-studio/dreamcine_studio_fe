@@ -13,7 +13,6 @@ export default function AdminSeats() {
       setSeats(data);
     };
 
-
     const fetchStudios = async () => {
       const data = await getStudios();
       setStudios(data);
