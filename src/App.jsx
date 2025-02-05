@@ -48,11 +48,11 @@ function App() {
             <Route path="movies" element={<Movies />} />
             <Route path="teams" element={<Team />} />
             <Route path="contacts" element={<Contact />} />
-            <Route path="schedules" element={<Payment />} />
             <Route path="tickets" element={<Ticket />} />
 
             <Route path="movies/:id" element={<MovieDetail />} />
             <Route path="booking-seat" element={<MovieSeat />} />
+            <Route path="payment" element={<Payment />} />
           </Route>
 
           {/* Auth Routes */}
