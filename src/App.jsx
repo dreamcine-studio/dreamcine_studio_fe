@@ -20,10 +20,8 @@ import MovieCreate from "./pages/admin/movies/create";
 import Team from "./components/Team";
 import Contact from "./components/Contact";
 import PaymentEdit from "./pages/admin/payments/edit";
-import MovieDetail from "./pages/public/MovieDetail/index.jsx";
 import BookingCreate from "./pages/admin/bookings/create.jsx";
 import BookingEdit from "./pages/admin/bookings/edit.jsx";
-import Payment from "./pages/public/Schedule/index.jsx";
 import Ticket from "./components/ticket/index.jsx";
 import AdminGenres from "./pages/admin/genres";
 import AdminPaymentMethods from "./pages/admin/payment_methods";
@@ -34,6 +32,9 @@ import AdminSeats from "./pages/admin/seats";
 import AdminBookings from "./pages/admin/bookings/index.jsx";
 import Movies from "./components/Movies/index.jsx";
 import MovieSeat from "./pages/public/booking/booking.jsx";
+import Payment from "./pages/public/payment/pay.jsx";
+import BookingPage from "./pages/public/payment/index.jsx";
+import MovieDetail from "./pages/public/movie-detail/index.jsx";
 
 // import MovieSchedule from './pages/public/Schedule/index.jsx'
 
@@ -46,13 +47,19 @@ function App() {
           <Route element={<PublicLayout />}>
             <Route index element={<Home />} />
             <Route path="movies" element={<Movies />} />
+            <Route path="movies/:id" element={<MovieDetail />} />
+
+            {/* booking */}
+            <Route path="moviebooking" element={<MovieSeat />} />
+
+            {/* payment */}
+            <Route path="booking" element={<BookingPage />} />
+            <Route path="booking/pay/:id" element={<Payment />} />
+
+            
             <Route path="teams" element={<Team />} />
             <Route path="contacts" element={<Contact />} />
             <Route path="tickets" element={<Ticket />} />
-
-            <Route path="movies/:id" element={<MovieDetail />} />
-            <Route path="booking-seat" element={<MovieSeat />} />
-            <Route path="payment" element={<Payment />} />
           </Route>
 
           {/* Auth Routes */}

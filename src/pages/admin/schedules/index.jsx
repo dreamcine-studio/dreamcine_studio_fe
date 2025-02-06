@@ -139,12 +139,12 @@ if (error){
           <table className="w-full table-auto">
             <thead className="border-b bg-gray-50 text-white">
               <tr className="bg-gray-2 text-left dark:bg-meta-4">
-                <th className="py-4 px-4 font-medium text-black dark:text-white">Photo</th>
-                <th className="py-4 px-4 font-medium text-black dark:text-white">Title</th>
-                <th className="py-4 px-4 font-medium text-black dark:text-white">Studio</th>
-                <th className="py-4 px-4 font-medium text-black dark:text-white">Showtime</th>
-                <th className="py-4 px-4 font-medium text-black dark:text-white">Showdate</th>
-                <th className="py-4 px-4 font-medium text-black dark:text-white">Controls</th>
+                <th className="py-4 px-4 font-medium text-black">Photo</th>
+                <th className="py-4 px-4 font-medium text-black">Title</th>
+                <th className="py-4 px-4 font-medium text-black">Studio</th>
+                <th className="py-4 px-4 font-medium text-black">Showtime</th>
+                <th className="py-4 px-4 font-medium text-black">Showdate</th>
+                <th className="py-4 px-4 font-medium text-black">Controls</th>
               </tr>
             </thead>
             <tbody>
@@ -157,10 +157,10 @@ if (error){
                       className="w-16 h-16 object-cover rounded-lg"
                     />
                   </td>
-                  <td className="py-4 px-4 text-black dark:text-white">
+                  <td className="py-4 px-4 text-black">
                     {getMovieData(schedule.movie_id).title}
                   </td>
-                  <td className="py-4 px-4 text-black dark:text-white">
+                  <td className="py-4 px-4 text-black">
                     {getStudioData(schedule.studio_id).name}
                   </td>
                   <td className="py-4 px-4">
@@ -179,7 +179,7 @@ if (error){
                       )}
                     </div>
                   </td>
-                  <td className="py-4 px-4 text-black dark:text-white">
+                  <td className="py-4 px-4 text-black">
                     {schedule.showdate_start} - {schedule.showdate_end}
                   </td>
                   <td className="py-4 px-4">

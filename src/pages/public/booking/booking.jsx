@@ -134,8 +134,6 @@ export default function MovieSeat() {
     }
   };
 
-  console.log(seat);
-
   return (
     <div className="flex flex-col items-center justify-center dark:bg-gray-900 text-white w-full p-8">
       <div className="w-full flex items-center justify-center">
@@ -247,6 +245,7 @@ export default function MovieSeat() {
         onClick={createBookingDetails}
         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-6"
       >
+        {/* <Link onChange={createBookingDetails} to={`/booking`} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-6"></Link> */}
         Book Your Ticket
       </button>
 

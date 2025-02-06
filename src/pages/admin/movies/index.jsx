@@ -126,31 +126,31 @@ export default function Movies() {
         <table className="w-full table-auto">
           <thead className="border-b bg-gray-50 text-white">
             <tr className="bg-gray-2 text-left dark:bg-meta-4">
-              <th className=" px-4 py-4 font-medium text-black dark:text-white xl:pl-11">
+              <th className=" px-4 py-4 font-medium text-black xl:pl-11">
                 Title
               </th>
-              <th className=" px-4 py-4 font-medium text-black dark:text-white">
+              <th className=" px-4 py-4 font-medium text-black">
                 Description
               </th>
-              <th className=" px-4 py-4 font-medium text-black dark:text-white">
+              <th className=" px-4 py-4 font-medium text-black">
                 Poster
               </th>
-              <th className=" px-4 py-4 font-medium text-black dark:text-white">
+              <th className=" px-4 py-4 font-medium text-black">
                 Price
               </th>
-              <th className=" px-4 py-4 font-medium text-black dark:text-white">
+              <th className=" px-4 py-4 font-medium text-black">
                 Cast
               </th>
-              <th className=" px-4 py-4 font-medium text-black dark:text-white">
+              <th className=" px-4 py-4 font-medium text-black">
                 Genre
               </th>
-              <th className=" px-4 py-4 font-medium text-black dark:text-white">
+              <th className=" px-4 py-4 font-medium text-black">
                 Duration
               </th>
-              <th className=" px-4 py-4 font-medium text-black dark:text-white">
+              <th className=" px-4 py-4 font-medium text-black">
                 Release_date
               </th>
-              <th className="px-4 py-4 font-medium text-black dark:text-white">
+              <th className="px-4 py-4 font-medium text-black">
                 Actions
               </th>
             </tr>
@@ -160,12 +160,12 @@ export default function Movies() {
               movies.map((movie) => (
                 <tr key={movie.id} className="hover:bg-gray-50">
                   <td className="px-4 py-5 pl-9 xl:pl-11">
-                    <h5 className="font-medium text-black dark:text-white">
+                    <h5 className="font-medium text-black">
                       {movie.title}
                     </h5>
                   </td>
                   <td className="px-4 py-5">
-                    <p className="text-black dark:text-white">
+                    <p className="text-black">
                       {movie.description}
                     </p>
                   </td>
@@ -176,23 +176,23 @@ export default function Movies() {
                     />
                   </td>
                   <td className="px-4 py-5">
-                    <p className="text-black dark:text-white">{movie.price}</p>
+                    <p className="text-black">{movie.price}</p>
                   </td>
                   <td className="px-4 py-5">
-                    <p className="text-black dark:text-white">{movie.cast}</p>
+                    <p className="text-black">{movie.cast}</p>
                   </td>
                   <td className="px-4 py-5">
-                    <p className="text-black dark:text-white">
+                    <p className="text-black">
                       {getGenreName(movie.genre_id)}
                     </p>
                   </td>
                   <td className="px-4 py-5">
-                    <p className="text-black dark:text-white">
+                    <p className="text-black">
                       {movie.duration}
                     </p>
                   </td>
                   <td className="px-4 py-5">
-                    <p className="text-black dark:text-white">
+                    <p className="text-black">
                       {movie.release_date}
                     </p>
                   </td>
