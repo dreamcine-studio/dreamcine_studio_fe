@@ -19,6 +19,20 @@ export const createSeat = async (data) => {
   }
 }
 
+export const showSeat = async (id) => {
+  try {
+    const { data } = await API.get(`/seats/${id}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },  
+    });
+    return data.data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
 export const deleteSeat = async (id) => {
   try {
     await API.delete(`/seats/${id}`); // ini pakai backtick

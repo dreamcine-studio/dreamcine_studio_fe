@@ -6,15 +6,69 @@ import {
 } from "../../../services/paymentMethod";
 
 export default function AdminPaymentMethods() {
+ 
   const [paymentMethods, setPaymentMethods] = useState([]);
+  const [Loading, setLoading] = useState([]);
+  const [error, setError] = useState([]);
 
-  useEffect(() => {
-    const fetchPmethods = async () => {
-      const data = await getPaymentmethods();
-      setPaymentMethods(data);
-    };
-    fetchPmethods();
+
+useEffect(() => {
+  
+const fetchData = async () => {
+  setLoading(true);
+  setError(null);
+
+  try {
+    const [
+      paymentMethodsData,
+    ] = await Promise.all( [
+      getPaymentmethods(),
+    ]);
+
+  	setPaymentMethods(paymentMethodsData);
+  
+    }catch (error){
+      setError("Failed to fetch data, please try again later : ");
+      console.log(error);
+    } finally {
+      setLoading(false)
+    }
+  }
+  
+    fetchData();
+    
   }, []);
+
+
+
+  if (Loading) {
+    return (
+      <main className="py-6 px-12 space-y-2 bg-gray-300 min-h-screen w-full flex items-center justify-center">
+        {/* Loading Spinner */}
+        <div className="flex items-center space-x-4">
+          <div className="w-16 h-16 border-4 border-solid border-transparent rounded-full
+            animate-spin
+            border-t-purple-500 border-r-pink-500 border-b-purple-500 border-l-pink-500">
+          </div>
+          {/* Teks dengan Efek Bounce */}
+          <div className="text-2xl font-bold text-gray-800 animate-bounce">
+            Please Wait ..
+          </div>
+        </div>
+      </main>
+    );
+  }
+
+  if (error){
+    return (
+      <main className="py-l px-12 space-y-2 bg-gray-100 min-h-screen w-full flex items-center justify-center">
+        <div className="text-2xl font-bold text-gray-500"> {error} .. </div>
+      </main>
+    )
+  }
+  
+
+
 
   const handleDelete = async (id) => {
     const confirmedDelete = window.confirm(
@@ -31,13 +85,17 @@ export default function AdminPaymentMethods() {
 
   return (
     <div className="rounded-sm shadow-default dark:bg-boxdark sm:px-7.5 xl:pb-1">
+      <div>
+        <h1 className="text-2xl font-bold mb-4">Payment Methods</h1>
+      </div>
       <Link
         to={"/admin/payment_methods/create"}
         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
       >
-        Tambah data
+        <i className="fa-solid fa-plus mr-2"></i>
+        Add Data
       </Link>
-      <div className="max-w-full overflow-x-auto">
+      <div className="max-w-full overflow-x-auto mt-4">
         <table className="w-full table-auto">
           <thead className="border-b bg-gray-50 text-white">
             <tr className="bg-gray-2 text-left dark:bg-meta-4">

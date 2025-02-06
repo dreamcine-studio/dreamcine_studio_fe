@@ -17,59 +17,93 @@ export default function Dashboard() {
   const [Seats, setSeats] = useState([]);
   const [Bookings, setBookings] = useState([]);
   const [Payments, setPayments] = useState([]);
+  const [Loading, setLoading] = useState([]);
+  const [error, setError] = useState([]);
+
 
   useEffect(() => {
-    const fetchGenres = async () => {
-      const data = await getGenres();
-      setGenres(data);
-    };
-
-    const fetchStudios = async () => {
-      const data = await getStudios();
-      setStudios(data);
-    };
-
-    const fetchPaymentMethods = async () => {
-      const data = await getPaymentmethods();
-      setPaymentMethods(data);
-    };
-
-    const fetchmovies = async () => {
-      const data = await getMovies();
-      setmovies(data);
-    };
-    const fetchseats = async () => {
-      const data = await getSeats();
-      setSeats(data);
-    };
-
-	const fetchbookings = async () => {
-		const data = await getBooking();
-		setBookings(data);
-	  };
   
+const fetchData = async () => {
+	setLoading(true);
+	setError(null);
 
-	  const fetchPayemnts = async () => {
-		const data = await getPayments();
-		setPayments(data);
-	  };	  
+	try {
+		const [
+			genresData,
+			studiosData,
+			paymentMethodsData,
+			moviesData,
+			schedulesData,
+			seatsData,
+			bookingsData,
+			paymentsData
+		] = await Promise.all( [
+			getGenres(),
+			getStudios(),
+			getPaymentmethods(),
+			getMovies(),
+			getSchedules(),
+			getSeats(),
+			getBooking(),
+			getPayments()
+
+		]);
 
 
-    const fetchSchedules = async () => {
-		const data = await getSchedules();
-		setSchedules(data);
-	  };
-      
-        fetchGenres();  
-        fetchStudios();  
-        fetchPaymentMethods();  
-        fetchmovies();
-		fetchSchedules();
-		fetchseats();
-		fetchbookings();
-		fetchPayemnts();
-      }, []);
-      // console.log("ada",genres);
+
+	setGenres(genresData);
+	setStudios(studiosData);
+	setPaymentMethods(paymentMethodsData);
+	setmovies(moviesData);
+	setSchedules(schedulesData);
+	setSeats(seatsData);
+	setBookings(bookingsData);
+	setPayments(paymentsData);
+	}catch (error){
+		setError("Failed to fetch data, please try again later : ")
+		console.log(error);
+
+	} finally {
+		setLoading(false)
+	}
+}
+
+	fetchData();
+	
+}, []);
+
+
+
+if (Loading) {
+    return (
+      <main className="py-6 px-12 space-y-2 bg-gray-300 min-h-screen w-full flex items-center justify-center">
+        {/* Loading Spinner */}
+        <div className="flex items-center space-x-4">
+          <div className="w-16 h-16 border-4 border-solid border-transparent rounded-full
+            animate-spin
+            border-t-purple-500 border-r-pink-500 border-b-purple-500 border-l-pink-500">
+          </div>
+          {/* Teks dengan Efek Bounce */}
+          <div className="text-2xl font-bold text-gray-800 animate-bounce">
+            Please Wait ..
+          </div>
+        </div>
+      </main>
+    );
+  }
+
+
+
+  
+if (error){
+	return (
+		<main className="py-l px-12 space-y-2 bg-gray-100 min-h-screen w-full flex items-center justify-center">
+			<div className="text-2xl font-bold text-gray-500"> {error} .. </div>
+		</main>
+	)
+}
+
+
     return (
       <>
    

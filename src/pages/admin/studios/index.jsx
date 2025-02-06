@@ -4,16 +4,83 @@ import { useEffect, useState } from "react";
 import { deleteStudio, getStudios } from "../../../services/studios";
 
 export default function AdminStudios() {
+  // const [studios, setStudios] = useState([]);
+
+  // useEffect(() => {
+  //   const fetchStudios = async () => {
+  //     const data = await getStudios();
+  //     setStudios(data);
+  //   };
+
+  //   fetchStudios();
+  // }, []);
+
   const [studios, setStudios] = useState([]);
+  const [Loading, setLoading] = useState([]);
+  const [error, setError] = useState([]);
+useEffect(() => {
+  
+const fetchData = async () => {
+  setLoading(true);
+  setError(null);
 
-  useEffect(() => {
-    const fetchStudios = async () => {
-      const data = await getStudios();
-      setStudios(data);
-    };
+  try {
+    const [
+      studiosData,
+    ] = await Promise.all( [
+      getStudios(),
 
-    fetchStudios();
+    ]);
+
+    setStudios(studiosData);
+  
+    }catch (error){
+      setError("Failed to fetch data, please try again later : ")
+      console.log(error);
+
+    } finally {
+      setLoading(false)
+    }
+  }
+  
+    fetchData();
+    
   }, []);
+
+
+ 
+
+  if (Loading) {
+    return (
+      <main className="py-6 px-12 space-y-2 bg-gray-300 min-h-screen w-full flex items-center justify-center">
+        {/* Loading Spinner */}
+        <div className="flex items-center space-x-4">
+          <div className="w-16 h-16 border-4 border-solid border-transparent rounded-full
+            animate-spin
+            border-t-purple-500 border-r-pink-500 border-b-purple-500 border-l-pink-500">
+          </div>
+          {/* Teks dengan Efek Bounce */}
+          <div className="text-2xl font-bold text-gray-800 animate-bounce">
+            Please Wait ..
+          </div>
+        </div>
+      </main>
+    );
+  }
+
+
+
+
+  if (error){
+    return (
+      <main className="py-l px-12 space-y-2 bg-gray-100 min-h-screen w-full flex items-center justify-center">
+        <div className="text-2xl font-bold text-gray-500"> {error} .. </div>
+      </main>
+    )
+  }
+
+
+
 
   console.log("tes", studios);
 
@@ -31,14 +98,18 @@ export default function AdminStudios() {
 
   return (
     <div className="rounded-sm shadow-default dark:bg-boxdark sm:px-7.5 xl:pb-1">
+       <div>
+        <h1 className="text-2xl font-bold mb-4">Studios</h1>
+      </div>
       <Link
         to={"/admin/studios/create"}
         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
       >
-        Tambah data
+        <i className="fa-solid fa-plus mr-2"></i>
+        Add data
       </Link>
 
-      <div className="max-w-full overflow-x-auto">
+      <div className="max-w-full overflow-x-auto mt-4">
         <table className="w-full table-auto">
           <thead className="border-b bg-gray-50 text-white">
             <tr className="bg-gray-2 text-left dark:bg-meta-4">

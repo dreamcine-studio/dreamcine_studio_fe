@@ -9,11 +9,12 @@
 }
 
 .seat.selected {
-  background-color: green;
+  background-color: orange;
 }
 
 .seat.sold {
-  background-color: orange;
+  background-color: lightgray;
+  color: #444451;
 }
 
 .seat:not(.sold):hover {

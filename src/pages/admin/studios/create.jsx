@@ -59,6 +59,7 @@ export default function StudioCreate() {
               )}
 
               <input
+                placeholder="Masukkan Nama Studio"
                 type="text"
                 name="name"
                 value={studioData.name}
@@ -78,6 +79,7 @@ export default function StudioCreate() {
               )}
 
               <input
+                placeholder="Masukkan Lokasi Studio"
                 type="text"
                 name="location"
                 value={studioData.location}
@@ -97,6 +99,7 @@ export default function StudioCreate() {
               )}
 
               <textarea
+                placeholder="Masukkan Max-Seat Studio"
                 rows="6"
                 name="maxseats"
                 value={studioData.maxseats}
