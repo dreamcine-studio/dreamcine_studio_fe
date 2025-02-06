@@ -187,6 +187,9 @@ if (error){
                       <Link to={`/admin/schedules/edit/${schedule.id}`}>
                         <i className="fa-solid fa-pen-to-square"></i>
                       </Link>
+                      <Link to={`/admin/schedules/detail/${schedule.id}`}>
+                        <i class="fa-solid fa-circle-info"></i>
+                      </Link>
                       <button onClick={() => handleDelete(schedule.id)}>
                         <i className="fa-solid fa-trash"></i>
                       </button>

@@ -53,7 +53,11 @@ export const deleteSchedules = async (id) => {
 
 export const showSchedules = async (id) => {
   try {
-    const { data } = await API.get(`/schedules/${id}`);
+    const { data } = await API.get(`/schedules/${id}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
+    });
     return data.data;
   } catch (error) {
     console.log(error);
