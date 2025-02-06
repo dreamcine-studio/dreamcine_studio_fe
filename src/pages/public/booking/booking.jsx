@@ -13,7 +13,7 @@ export default function MovieSeat() {
   const [studio, setStudio] = useState([]);
   const [seat, setSeat] = useState([]);
   const [schedule, setSchedule] = useState([]);
-  const [errors, setErrors] = useState([]);
+  const [, setErrors] = useState([]);
   
   const location = useLocation();
   const navigate = useNavigate();
@@ -127,7 +127,7 @@ export default function MovieSeat() {
       await createBooking(bookingData);
       await createSeat(seatData);
       alert("Booking successful!");
-      navigate("/payment");
+      navigate("/booking");
     } catch (errors) {
       console.error("Error:", errors);
       setErrors(errors.response?.data?.message || "Something went wrong");

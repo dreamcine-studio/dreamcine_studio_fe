@@ -4,9 +4,9 @@ import { deleteBooking, getBooking } from "../../../services/booking";
 import { getSchedules } from "../../../services/schedules";
 
 export default function AdminBookings() {
-  const [Bookings, setBooking] = useState([]);
+  const [bookings, setBooking] = useState([]);
   const [schedules, setSchedules] = useState([]);
-  const [Loading, setLoading] = useState([]);
+  const [loading, setLoading] = useState([]);
   const [error, setError] = useState([]);
 
   useEffect(() => {
@@ -38,7 +38,7 @@ fetchData();
 }, []);
 
 
-if (Loading) {
+if (loading) {
   return (
     <main className="py-6 px-12 space-y-2 bg-gray-300 min-h-screen w-full flex items-center justify-center">
       {/* Loading Spinner */}
@@ -63,11 +63,6 @@ if (error){
 		</main>
 	)
 }
-
-
-
-  console.log("ada", Bookings);
-
   const getScheduledateStart = (id) => {
     const schedule = schedules.find((g) => g.id === id);
     return schedule ? schedule.showdate_start : "Unknown Schedule";
@@ -87,7 +82,7 @@ if (error){
       await deleteBooking(id);
 
       // ini kita update pakai setter Books
-      setBooking(Bookings.filter((booking) => booking.id !== id));
+      setBooking(bookings.filter((booking) => booking.id !== id));
     }
   };
 
@@ -118,13 +113,19 @@ if (error){
                 quantity
               </th>
               <th className="min-w-[220px] px-4 py-4 font-medium text-black">
+                amount
+              </th>
+              <th className="min-w-[220px] px-4 py-4 font-medium text-black">
+                showtime
+              </th>
+              <th className="min-w-[220px] px-4 py-4 font-medium text-black">
                 Action
               </th>
             </tr>
           </thead>
           <tbody>
-            {Bookings.length > 0 ? (
-              Bookings.map((booking) => (
+            {bookings.length > 0 ? (
+              bookings.map((booking) => (
                 <tr key={booking.id} className="hover:bg-gray-50">
                   <td className="px-4 py-5">
                     <p className="text-black">
@@ -144,6 +145,20 @@ if (error){
                     <p className="px-4 text-black">
                       {" "}
                       {booking.quantity}
+                    </p>
+                  </td>
+
+                  <td className="px-4 py-5">
+                    <p className="px-4 text-black">
+                      {" "}
+                      {booking.amount}
+                    </p>
+                  </td>
+
+                  <td className="px-4 py-5">
+                    <p className="px-4 text-black">
+                      {" "}
+                      {booking.showtime}
                     </p>
                   </td>
 
