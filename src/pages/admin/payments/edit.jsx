@@ -77,7 +77,7 @@ export default function PaymentEdit() {
     <div className="flex flex-col gap-9">
       <div className="rounded-sm bg-white shadow-default dark:bg-boxdark">
         <div className="border-b border-stroke px-6.5 py-4 dark:border-strokedark">
-          <h3 className="font-medium text-black dark:text-white">
+          <h3 className="font-medium text-black">
             Edit Data Payments
           </h3>
         </div>
@@ -93,7 +93,7 @@ export default function PaymentEdit() {
                 value={paymentCodes}
                 onChange={(e) => setPaymentCodes(e.target.value)}
                 type="text"
-                className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-indigo-600 active:border-indigo-600 disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-indigo-600"
+                className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-indigo-600 active:border-indigo-600 disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-indigo-600"
               />
             </div>
         <div className="p-6.5 flex flex-col gap-5">
@@ -107,11 +107,11 @@ export default function PaymentEdit() {
                 value={bookingId}
                 onChange={(e) => setBookingId(e.target.value)}
                 type="text"
-                className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-indigo-600 active:border-indigo-600 disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-indigo-600"
+                className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-indigo-600 active:border-indigo-600 disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-indigo-600"
               />
             </div>
             <div className="mb-4.5">
-              <label className="mb-3 block text-sm font-medium text-black dark:text-white">
+              <label className="mb-3 block text-sm font-medium text-black">
                   Payment Method
               </label>
               <div className="relative z-20 bg-transparent dark:bg-form-input">
@@ -151,7 +151,7 @@ export default function PaymentEdit() {
           </div>
           <div className="mb-4.5 flex flex-col gap-6 xl:flex-row">
             <div className="w-full xl:w-1/2">
-              <label className="mb-3 block text-sm font-medium text-black dark:text-white">
+              <label className="mb-3 block text-sm font-medium text-black">
                 Amount
               </label>
               <input
@@ -161,11 +161,11 @@ export default function PaymentEdit() {
                 onChange={(e) => setAmounts(e.target.value)}
                 type="number"
                 min={1}
-                className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-indigo-600 active:border-indigo-600 disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-indigo-600"
+                className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-indigo-600 active:border-indigo-600 disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-indigo-600"
               />
             </div>
             <div className="w-full xl:w-1/2">
-              <label className="mb-3 block text-sm font-medium text-black dark:text-white">
+              <label className="mb-3 block text-sm font-medium text-black">
                 Payment Date
               </label>
               <input
@@ -175,11 +175,11 @@ export default function PaymentEdit() {
                 onChange={(e) => setPaymentDates(e.target.value)}
                 type="date"
                 min={1}
-                className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-indigo-600 active:border-indigo-600 disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-indigo-600"
+                className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-indigo-600 active:border-indigo-600 disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-indigo-600"
               />
             </div>  
           <div className="mb-4.5">
-            <label className="mb-3 block text-sm font-medium text-black dark:text-white">
+            <label className="mb-3 block text-sm font-medium text-black">
               Status
             </label>
             <div className="relative z-20 bg-transparent dark:bg-form-input">
