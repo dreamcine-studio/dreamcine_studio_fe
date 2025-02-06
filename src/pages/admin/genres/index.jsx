@@ -27,6 +27,7 @@ const fetchData = async () => {
   
     }catch (error){
       setError("Failed to fetch data, please try again later : ")
+      console.log(error)
     } finally {
       setLoading(false)
     }
