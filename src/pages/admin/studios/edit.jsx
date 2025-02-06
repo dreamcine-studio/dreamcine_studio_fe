@@ -62,14 +62,14 @@ export default function StudioEdit() {
     <div className="flex flex-col gap-9">
       <div className="rounded-sm bg-white shadow-default dark:bg-boxdark">
         <div className="border-b border-stroke px-6.5 py-4 dark:border-strokedark">
-          <h3 className="font-medium text-black dark:text-white">
+          <h3 className="font-medium text-black">
             Edit Studios
           </h3>
         </div>
         <form onSubmit={updateStudioDetails} className="py-5">
           <div className="p-6.5 flex flex-col gap-5">
             <div className="mb-4.5">
-              <label className="mb-3 block text-base font-medium text-black dark:text-white">
+              <label className="mb-3 block text-base font-medium text-black">
                 Name
               </label>
               {errors.name && (
@@ -83,12 +83,12 @@ export default function StudioEdit() {
                 name="name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-indigo-600 active:border-indigo-600 disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-indigo-600"
+                className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-indigo-600 active:border-indigo-600 disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-indigo-600"
               />
             </div>
 
             <div className="mb-4.5">
-              <label className="mb-3 block text-base font-medium text-black dark:text-white">
+              <label className="mb-3 block text-base font-medium text-black">
                 Location
               </label>
               {errors.location && (
@@ -102,12 +102,12 @@ export default function StudioEdit() {
                 name="location"
                 value={location}
                 onChange={(e) => setLocation(e.target.value)}
-                className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-indigo-600 active:border-indigo-600 disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-indigo-600"
+                className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-indigo-600 active:border-indigo-600 disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-indigo-600"
               />
             </div>
 
             <div className="mb-4.5">
-              <label className="mb-3 block text-base font-medium text-black dark:text-white">
+              <label className="mb-3 block text-base font-medium text-black">
                 Max Seat
               </label>
               {errors.maxseats && (
@@ -121,7 +121,7 @@ export default function StudioEdit() {
                 name="maxseats"
                 value={maxseats}
                 onChange={(e) => setMaxSeat(e.target.value)}
-                className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-indigo-600 active:border-indigo-600 disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-indigo-600"
+                className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-indigo-600 active:border-indigo-600 disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-indigo-600"
               ></textarea>
             </div>
 

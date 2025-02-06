@@ -45,14 +45,14 @@ export default function BookingCreate() {
     <div className="flex flex-col gap-9">
       <div className="rounded-sm bg-white shadow-default dark:bg-boxdark">
         <div className="border-b border-stroke px-6.5 py-4 dark:border-strokedark">
-          <h3 className="font-medium text-black dark:text-white">
+          <h3 className="font-medium text-black">
             Add Data booking
           </h3>
         </div>
         <form onSubmit={storeBooking} className="py-5">
           <div className="p-6.5 flex flex-col gap-5">
             <div className="mb-4.5">
-              <label className="mb-3 block text-base font-medium text-black dark:text-white">
+              <label className="mb-3 block text-base font-medium text-black">
                 user_id
               </label>
               {errors.user_id && (
@@ -70,12 +70,12 @@ export default function BookingCreate() {
                 name="user_id"
                 // bookData itu adalah useState yang di atas
 
-                className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-indigo-600 active:border-indigo-600 disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-indigo-600"
+                className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-indigo-600 active:border-indigo-600 disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-indigo-600"
               />
             </div>
 
             <div className="mb-4.5">
-              <label className="mb-3 block text-base font-medium text-black dark:text-white">
+              <label className="mb-3 block text-base font-medium text-black">
                 schedule_id
               </label>
               {errors.schedule_id && (
@@ -92,12 +92,12 @@ export default function BookingCreate() {
                 onChange={handleInputChange}
                 // bookData itu adalah useState yang di atas
                 rows="6"
-                className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-indigo-600 active:border-indigo-600 disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-indigo-600"
+                className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-indigo-600 active:border-indigo-600 disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-indigo-600"
               ></input>
             </div>
 
             <div className="mb-4.5">
-              <label className="mb-3 block text-base font-medium text-black dark:text-white">
+              <label className="mb-3 block text-base font-medium text-black">
                 quantity
               </label>
               {errors.quantity && (
@@ -115,12 +115,12 @@ export default function BookingCreate() {
                 name="quantity"
                 // bookData itu adalah useState yang di atas
 
-                className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-indigo-600 active:border-indigo-600 disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-indigo-600"
+                className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-indigo-600 active:border-indigo-600 disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-indigo-600"
               />
             </div>
 
             <div className="mb-4.5">
-              <label className="mb-3 block text-base font-medium text-black dark:text-white">
+              <label className="mb-3 block text-base font-medium text-black">
                 booking_date
               </label>
               {errors.booking_date && (
@@ -138,7 +138,7 @@ export default function BookingCreate() {
                 name="booking_date"
                 // bookData itu adalah useState yang di atas
 
-                className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-indigo-600 active:border-indigo-600 disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-indigo-600"
+                className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-indigo-600 active:border-indigo-600 disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-indigo-600"
               />
             </div>
 
