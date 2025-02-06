@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { getSeat, updateSeat } from "../../../services/seats";
+import { getSeats, updateSeat } from "../../../services/seat";
 
 export default function SeatEdit() {
   // menanpilkan error
@@ -23,7 +23,7 @@ export default function SeatEdit() {
     // dari sini kita ambil data nya dari sevices getBooks
 
     // getBooks ini kita masukan ke dalam variable nama nya data
-    const data = await getSeat(); // getBooks() mengambil semua data buku
+    const data = await getSeats(); // getBooks() mengambil semua data buku
 
     // kita coba, cari data buku berdasarkan id
     const seat = data.find((book) => book.id === parseInt(id));
@@ -43,6 +43,7 @@ export default function SeatEdit() {
 
     fetchSeatsDetails();
   }, []);
+  
 
   //update book data
   // ini pakai async karena di service nya pakai async pada update

@@ -10,20 +10,13 @@ export default function AdminSeats() {
       const data = await getSeats();
       setSeats(data);
     };
-
-
-    const fetchStudios = async () => {
-      const data = await getStudios();
-      setStudios(data);
-    };
-
-    fetchStudios();
+    
     fetchSeats();
   }, []);
 
   console.log(seats);
 
-  const getSeatName = (id) => {
+  const getSeatstudio_id = (id) => {
     const studio = seats.find((g) => g.id === id);
     return studio ? studio.name : "Unknown studio";
   };
@@ -77,12 +70,12 @@ export default function AdminSeats() {
                 <tr key={seat.id} className="hover:bg-gray-50">
                   <td className="px-4 py-5 pl-9 xl:pl-11">
                     <h5 className="font-medium text-black dark:text-white">
-                      {getSeatName(seat.studio_id)}
+                      {seat.studio_id}
                     </h5>
                   </td>
                   <td className="px-4 py-5">
                     <p className="text-black dark:text-white">
-                      {seat.seat_number.join(", ")}
+                      {seat.seat_number}
                     </p>
                   </td>
                   <td className="px-4 py-5">

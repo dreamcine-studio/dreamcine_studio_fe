@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { getStudios, updateStudio } from "../../../services/seats";
+import { getStudios, updateStudio } from "../../../services/studios";
 
 export default function StudioEdit() {
   const [errors, setErrors] = useState({});
