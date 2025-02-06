@@ -1,45 +1,26 @@
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
-import { showBooking } from "../../../services/booking";
-// import { createSeat } from "../../../services/seat";
-// import { getSchedules } from "../../../services/schedules";
+import { Link } from "react-router-dom";
+import { getBooking } from "../../../services/booking";
 
 export default function AdminBookings() {
   const [booking, setBooking] = useState([]);
-  //   const [schedules, setSchedules] = useState([]);
-  //   const [errors, setErrors] = useState([]);
-
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
-  //   const [amount, setAmount] = useState("");
-  //   const [quantity, setQuantity] = useState("");
-
-//   const query = new URLSearchParams(location.search);
-//   const bookingId = query.get("booking_id");
-
-    const { id } = useParams();
 
   useEffect(() => {
-    // const fetchBooking = async () => {
-    //   try {
-    //     const data = await getBooking();
-    //     const booking = data.find(
-    //       (booking) => booking.id === parseInt(bookingId)
-    //     );
-    //     setBooking(booking);
-    //   } catch (error) {
-    //     console.error("Error fetching booking:", error);
-    //     // Handle error, e.g., display a message to the user
-    //   }
-    // };
-
     const fetchBooking = async () => {
-          try {
-            const data = await showBooking(id);
-            setBooking(data)
-          } catch (error) {
-            console.error("Error fetching movie:", error);
-          }
-        };
+      try {
+        const data = await getBooking();
+        console.log(data);
+        
+        const booking = data.find(
+          (booking) => booking.id === parseInt(userInfo.id)
+        );
+        setBooking(booking);
+      } catch (error) {
+        console.error("Error fetching booking:", error);
+        // Handle error, e.g., display a message to the user
+      }
+    };
 
     fetchBooking();
   }, []);
@@ -53,34 +34,6 @@ export default function AdminBookings() {
       minimumFractionDigits: 0,
       maximumFractionDigits: 2,
     }).format(number);
-  };
-
-  const createBookingDetails = async (e) => {
-    e.preventDefault();
-
-    // const token = localStorage.getItem("accessToken");
-    const userInfo = JSON.parse(localStorage.getItem("userInfo"));
-
-    const bookingData = new FormData();
-    bookingData.append("user_id", userInfo.id);
-    bookingData.append("quantity", booking.quantity);
-    bookingData.append("amount", booking.amount);
-
-    //     const seatData = new FormData();
-    //     selectedSeats.forEach((seatNumber) => {
-    //       seatData.append("seat_number[]", seatNumber);
-    //     });
-    //     seatData.append("studio_id", studioId);
-
-    //     try {
-    //       await createBooking(bookingData);
-    //       await createSeat(seatData);
-    //         alert("Booking successful!");
-    //         return navigate("/schedules");
-    //     } catch (errors) {
-    //       // console.log(err.response.data.message);
-    //       setErrors(errors.response.data.message);
-    //     }
   };
 
   return (
@@ -105,10 +58,10 @@ export default function AdminBookings() {
 
                 <td className="border px-4 py-2">
                   <Link
-                    onChange={createBookingDetails}
+                    to={`/booking/pay/:id`}
                     className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-6"
                   >
-                    pay now
+                    Pay
                   </Link>
                 </td>
               </tr>

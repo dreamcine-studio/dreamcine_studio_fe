@@ -13,7 +13,7 @@ export default function MovieSeat() {
   const [studio, setStudio] = useState([]);
   const [seat, setSeat] = useState([]);
   const [schedule, setSchedule] = useState([]);
-  const [errors, setErrors] = useState([]);
+  const [, setErrors] = useState([]);
   
   const location = useLocation();
   const navigate = useNavigate();
