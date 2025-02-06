@@ -10,10 +10,8 @@ export default function AdminBookings() {
     const fetchBooking = async () => {
       try {
         const data = await getBooking();
-        console.log(data);
-        
-        const booking = data.find(
-          (booking) => booking.id === parseInt(userInfo.id)
+        const booking = data.filter(
+          (booking) => booking.user_id === parseInt(userInfo.id)
         );
         setBooking(booking);
       } catch (error) {
@@ -44,6 +42,8 @@ export default function AdminBookings() {
           <table className="w-full table-auto border-collapse border border-gray-200">
             <thead className="bg-gray-50">
               <tr>
+
+
                 <th className="border px-4 py-2 text-left">User</th>
                 <th className="border px-4 py-2 text-left">Quantity</th>
                 <th className="border px-4 py-2 text-left">Amount</th>
@@ -51,29 +51,26 @@ export default function AdminBookings() {
               </tr>
             </thead>
             <tbody>
-              <tr className="hover:bg-gray-50">
+
+              {booking.map((booking) => (
+              <tr key={booking.user_id} className="hover:bg-gray-50">
                 <td className="border px-4 py-2">{userInfo.id}</td>
                 <td className="border px-4 py-2">{booking.quantity}</td>
                 <td className="border px-4 py-2">{formatRupiah(booking.amount)}</td>
 
                 <td className="border px-4 py-2">
                   <Link
-                    to={`/booking/pay/:id`}
+                    to={`/booking/pay/:id?payment_id=${booking.id}`}
                     className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-6"
                   >
                     Pay
                   </Link>
                 </td>
               </tr>
+              ))}
             </tbody>
           </table>
         </div>
-        {/* <Link
-          onChange={createBookingDetails}
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-6"
-        >
-          pay now
-        </Link> */}
       </div>
     </div>
   );
