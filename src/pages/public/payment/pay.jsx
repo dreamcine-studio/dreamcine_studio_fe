@@ -1,16 +1,26 @@
 import { useEffect, useState } from "react";
 import { getPaymentmethods } from "../../../services/paymentMethod";
-import { getMovies } from "../../../services/movies";
-// import { getBooking } from "../../../services/booking";
+import { getMovies, showMovie } from "../../../services/movies";
+import { getBooking, showBooking } from "../../../services/booking";
+import { useParams } from "react-router-dom";
 
 export default function Payment() {
-  const [selectedSeats, setSelectedSeats] = useState(0);
   const [movie, setMovie] = useState([]);
   const [price, setPrice] = useState("");
-  // const [booking, setBooking] = useState([]);
+
+  const [booking, setBooking] = useState([]);
+  const [quantity, setQuantity] = useState("");
+  const [amount, setAmount] = useState("");
+
+  const { id } = useParams();
+
   const [payment_methods, setPaymentMethods] = useState([]);
   const [selectedMethod, setSelectedMethod] = useState(null);
   const [timeRemaining, setTimeRemaining] = useState(30 * 60); // 30 menit dalam detik
+
+  const query = new URLSearchParams(location.search);
+  const movieId = query.get("movie_id");
+  const bookingId = query.get("booking_id");
 
   useEffect(() => {
     const fetchPaymentMethods = async () => {
@@ -19,49 +29,39 @@ export default function Payment() {
     };
 
     const fetchMovie = async () => {
-      const data = await getMovies();
-  
-      const movie = data.find((movie) => movie.id === parseInt(id));
-      if (movie) {
-        // Asign data to state
-        setPrice(movie.price);
+      try {
+        const data = await showMovie(id);
+        setMovie(data)
+      } catch (error) {
+        console.error("Error fetching movie:", error);
+      }
     };
-  }
 
-    // const fetchBooking = async () => {
-    //   try {
-    //     const data = await getBooking();
-    //     setBooking(data);
-    //   } catch (error) {
-    //     console.error("Failed to fetch booking:", error);
-    //   }
-    // };
-    // fetchBooking();
+    const fetchBooking = async () => {
+      try {
+        const data = await showBooking(id);
+        setBooking(data)
+      } catch (error) {
+        console.error("Error fetching booking:", error);
+      }
+    };
+
+    fetchBooking();
     fetchMovie();
     fetchPaymentMethods();
   }, []);
 
+  console.log("tes", booking.amount)
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setTimeRemaining((prevTime) => (prevTime > 0 ? prevTime - 1 : 0));
-    }, 1000);
 
-    return () => clearInterval(timer);
-  }, []);
+  // useEffect(() => {
+  //   const timer = setInterval(() => {
+  //     setTimeRemaining((prevTime) => (prevTime > 0 ? prevTime - 1 : 0));
+  //   }, 1000);
 
-  // const handleSeatClick = (e) => {
-  //   const seatElement = e.target;
+  //   return () => clearInterval(timer);
+  // }, []);
 
-  //   if (!seatElement.classList.contains("sold")) {
-  //     seatElement.classList.toggle("selected");
-
-  //     const selectedSeatsArray = Array.from(document.querySelectorAll(
-  //       ".seat-grid .seat.selected")).map((seat) => seat.textContent);
-  //     setSelectedSeats(selectedSeatsArray);
-  //     console.log(selectedSeatsArray);
-  //   }
-  // };
 
   const formatRupiah = (number) => {
     return new Intl.NumberFormat("id-ID", {
@@ -72,19 +72,18 @@ export default function Payment() {
     }).format(number);
   };
 
-  const totalPrice = movie?.price * selectedSeats.length || 0;
 
-  const MovieDetail = async (e) => {
+  const createPayment = async (e) => {
     e.preventDefault();
 
     // buat FormData
     const paymentData = new FormData();
 
     paymentData.append("price", price);
-    paymentData.append("quantity", selectedSeats.length);
-    paymentData.append("total_price", totalPrice);
-    // paymentData.append("movie_id", movieId);
-    // paymentData.append("booking_id", bookingId);
+    paymentData.append("quantity", quantity);
+    paymentData.append("amount", amount);
+    paymentData.append("movie_id", movieId);
+    paymentData.append("booking_id", bookingId);
 
   };
   const formatTime = (seconds) => {
@@ -150,7 +149,7 @@ export default function Payment() {
 
         <dl className="flex items-center justify-between gap-4 border-gray-200 pt-2">
           <dt className="text-base text-gray-900">Seat</dt>
-          <dd className="text-base text-gray-900">({selectedSeats.length} seats)</dd>
+          <dd className="text-base text-gray-900">{booking.quantity}</dd>
         </dl>
 
         <dl className="flex items-center justify-between gap-4 border-gray-200 pt-2">
@@ -164,7 +163,7 @@ export default function Payment() {
 
         <dl className="flex items-center justify-between gap-4 border-t border-gray-200 pt-2">
           <dt className="text-base font-bold text-gray-900">Total</dt>
-          <dd className="text-base font-bold text-gray-900">{formatRupiah(totalPrice)}</dd>
+          <dd className="text-base font-bold text-gray-900">{booking.amount}</dd>
         </dl>
       </div>
 

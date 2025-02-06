@@ -23,6 +23,20 @@ export const createBooking = async (data) => {
   }
 };
 
+export const showBooking = async (id) => {
+  try {
+    const { data } = await API.get(`/bookings/${id}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
+    }); // endpoint
+    return data.data;
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+};
+
 export const updateBooking = async (id, data) => {
   try {
     const response = await API.post(`/bookings/${id}`, data, {

@@ -130,7 +130,8 @@ export default function MovieSeat() {
     } catch (errors) {
       // console.log(err.response.data.message);
       setErrors(errors.response.data.message);
-    }}
+    }
+  }
 
 
 
@@ -229,7 +230,7 @@ export default function MovieSeat() {
         </div>
       </div>
 
-      <Link onChange={createBookingDetails} to={`/payment?booking-seat_id=${totalPrice,selectedSeats.length}&movie_id=${movie.id}`} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-6">
+      <Link onChange={createBookingDetails} to={`/booking`} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-6">
         Book Your Ticket
       </Link>
     </div>

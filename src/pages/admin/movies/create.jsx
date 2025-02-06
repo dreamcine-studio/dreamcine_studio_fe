@@ -30,6 +30,8 @@ export default function MovieCreate() {
     fetchGenres();
   }, []);
 
+  console.log("tes",movieData )
+
   //Handle input chage
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -63,6 +65,8 @@ export default function MovieCreate() {
       setErrors(err.response.data.message);
     }
   };
+
+
 
   return (
     //   <div className="flex flex-col gap-9">
