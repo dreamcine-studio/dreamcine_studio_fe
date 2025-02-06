@@ -71,7 +71,7 @@ export default function MovieList( {datas} ) {
     return shuffled;
   };
 
-  let randomMovies;
+  let randomMovies = movies;
   if (datas === "all"){
     const randomMovies = shuffleArray(movies);
     return randomMovies;
