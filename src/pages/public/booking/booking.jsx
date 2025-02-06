@@ -127,7 +127,7 @@ export default function MovieSeat() {
       await createBooking(bookingData);
       await createSeat(seatData);
       alert("Booking successful!");
-      navigate("/payment");
+      navigate("/booking");
     } catch (errors) {
       console.error("Error:", errors);
       setErrors(errors.response?.data?.message || "Something went wrong");
