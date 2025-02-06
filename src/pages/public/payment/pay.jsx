@@ -1,16 +1,22 @@
 import { useEffect, useState } from "react";
 import { getPaymentmethods } from "../../../services/paymentMethod";
-import { getMovies } from "../../../services/movies";
-// import { getBooking } from "../../../services/booking";
+import { getBooking } from "../../../services/booking";
+// import { useParams } from "react-router-dom";
+// import { getMovies } from "../../../services/movies";
 
 export default function Payment() {
-  const [selectedSeats, setSelectedSeats] = useState(0);
-  const [movie, setMovie] = useState([]);
-  const [price, setPrice] = useState("");
-  // const [booking, setBooking] = useState([]);
+  // const [movie, setMovie] = useState([]);
+  const [booking, setBooking] = useState([]);
+  // const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+
+
   const [payment_methods, setPaymentMethods] = useState([]);
   const [selectedMethod, setSelectedMethod] = useState(null);
-  const [timeRemaining, setTimeRemaining] = useState(30 * 60); // 30 menit dalam detik
+  // const [timeRemaining, setTimeRemaining] = useState(30 * 60); // 30 menit dalam detik
+
+  const query = new URLSearchParams(location.search);
+  // const movieId = query.get("movie_id");
+  const bookingId = query.get("booking_id");
 
   useEffect(() => {
     const fetchPaymentMethods = async () => {
@@ -18,50 +24,42 @@ export default function Payment() {
       setPaymentMethods(data);
     };
 
-    const fetchMovie = async () => {
-      const data = await getMovies();
-  
-      const movie = data.find((movie) => movie.id === parseInt(id));
-      if (movie) {
-        // Asign data to state
-        setPrice(movie.price);
+    // const fetchMovie = async () => {
+    //       try {
+    //         const data = await getMovies();
+    //         setMovie(data.find((m) => m.id === parseInt(movieId)));
+    //       } catch (error) {
+    //         console.error("Error fetching movie:", error);
+    //       }
+    //     };
+
+    const fetchBooking = async () => {
+      try {
+        const data = await getBooking();
+        const booking = data.filter(
+          (booking) => booking.user_id === parseInt(bookingId)
+        );
+        setBooking(booking);
+      } catch (error) {
+        console.error("Error fetching booking:", error);
+        // Handle error, e.g., display a message to the user
+      }
     };
-  }
 
-    // const fetchBooking = async () => {
-    //   try {
-    //     const data = await getBooking();
-    //     setBooking(data);
-    //   } catch (error) {
-    //     console.error("Failed to fetch booking:", error);
-    //   }
-    // };
-    // fetchBooking();
-    fetchMovie();
     fetchPaymentMethods();
-  }, []);
+    // fetchMovie();
+    fetchBooking();
+  }, [bookingId]);
 
+  // console.log("tes", booking.amount)
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setTimeRemaining((prevTime) => (prevTime > 0 ? prevTime - 1 : 0));
-    }, 1000);
+  // useEffect(() => {
+  //   const timer = setInterval(() => {
+  //     setTimeRemaining((prev) => (prev > 0 ? prev - 1 : 0));
+  //   }, 1000);
 
-    return () => clearInterval(timer);
-  }, []);
-
-  // const handleSeatClick = (e) => {
-  //   const seatElement = e.target;
-
-  //   if (!seatElement.classList.contains("sold")) {
-  //     seatElement.classList.toggle("selected");
-
-  //     const selectedSeatsArray = Array.from(document.querySelectorAll(
-  //       ".seat-grid .seat.selected")).map((seat) => seat.textContent);
-  //     setSelectedSeats(selectedSeatsArray);
-  //     console.log(selectedSeatsArray);
-  //   }
-  // };
+  //   return () => clearInterval(timer);
+  // }, []);
 
   const formatRupiah = (number) => {
     return new Intl.NumberFormat("id-ID", {
@@ -72,26 +70,23 @@ export default function Payment() {
     }).format(number);
   };
 
-  const totalPrice = movie?.price * selectedSeats.length || 0;
+  const createPayments = async (e) => {
+      e.preventDefault();
+  
+      const bookingData = new FormData();
+      // bookingData.append("user_id", userInfo.id);
+      // bookingData.append("movie_id", movieId);
+      bookingData.append("booking_id", bookingId);
+    };
+  
 
-  const MovieDetail = async (e) => {
-    e.preventDefault();
+  // const formatTime = (seconds) => {
+  //   const minutes = Math.floor(seconds / 60);
+  //   const secs = seconds % 60;
+  //   return `${minutes}:${secs < 10 ? "0" : ""}${secs}`;
+  // };
 
-    // buat FormData
-    const paymentData = new FormData();
 
-    paymentData.append("price", price);
-    paymentData.append("quantity", selectedSeats.length);
-    paymentData.append("total_price", totalPrice);
-    // paymentData.append("movie_id", movieId);
-    // paymentData.append("booking_id", bookingId);
-
-  };
-  const formatTime = (seconds) => {
-    const minutes = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-    return `${minutes}:${secs < 10 ? "0" : ""}${secs}`;
-  };
 
   const getPaymentMethodsName = (id) => {
     const payment_method = payment_methods.find((pm) => pm.id === id);
@@ -143,34 +138,34 @@ export default function Payment() {
 
       {/* Order Summary */}
       <div className="space-y-2 mt-4">
-        <dl className="flex items-center justify-between gap-4 border-t border-gray-200 pt-2">
+        {/* <dl className="flex items-center justify-between gap-4 border-t border-gray-200 pt-2">
           <dt className="text-base text-gray-900">Original price</dt>
           <dd className="text-base text-gray-900">{formatRupiah(movie.price)}</dd>
-        </dl>
+        </dl> */}
 
         <dl className="flex items-center justify-between gap-4 border-gray-200 pt-2">
           <dt className="text-base text-gray-900">Seat</dt>
-          <dd className="text-base text-gray-900">({selectedSeats.length} seats)</dd>
+          <dd className="text-base text-gray-900">{booking.quantity}</dd>
         </dl>
 
-        <dl className="flex items-center justify-between gap-4 border-gray-200 pt-2">
+        {/* <dl className="flex items-center justify-between gap-4 border-gray-200 pt-2">
           <dt className="text-base text-gray-900">
             Please complete the payment
           </dt>
           <dd className="text-base text-red-500 font-bold">
             {formatTime(timeRemaining)}
           </dd>
-        </dl>
+        </dl> */}
 
         <dl className="flex items-center justify-between gap-4 border-t border-gray-200 pt-2">
           <dt className="text-base font-bold text-gray-900">Total</dt>
-          <dd className="text-base font-bold text-gray-900">{formatRupiah(totalPrice)}</dd>
+          <dd className="text-base font-bold text-gray-900">{formatRupiah(booking.amount)}</dd>
         </dl>
       </div>
 
       {/* Buttons */}
       <div className="flex justify-between mt-4">
-        <button className="bg-red-500 text-white w-full hover:bg-red-600 px-4 py-2 rounded-lg">
+        <button onClick={createPayments} className="bg-red-500 text-white w-full hover:bg-red-600 px-4 py-2 rounded-lg">
           Pay now
         </button>
       </div>

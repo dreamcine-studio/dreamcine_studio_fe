@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { getMovies } from "../../services/movies";
 import { getGenres } from "../../services/genre";
 
-export default function Movies() {
+export default function MovieList( {datas} ) {
   const [movies, setMovies] = useState([]);
   const [genres, setGenres] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -60,6 +60,8 @@ export default function Movies() {
     return genre ? genre.name : "Unknown Genre";
   };
 
+
+
   const shuffleArray = (array) => {
     const shuffled = [...array];
     for (let i = shuffled.length - 1; i > 0; i--) {
@@ -69,7 +71,16 @@ export default function Movies() {
     return shuffled;
   };
 
-  const randomMovies = shuffleArray(movies).slice(0, 3);
+  let randomMovies = movies;
+  if (datas === "all"){
+    const randomMovies = shuffleArray(movies);
+    return randomMovies;
+  } else if (datas === "3"){
+    const randomMovies = shuffleArray(movies).slice(0,3);
+    return randomMovies;
+  }
+  console.log(randomMovies);
+
 
   return (
     <div className="flex justify-center flex-wrap gap-4 py-16 dark:bg-gray-900">

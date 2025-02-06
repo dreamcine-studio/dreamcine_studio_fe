@@ -4,9 +4,9 @@ import { deleteBooking, getBooking } from "../../../services/booking";
 import { getSchedules } from "../../../services/schedules";
 
 export default function AdminBookings() {
-  const [Bookings, setBooking] = useState([]);
+  const [bookings, setBooking] = useState([]);
   const [schedules, setSchedules] = useState([]);
-  const [Loading, setLoading] = useState([]);
+  const [loading, setLoading] = useState([]);
   const [error, setError] = useState([]);
 
   useEffect(() => {
@@ -38,7 +38,7 @@ fetchData();
 }, []);
 
 
-if (Loading) {
+if (loading) {
   return (
     <main className="py-6 px-12 space-y-2 bg-gray-300 min-h-screen w-full flex items-center justify-center">
       {/* Loading Spinner */}
@@ -63,11 +63,6 @@ if (error){
 		</main>
 	)
 }
-
-
-
-  console.log("ada", Bookings);
-
   const getScheduledateStart = (id) => {
     const schedule = schedules.find((g) => g.id === id);
     return schedule ? schedule.showdate_start : "Unknown Schedule";
@@ -87,7 +82,7 @@ if (error){
       await deleteBooking(id);
 
       // ini kita update pakai setter Books
-      setBooking(Bookings.filter((booking) => booking.id !== id));
+      setBooking(bookings.filter((booking) => booking.id !== id));
     }
   };
 
@@ -108,42 +103,62 @@ if (error){
         <table className="w-full table-auto">
           <thead className="border-b bg-gray-50 text-white">
             <tr className="bg-gray-2 text-left dark:bg-meta-4">
-              <th className="min-w-[150px] px-4 py-4 font-medium text-black dark:text-white xl:pl-11">
+              <th className="min-w-[150px] px-4 py-4 font-medium text-black xl:pl-11">
                 user {/*user_id*/}
               </th>
-              <th className="min-w-[220px] px-9 py-4 font-medium text-black dark:text-white">
+              <th className="min-w-[220px] px-9 py-4 font-medium text-black">
                 schedule {/*schedule_id*/}
               </th>
-              <th className="min-w-[220px] px-4 py-4 font-medium text-black dark:text-white">
+              <th className="min-w-[220px] px-4 py-4 font-medium text-black">
                 quantity
               </th>
-              <th className="min-w-[220px] px-4 py-4 font-medium text-black dark:text-white">
+              <th className="min-w-[220px] px-4 py-4 font-medium text-black">
+                amount
+              </th>
+              <th className="min-w-[220px] px-4 py-4 font-medium text-black">
+                showtime
+              </th>
+              <th className="min-w-[220px] px-4 py-4 font-medium text-black">
                 Action
               </th>
             </tr>
           </thead>
           <tbody>
-            {Bookings.length > 0 ? (
-              Bookings.map((booking) => (
+            {bookings.length > 0 ? (
+              bookings.map((booking) => (
                 <tr key={booking.id} className="hover:bg-gray-50">
                   <td className="px-4 py-5">
-                    <p className="text-black dark:text-white">
+                    <p className="text-black">
                       {" "}
                       {booking.user_id}
                     </p>
                   </td>
 
                   <td className="px-4 py-5">
-                    <p className="text-black dark:text-white">
+                    <p className="text-black">
                       {getScheduledateStart(booking.schedule_id)} - {" "}
                       {getScheduledateEnd(booking.schedule_id)}
                     </p>
                   </td>
 
                   <td className="px-4 py-5">
-                    <p className="px-4 text-black dark:text-white">
+                    <p className="px-4 text-black">
                       {" "}
                       {booking.quantity}
+                    </p>
+                  </td>
+
+                  <td className="px-4 py-5">
+                    <p className="px-4 text-black">
+                      {" "}
+                      {booking.amount}
+                    </p>
+                  </td>
+
+                  <td className="px-4 py-5">
+                    <p className="px-4 text-black">
+                      {" "}
+                      {booking.showtime}
                     </p>
                   </td>
 

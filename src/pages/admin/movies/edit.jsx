@@ -88,12 +88,12 @@ export default function MovieEdit() {
     <div className="flex flex-col gap-9">
       <div className="rounded-sm bg-white shadow-default dark:bg-boxdark">
         <div className="border-b border-stroke px-6.5 py-4 dark:border-strokedark">
-          <h3 className="font-medium text-black dark:text-white">Add Data</h3>
+          <h3 className="font-medium text-black">Add Data</h3>
         </div>
         <form onSubmit={updateMovieDetail} className="py-5">
           <div className="p-6.5 flex flex-col gap-5">
             <div className="mb-4.5">
-              <label className="mb-3 block text-sm font-medium text-black dark:text-white">
+              <label className="mb-3 block text-sm font-medium text-black">
                 Title
               </label>
               {errors.title && (
@@ -109,11 +109,11 @@ export default function MovieEdit() {
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 type="text"
-                className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-indigo-600 active:border-indigo-600 disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-indigo-600"
+                className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-indigo-600 active:border-indigo-600 disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-indigo-600"
               />
             </div>
             <div className="mb-4.5">
-              <label className="mb-3 block text-sm font-medium text-black dark:text-white">
+              <label className="mb-3 block text-sm font-medium text-black">
                 Description
               </label>
               {errors.description && (
@@ -129,12 +129,12 @@ export default function MovieEdit() {
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 rows="6"
-                className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-indigo-600 active:border-indigo-600 disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-indigo-600"
+                className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-indigo-600 active:border-indigo-600 disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-indigo-600"
               ></textarea>
             </div>
           </div>
           <div className="mb-4.5">
-            <label className="mb-3 block text-sm font-medium text-black dark:text-white">
+            <label className="mb-3 block text-sm font-medium text-black">
               Poster
             </label>
             {errors.poster && (
@@ -153,7 +153,7 @@ export default function MovieEdit() {
           </div>
           <div className="mb-4.5 flex flex-col gap-6 xl:flex-row">
             <div className="w-full xl:w-1/2">
-              <label className="mb-3 block text-sm font-medium text-black dark:text-white">
+              <label className="mb-3 block text-sm font-medium text-black">
                 Price
               </label>
               {errors.price && (
@@ -170,11 +170,11 @@ export default function MovieEdit() {
                 onChange={(e) => setPrice(e.target.value)}
                 type="number"
                 min={1}
-                className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-indigo-600 active:border-indigo-600 disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-indigo-600"
+                className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-indigo-600 active:border-indigo-600 disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-indigo-600"
               />
             </div>
             <div className="w-full xl:w-1/2">
-              <label className="mb-3 block text-sm font-medium text-black dark:text-white">
+              <label className="mb-3 block text-sm font-medium text-black">
                 Cast
               </label>
               {errors.cast && (
@@ -191,11 +191,11 @@ export default function MovieEdit() {
                 onChange={(e) => setCast(e.target.value)}
                 type="text"
                 min={1}
-                className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-indigo-600 active:border-indigo-600 disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-indigo-600"
+                className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-indigo-600 active:border-indigo-600 disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-indigo-600"
               />
             </div>
             <div className="mb-4.5">
-              <label className="mb-3 block text-sm font-medium text-black dark:text-white">
+              <label className="mb-3 block text-sm font-medium text-black">
                 Genre
               </label>
               {errors.genre_id && (
@@ -248,7 +248,7 @@ export default function MovieEdit() {
               </div>
             </div>
             <div className="w-full xl:w-1/2">
-              <label className="mb-3 block text-sm font-medium text-black dark:text-white">
+              <label className="mb-3 block text-sm font-medium text-black">
                 duration
               </label>
               {errors.Duration && (
@@ -265,11 +265,11 @@ export default function MovieEdit() {
                 onChange={(e) => setDuration(e.target.value)}
                 type="number"
                 min={1}
-                className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-indigo-600 active:border-indigo-600 disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-indigo-600"
+                className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-indigo-600 active:border-indigo-600 disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-indigo-600"
               />
             </div>
             <div className="w-full xl:w-1/2">
-              <label className="mb-3 block text-sm font-medium text-black dark:text-white">
+              <label className="mb-3 block text-sm font-medium text-black">
                 Releast Date
               </label>
               {errors.releast_date && (
@@ -286,7 +286,7 @@ export default function MovieEdit() {
                 onChange={(e) => setReleaseDate(e.target.value)}
                 type="date"
                 min={1}
-                className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-indigo-600 active:border-indigo-600 disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-indigo-600"
+                className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-indigo-600 active:border-indigo-600 disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-indigo-600"
               />
             </div>
 

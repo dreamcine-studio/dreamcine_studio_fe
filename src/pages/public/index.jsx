@@ -1,11 +1,11 @@
-import Hero from "../../components/Movies"
 import Landing from "../../components/Landing"
+import Movies from "../../components/Movies"
 
 export default function Home() {
   return (
     <>
       <Landing />
-      <Hero />
+      <Movies length={3} />
     </>
   )
 }

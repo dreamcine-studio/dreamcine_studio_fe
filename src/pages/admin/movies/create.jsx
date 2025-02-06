@@ -30,6 +30,8 @@ export default function MovieCreate() {
     fetchGenres();
   }, []);
 
+  console.log("tes",movieData )
+
   //Handle input chage
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -64,13 +66,15 @@ export default function MovieCreate() {
     }
   };
 
+
+
   return (
   
 <div className="mt-6">
   <div className="w-full h-8 bg-black mb-4"></div> 
   <div className="rounded-lg bg-white shadow-lg dark:bg-boxdark">
     <div className="border-b border-stroke px-6 py-4 dark:border-strokedark">
-      <h3 className="text-xl font-semibold text-black dark:text-white">Add Movie Data</h3>
+      <h3 className="text-xl font-semibold text-black">Add Movie Data</h3>
     </div>
 
     <form onSubmit={storeMovie} className="py-5">
@@ -80,7 +84,7 @@ export default function MovieCreate() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Title Input */}
           <div className="mb-6">
-            <label className="mb-2 block text-sm font-medium text-black dark:text-white">Title</label>
+            <label className="mb-2 block text-sm font-medium text-black">Title</label>
             {errors.title && (
               <div className="p-2 my-2 text-red-800 rounded-lg bg-red-50">
                 <span className="font-medium">{errors.title[0]}</span>
@@ -98,7 +102,7 @@ export default function MovieCreate() {
 
           {/* Description Input */}
           <div className="mb-6">
-            <label className="mb-2 block text-sm font-medium text-black dark:text-white">Description</label>
+            <label className="mb-2 block text-sm font-medium text-black">Description</label>
             {errors.description && (
               <div className="p-2 my-2 text-red-800 rounded-lg bg-red-50">
                 <span className="font-medium">{errors.description[0]}</span>
@@ -119,7 +123,7 @@ export default function MovieCreate() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Poster Input */}
           <div className="mb-6">
-            <label className="mb-2 block text-sm font-medium text-black dark:text-white">Poster</label>
+            <label className="mb-2 block text-sm font-medium text-black">Poster</label>
             {errors.poster && (
               <div className="p-2 my-2 text-red-800 rounded-lg bg-red-50">
                 <span className="font-medium">{errors.poster[0]}</span>
@@ -134,7 +138,7 @@ export default function MovieCreate() {
 
           {/* Price Input */}
           <div className="mb-6">
-            <label className="mb-2 block text-sm font-medium text-black dark:text-white">Price</label>
+            <label className="mb-2 block text-sm font-medium text-black">Price</label>
             {errors.price && (
               <div className="p-2 my-2 text-red-800 rounded-lg bg-red-50">
                 <span className="font-medium">{errors.price[0]}</span>
@@ -153,7 +157,7 @@ export default function MovieCreate() {
 
           {/* Cast Input */}
           <div className="mb-6">
-            <label className="mb-2 block text-sm font-medium text-black dark:text-white">Cast</label>
+            <label className="mb-2 block text-sm font-medium text-black">Cast</label>
             {errors.cast && (
               <div className="p-2 my-2 text-red-800 rounded-lg bg-red-50">
                 <span className="font-medium">{errors.cast[0]}</span>
@@ -174,7 +178,7 @@ export default function MovieCreate() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Genre Select */}
           <div className="mb-6">
-            <label className="mb-2 block text-sm font-medium text-black dark:text-white">Genre</label>
+            <label className="mb-2 block text-sm font-medium text-black">Genre</label>
             {errors.genre_id && (
               <div className="p-2 my-2 text-red-800 rounded-lg bg-red-50">
                 <span className="font-medium">{errors.genre_id[0]}</span>
@@ -199,7 +203,7 @@ export default function MovieCreate() {
 
           {/* Duration Input */}
           <div className="mb-6">
-            <label className="mb-2 block text-sm font-medium text-black dark:text-white">Duration</label>
+            <label className="mb-2 block text-sm font-medium text-black">Duration</label>
             {errors.duration && (
               <div className="p-2 my-2 text-red-800 rounded-lg bg-red-50">
                 <span className="font-medium">{errors.duration[0]}</span>
@@ -218,7 +222,7 @@ export default function MovieCreate() {
 
           {/* Release Date Input */}
           <div className="mb-6">
-            <label className="mb-2 block text-sm font-medium text-black dark:text-white">Release Date</label>
+            <label className="mb-2 block text-sm font-medium text-black">Release Date</label>
             {errors.release_date && (
               <div className="p-2 my-2 text-red-800 rounded-lg bg-red-50">
                 <span className="font-medium">{errors.release_date[0]}</span>

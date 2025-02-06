@@ -113,18 +113,18 @@ const fetchData = async () => {
         <table className="w-full table-auto">
           <thead className="border-b bg-gray-50 text-white">
             <tr className="bg-gray-2 text-left dark:bg-meta-4">
-              <th className="min-w-[220px] px-4 py-4 font-medium text-black dark:text-white xl:pl-11">
+              <th className="min-w-[220px] px-4 py-4 font-medium text-black xl:pl-11">
                 Name
               </th>
-              <th className="min-w-[150px] px-4 py-4 font-medium text-black dark:text-white">
+              <th className="min-w-[150px] px-4 py-4 font-medium text-black">
                 Location
               </th>
 
-              <th className="min-w-[150px] px-4 py-4 font-medium text-black dark:text-white">
+              <th className="min-w-[150px] px-4 py-4 font-medium text-black">
                 Max Seat
               </th>
 
-              <th className="min-w-[150px] px-4 py-4 font-medium text-black dark:text-white">
+              <th className="min-w-[150px] px-4 py-4 font-medium text-black">
                 Action
               </th>
             </tr>
@@ -134,17 +134,17 @@ const fetchData = async () => {
               studios.map((studio) => (
                 <tr key={studio.id} className="hover:bg-gray-50">
                   <td className="px-4 py-5 pl-9 xl:pl-11">
-                    <h5 className="font-medium text-black dark:text-white">
+                    <h5 className="font-medium text-black">
                       {studio.name}
                     </h5>
                   </td>
                   <td className="px-4 py-5">
-                    <p className="text-black dark:text-white">
+                    <p className="text-black">
                       {studio.location}
                     </p>
                   </td>
                   <td className="px-4 py-5">
-                    <p className="text-black dark:text-white">
+                    <p className="text-black">
                       {studio.maxseats}
                     </p>
                   </td>
