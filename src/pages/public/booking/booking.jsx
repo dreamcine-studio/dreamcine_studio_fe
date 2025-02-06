@@ -1,19 +1,20 @@
 import { useState, useEffect } from "react";
 import "./style.css";
 import { getMovies } from "../../../services/movies";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { getStudios } from "../../../services/studios";
 import { createBooking } from "../../../services/booking";
 import { getSchedules } from "../../../services/schedules";
-import { createSeat, showSeat } from "../../../services/seat";
+import { createSeat, getSeats } from "../../../services/seat";
 
 export default function MovieSeat() {
-  const [selectedSeats, setSelectedSeats] = useState(0);
+  const [selectedSeats, setSelectedSeats] = useState([]);
   const [movie, setMovie] = useState([]);
   const [studio, setStudio] = useState([]);
   const [seat, setSeat] = useState([]);
   const [schedule, setSchedule] = useState([]);
   const [errors, setErrors] = useState([]);
+  
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -28,44 +29,37 @@ export default function MovieSeat() {
     const fetchMovie = async () => {
       try {
         const data = await getMovies();
-        const movie = data.find((movie) => movie.id === parseInt(movieId));
-        setMovie(movie);
+        setMovie(data.find((m) => m.id === parseInt(movieId)));
       } catch (error) {
         console.error("Error fetching movie:", error);
-        // Handle error, e.g., display a message to the user
       }
     };
 
     const fetchStudio = async () => {
       try {
         const data = await getStudios();
-        const studio = data.find((studio) => studio.id === parseInt(studioId));
-        setStudio(studio);
+        setStudio(data.find((s) => s.id === parseInt(studioId)));
       } catch (error) {
         console.error("Error fetching studio:", error);
-        // Handle error, e.g., display a message to the user
       }
     };
 
     const fetchSchedule = async () => {
       try {
         const data = await getSchedules();
-        const schedule = data.find(
-          (schedule) => schedule.id === parseInt(scheduleId)
-        );
-        setSchedule(schedule);
+        setSchedule(data.find((s) => s.id === parseInt(scheduleId)));
       } catch (error) {
         console.error("Error fetching schedule:", error);
-        // Handle error, e.g., display a message to the user
       }
     };
 
     const fetchSeat = async () => {
       try {
-        const data = await showSeat(studioId);
-        setSeat(data);
+        const data = await getSeats();
+        const seat = data.filter((s) => s.studio_id === parseInt(studioId))
+        setSeat(seat);
       } catch (error) {
-        console.error("Error fetching schedule:", error);
+        console.error("Error fetching seat:", error);
       }
     };
 
@@ -73,22 +67,16 @@ export default function MovieSeat() {
     fetchStudio();
     fetchSchedule();
     fetchSeat();
-  }, [movieId, studioId, scheduleId]);
-
-  console.log("schedule", schedule);
-  console.log("seat", seat);
+  }, [movieId, studioId, scheduleId]); // Perbarui saat booking selesai
 
   const handleSeatClick = (e) => {
     const seatElement = e.target;
-
     if (!seatElement.classList.contains("sold")) {
       seatElement.classList.toggle("selected");
-
       const selectedSeatsArray = Array.from(
         document.querySelectorAll(".seat-grid .seat.selected")
       ).map((seat) => seat.textContent);
       setSelectedSeats(selectedSeatsArray);
-      console.log(selectedSeatsArray);
     }
   };
 
@@ -97,7 +85,6 @@ export default function MovieSeat() {
       style: "currency",
       currency: "IDR",
       minimumFractionDigits: 0,
-      maximumFractionDigits: 2,
     }).format(number);
   };
 
@@ -115,7 +102,7 @@ export default function MovieSeat() {
       return navigate("/login");
     }
 
-    if (selectedSeats === 0) {
+    if (selectedSeats.length === 0) {
       alert("Please select at least one seat.");
       return;
     }
@@ -140,12 +127,14 @@ export default function MovieSeat() {
       await createBooking(bookingData);
       await createSeat(seatData);
       alert("Booking successful!");
-      return navigate("/schedules");
+      navigate("/payment");
     } catch (errors) {
-      // console.log(err.response.data.message);
-      setErrors(errors.response.data.message);
+      console.error("Error:", errors);
+      setErrors(errors.response?.data?.message || "Something went wrong");
     }
   };
+
+  console.log(seat);
 
   return (
     <div className="flex flex-col items-center justify-center dark:bg-gray-900 text-white w-full p-8">
@@ -200,7 +189,7 @@ export default function MovieSeat() {
               >
                 {[...Array(8)].map((_, index) => {
                   const seatNumber = `${rowLabel}${index + 1}`;
-                  const isBooked = seat?.seat_number?.includes(seatNumber);
+                  const isBooked = seat.some((s) => s.seat_number.includes(seatNumber));
 
                   return (
                     <div
@@ -217,7 +206,7 @@ export default function MovieSeat() {
                 </div>
                 {[...Array(6)].map((_, index) => {
                   const seatNumber = `${rowLabel}${index + 10}`;
-                  const isBooked = seat?.seat_number?.includes(seatNumber);
+                  const isBooked = seat.some((s) => s.seat_number.includes(seatNumber));
 
                   return (
                     <div
@@ -254,15 +243,13 @@ export default function MovieSeat() {
         </div>
       </div>
 
-      <Link
-        onChange={createBookingDetails}
-        to={`/payment?booking-seat_id=${
-          (totalPrice, selectedSeats.length)
-        }&movie_id=${movie.id}`}
+      <button
+        onClick={createBookingDetails}
         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-6"
       >
         Book Your Ticket
-      </Link>
+      </button>
+
     </div>
   );
 }
