@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { deleteSeat, getSeats } from "../../../services/seat";
+import { getStudios } from "../../../services/studios";
 
 export default function AdminSeats() {
   // const [seats, setSeats] = useState([]);
@@ -23,16 +24,6 @@ export default function AdminSeats() {
   // }, []);
 
   const [seats, setSeats] = useState([]);
-<<<<<<< HEAD
-
-  useEffect(() => {
-    const fetchSeats = async () => {
-      const data = await getSeats();
-      setSeats(data);
-    };
-    
-    fetchSeats();
-=======
   const [studios, setStudios] = useState([]);
   const [Loading, setLoading] = useState([]);
   const [error, setError] = useState([]);
@@ -65,7 +56,6 @@ const fetchData = async () => {
   
     fetchData();
     
->>>>>>> f003f4d245f70037b319ed04072a004fe5e80ba8
   }, []);
 
 
@@ -101,8 +91,8 @@ const fetchData = async () => {
 
   // console.log(seats);
 
-  const getSeatstudio_id = (id) => {
-    const studio = seats.find((g) => g.id === id);
+  const getStudioName = (id) => {
+    const studio = studios.find((g) => g.id === id);
     return studio ? studio.name : "Unknown studio";
   };
 
@@ -158,15 +148,6 @@ const fetchData = async () => {
               seats.map((seat) => (
                 <tr key={seat.id} className="hover:bg-gray-50">
                   <td className="px-4 py-5 pl-9 xl:pl-11">
-<<<<<<< HEAD
-                    <h5 className="font-medium text-black dark:text-white">
-                      {seat.studio_id}
-                    </h5>
-                  </td>
-                  <td className="px-4 py-5">
-                    <p className="text-black dark:text-white">
-                      {seat.seat_number}
-=======
                     <h5 className="font-medium text-black">
                       {getStudioName(seat.studio_id)}
                     </h5>
@@ -174,7 +155,6 @@ const fetchData = async () => {
                   <td className="px-4 py-5">
                     <p className="text-black">
                       {seat.seat_number.join(", ")}
->>>>>>> f003f4d245f70037b319ed04072a004fe5e80ba8
                     </p>
                   </td>
                   <td className="px-4 py-5">
