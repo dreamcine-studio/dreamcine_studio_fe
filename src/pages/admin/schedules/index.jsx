@@ -169,7 +169,8 @@ if (error){
                         schedule.showtime.map((time, timeIndex) => (
                           <div
                             key={`${schedule.id}-${timeIndex}`}
-                            className="bg-gray-200 text-gray-800 py-1 px-3 rounded-lg text-sm"
+                            className="bg-gray-200 
+                            text-gray-800 py-1 px-3 rounded-lg text-sm"
                           >
                             {time}
                           </div>

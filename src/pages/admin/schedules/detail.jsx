@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { showSchedules } from "../../../services/schedules";
+import { Link, useParams } from "react-router-dom";
 
 export default function ScheduleList() {
+  const { id } = useParams();
   const [schedules, setSchedules] = useState([]);
 
   useEffect(() => {
     const fetchSchedules = async () => {
       try {
         const data = await showSchedules(id);
-        console.log("Fetched Data:", data); // Debugging: cek isi data
+        console.log("Fetched Data:", data);
         
-        // Jika API mengembalikan objek, ambil array yang sesuai
-        const scheduleArray = Array.isArray(data) ? data : data.schedules || [];
-
+        const scheduleArray = Array.isArray(data) ? data : [data];
         setSchedules(generateSchedule(scheduleArray));
       } catch (error) {
         console.error("Error fetching schedules:", error);
@@ -23,8 +23,7 @@ export default function ScheduleList() {
   }, [id]);
 
   function generateSchedule(data) {
-    if (!Array.isArray(data)) return []; // Cegah error jika data bukan array
-
+    if (!Array.isArray(data)) return [];
     const result = [];
 
     data.forEach((schedule) => {
@@ -66,7 +65,7 @@ export default function ScheduleList() {
               <tr key={index} className="border">
                 <td className="border p-2">{schedule.date}</td>
                 <td className="border p-2">
-                  {schedule.showtime.length > 0 ? (
+                  {schedule.showtime && schedule.showtime.length > 0 ? (
                     schedule.showtime.map((time, timeIndex) => (
                       <div
                         key={`${schedule.id}-${timeIndex}`}
@@ -80,8 +79,16 @@ export default function ScheduleList() {
                   )}
                 </td>
                 <td className="border p-2">
-                  <button className="mr-2 text-blue-500 hover:underline">✏️ Edit</button>
-                  <button className="text-red-500 hover:underline">🗑️ Delete</button>
+
+                  <Link to={`/admin/schedules/edit/${schedule.id}`}
+                  className="mx-4">
+                        <i className="fa-solid fa-pen-to-square"></i>
+                      </Link>
+                      <button onClick={() => handleDelete(schedule.id)}
+                    >
+                        <i className="fa-solid fa-trash"></i>
+                      </button>
+               
                 </td>
               </tr>
             ))
