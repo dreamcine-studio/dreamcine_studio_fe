@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { getMovies } from "../../services/movies";
 import { getGenres } from "../../services/genre";
 
-export default function MovieList( {datas} ) {
+export default function MovieList( {length} ) {
   const [movies, setMovies] = useState([]);
   const [genres, setGenres] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -71,20 +71,25 @@ export default function MovieList( {datas} ) {
     return shuffled;
   };
 
-  let randomMovies = movies;
-  if (datas === "all"){
-    const randomMovies = shuffleArray(movies);
-    return randomMovies;
-  } else if (datas === "3"){
-    const randomMovies = shuffleArray(movies).slice(0,3);
-    return randomMovies;
+  const getDisplayMovies = () => {
+
+    if (length === "all"){
+      return movies;
+    } else if (!isNaN(length) && Number(length) > 0){
+      return shuffleArray(movies).slice(0, Number(length));
+    } 
+    return movies;
   }
-  console.log(randomMovies);
+
+  const displayedMovies = getDisplayMovies();
+
+  
+ 
 
 
   return (
     <div className="flex justify-center flex-wrap gap-4 py-16 dark:bg-gray-900">
-      {randomMovies.map((movie, index) => (
+      {displayedMovies.map((movie, index) => (
         <div
           key={index}
           className="max-w-sm m-2 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700 transform transition-all duration-300 ease-in-out hover:scale-105 hover:translate-y-[-10px] hover:shadow-2xl hover:opacity-90 flex flex-col flex-wrap"

@@ -1,5 +1,5 @@
-import MovieList from "../../../components/Movies";
+import MovieList from "../../../components/MovieList";
 
-export default function Movies(){
-  return <MovieList datas={ all } />;
+export default function PublicMovies(){
+  return <MovieList length={ "all" } />;
 }

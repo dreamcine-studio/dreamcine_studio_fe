@@ -30,7 +30,6 @@ import AdminStudios from "./pages/admin/studios";
 import AdminSchedules from "./pages/admin/schedules";
 import AdminSeats from "./pages/admin/seats";
 import AdminBookings from "./pages/admin/bookings/index.jsx";
-import Movies from "./components/Movies/index.jsx";
 import MovieSeat from "./pages/public/booking/booking.jsx";
 import SeatCreate from "./pages/admin/seats/create.jsx";
 import SeatEdit from "./pages/admin/seats/edit.jsx";
@@ -42,8 +41,8 @@ import Payment from "./pages/public/payment/pay.jsx";
 import BookingPage from "./pages/public/payment/index.jsx";
 import MovieDetail from "./pages/public/movie-detail/index.jsx";
 import ScheduleList from "./pages/admin/schedules/detail.jsx";
+import PublicMovies from "./pages/public/movies/index.jsx";
 
-// import MovieSchedule from './pages/public/Schedule/index.jsx'
 
 function App() {
   return (
@@ -53,7 +52,7 @@ function App() {
           {/* Public Routes */}
           <Route element={<PublicLayout />}>
             <Route index element={<Home />} />
-            <Route path="movies" element={<Movies />} />
+            <Route path="movies" element={<PublicMovies />} />
             <Route path="movies/:id" element={<MovieDetail />} />
 
             {/* booking */}
