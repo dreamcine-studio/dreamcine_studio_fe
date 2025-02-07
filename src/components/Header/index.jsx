@@ -35,37 +35,37 @@ export default function Header() {
           {/* Navbar Links - Desktop */}
           <ul className="hidden lg:flex space-x-8">
             <li>
-              <Link to="/" className="text-gray-900 hover:text-indigo-700">
+              <Link to="/" className="text-gray-900 hover:text-indigo-700 dark:text-white">
                 Home
               </Link>
             </li>
             <li>
-              <Link to="/movies" className="text-gray-900 hover:text-indigo-700">
+              <Link to="/movies" className="text-gray-900 hover:text-indigo-700 dark:text-white">
                 Movies
               </Link>
             </li>
             <li>
-              <Link to="/booking/pay/:id" className="text-gray-900 hover:text-indigo-700">
+              <Link to="/booking/pay/:id" className="text-gray-900 hover:text-indigo-700 dark:text-white">
                 Payment
               </Link>
             </li>
             <li>
-              <Link to="/tickets" className="text-gray-900 hover:text-indigo-700">
+              <Link to="/tickets" className="text-gray-900 hover:text-indigo-700 dark:text-white">
                 Tickets
               </Link>
             </li>
             <li>
-              <Link to="/booking" className="text-gray-900 hover:text-indigo-700">
+              <Link to="/booking" className="text-gray-900 hover:text-indigo-700 dark:text-white">
                 Booking
               </Link>
             </li>
             <li>
-              <Link to="/teams" className="text-gray-900 hover:text-indigo-700">
+              <Link to="/teams" className="text-gray-900 hover:text-indigo-700 dark:text-white">
                 Team
               </Link>
             </li>
             <li>
-              <Link to="/contacts" className="text-gray-900 hover:text-indigo-700">
+              <Link to="/contacts" className="text-gray-900 hover:text-indigo-700 dark:text-white">
                 Contact
               </Link>
             </li>
@@ -146,37 +146,37 @@ export default function Header() {
           </button>
           <ul className="flex flex-col gap-4">
             <li>
-              <Link to="/" className="text-gray-900 hover:text-indigo-700">
+              <Link to="/" className="text-gray-900 hover:text-indigo-700 dark:text-white">
                 Home
               </Link>
             </li>
             <li>
-              <Link to="/movies" className="text-gray-900 hover:text-indigo-700">
+              <Link to="/movies" className="text-gray-900 hover:text-indigo-700 dark:text-white">
                 Movies
               </Link>
             </li>
             <li>
-              <Link to="/booking/pay/:id" className="text-gray-900 hover:text-indigo-700">
+              <Link to="/booking/pay/:id" className="text-gray-900 hover:text-indigo-700 dark:text-white">
                 Payment
               </Link>
             </li>
             <li>
-              <Link to="/tickets" className="text-gray-900 hover:text-indigo-700">
+              <Link to="/tickets" className="text-gray-900 hover:text-indigo-700 dark:text-white">
                 Tickets
               </Link>
             </li>
             <li>
-              <Link to="/booking" className="text-gray-900 hover:text-indigo-700">
+              <Link to="/booking" className="text-gray-900 hover:text-indigo-700 dark:text-white">
                 Booking
               </Link>
             </li>
             <li>
-              <Link to="/teams" className="text-gray-900 hover:text-indigo-700">
+              <Link to="/teams" className="text-gray-900 hover:text-indigo-700 dark:text-white">
                 Team
               </Link>
             </li>
             <li>
-              <Link to="/contacts" className="text-gray-900 hover:text-indigo-700">
+              <Link to="/contacts" className="text-gray-900 hover:text-indigo-700 dark:text-white">
                 Contact
               </Link>
             </li>
@@ -185,8 +185,9 @@ export default function Header() {
           {/* User Info & Logout */}
           <div className="mt-5">
             {userInfo ? (
-              <div className="flex flex-col items-start">
-                <p className="text-base text-gray-900 dark:text-white">{userInfo.name}</p>
+              <div className="flex flex-col p-5 absolute left-0 bottom-0">
+                <br /> <br />
+                <p className="text-base font-bold text-gray-900 dark:text-white">{userInfo.name}</p>
                 <button
                   onClick={handleLogout}
                   className="mt-3 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
