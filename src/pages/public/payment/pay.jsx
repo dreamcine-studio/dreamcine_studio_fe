@@ -1,40 +1,34 @@
 import { useEffect, useState } from "react";
 import { getPaymentmethods } from "../../../services/paymentMethod";
 import { getBooking } from "../../../services/booking";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { getPayments } from "../../../services/payment";
 // import { useParams } from "react-router-dom";
-// import { getMovies } from "../../../services/movies";
+import { getMovies } from "../../../services/movies";
 
 export default function Payment() {
-  // const [movie, setMovie] = useState([]);
+  const [movie, setMovie] = useState([]);
   const [booking, setBooking] = useState([]);
-  const [, setPayment] = useState([]);
+  const [payment, setPayment] = useState([]);
   // const userInfo = JSON.parse(localStorage.getItem("userInfo"));
 
   const [payment_methods, setPaymentMethods] = useState([]);
   const [selectedMethod, setSelectedMethod] = useState(null);
   // const [timeRemaining, setTimeRemaining] = useState(30 * 60); // 30 menit dalam detik
 
-  const location = useLocation();
-
-  const query = new URLSearchParams(location.search);
-  // const movieId = query.get("movie_id");
-  const bookingId = query.get("booking_id");
-  const paymentId = query.get("payment_id");
+  const { id } = useParams();
 
   useEffect(() => {
     
-    // const fetchMovie = async () => {
-    //   try {
-    //     const data = await getMovies();
-    //     console.log("film", data)
-    //     setMovie(data.filter((m) => m.id === parseInt(movieId)));
-    //     console.log("filmid", movieId)
-    //   } catch (error) {
-    //     console.error("Error fetching movie:", error);
-    //   }
-    // };
+    const fetchMovie = async () => {
+      try {
+        const data = await getMovies();
+        setMovie(data.find((m) => m.id === parseInt(id)));        
+        console.log("filmid", movie)
+      } catch (error) {
+        console.error("Error fetching movie:", error);
+      }
+    };
 
     const fetchPaymentMethods = async () => {
       const data = await getPaymentmethods();
@@ -45,8 +39,8 @@ export default function Payment() {
     const fetchPayment = async () => {
       try {
         const data = await getPayments();
-        setPayment(data.find((m) => m.id === parseInt(paymentId)));
-        console.log("pay", paymentId)
+        setPayment(data.find((p) => p.id === parseInt(id)));
+        console.log("pay", id)
       } catch (error) {
         console.error("Error fetching movie:", error);
       }
@@ -56,7 +50,7 @@ export default function Payment() {
       try {
         const data = await getBooking();
         const booking = data.find(
-          (booking) => booking.id === parseInt(paymentId)
+          (b) => b.id === parseInt(id)
         );
         setBooking(booking);
       } catch (error) {
@@ -66,10 +60,10 @@ export default function Payment() {
     };
 
     fetchPaymentMethods();
-    // fetchMovie();
+    fetchMovie();
     fetchPayment();
     fetchBooking();
-  }, [bookingId, paymentId]);
+  }, []);
 
   console.log("bok", booking.id);
 
@@ -92,15 +86,15 @@ export default function Payment() {
     }).format(number);
   };
 
-  const createPayments = async (e) => {
-    e.preventDefault();
+  // const createPayments = async (e) => {
+  //   e.preventDefault();
 
-    const bookingData = new FormData();
-    // bookingData.append("user_id", userInfo.id);
-    // bookingData.append("movie_id", movieId);
-    bookingData.append("payment_id", paymentId);
-    bookingData.append("booking_id", bookingId);
-  };
+  //   const bookingData = new FormData();
+  //   // bookingData.append("user_id", userInfo.id);
+  //   // bookingData.append("movie_id", movieId);
+  //   bookingData.append("payment_id", paymentId);
+  //   bookingData.append("booking_id", bookingId);
+  // };
 
   // const formatTime = (seconds) => {
   //   const minutes = Math.floor(seconds / 60);
@@ -188,7 +182,7 @@ export default function Payment() {
       {/* Buttons */}
       <div className="flex justify-between mt-4">
         <button
-          onClick={createPayments}
+          onClick={'createPayments'}
           className="bg-red-500 text-white w-full hover:bg-red-600 px-4 py-2 rounded-lg"
         >
           Pay now
