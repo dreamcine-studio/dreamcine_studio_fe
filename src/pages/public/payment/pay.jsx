@@ -4,10 +4,10 @@ import { getBooking } from "../../../services/booking";
 import { useLocation } from "react-router-dom";
 import { getPayments } from "../../../services/payment";
 // import { useParams } from "react-router-dom";
-// import { getMovies } from "../../../services/movies";
+import { getMovies } from "../../../services/movies";
 
 export default function Payment() {
-  // const [movie, setMovie] = useState([]);
+  const [movie, setMovie] = useState([]);
   const [booking, setBooking] = useState([]);
   const [, setPayment] = useState([]);
   // const userInfo = JSON.parse(localStorage.getItem("userInfo"));
@@ -19,22 +19,22 @@ export default function Payment() {
   const location = useLocation();
 
   const query = new URLSearchParams(location.search);
-  // const movieId = query.get("movie_id");
+  const movieId = query.get("movie_id");
   const bookingId = query.get("booking_id");
   const paymentId = query.get("payment_id");
 
   useEffect(() => {
     
-    // const fetchMovie = async () => {
-    //   try {
-    //     const data = await getMovies();
-    //     console.log("film", data)
-    //     setMovie(data.filter((m) => m.id === parseInt(movieId)));
-    //     console.log("filmid", movieId)
-    //   } catch (error) {
-    //     console.error("Error fetching movie:", error);
-    //   }
-    // };
+    const fetchMovie = async () => {
+      try {
+        const data = await getMovies();
+        console.log("film", data)
+        setMovie(data.find((m) => m.id === parseInt(movieId)));
+        console.log("filmid", movieId)
+      } catch (error) {
+        console.error("Error fetching movie:", error);
+      }
+    };
 
     const fetchPaymentMethods = async () => {
       const data = await getPaymentmethods();
@@ -66,10 +66,10 @@ export default function Payment() {
     };
 
     fetchPaymentMethods();
-    // fetchMovie();
+    fetchMovie();
     fetchPayment();
     fetchBooking();
-  }, [bookingId, paymentId]);
+  }, [bookingId, paymentId, movieId]);
 
   console.log("bok", booking.id);
 
