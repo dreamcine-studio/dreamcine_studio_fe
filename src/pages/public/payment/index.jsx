@@ -60,7 +60,7 @@ export default function AdminBookings() {
 
                 <td className="border px-4 py-2">
                   <Link
-                    to={`/booking/pay/:id?payment_id=${booking.id}`}
+                    to={`/booking/pay/${booking.id}`}
                     className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-6"
                   >
                     Pay
