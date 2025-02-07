@@ -20,7 +20,8 @@ export default function MovieList({ length }) {
         ]);
 
         // Filter hanya title dan poster untuk movies
-        const filteredMovies = moviesData.map(({ title, poster }) => ({
+        const filteredMovies = moviesData.map(({id, title, poster }) => ({
+          id ,
           title,
           poster,
         }));
