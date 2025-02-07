@@ -1,11 +1,11 @@
 import Landing from "../../components/Landing"
-import Movies from "../../components/Movies"
+import MovieList from "../../components/MovieList"
 
 export default function Home() {
   return (
     <>
       <Landing />
-      <Movies length={3} />
+      <MovieList length={4} />
     </>
   )
 }
