@@ -1,14 +1,16 @@
 import { useEffect, useState } from "react";
 import { getPaymentmethods } from "../../../services/paymentMethod";
 import { getBooking } from "../../../services/booking";
-import { useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { getPayments } from "../../../services/payment";
 // import { useParams } from "react-router-dom";
 import { getMovies } from "../../../services/movies";
+import { getSchedules } from "../../../services/schedules";
 
 export default function Payment() {
-  const [movie, setMovie] = useState([]);
   const [booking, setBooking] = useState([]);
+  const [schedule, setSchedule] = useState([]);
+  const [movies, setMovies] = useState([]);
   const [payment, setPayment] = useState([]);
   // const userInfo = JSON.parse(localStorage.getItem("userInfo"));
 
@@ -19,32 +21,6 @@ export default function Payment() {
   const { id } = useParams();
 
   useEffect(() => {
-    
-    const fetchMovie = async () => {
-      try {
-        const data = await getMovies();
-        setMovie(data.find((m) => m.id === parseInt(id)));        
-        console.log("filmid", movie)
-      } catch (error) {
-        console.error("Error fetching movie:", error);
-      }
-    };
-
-    const fetchPaymentMethods = async () => {
-      const data = await getPaymentmethods();
-      setPaymentMethods(data);
-    };
-
-
-    const fetchPayment = async () => {
-      try {
-        const data = await getPayments();
-        setPayment(data.find((p) => p.id === parseInt(id)));
-        console.log("pay", id)
-      } catch (error) {
-        console.error("Error fetching movie:", error);
-      }
-    };
 
     const fetchBooking = async () => {
       try {
@@ -58,15 +34,59 @@ export default function Payment() {
         // Handle error, e.g., display a message to the user
       }
     };
+    
+    const fetchSchedule = async () => {
+      try {
+        const data = await getSchedules();
+        const schedule = data.find((s) => s.id === parseInt(id));  
+        setSchedule(schedule);
+      } catch (error) {
+        console.error("Error fetching movie:", error);
+      }
+    };
 
-    fetchPaymentMethods();
-    fetchMovie();
-    fetchPayment();
+
+     const fetchMovie = async () => {
+          try {
+            const data = await getMovies();
+            setMovies(data);
+          } catch (error) {
+            console.error("Failed to fetch genres:", error);
+          }
+        };
+    
+
+    const fetchPaymentMethods = async () => {
+      const data = await getPaymentmethods();
+      setPaymentMethods(data);
+    };
+
+
+    const fetchPayment = async () => {
+      try {
+        const data = await getPayments();
+        setPayment(data.find((p) => p.id === parseInt(id)));
+      } catch (error) {
+        console.error("Error fetching movie:", error);
+      }
+    };
+
+    
+
     fetchBooking();
+    fetchSchedule();
+    fetchMovie();
+    fetchPaymentMethods();
+    fetchPayment();
   }, []);
 
-  console.log("bok", booking.id);
 
+  const getMovie = (id) => {
+    const movie = movies.find((item) => item.id === id);
+    return movie ? movie.price : "Unknown movie";
+  };
+
+  console.log("movie", schedule.id);
   // console.log("tes", booking.amount)
 
   // useEffect(() => {
@@ -154,7 +174,7 @@ export default function Payment() {
       <div className="space-y-2 mt-4">
         <dl className="flex items-center justify-between gap-4 border-t border-gray-200 pt-2">
           <dt className="text-base text-gray-900">Original price</dt>
-          {/* <dd className="text-base text-gray-900">{formatRupiah(movie.price)}</dd> */}
+          <dd className="text-base text-gray-900">{formatRupiah(getMovie(schedule.id))}</dd>
         </dl>
 
         <dl className="flex items-center justify-between gap-4 border-gray-200 pt-2">
