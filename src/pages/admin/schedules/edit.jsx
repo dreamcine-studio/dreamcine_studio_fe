@@ -26,7 +26,7 @@ export default function ScheduleEdit() {
         setScheduleData({
           movie_id: schedule.movie_id,
           studio_id: schedule.studio_id,
-          showtime: schedule.showtime || ["", "", "", ""], // Handle cases where showtime might be null/undefined
+          showtime: schedule.showtime || ["", "", "", ""], 
           showdate_start: schedule.showdate_start,
           showdate_end: schedule.showdate_end,
         });
@@ -173,7 +173,7 @@ export default function ScheduleEdit() {
 
               <div className="sm:col-span-2">
                 <label className="block mb-2 text-sm font-medium text-gray-900 :text-white">
-                  Showtimes
+                  Showtimes 
                 </label>
                 <div className="grid grid-cols-2 gap-4">
                   {[0, 1, 2, 3].map((index) => (
@@ -183,7 +183,7 @@ export default function ScheduleEdit() {
                       </label>
                       <input
                         type="time"
-                        value={scheduleData.showtime[index]}
+                        value={scheduleData.showtime[index] || ""}
                         onChange={(e) =>
                           handleShowtimeChange(index, e.target.value)
                         }

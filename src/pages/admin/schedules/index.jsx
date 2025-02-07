@@ -169,7 +169,8 @@ if (error){
                         schedule.showtime.map((time, timeIndex) => (
                           <div
                             key={`${schedule.id}-${timeIndex}`}
-                            className="bg-gray-200 text-gray-800 py-1 px-3 rounded-lg text-sm"
+                            className="bg-gray-200 
+                            text-gray-800 py-1 px-3 rounded-lg text-sm"
                           >
                             {time}
                           </div>
@@ -186,6 +187,9 @@ if (error){
                     <div className="flex items-center space-x-3.5">
                       <Link to={`/admin/schedules/edit/${schedule.id}`}>
                         <i className="fa-solid fa-pen-to-square"></i>
+                      </Link>
+                      <Link to={`/admin/schedules/detail/${schedule.id}`}>
+                        <i class="fa-solid fa-circle-info"></i>
                       </Link>
                       <button onClick={() => handleDelete(schedule.id)}>
                         <i className="fa-solid fa-trash"></i>

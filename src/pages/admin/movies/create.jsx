@@ -71,7 +71,6 @@ export default function MovieCreate() {
   return (
   
 <div className="mt-6">
-  <div className="w-full h-8 bg-black mb-4"></div> 
   <div className="rounded-lg bg-white shadow-lg dark:bg-boxdark">
     <div className="border-b border-stroke px-6 py-4 dark:border-strokedark">
       <h3 className="text-xl font-semibold text-black">Add Movie Data</h3>
