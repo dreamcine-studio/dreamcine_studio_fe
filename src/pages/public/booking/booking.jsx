@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import "./style.css";
 import { getMovies } from "../../../services/movies";
 import { useLocation, useNavigate } from "react-router-dom";
 import { getStudios } from "../../../services/studios";
@@ -14,7 +13,7 @@ export default function MovieSeat() {
   const [seat, setSeat] = useState([]);
   const [schedule, setSchedule] = useState([]);
   const [, setErrors] = useState([]);
-  
+
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -56,7 +55,7 @@ export default function MovieSeat() {
     const fetchSeat = async () => {
       try {
         const data = await getSeats();
-        const seat = data.filter((s) => s.studio_id === parseInt(studioId))
+        const seat = data.filter((s) => s.studio_id === parseInt(studioId));
         setSeat(seat);
       } catch (error) {
         console.error("Error fetching seat:", error);
@@ -69,15 +68,16 @@ export default function MovieSeat() {
     fetchSeat();
   }, [movieId, studioId, scheduleId]); // Perbarui saat booking selesai
 
-  const handleSeatClick = (e) => {
-    const seatElement = e.target;
-    if (!seatElement.classList.contains("sold")) {
-      seatElement.classList.toggle("selected");
-      const selectedSeatsArray = Array.from(
-        document.querySelectorAll(".seat-grid .seat.selected")
-      ).map((seat) => seat.textContent);
-      setSelectedSeats(selectedSeatsArray);
-    }
+  const handleSeatClick = (seatNumber) => {
+    setSelectedSeats((prevSelectedSeats) => {
+      if (prevSelectedSeats.includes(seatNumber)) {
+        // Jika sudah dipilih, hapus dari array
+        return prevSelectedSeats.filter((seat) => seat !== seatNumber);
+      } else {
+        // Jika belum dipilih, tambahkan ke array
+        return [...prevSelectedSeats, seatNumber];
+      }
+    });
   };
 
   const formatRupiah = (number) => {
@@ -163,15 +163,24 @@ export default function MovieSeat() {
 
       <ul className="flex justify-between p-4 rounded">
         <li className="flex items-center mx-4 text-gray-900 dark:text-white">
-          <div className="seat"></div>
+          <div
+            id="seat"
+            className="bg-gray-600 h-[26px] w-[32px] m-[3px] rounded-t-[10px] text-[10px]"
+          ></div>
           <small className="ml-2">Available</small>
         </li>
         <li className="flex items-center mx-4 text-gray-900 dark:text-white">
-          <div className="seat selected"></div>
+          <div
+            id="seat-selected"
+            className="bg-orange-500 h-[26px] w-[32px] m-[3px] rounded-t-[10px] text-[10px]"
+          ></div>
           <small className="ml-2">Selected</small>
         </li>
         <li className="flex items-center mx-4 text-gray-900 dark:text-white">
-          <div className="seat sold"></div>
+          <div
+            id="seat-sold"
+            className="bg-gray-200 h-[26px] w-[32px] m-[3px] rounded-t-[10px] text-[10px]"
+          ></div>
           <small className="ml-2">Sold</small>
         </li>
       </ul>
@@ -187,13 +196,26 @@ export default function MovieSeat() {
               >
                 {[...Array(8)].map((_, index) => {
                   const seatNumber = `${rowLabel}${index + 1}`;
-                  const isBooked = seat.some((s) => s.seat_number.includes(seatNumber));
+                  const isBooked = seat.some((s) =>
+                    s.seat_number.includes(seatNumber)
+                  );
 
                   return (
                     <div
                       key={index}
-                      className={`seat text-center ${isBooked ? "sold" : ""}`}
-                      onClick={!isBooked ? handleSeatClick : undefined}
+                      className={`h-[26px] w-[32px] m-[3px] rounded-t-[10px] text-[10px] text-center transition-all duration-200
+              ${
+                isBooked
+                  ? "bg-gray-200 text-black cursor-not-allowed"
+                  : selectedSeats.includes(seatNumber)
+                  ? "bg-orange-500"
+                  : "bg-gray-700 hover:scale-110 cursor-pointer"
+              }`}
+                      onClick={
+                        !isBooked
+                          ? () => handleSeatClick(seatNumber)
+                          : undefined
+                      }
                     >
                       {seatNumber}
                     </div>
@@ -204,13 +226,26 @@ export default function MovieSeat() {
                 </div>
                 {[...Array(6)].map((_, index) => {
                   const seatNumber = `${rowLabel}${index + 10}`;
-                  const isBooked = seat.some((s) => s.seat_number.includes(seatNumber));
+                  const isBooked = seat.some((s) =>
+                    s.seat_number.includes(seatNumber)
+                  );
 
                   return (
                     <div
                       key={index}
-                      className={`seat text-center ${isBooked ? "sold" : ""}`}
-                      onClick={!isBooked ? handleSeatClick : undefined}
+                      className={`h-[26px] w-[32px] m-[3px] rounded-t-[10px] text-[10px] text-center transition-all duration-200
+              ${
+                isBooked
+                  ? "bg-gray-200 text-black cursor-not-allowed"
+                  : selectedSeats.includes(seatNumber)
+                  ? "bg-orange-500"
+                  : "bg-gray-700 hover:scale-110 cursor-pointer"
+              }`}
+                      onClick={
+                        !isBooked
+                          ? () => handleSeatClick(seatNumber)
+                          : undefined
+                      }
                     >
                       {seatNumber}
                     </div>
@@ -222,7 +257,7 @@ export default function MovieSeat() {
         </div>
       </div>
 
-      <div className="flex flex-col items-center dark:bg-gray-900 text-white divcon">
+      <div className="flex flex-col items-center dark:bg-gray-900 text-white w-[687px] h-auto">
         <div className="flex w-full">
           <div className="flex dark:bg-gray-900 text-white w-1/2">
             <p className="flex text-center text-lg text-gray-900 dark:text-gray-200">
@@ -248,7 +283,6 @@ export default function MovieSeat() {
         {/* <Link onChange={createBookingDetails} to={`/booking`} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-6"></Link> */}
         Book Your Ticket
       </button>
-
     </div>
   );
 }
