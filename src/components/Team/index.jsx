@@ -2,7 +2,7 @@ import teams from "../../utils/constants/teams";
 
 export default function Team() {
   return (
-    <div className="dark:bg-gray-900">
+    <div className="dark:bg-gray-900 mt-20">
       <div className="container flex justify-center mx-auto pt-16">
         <div>
           <p className="text-gray-500 dark:text-gray-400 text-lg text-center font-normal">
