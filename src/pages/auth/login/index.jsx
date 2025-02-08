@@ -28,11 +28,10 @@ export default function Login() {
       localStorage.setItem("userInfo", JSON.stringify(res.user));
 
       const redirectTo = sessionStorage.getItem("redirectAfterLogin");
-
-      if (redirectTo) {
-        sessionStorage.removeItem("redirectAfterLogin"); // Hapus dari sessionStorage setelah digunakan
-        return navigate(redirectTo); // Redirect ke halaman yang diinginkan
-      }
+if (redirectTo) {
+  sessionStorage.removeItem("redirectAfterLogin");
+  return navigate(redirectTo); 
+}
 
       // Redirect berdasarkan role user
       if (res.user.role === "admin") {
