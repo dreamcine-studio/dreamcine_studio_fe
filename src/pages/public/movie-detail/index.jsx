@@ -95,7 +95,7 @@ export default function MovieDetail() {
   };
 
   return (
-    <div className="w-full p-4 dark:bg-gray-900">
+    <div className="w-full p-4 dark:bg-gray-900 mt-24">
       <div className="container mx-auto px-4 py-8">
         <div className="flex flex-wrap -mx-4 p-4">
           <div className="flex flex-col w-full md:w-1/2 px-4 mb-8 items-center">
