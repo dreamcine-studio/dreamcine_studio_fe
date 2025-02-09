@@ -48,7 +48,7 @@ export default function MovieList({ length }) {
   if (loading) {
     return (
       <main className="py-6 px-12 space-y-2 bg-white-300 min-h-screen w-full flex items-center justify-center">
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center space-x-4 mt-24">
           <div
             className="w-16 h-16 border-4 border-solid border-transparent rounded-full
             animate-spin

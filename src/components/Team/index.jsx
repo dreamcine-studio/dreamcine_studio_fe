@@ -14,7 +14,7 @@ export default function Team() {
         </div>
       </div>
 
-      <div className="w-full bg-gray-100 px-10 pt-10 dark:bg-gray-800">
+      <div className="w-full bg-gray-100 px-10 pt-10 dark:bg-gray-900">
         <div className="container flex flex-wrap px-1 py-1 mx-auto">
           <div
             role="list"

@@ -1,13 +1,23 @@
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { logout } from "../services/auth";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export default function AdminLayout() {
+  const [theme, setTheme] = useState("light"); // Default "light"
   const navigate = useNavigate();
 
   const accessToken = localStorage.getItem("accessToken");
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
 
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+    setTheme(mediaQuery.matches ? "dark" : "light");
+    const handleChange = (e) => setTheme(e.matches ? "dark" : "light");
+    mediaQuery.addEventListener("change", handleChange);
+    return () => {
+      mediaQuery.removeEventListener("change", handleChange);
+    };
+  }, []);
   const handleLogout = () => {
     logout();
     return navigate("/login");
@@ -28,8 +38,9 @@ export default function AdminLayout() {
 
   return (
     <>
-      <nav className="fixed top-0 z-50 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
-        <div className="px-3 py-3 lg:px-5 lg:pl-3">
+    <header className="mb-12">
+    <nav className="fixed top-0 z-50 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700 ">
+        <div className="px-3 py-3 lg:px-5 lg:pl-3 ">
           <div className="flex items-center justify-between">
             <div className="flex items-center justify-start rtl:justify-end">
               <button
@@ -56,14 +67,12 @@ export default function AdminLayout() {
               </button>
 
               <Link to="/" className="flex ms-2 md:me-24">
-                {/* <img
-                  src="./public/DreamCine.jpeg"
-                  className="h-8 me-3"
-                  alt="FlowBite Logo"
-                /> */}
-                <span className="bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500 text-xl  self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">
+                <img src={theme === "dark" ? "/logo-dark.png" : "/logo-light.png"}
+              className="rounded-full mr-3 h-20"
+              alt="Dream Cine Studios" />
+                {/* <span className="bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500 text-xl  self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">
                   DreamCine-Studio
-                </span>
+                </span> */}
                 {/* <span>  Admin</span> */}
               </Link>
             </div>
@@ -146,10 +155,12 @@ export default function AdminLayout() {
           </div>
         </div>
       </nav>
+    </header>
+     
 
       <aside
         id="logo-sidebar"
-        className="fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform -translate-x-full bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700"
+        className="fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform -translate-x-full bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700 mt-10"
         aria-label="Sidebar"
       >
         <div className="flex flex-col gap-5 h-full px-3 pb-4 overflow-y-auto bg-white dark:bg-gray-800">
@@ -192,11 +203,6 @@ export default function AdminLayout() {
                 </span>
               </Link>
             </li>
-          </ul>
-
-          <div className="border-t border-gray-200 dark:border-gray-700"></div>
-
-          <ul className="space-y-2 font-medium">
             <li>
               <Link
                 to="/admin/movies"
@@ -206,15 +212,11 @@ export default function AdminLayout() {
                 <span className="flex-1 ms-3 whitespace-nowrap">Movies</span>
               </Link>
             </li>
-            <li>
-              <Link
-                to="/admin/seats"
-                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
-              >
-                <i className="fa-solid fa-chair fa-lg"></i>
-                <span className="flex-1 ms-3 whitespace-nowrap">Seats</span>
-              </Link>
-            </li>
+          </ul>
+
+          <div className="border-t border-gray-200 dark:border-gray-700"></div>
+
+          <ul className="space-y-2 font-medium">
             <li>
               <Link
                 to="/admin/schedules"
@@ -222,6 +224,15 @@ export default function AdminLayout() {
               >
                 <i className="fa-solid fa-calendar-days fa-xl"></i>
                 <span className="flex-1 ms-3 whitespace-nowrap">Schedules</span>
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/admin/seats"
+                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+              >
+                <i className="fa-solid fa-chair fa-lg"></i>
+                <span className="flex-1 ms-3 whitespace-nowrap">Seats</span>
               </Link>
             </li>
             <li>
@@ -243,6 +254,8 @@ export default function AdminLayout() {
               </Link>
             </li>
 
+          <div className="border-t border-gray-200 dark:border-gray-700"></div>
+
             <li>
               <Link
                 to="/admin/users"
@@ -252,23 +265,26 @@ export default function AdminLayout() {
                 <span className="flex-1 ms-3 whitespace-nowrap">Users</span>
               </Link>
             </li>
-
+            <div className="absolute py-14 bottom-0">
+            
             <li>
               <button
                 onClick={handleLogout}
                 to="admin/users"
-                className="flex items-center bg-rose-50 border-2 border-rose-200 p-2 text-gray-900 rounded-lg dark:text-white hover:bg-rose-200 dark:hover:bg-gray-700 group"
+                className="flex items-center bg-white border-2 border-red-500 p-2 text-gray-900 rounded-lg dark:bg-gray-800 dark:text-white hover:border-red-500 hover:bg-red-500 dark:hover:border-red-500 group"
               >
                 <i className="fa-solid fa-right-from-bracket fa-lg"></i>
                 <span className="flex-1 ms-3 whitespace-nowrap">Logout</span>
               </button>
             </li>
+            </div>      
+            
           </ul>
         </div>
       </aside>
 
-      <div className="p-4 sm:ml-64">
-        <div className="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-14">
+      <div className="p-4 sm:ml-64 dark:bg-gray-700">
+        <div className="p-4 mt-14">
           <Outlet />
         </div>
       </div>

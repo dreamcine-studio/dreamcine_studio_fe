@@ -123,33 +123,34 @@ if (error){
 
   return (
     <>
-      <div className="rounded-sm shadow-default dark:bg-boxdark sm:px-7.5 xl:pb-1">
-        <div>
-          <h1 className="text-2xl font-bold mb-4">Schedules</h1>
-        </div>
-        <Link
+      <div className="rounded-sm shadow-default dark:bg-boxdark sm:px-7.5 xl:pb-1 min-h-screen">
+        <div className="flex items-center gap-6 justify-start">
+          <h1 className="text-2xl text-center font-bold dark:text-white">Schedules</h1>
+          <Link
           to={`/admin/schedules/create`}
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          className="bg-blue-500 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-500 text-white font-bold py-2 px-4 rounded"
         >
           <i className="fa-solid fa-plus mr-2"></i>
           Add Data
         </Link>
+        </div>
+        
 
         <div className="max-w-full overflow-x-auto mt-4">
           <table className="w-full table-auto">
-            <thead className="border-b bg-gray-50 text-white">
+            <thead className="border-b bg-gray-50 dark:bg-gray-900 text-white">
               <tr className="bg-gray-2 text-left dark:bg-meta-4">
-                <th className="py-4 px-4 font-medium text-black">Photo</th>
-                <th className="py-4 px-4 font-medium text-black">Title</th>
-                <th className="py-4 px-4 font-medium text-black">Studio</th>
-                <th className="py-4 px-4 font-medium text-black">Showtime</th>
-                <th className="py-4 px-4 font-medium text-black">Showdate</th>
-                <th className="py-4 px-4 font-medium text-black">Controls</th>
+                <th className="py-4 px-4 font-bold text-gray-700 dark:text-white uppercase">Photo</th>
+                <th className="py-4 px-4 font-bold text-gray-700 dark:text-white uppercase">Title</th>
+                <th className="py-4 px-4 font-bold text-gray-700 dark:text-white uppercase">Studio</th>
+                <th className="py-4 px-4 font-bold text-gray-700 dark:text-white uppercase">Showtime</th>
+                <th className="py-4 px-4 font-bold text-gray-700 dark:text-white uppercase">Showdate</th>
+                <th className="py-4 px-4 font-bold text-gray-700 dark:text-white uppercase">Controls</th>
               </tr>
             </thead>
             <tbody>
               {schedules.map((schedule, index) => (
-                <tr key={index} className="hover:bg-gray-50 border-b border-gray-200">
+                <tr key={index} className="hover:bg-gray-100 dark:hover:bg-gray-600">
                   <td className="py-4 px-4">
                     <img
                       src={getMovieData(schedule.movie_id).poster}
@@ -157,10 +158,10 @@ if (error){
                       className="w-16 h-16 object-cover rounded-lg"
                     />
                   </td>
-                  <td className="py-4 px-4 text-black">
+                  <td className="py-4 px-4 text-black dark:text-white">
                     {getMovieData(schedule.movie_id).title}
                   </td>
-                  <td className="py-4 px-4 text-black">
+                  <td className="py-4 px-4 text-black dark:text-white">
                     {getStudioData(schedule.studio_id).name}
                   </td>
                   <td className="py-4 px-4">
@@ -180,19 +181,19 @@ if (error){
                       )}
                     </div>
                   </td>
-                  <td className="py-4 px-4 text-black">
+                  <td className="py-4 px-4 text-black dark:text-white">
                     {schedule.showdate_start} - {schedule.showdate_end}
                   </td>
                   <td className="py-4 px-4">
                     <div className="flex items-center space-x-3.5">
                       <Link to={`/admin/schedules/edit/${schedule.id}`}>
-                        <i className="fa-solid fa-pen-to-square"></i>
+                        <i className="fa-solid fa-pen-to-square text-orange-500"></i>
                       </Link>
-                      <Link to={`/admin/schedules/detail/${schedule.id}`}>
+                      {/* <Link to={`/admin/schedules/detail/${schedule.id}`}>
                         <i class="fa-solid fa-circle-info"></i>
-                      </Link>
+                      </Link> */}
                       <button onClick={() => handleDelete(schedule.id)}>
-                        <i className="fa-solid fa-trash"></i>
+                        <i className="fa-solid fa-trash text-red-700 dark:text-red-500"></i>
                       </button>
                     </div>
                   </td>

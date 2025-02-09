@@ -98,7 +98,8 @@ export default function MovieSeat() {
     const userInfo = JSON.parse(localStorage.getItem("userInfo"));
 
     if (!token) {
-      sessionStorage.setItem("redirectAfterLogin", "/schedules");
+      sessionStorage.setItem("redirectAfterLogin", `/moviebooking?schedule_id=${scheduleId}&movie_id=${movieId}&showtime=${showtime}&studio_id=${studioId}`);
+    
       alert("You must log in to place an order.");
       return navigate("/login");
     }
@@ -123,6 +124,7 @@ export default function MovieSeat() {
       seatData.append("seat_number[]", seatNumber);
     });
     seatData.append("studio_id", studioId);
+    bookingData.append("movie_id", movieId);
 
     try {
       await createBooking(bookingData);
@@ -142,7 +144,7 @@ export default function MovieSeat() {
   console.log(totalPrice)
 
   return (
-    <div className="flex flex-col items-center justify-center dark:bg-gray-900 text-white w-full p-8">
+    <div className="flex flex-col items-center justify-center dark:bg-gray-900 text-white w-full p-8 mt-24">
       <div className="w-full flex items-center justify-center">
         <div className="w-1/2 mb-4">
           <table className="w-full">
