@@ -123,6 +123,7 @@ export default function MovieSeat() {
       seatData.append("seat_number[]", seatNumber);
     });
     seatData.append("studio_id", studioId);
+    bookingData.append("movie_id", movieId);
 
     try {
       await createBooking(bookingData);

@@ -1,6 +1,6 @@
 export default function Contact() {
   return (
-    <div className="py-20 dark:bg-gray-900 mt-24">
+    <div className="py-20 dark:bg-gray-900">
     <div className="relative flex items-top justify-center bg-white dark:bg-gray-900 sm:items-center sm:pt-0">
       <div className="max-w-6xl mx-auto sm:px-6 lg:px-8">
         <div className="mt-8 overflow-hidden">

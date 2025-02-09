@@ -28,8 +28,8 @@ export default function Header() {
   };
 
   return (
-    <header>
-      <nav className="w-full fixed top-0 left-0 z-50 bg-white border-gray-200 px-5 py-3 dark:bg-gray-800">
+    <header className="mb-20">
+      <nav className="w-full fixed top-0 left-0 z-50 bg-white border-gray-200 px-5 py-3 dark:bg-gray-900">
         <div className="container mx-auto flex justify-between items-center">
           {/* Logo */}
           <Link to="/">

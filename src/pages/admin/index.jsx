@@ -107,7 +107,7 @@ if (error){
     return (
       <>
    
-   <main className="py-1 px-12 space-y-2 bg-gray-100 min-h-screen w-full">
+   <main className="space-y-2 min-h-screen w-full">
 	<section className="grid grid-cols-4 bg-white divide-x w-full rounded-lg">
 	
 		 

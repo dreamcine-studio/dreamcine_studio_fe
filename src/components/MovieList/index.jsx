@@ -97,7 +97,7 @@ export default function MovieList({ length }) {
   const displayedMovies = getDisplayMovies();
 
   return (
-    <div className="flex justify-center flex-wrap gap-4 py-16 dark:bg-gray-900 mt-24">
+    <div className="flex justify-center flex-wrap gap-4 py-16 dark:bg-gray-900">
       {displayedMovies.map((movie, index) => (
         <div
           key={index}

@@ -62,17 +62,17 @@ export default function PaymentMethodEdit() {
   };
 
   return (
-    <div className="flex flex-col gap-9">
-      <div className="rounded-sm bg-white shadow-default dark:bg-boxdark">
+    <div className="flex flex-col gap-9 min-h-screen">
+      <div className="rounded-sm shadow-default dark:bg-boxdark">
         <div className="border-b border-stroke px-6.5 py-4 dark:border-strokedark">
-          <h3 className="font-medium text-black">
-            Edit Payment Methods
+          <h3 className="font-bold uppercase text-black dark:text-white">
+            Edit Payment Method Data
           </h3>
         </div>
         <form onSubmit={updatePaymentMethodDetails} className="py-5">
           <div className="p-6.5 flex flex-col gap-5">
             <div className="mb-4.5">
-              <label className="mb-3 block text-base font-medium text-black">
+              <label className="mb-3 block text-base font-medium text-black dark:text-white">
                 Name
               </label>
               {errors.name && (
@@ -88,12 +88,12 @@ export default function PaymentMethodEdit() {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 type="text"
-                className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-indigo-600 active:border-indigo-600 disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-indigo-600"
+                className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black dark:text-white outline-none transition focus:border-blue-600 active:border-blue-600 disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-blue-600"
               />
             </div>
 
             <div className="mb-4.5">
-              <label className="mb-3 block text-base font-medium text-black">
+              <label className="mb-3 block text-base font-medium text-black dark:text-white">
                 Account Number
               </label>
               {errors.account_number && (
@@ -106,18 +106,18 @@ export default function PaymentMethodEdit() {
                   </span>
                 </div>
               )}
-              <textarea
+              <input
+                type="number"
                 name="account_number"
                 value={account_number}
                 onChange={(e) => setAccountNumber(e.target.value)}
-                rows="6"
-                className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-indigo-600 active:border-indigo-600 disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-indigo-600"
-              ></textarea>
+                className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black dark:text-white outline-none transition focus:border-blue-600 active:border-blue-600 disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-blue-600"
+              ></input>
             </div>
 
             <button
               type="submit"
-              className="flex w-full justify-center rounded bg-indigo-600 p-3 font-medium text-white hover:bg-opacity-90"
+              className="flex w-full justify-center rounded bg-blue-600 p-3 font-medium text-white hover:bg-opacity-90"
             >
               Save
             </button>

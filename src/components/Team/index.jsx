@@ -2,7 +2,7 @@ import teams from "../../utils/constants/teams";
 
 export default function Team() {
   return (
-    <div className="dark:bg-gray-900 mt-20">
+    <div className="dark:bg-gray-900">
       <div className="container flex justify-center mx-auto pt-16">
         <div>
           <p className="text-gray-500 dark:text-gray-400 text-lg text-center font-normal">
@@ -14,7 +14,7 @@ export default function Team() {
         </div>
       </div>
 
-      <div className="w-full bg-gray-100 px-10 pt-10 dark:bg-gray-800">
+      <div className="w-full bg-gray-100 px-10 pt-10 dark:bg-gray-900">
         <div className="container flex flex-wrap px-1 py-1 mx-auto">
           <div
             role="list"

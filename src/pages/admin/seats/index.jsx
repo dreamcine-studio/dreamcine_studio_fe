@@ -32,24 +32,29 @@ export default function AdminSeats() {
     fetchData();
   }, []);
 
-  const getStudioName = (id) => {
+  const getStudioDetails = (id) => {
     const studio = studios.find((g) => g.id === id);
-    return studio ? studio.name : "Unknown studio";
+    return studio
+      ? {
+          name: studio.name,
+          location: studio.location,
+          maxSeats: studio.maxseats,
+        }
+      : { name: "Unknown", location: "Unknown", maxSeats: 0 };
   };
 
   const groupedSeats = seats.reduce((acc, seat) => {
-    const studioName = getStudioName(seat.studio_id);
+    const { name, location, maxSeats } = getStudioDetails(seat.studio_id);
+    const key = `${name} | ${location}`;
 
-    if (!acc[studioName]) {
-      acc[studioName] = [];
+    if (!acc[key]) {
+      acc[key] = { rows: [], maxSeats };
     }
 
-    // Menyimpan setiap kursi sebagai objek agar tetap dalam baris terpisah
-    acc[studioName].push({
-      seatNumber: seat.seat_number,
+    acc[key].rows.push({
+      seatNumbers: seat.seat_number,
       isBooked: seat.isBooked,
     });
-
     return acc;
   }, {});
 
@@ -87,7 +92,9 @@ export default function AdminSeats() {
   return (
     <div className="rounded-sm shadow-default dark:bg-boxdark sm:px-7.5 xl:pb-1 min-h-screen">
       <div>
-        <h1 className="text-2xl text-center font-bold dark:text-white">Seats</h1>
+        <h1 className="text-2xl text-center font-bold dark:text-white">
+          Seats
+        </h1>
       </div>
       {/* <Link
         to={"/admin/seats/create"}
@@ -101,49 +108,82 @@ export default function AdminSeats() {
         <table className="w-full table-auto">
           <thead className="border-b bg-gray-50 dark:bg-gray-900 text-white">
             <tr className="bg-gray-2 text-left dark:bg-meta-4">
-              <th className="min-w-[220px] px-4 py-4 font-bold text-black dark:text-white uppercase border dark:border-gray-500">
-
+              <th className="min-w-[220px] px-4 py-4 font-bold text-gray-700 dark:text-white uppercase border dark:border-gray-500">
                 Studio
               </th>
-              <th className="min-w-[150px] px-4 py-4 font-bold text-black dark:text-white uppercase border dark:border-gray-500">
+              <th className="min-w-[150px] px-4 py-4 font-bold text-gray-700 dark:text-white uppercase border dark:border-gray-500">
+                Location
+              </th>
+              <th className="min-w-[150px] px-4 py-4 font-bold text-gray-700 dark:text-white uppercase border dark:border-gray-500">
+                Seat Info
+              </th>
+              <th className="min-w-[150px] px-4 py-4 font-bold text-gray-700 dark:text-white uppercase border dark:border-gray-500">
                 Seat Numbers
               </th>
-              <th className="min-w-[150px] px-4 py-4 font-bold text-black dark:text-white uppercase border dark:border-gray-500">
+              <th className="min-w-[150px] px-4 py-4 font-bold text-gray-700 dark:text-white uppercase border dark:border-gray-500">
                 Is Booked
               </th>
-              <th className="min-w-[150px] px-4 py-4 font-bold text-black dark:text-white uppercase border dark:border-gray-500">
+              <th className="min-w-[150px] px-4 py-4 font-bold text-gray-700 dark:text-white uppercase border dark:border-gray-500">
                 Action
               </th>
             </tr>
           </thead>
           <tbody className="border">
-            {Object.entries(groupedSeats).map(([studioName, seatList]) =>
-              seatList.map((seat, index) => (
-                <tr key={`${studioName}-${seat.seatNumber}`}
-                >
-                  {/* Hanya baris pertama yang menampilkan Studio Name */}
-                  {index === 0 && (
-                    <td
-                      rowSpan={seatList.length}
-                      className="px-4 py-5 font-medium text-black dark:text-white border dark:border-gray-500"
-                    >
-                      {studioName}
-                    </td>
-                    
+            {Object.entries(groupedSeats).map(([key, data]) =>
+              data.rows.map((row, rowIndex) => (
+                <tr key={`${key}-${rowIndex}`}>
+                  {rowIndex === 0 && (
+                    <>
+                      <td
+                        rowSpan={data.rows.length}
+                        className="px-4 py-5 font-medium text-black dark:text-white border dark:border-gray-500"
+                      >
+                        {key.split(" | ")[0]}
+                      </td>
+                      <td
+                        rowSpan={data.rows.length}
+                        className="px-4 py-5 text-black dark:text-white border dark:border-gray-500"
+                      >
+                        {key.split(" | ")[1]}
+                      </td>
+                      <td
+                        rowSpan={data.rows.length}
+                        className="px-4 py-5 text-black font-bold dark:text-white border dark:border-gray-500"
+                      >
+                        MAX SEATS: <span>{data.maxSeats}</span>
+                        <span className="text-green-500">
+                          <br />
+                          <br />
+                          Seat Available:{" "}
+                          {data.maxSeats -
+                            data.rows.reduce(
+                              (total, r) => total + r.seatNumbers.length,
+                              0
+                            )}
+                        </span>
+                        <span className="text-red-500">
+                          <br />
+                          Seat Sold:{" "}
+                          {data.rows.reduce(
+                            (total, r) => total + r.seatNumbers.length,
+                            0
+                          )}
+                        </span>
+                      </td>
+                    </>
                   )}
-                  
-                  <td className="px-4 py-5 text-black dark:text-white border dark:border-gray-500">
-                    {seat.seatNumber.join(", ")}
+                  <td className="px-4 py-5 text-black dark:text-white font-bold border dark:border-gray-500">
+                    {row.seatNumbers.join(", ")}
                   </td>
                   <td className="px-4 py-5 text-blue-700 dark:text-blue-300 font-bold border dark:border-gray-500">
                     {Boolean(true).toString()}
                   </td>
                   <td className="px-4 py-5 border dark:border-gray-500">
                     <div className="flex items-center space-x-3.5">
-                      <Link to="">
-                        <i className="fa-solid fa-pen-to-square text-yellow-500"></i>
-                      </Link>
-                      <button onClick={() => handleDelete(seat.seatNumber)}>
+                      {/* <Link to="">
+              <i className="fa-solid fa-pen-to-square text-yellow-500"></i>
+            </Link> */}
+                      <button onClick={() => handleDelete(row.seatNumbers)}>
                         <i className="fa-solid fa-trash text-red-700 dark:text-red-500"></i>
                       </button>
                     </div>
