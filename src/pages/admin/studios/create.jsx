@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createStudio } from "../../../services/studios";
+import Error from "../../../components/Error";
 
 export default function StudioCreate() {
   const [errors, setErrors] = useState({});
@@ -52,12 +53,10 @@ export default function StudioCreate() {
               <label className="mb-3 block text-base font-medium text-black dark:text-white">
                 Name
               </label>
-              {errors.name && (
-                <div className="p-2 my-2 text-sm text-red-800 rounded-lg bg-red-50">
-                  <span className="font-medium">{errors.name[0]}</span>
-                </div>
-              )}
-
+             {errors.name && (
+                <Error res={errors.name[0]} />
+               )}
+                            
               <input
                 placeholder="Masukkan Nama Studio"
                 type="text"
@@ -73,10 +72,9 @@ export default function StudioCreate() {
                 Location
               </label>
               {errors.location && (
-                <div className="p-2 my-2 text-sm text-red-800 rounded-lg bg-red-50">
-                  <span className="font-medium">{errors.location[0]}</span>
-                </div>
-              )}
+                <Error res={errors.location[0]} />
+               )}
+
 
               <input
                 placeholder="Masukkan Lokasi Studio"
@@ -93,10 +91,10 @@ export default function StudioCreate() {
                 Max Seat
               </label>
               {errors.maxseats && (
-                <div className="p-2 my-2 text-sm text-red-800 rounded-lg bg-red-50">
-                  <span className="font-medium">{errors.maxseats[0]}</span>
-                </div>
-              )}
+                <Error res={errors.maxseats[0]} />
+               )}
+
+
 
               <input
                 type="number"
