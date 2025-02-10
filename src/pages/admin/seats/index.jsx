@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { deleteSeat, getSeats } from "../../../services/seat";
+import { deleteSeat, getSeats, updateSeat } from "../../../services/seat";
 import { getStudios } from "../../../services/studios";
 
 export default function AdminSeats() {
@@ -43,20 +43,36 @@ export default function AdminSeats() {
       : { name: "Unknown", location: "Unknown", maxSeats: 0 };
   };
 
-  const groupedSeats = seats.reduce((acc, seat) => {
-    const { name, location, maxSeats } = getStudioDetails(seat.studio_id);
-    const key = `${name} | ${location}`;
 
-    if (!acc[key]) {
-      acc[key] = { rows: [], maxSeats };
+  const updateBookedStatus = async (e, id) => {
+    e.preventDefault();
+  
+    const isbooked = e.target.value === "true"; // Convert to boolean
+    const seat = seats.find(seat => seat.id === id); // Find the correct seat by ID
+  
+    const seatData = {
+      studio_id: seat.studio_id, // Use the studio_id from the specific seat
+      seat_number: seat.seat_number, // Use the seat_number from the specific seat
+      isbooked: isbooked,
+      _method: "PUT",
+    };
+  
+    try {
+      const response = await updateSeat(id, seatData); // Send as JSON
+      console.log("Response:", response.data);
+  
+      setSeats((prevSeats) =>
+        prevSeats.map((seat) =>
+          seat.id === id ? { ...seat, isbooked } : seat
+        )
+      );
+    } catch (error) {
+      console.error("Update failed:", error.response?.data || error.message);
     }
-
-    acc[key].rows.push({
-      seatNumbers: seat.seat_number,
-      isBooked: seat.isBooked,
-    });
-    return acc;
-  }, {});
+  
+    console.log(seatData); // Log the seatData to see the structure
+  };
+  
 
   if (loading) {
     return (
@@ -128,69 +144,49 @@ export default function AdminSeats() {
               </th>
             </tr>
           </thead>
-          <tbody className="border">
-            {Object.entries(groupedSeats).map(([key, data]) =>
-              data.rows.map((row, rowIndex) => (
-                <tr key={`${key}-${rowIndex}`}>
-                  {rowIndex === 0 && (
-                    <>
-                      <td
-                        rowSpan={data.rows.length}
-                        className="px-4 py-5 font-medium text-black dark:text-white border dark:border-gray-500"
-                      >
-                        {key.split(" | ")[0]}
-                      </td>
-                      <td
-                        rowSpan={data.rows.length}
-                        className="px-4 py-5 text-black dark:text-white border dark:border-gray-500"
-                      >
-                        {key.split(" | ")[1]}
-                      </td>
-                      <td
-                        rowSpan={data.rows.length}
-                        className="px-4 py-5 text-black font-bold dark:text-white border dark:border-gray-500"
-                      >
-                        MAX SEATS: <span>{data.maxSeats}</span>
-                        <span className="text-green-500">
-                          <br />
-                          <br />
-                          Seat Available:{" "}
-                          {data.maxSeats -
-                            data.rows.reduce(
-                              (total, r) => total + r.seatNumbers.length,
-                              0
-                            )}
-                        </span>
-                        <span className="text-red-500">
-                          <br />
-                          Seat Sold:{" "}
-                          {data.rows.reduce(
-                            (total, r) => total + r.seatNumbers.length,
-                            0
-                          )}
-                        </span>
-                      </td>
-                    </>
-                  )}
-                  <td className="px-4 py-5 text-black dark:text-white font-bold border dark:border-gray-500">
-                    {row.seatNumbers.join(", ")}
+          <tbody>
+          {seats.map((seat) => {
+              const studioDetails = getStudioDetails(seat.studio_id);
+              const seatSold = seat.seat_number.length;
+              const seatAvailable = studioDetails.maxSeats - seatSold;
+              return (
+                <tr key={seat.id}>
+                  <td className="px-4 py-5 font-medium text-black dark:text-white border dark:border-gray-500">
+                    {studioDetails.name}
                   </td>
-                  <td className="px-4 py-5 text-blue-700 dark:text-blue-300 font-bold border dark:border-gray-500">
-                    {Boolean(true).toString()}
+                  <td className="px-4 py-5 text-black dark:text-white border dark:border-gray-500">
+                    {studioDetails.location}
+                  </td>
+                  <td className="px-4 py-5 text-black dark:text-white border dark:border-gray-500">
+                    <span className="text-green-500 font-bold">
+                    Seat Available: {seatAvailable}
+                    </span>
+                    <br />
+                    <span className="text-red-500 font-bold">
+                      Seat Sold: {seatSold}
+                    </span>
+                  </td>
+                  <td className="px-4 py-5 text-black dark:text-white font-bold border dark:border-gray-500">
+                    {seat.seat_number.join(", ")}
                   </td>
                   <td className="px-4 py-5 border dark:border-gray-500">
-                    <div className="flex items-center space-x-3.5">
-                      {/* <Link to="">
-              <i className="fa-solid fa-pen-to-square text-yellow-500"></i>
-            </Link> */}
-                      <button onClick={() => handleDelete(row.seatNumbers)}>
-                        <i className="fa-solid fa-trash text-red-700 dark:text-red-500"></i>
-                      </button>
-                    </div>
+                    <select
+                      value={seat.isbooked ? "true" : "false"}
+                      onChange={(e) => updateBookedStatus(e, seat.id)}
+                      className="bg-gray-200 dark:bg-gray-700 text-black dark:text-white px-2 py-1 mr-2 rounded border dark:border-gray-500 text-sm"
+                    >
+                      <option value="true">Booked</option>
+                      <option value="false">Available</option>
+                    </select>
+                  </td>
+                  <td className="px-4 py-5 border dark:border-gray-500">
+                    <button onClick={() => handleDelete(seat.id)}>
+                      <i className="fa-solid fa-trash text-red-700 dark:text-red-500"></i>
+                    </button>
                   </td>
                 </tr>
-              ))
-            )}
+              );
+            })}
           </tbody>
         </table>
       </div>
