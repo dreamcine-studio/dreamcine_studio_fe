@@ -3,7 +3,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { getStudios, updateStudio } from "../../../services/studios";
 
 export default function StudioEdit() {
-  // menanpilkan error
   const [errors, setErrors] = useState({});
 
   // ini dari masing masing,
@@ -16,19 +15,12 @@ export default function StudioEdit() {
 
   const navigate = useNavigate();
 
-  // kita coba fetch data buku berdasarkan ID
   const fetchStudiosDetails = async () => {
-    // dari sini kita ambil data nya dari sevices getBooks
+    const data = await getStudios();
 
-    // getBooks ini kita masukan ke dalam variable nama nya data
-    const data = await getStudios(); // getBooks() mengambil semua data buku
-
-    // kita coba, cari data buku berdasarkan id
     const studio = data.find((book) => book.id === parseInt(id));
-    // console.log(book)
     if (studio) {
-      // assign data to state (ini setter function  nya yang di pakai)
-      setName(studio.name); // ini format nya object json pakai titik
+      setName(studio.name);
       setLocation(studio.location);
       setMaxSeat(studio.maxseats);
     }
@@ -49,50 +41,29 @@ export default function StudioEdit() {
   const updateStudioDetails = async (e) => {
     e.preventDefault();
 
-    // di React untuk menampung data yang di edit, kita menggunakan nama nya FormData
-    // bawaan React
-
-    // buat FormData
     const studioData = new FormData();
 
-    // ini kita debug
-    // console.log(title);
-
-    // title (sebelah kiri) ini sama kaya di database
-    // titile (sebelah kanan) ini dari use state
     studioData.append("name", name);
     studioData.append("location", location);
     studioData.append("maxseats", maxseats);
 
-    // ini kita tambahkan _method    put
     studioData.append("_method", "PUT");
 
-    //ini untuk melakukan pengecekan
-    // bookData.forEach((value, key) => {
-    //   console.log(key, value)
-    // })
-
-    // ini updateBook ambil dari service books.js
     await updateStudio(id, studioData)
-      // jika berhasil kita mau apa, kita pindah pakai navigate
       .then(() => {
-        //berhasil, kita redirect ke halaman index.
         navigate("/admin/studios");
-        // console.log(genreData)
       })
       .catch((err) => {
-        // console.log(err)
-        // console.log(err.response.data.mesaage)
         setErrors(err.response.data.message);
       });
   };
 
   return (
-    <div className="flex flex-col gap-9">
-      <div className="rounded-sm bg-white shadow-default dark:bg-boxdark">
+    <div className="flex flex-col gap-9 min-h-screen">
+      <div className="rounded-sm shadow-default dark:bg-boxdark">
         <div className="border-b border-stroke px-6.5 py-4 dark:border-strokedark">
-          <h3 className="font-medium text-black dark:text-white">
-            Edit Studios
+          <h3 className="font-bold text-black dark:text-white uppercase">
+            Edit Studio Data
           </h3>
         </div>
         <form onSubmit={updateStudioDetails} className="py-5">
@@ -112,7 +83,7 @@ export default function StudioEdit() {
                 name="name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-indigo-600 active:border-indigo-600 disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-indigo-600"
+                className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-blue-600 active:border-blue-600 disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-blue-600 dark:text-white"
               />
             </div>
 
@@ -131,7 +102,7 @@ export default function StudioEdit() {
                 name="location"
                 value={location}
                 onChange={(e) => setLocation(e.target.value)}
-                className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-indigo-600 active:border-indigo-600 disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-indigo-600"
+                className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-blue-600 active:border-blue-600 disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-blue-600 dark:text-white"
               />
             </div>
 
@@ -145,18 +116,19 @@ export default function StudioEdit() {
                 </div>
               )}
 
-              <textarea
-                rows="6"
+              <input
+                type="number"
                 name="maxseats"
+                min={1}
                 value={maxseats}
                 onChange={(e) => setMaxSeat(e.target.value)}
-                className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-indigo-600 active:border-indigo-600 disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-indigo-600"
-              ></textarea>
+                className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-blue-600 active:border-blue-600 disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-blue-600 dark:text-white"
+              ></input>
             </div>
 
             <button
               type="submit"
-              className="flex w-full justify-center rounded bg-indigo-600 p-3 font-medium text-white hover:bg-opacity-90"
+              className="flex w-full justify-center rounded bg-blue-600 p-3 font-medium text-white hover:bg-opacity-90"
             >
               Save
             </button>

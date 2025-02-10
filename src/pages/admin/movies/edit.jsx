@@ -85,10 +85,10 @@ export default function MovieEdit() {
   };
 
   return (
-    <div className="flex flex-col gap-9">
-      <div className="rounded-sm bg-white shadow-default dark:bg-boxdark">
+    <div className="flex flex-col gap-9 min-h-screen">
+      <div className="rounded-sm shadow-default dark:bg-boxdark">
         <div className="border-b border-stroke px-6.5 py-4 dark:border-strokedark">
-          <h3 className="font-medium text-black dark:text-white">Add Data</h3>
+          <h3 className="text-xl font-semibold text-black dark:text-white uppercase">Edit Movie Data</h3>
         </div>
         <form onSubmit={updateMovieDetail} className="py-5">
           <div className="p-6.5 flex flex-col gap-5">
@@ -109,7 +109,7 @@ export default function MovieEdit() {
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 type="text"
-                className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-indigo-600 active:border-indigo-600 disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-indigo-600"
+                className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black dark:text-white outline-none transition focus:border-indigo-600 active:border-indigo-600 disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-indigo-600"
               />
             </div>
             <div className="mb-4.5">
@@ -129,7 +129,7 @@ export default function MovieEdit() {
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 rows="6"
-                className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-indigo-600 active:border-indigo-600 disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-indigo-600"
+                className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black dark:text-white outline-none transition focus:border-indigo-600 active:border-indigo-600 disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-indigo-600"
               ></textarea>
             </div>
           </div>
@@ -148,7 +148,7 @@ export default function MovieEdit() {
             <input
               onChange={handleFileChange}
               type="file"
-              className="w-full cursor-pointer rounded-lg border-[1.5px] border-stroke bg-transparent font-normal outline-none transition file:mr-5 file:border-collapse file:cursor-pointer file:border-0 file:border-r file:border-solid file:border-stroke file:bg-whiter file:px-5 file:py-3 file:hover:bg-indigo-600 file:hover:bg-opacity-10 focus:border-indigo-600 active:border-indigo-600 disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:file:border-form-strokedark dark:file:bg-white/30 dark:file:text-white dark:focus:border-indigo-600"
+              className="w-full cursor-pointer rounded-lg border-[1.5px] border-stroke bg-transparent font-normal outline-none transition file:mr-5 file:border-collapse file:cursor-pointer file:border-0 file:border-r file:border-solid file:border-stroke file:bg-whiter file:px-5 file:py-3 file:hover:bg-indigo-600 file:hover:bg-opacity-10 focus:border-indigo-600 active:border-indigo-600 disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:file:border-form-strokedark dark:file:bg-white/30 dark:file:text-white dark:focus:border-indigo-600 dark:text-white"
             />
           </div>
           <div className="mb-4.5 flex flex-col gap-6 xl:flex-row">
@@ -170,7 +170,7 @@ export default function MovieEdit() {
                 onChange={(e) => setPrice(e.target.value)}
                 type="number"
                 min={1}
-                className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-indigo-600 active:border-indigo-600 disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-indigo-600"
+                className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black dark:text-white outline-none transition focus:border-indigo-600 active:border-indigo-600 disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-indigo-600"
               />
             </div>
             <div className="w-full xl:w-1/2">
@@ -191,7 +191,7 @@ export default function MovieEdit() {
                 onChange={(e) => setCast(e.target.value)}
                 type="text"
                 min={1}
-                className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-indigo-600 active:border-indigo-600 disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-indigo-600"
+                className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black dark:text-white outline-none transition focus:border-indigo-600 active:border-indigo-600 disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-indigo-600"
               />
             </div>
             <div className="mb-4.5">
@@ -212,7 +212,7 @@ export default function MovieEdit() {
                 onChange={(e) => setGenreId(e.target.value)}
                 className="relative z-20 bg-transparent dark:bg-form-input"
               >
-                <select className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent px-5 py-3 outline-none transition focus:border-indigo-600 active:border-indigo-600 dark:border-form-strokedark dark:bg-form-input dark:focus:border-indigo-600">
+                <select className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent px-5 py-3 outline-none transition focus:border-indigo-600 active:border-indigo-600 dark:border-form-strokedark dark:bg-form-input dark:focus:border-indigo-600 dark:text-white">
                   <option value="" className="text-body">
                     --select genre--
                   </option>
@@ -265,7 +265,7 @@ export default function MovieEdit() {
                 onChange={(e) => setDuration(e.target.value)}
                 type="number"
                 min={1}
-                className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-indigo-600 active:border-indigo-600 disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-indigo-600"
+                className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black dark:text-white outline-none transition focus:border-indigo-600 active:border-indigo-600 disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-indigo-600"
               />
             </div>
             <div className="w-full xl:w-1/2">
@@ -286,7 +286,7 @@ export default function MovieEdit() {
                 onChange={(e) => setReleaseDate(e.target.value)}
                 type="date"
                 min={1}
-                className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-indigo-600 active:border-indigo-600 disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-indigo-600"
+                className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black dark:text-white outline-none transition focus:border-indigo-600 active:border-indigo-600 disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-indigo-600"
               />
             </div>
 

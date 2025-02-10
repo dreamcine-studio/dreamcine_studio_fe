@@ -26,7 +26,7 @@ export default function ScheduleEdit() {
         setScheduleData({
           movie_id: schedule.movie_id,
           studio_id: schedule.studio_id,
-          showtime: schedule.showtime || ["", "", "", ""], // Handle cases where showtime might be null/undefined
+          showtime: schedule.showtime || ["", "", "", ""], 
           showdate_start: schedule.showdate_start,
           showdate_end: schedule.showdate_end,
         });
@@ -101,22 +101,22 @@ export default function ScheduleEdit() {
 
   return (
     <>
-      <section className="bg-white :bg-gray-900">
+      <section className="min-h-screen">
         <div className="py-8 px-4 mx-auto max-w-2xl lg:py-16">
-          <h2 className="mb-4 text-xl font-bold text-gray-900 :text-white">
+          <h2 className="border-b mb-4 text-xl font-bold text-gray-900 dark:text-white uppercase py-4">
             Edit Schedule
           </h2>
           <form onSubmit={updateSchedule}>
-            <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
+            <div className="grid gap-4 sm:grid-cols-2 pt-2 sm:gap-6">
               <div className="sm:col-span-2">
-                <label className="mb-3 block text-sm font-bold text-gray-900">
+                <label className="mb-3 block text-sm font-bold text-gray-900 dark:text-white">
                   Movie
                 </label>
                 <select
                   name="movie_id"
                   disabled
                   value={scheduleData.movie_id}
-                  className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent px-5 py-3 outline-none transition text-gray-600"
+                  className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent px-5 py-3 outline-none transition text-gray-600 dark:text-gray-200"
                 >
                   <option value="">--select movie--</option>
                   {movies.map((movie) => (
@@ -128,14 +128,14 @@ export default function ScheduleEdit() {
               </div>
 
               <div className="sm:col-span-2">
-                <label className="mb-3 block text-sm font-bold text-gray-900">
+                <label className="mb-3 block text-sm font-bold text-gray-900 dark:text-white">
                   Studio
                 </label>
                 <select
                   name="studio_id"
                   disabled
                   value={scheduleData.studio_id}
-                  className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent px-5 py-3 outline-none transition text-gray-600"
+                  className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent px-5 py-3 outline-none transition text-gray-600 dark:text-gray-200"
                 >
                   <option value="">--select studio--</option>
                   {studios.map((studio) => (
@@ -147,7 +147,7 @@ export default function ScheduleEdit() {
               </div>
 
               <div className="sm:col-span-2">
-                <label className="block mb-2 text-sm font-medium text-gray-900 :text-white">
+                <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white :text-white">
                   Showdate Start
                 </label>
                 <input
@@ -155,11 +155,11 @@ export default function ScheduleEdit() {
                   name="showdate_start"
                   onChange={handleInputChangeShowdate}
                   value={scheduleData.showdate_start}
-                  className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent px-5 py-3 outline-none transition focus:border-indigo-600 active:border-indigo-600 :border-form-stroke :bg-form-input :focus:border-indigo-600"
+                  className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent px-5 py-3 outline-none transition focus:border-blue-600 active:border-blue-600 :border-form-stroke :bg-form-input :focus:border-blue-600 dark:text-white"
                 />
               </div>
               <div className="sm:col-span-2">
-                <label className="block mb-2 text-sm font-medium text-gray-900 :text-white">
+                <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white :text-white">
                   Showdate End
                 </label>
                 <input
@@ -167,27 +167,24 @@ export default function ScheduleEdit() {
                   name="showdate_end"
                   onChange={handleInputChangeShowdate}
                   value={scheduleData.showdate_end}
-                  className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent px-5 py-3 outline-none transition focus:border-indigo-600 active:border-indigo-600 :border-form-stroke :bg-form-input :focus:border-indigo-600"
+                  className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent px-5 py-3 outline-none transition focus:border-blue-600 active:border-blue-600 :border-form-stroke :bg-form-input :focus:border-blue-600 dark:text-white"
                 />
               </div>
 
               <div className="sm:col-span-2">
-                <label className="block mb-2 text-sm font-medium text-gray-900 :text-white">
-                  Showtimes
-                </label>
                 <div className="grid grid-cols-2 gap-4">
                   {[0, 1, 2, 3].map((index) => (
                     <div key={index}>
-                      <label className="block mb-2 text-sm font-medium text-gray-900">
+                      <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                         Showtime {index + 1}
                       </label>
                       <input
                         type="time"
-                        value={scheduleData.showtime[index]}
+                        value={scheduleData.showtime[index] || ""}
                         onChange={(e) =>
                           handleShowtimeChange(index, e.target.value)
                         }
-                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-600 focus:border-indigo-600 block w-full p-2.5"
+                        className="bg-gray-50 dark:bg-gray-200 border border-gray-300 text-gray-900 dark:text-black text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
                       />
                     </div>
                   ))}
@@ -196,7 +193,7 @@ export default function ScheduleEdit() {
             </div>
             <button
               type="submit"
-              className="inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-indigo-700 rounded-lg focus:ring-4 focus:ring-indigo-200 :focus:ring-indigo-900 hover:bg-indigo-800"
+              className="inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 :focus:ring-blue-900 hover:bg-blue-800"
             >
               Edit Schedule
             </button>

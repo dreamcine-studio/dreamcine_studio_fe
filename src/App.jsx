@@ -20,10 +20,8 @@ import MovieCreate from "./pages/admin/movies/create";
 import Team from "./components/Team";
 import Contact from "./components/Contact";
 import PaymentEdit from "./pages/admin/payments/edit";
-import MovieDetail from "./pages/public/MovieDetail/index.jsx";
 import BookingCreate from "./pages/admin/bookings/create.jsx";
 import BookingEdit from "./pages/admin/bookings/edit.jsx";
-import MovieSchedule from "./pages/public/Schedule/index.jsx";
 import Ticket from "./components/ticket/index.jsx";
 import AdminGenres from "./pages/admin/genres";
 import AdminPaymentMethods from "./pages/admin/payment_methods";
@@ -32,10 +30,19 @@ import AdminStudios from "./pages/admin/studios";
 import AdminSchedules from "./pages/admin/schedules";
 import AdminSeats from "./pages/admin/seats";
 import AdminBookings from "./pages/admin/bookings/index.jsx";
-import Movies from "./components/Movies/index.jsx";
 import MovieSeat from "./pages/public/booking/booking.jsx";
+import SeatCreate from "./pages/admin/seats/create.jsx";
+import SeatEdit from "./pages/admin/seats/edit.jsx";
 
-// import MovieSchedule from './pages/public/Schedule/index.jsx'
+
+
+import AdminUsers from "./pages/admin/users/index.jsx";
+import Payment from "./pages/public/payment/pay.jsx";
+import BookingPage from "./pages/public/payment/index.jsx";
+import MovieDetail from "./pages/public/movie-detail/index.jsx";
+import ScheduleList from "./pages/admin/schedules/detail.jsx";
+import PublicMovies from "./pages/public/movies/index.jsx";
+
 
 function App() {
   return (
@@ -45,14 +52,20 @@ function App() {
           {/* Public Routes */}
           <Route element={<PublicLayout />}>
             <Route index element={<Home />} />
-            <Route path="Movies" element={<Movies />} />
+            <Route path="movies" element={<PublicMovies />} />
+            <Route path="movies/:id" element={<MovieDetail />} />
+
+            {/* booking */}
+            <Route path="moviebooking" element={<MovieSeat />} />
+
+            {/* payment */}
+            <Route path="booking" element={<BookingPage />} />
+            <Route path="booking/pay/:id" element={<Payment />} />
+
+            
             <Route path="teams" element={<Team />} />
             <Route path="contacts" element={<Contact />} />
-            <Route path="schedules" element={<MovieSchedule />} />
             <Route path="tickets" element={<Ticket />} />
-
-            <Route path="movies/:id" element={<MovieDetail />} />
-            <Route path="booking-seat" element={<MovieSeat />} />
           </Route>
 
           {/* Auth Routes */}
@@ -96,16 +109,23 @@ function App() {
               <Route index element={<AdminSchedules />} />
               <Route path="create" element={<ScheduleCreate />} />
               <Route path="edit/:id" element={<ScheduleEdit />} />
+              <Route path="detail/:id" element={<ScheduleList />} />
             </Route>
 
             <Route path="seats">
               <Route index element={<AdminSeats />} />
-              <Route path="create" element={<ScheduleCreate />} />
-              <Route path="edit" element={<ScheduleEdit />} />
+              <Route path="create" element={<SeatCreate />} />
+              <Route path="edit" element={<SeatEdit />} />
             </Route>
 
             <Route path="bookings">
               <Route index element={<AdminBookings />} />
+              <Route path="create" element={<BookingCreate />} />
+              <Route path="edit/:id" element={<BookingEdit />} />
+            </Route>
+
+            <Route path="users">
+              <Route index element={<AdminUsers />} />
               <Route path="create" element={<BookingCreate />} />
               <Route path="edit/:id" element={<BookingEdit />} />
             </Route>

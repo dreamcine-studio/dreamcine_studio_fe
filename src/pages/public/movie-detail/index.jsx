@@ -95,7 +95,7 @@ export default function MovieDetail() {
   };
 
   return (
-    <div className="w-full p-4 dark:bg-gray-900">
+    <div className="w-full p-4 dark:bg-gray-900 mt-24">
       <div className="container mx-auto px-4 py-8">
         <div className="flex flex-wrap -mx-4 p-4">
           <div className="flex flex-col w-full md:w-1/2 px-4 mb-8 items-center">
@@ -208,7 +208,7 @@ export default function MovieDetail() {
                     )?.name || "Unknown Studio"}
                   </p>
                   <Link
-                    to={`/booking-seat?schedule_id=${selectedShowtime.id}&movie_id=${movie.id}&showtime=${selectedShowtime.time}`}
+                    to={`/moviebooking?schedule_id=${selectedShowtime.id}&movie_id=${movie.id}&showtime=${selectedShowtime.time}&studio_id=${selectedShowtime.studio_id}`}
                     className="bg-indigo-600 flex gap-2 items-center text-white px-6 py-2 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                   >
                     <i className="fa-solid fa-ticket"></i>
