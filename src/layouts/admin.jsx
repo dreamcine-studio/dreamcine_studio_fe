@@ -6,8 +6,8 @@ export default function AdminLayout() {
   const [theme, setTheme] = useState("light"); // Default "light"
   const navigate = useNavigate();
 
-  const accessToken = localStorage.getItem("accessToken");
-  const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+  const accessToken = sessionStorage.getItem("accessToken");
+  const userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");

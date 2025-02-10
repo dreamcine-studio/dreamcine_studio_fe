@@ -135,6 +135,7 @@ export default function Payment() {
           account_number: "",
         };
   };
+  console.log(selectedMethod);
   
 
   return (
