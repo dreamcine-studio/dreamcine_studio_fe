@@ -1,4 +1,4 @@
-import API from "../api";
+import { API } from "../api";
 
 // export const getDatas = async () => {
 // kita ganti menjadi getBooks

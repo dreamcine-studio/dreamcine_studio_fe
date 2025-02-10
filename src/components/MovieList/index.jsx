@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getMovies } from "../../services/movies";
 import { getGenres } from "../../services/genre";
+import { publicStorage } from "../../api";
 
 export default function MovieList({ length }) {
   const [movies, setMovies] = useState([]);
@@ -20,15 +21,14 @@ export default function MovieList({ length }) {
         ]);
 
         // Filter hanya title dan poster untuk movies
-        const filteredMovies = moviesData.map(({id, title, poster }) => ({
-          id ,
+        const filteredMovies = moviesData.map(({ id, title, poster }) => ({
+          id,
           title,
           poster,
         }));
 
         // Filter hanya name untuk genres
         const filteredGenres = genresData.map(({ name }) => ({ name }));
-
 
         setMovies(filteredMovies);
         setGenres(filteredGenres);
@@ -107,7 +107,7 @@ export default function MovieList({ length }) {
             <div className="relative w-[220px] h-[300px] overflow-hidden mx-auto object-cover">
               <img
                 className="w-full h-full object-cover rounded-t-lg transition-all duration-300 ease-in-out hover:opacity-80"
-                src={`http://127.0.0.1:8000/storage/movies/${movie.poster}`}
+                src={publicStorage + movie.poster}
                 alt={movie.title}
               />
             </div>

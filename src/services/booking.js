@@ -1,4 +1,4 @@
-import API from "../api";
+import { API } from "../api";
 
 export const getBooking = async () => {
   const { data } = await API.get("/bookings", {

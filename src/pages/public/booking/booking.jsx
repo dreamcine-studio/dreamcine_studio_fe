@@ -12,7 +12,7 @@ export default function MovieSeat() {
   const [studio, setStudio] = useState([]);
   const [seat, setSeat] = useState([]);
   const [schedule, setSchedule] = useState([]);
-  const [, setErrors] = useState([]);
+  const [errors, setErrors] = useState([]);
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -97,7 +97,7 @@ export default function MovieSeat() {
     const userInfo = JSON.parse(localStorage.getItem("userInfo"));
 
     if (!token) {
-      sessionStorage.setItem("redirectAfterLogin", `/moviebooking?schedule_id=${scheduleId}&movie_id=${movieId}&showtime=${showtime}&studio_id=${studioId}`);
+      sessionStorage.setItem("redirectAfterLogin", `${window.location.pathname + window.location.search}`);
     
       alert("You must log in to place an order.");
       return navigate("/login");

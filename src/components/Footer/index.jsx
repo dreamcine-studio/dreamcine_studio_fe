@@ -1,4 +1,17 @@
+import { useEffect, useState } from "react";
+
 export default function Footer() {
+  const [theme, setTheme] = useState("light"); // Default "light"
+
+  useEffect(() => {
+      const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+      setTheme(mediaQuery.matches ? "dark" : "light");
+      const handleChange = (e) => setTheme(e.matches ? "dark" : "light");
+      mediaQuery.addEventListener("change", handleChange);
+      return () => {
+        mediaQuery.removeEventListener("change", handleChange);
+      };
+    }, []);
   // const currentYear = new Date().getFullYear();
   return (
     <footer className="text-gray-600 body-font dark:bg-gray-900">
@@ -8,12 +21,12 @@ export default function Footer() {
     <div className="w-64 flex-shrink-0 text-center sm:text-left">
       <a className="flex flex-col sm:flex-row items-center sm:items-start justify-center sm:justify-start text-gray-900">
         <img
-          src="../public/DreamCine.jpeg"
+          src={theme === "dark" ? "/logo-dark.png" : "/logo-light.png"}
           className="rounded-full mb-2 sm:mb-0 sm:mr-3 h-12 sm:h-9"
           alt="Dream Cine Studios"
         />
         <span className="bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500 text-xl">
-          Dream-Cine Studios
+          {/* Dream-Cine Studios */}
         </span>
       </a>
       <p className="mt-2 text-sm text-gray-500">
