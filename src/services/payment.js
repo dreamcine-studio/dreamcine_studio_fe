@@ -9,6 +9,20 @@ export const getPayments = async () => {
   return data.data;
 };
 
+export const createPayments = async (data) => {
+  try {
+    const response = await API.post("/payments", data, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
+    });
+    return response.data;
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+};
+
 export const updatePayment = async (id, data) => {
   try {
     const response = await API.post(`/payments/${id}`, data, {
