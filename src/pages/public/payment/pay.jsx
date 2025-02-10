@@ -1,17 +1,26 @@
 import { useEffect, useState } from "react";
 import { getPaymentmethods } from "../../../services/paymentMethod";
-import { getBooking } from "../../../services/booking";
-import { useParams } from "react-router-dom";
-import { getPayments } from "../../../services/payment";
-// import { useParams } from "react-router-dom";
+import { showBooking } from "../../../services/booking";
+import { useNavigate, useParams } from "react-router-dom";
+// import { getPayments } from "../../../services/payment";
 import { getMovies } from "../../../services/movies";
 import { getSchedules } from "../../../services/schedules";
+import { createPayments } from "../../../services/payment";
 
 export default function Payment() {
   const [booking, setBooking] = useState([]);
   const [schedule, setSchedule] = useState([]);
-  const [movies, setMovies] = useState([]);
-  const [payment, setPayment] = useState([]);
+  const [movies, setMovie] = useState([]);
+  const [paymentData, setPaymentData] = useState({
+    booking_id: "",
+    payment_method_id: "",
+    amount: "",
+  });
+
+  const navigate = useNavigate();
+
+  const [error, setError] = useState([]);
+  const [loading, setLoading] = useState([]);
   // const userInfo = JSON.parse(localStorage.getItem("userInfo"));
 
   const [payment_methods, setPaymentMethods] = useState([]);
@@ -21,72 +30,51 @@ export default function Payment() {
   const { id } = useParams();
 
   useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      setError(null);
 
-    const fetchBooking = async () => {
       try {
-        const data = await getBooking();
-        const booking = data.find(
-          (b) => b.id === parseInt(id)
-        );
-        setBooking(booking);
+        const [bookingData, scheduleData, movieData, paymentMethodData] =
+          await Promise.all([
+            showBooking(id),
+            getSchedules(),
+            getMovies(),
+            getPaymentmethods(),
+          ]);
+
+        setBooking(bookingData);
+        setMovie(movieData);
+        setPaymentMethods(paymentMethodData);
+
+        // Extract schedule ID from booking data
+        if (bookingData && bookingData.schedule_id) {
+          const selectedSchedule = scheduleData.find(
+            (s) => s.id === bookingData.schedule_id
+          );
+          setSchedule(selectedSchedule);
+        } else {
+          setSchedule(null);
+        }
       } catch (error) {
-        console.error("Error fetching booking:", error);
-        // Handle error, e.g., display a message to the user
+        setError("Failed to fetch data, please try again later.");
+        console.log(error);
+      } finally {
+        setLoading(false);
       }
     };
-    
-    const fetchSchedule = async () => {
-      try {
-        const data = await getSchedules();
-        const schedule = data.find((s) => s.id === parseInt(id));  
-        setSchedule(schedule);
-      } catch (error) {
-        console.error("Error fetching movie:", error);
-      }
-    };
-
-
-     const fetchMovie = async () => {
-          try {
-            const data = await getMovies();
-            setMovies(data);
-          } catch (error) {
-            console.error("Failed to fetch genres:", error);
-          }
-        };
-    
-
-    const fetchPaymentMethods = async () => {
-      const data = await getPaymentmethods();
-      setPaymentMethods(data);
-    };
-
-
-    const fetchPayment = async () => {
-      try {
-        const data = await getPayments();
-        setPayment(data.find((p) => p.id === parseInt(id)));
-      } catch (error) {
-        console.error("Error fetching movie:", error);
-      }
-    };
-
-    
-
-    fetchBooking();
-    fetchSchedule();
-    fetchMovie();
-    fetchPaymentMethods();
-    fetchPayment();
+    fetchData();
   }, []);
 
+  // console.log("datab", booking);
+  // console.log("datas", schedule);
 
   const getMovie = (id) => {
     const movie = movies.find((item) => item.id === id);
     return movie ? movie.price : "Unknown movie";
   };
 
-  console.log("movie", schedule.id);
+  // console.log("movie", schedule.id);
   // console.log("tes", booking.amount)
 
   // useEffect(() => {
@@ -106,15 +94,28 @@ export default function Payment() {
     }).format(number);
   };
 
-  // const createPayments = async (e) => {
-  //   e.preventDefault();
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setPaymentData({ ...paymentData, [name]: value });
+  };
 
-  //   const bookingData = new FormData();
-  //   // bookingData.append("user_id", userInfo.id);
-  //   // bookingData.append("movie_id", movieId);
-  //   bookingData.append("payment_id", paymentId);
-  //   bookingData.append("booking_id", bookingId);
-  // };
+  const storePayment = async (e) => {
+    e.preventDefault();
+
+    const formDataToSendPayment = new FormData();
+    formDataToSendPayment.append("booking_id", paymentData.booking_id);
+    formDataToSendPayment.append("payment_method_id", paymentData.payment_method_id);
+    formDataToSendPayment.append("amount", paymentData.amount);
+
+    try {
+      await createPayments(formDataToSendPayment);
+      alert("Payment Successful");
+      navigate("/");
+    } catch (err) {
+      console.log(err.response.data.message);
+      setError(err.response.data.message);
+    }
+  };
 
   // const formatTime = (seconds) => {
   //   const minutes = Math.floor(seconds / 60);
@@ -134,9 +135,10 @@ export default function Payment() {
           account_number: "",
         };
   };
+  
 
   return (
-    <div className="max-w-md mx-auto bg-white shadow-lg rounded-lg p-6">
+    <form onSubmit={storePayment} className="max-w-md mx-auto bg-white shadow-lg rounded-lg p-6"> 
       <h2 className="text-lg font-semibold mb-4">Payment</h2>
 
       {payment_methods.length > 0 ? (
@@ -172,12 +174,20 @@ export default function Payment() {
 
       {/* Order Summary */}
       <div className="space-y-2 mt-4">
-        <dl className="flex items-center justify-between gap-4 border-t border-gray-200 pt-2">
+        <dl
+          onChange={handleInputChange}
+          className="flex items-center justify-between gap-4 border-t border-gray-200 pt-2"
+        >
           <dt className="text-base text-gray-900">Original price</dt>
-          <dd className="text-base text-gray-900">{formatRupiah(getMovie(schedule.id))}</dd>
+          <dd className="text-base text-gray-900">
+            {formatRupiah(getMovie(schedule.id))}
+          </dd>
         </dl>
 
-        <dl className="flex items-center justify-between gap-4 border-gray-200 pt-2">
+        <dl
+          onChange={handleInputChange}
+          className="flex items-center justify-between gap-4 border-gray-200 pt-2"
+        >
           <dt className="text-base text-gray-900">Seat</dt>
           <dd className="text-base text-gray-900">{booking.quantity}</dd>
         </dl>
@@ -191,23 +201,25 @@ export default function Payment() {
           </dd>
         </dl> */}
 
-        <dl className="flex items-center justify-between gap-4 border-t border-gray-200 pt-2">
+        <dl
+          onChange={handleInputChange}
+          className="flex items-center justify-between gap-4 border-t border-gray-200 pt-2"
+        >
           <dt className="text-base font-bold text-gray-900">Total</dt>
           <dd className="text-base font-bold text-gray-900">
             {formatRupiah(booking.amount)}
           </dd>
         </dl>
+        </div>
+        {/* Buttons */}
+        <div className="flex justify-between mt-4">
+          <button
+            type="submit"
+            className="bg-red-500 text-white w-full hover:bg-red-600 px-4 py-2 rounded-lg"
+          >
+            Pay now
+          </button>
       </div>
-
-      {/* Buttons */}
-      <div className="flex justify-between mt-4">
-        <button
-          onClick={'createPayments'}
-          className="bg-red-500 text-white w-full hover:bg-red-600 px-4 py-2 rounded-lg"
-        >
-          Pay now
-        </button>
-      </div>
-    </div>
+    </form>
   );
 }

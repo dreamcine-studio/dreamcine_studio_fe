@@ -9,7 +9,7 @@ export const createMovie = async (data) => {
   try {
     const response = await API.post("/movies", data, {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
       },
     });
     return response.data;
@@ -33,7 +33,7 @@ export const updateMovie = async (id, data) => {
   try {
     const response = await API.post(`/movies/${id}`, data, {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
       },
     });
     return response.data;
@@ -47,7 +47,7 @@ export const deleteMovie = async (id) => {
   try {
     await API.delete(`/movies/${id}`, {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
       },
     });
   } catch (err) {
