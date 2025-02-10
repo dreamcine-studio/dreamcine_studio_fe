@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const API = axios.create({
-  baseURL: 'https://api-studio.karyakreasi.id/api'
+  baseURL: 'https://apistudio-fathqulbc.karyakreasi.id/api'
 })
 
-export const publicStorage = 'https://api-studio.karyakreasi.id/storage/movies/'
+export const publicStorage = 'https://apistudio-fathqulbc.karyakreasi.id/storage/movies/'

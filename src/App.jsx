@@ -97,6 +97,7 @@ function App() {
             <Route path="payments">
               <Route index element={<AdminPayments />} />
               <Route path="edit/:id" element={<PaymentEdit />} />
+              <Route path="create" element={<Payment />} />
             </Route>
 
             <Route path="studios">

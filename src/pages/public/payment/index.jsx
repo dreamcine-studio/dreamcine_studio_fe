@@ -4,7 +4,7 @@ import { getBooking } from "../../../services/booking";
 
 export default function AdminBookings() {
   const [booking, setBooking] = useState([]);
-  const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+  const userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
 
   useEffect(() => {
     const fetchBooking = async () => {
