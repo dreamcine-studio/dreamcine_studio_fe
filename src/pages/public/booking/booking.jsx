@@ -28,7 +28,8 @@ export default function MovieSeat() {
     const fetchMovie = async () => {
       try {
         const data = await getMovies();
-        setMovie(data.find((m) => m.id === parseInt(movieId)));
+        const movieData = data.find((m) => m.id === parseInt(movieId));
+        setMovie({ id: movieData.id, title: movieData.title, price:movieData.price });
       } catch (error) {
         console.error("Error fetching movie:", error);
       }
@@ -37,7 +38,8 @@ export default function MovieSeat() {
     const fetchStudio = async () => {
       try {
         const data = await getStudios();
-        setStudio(data.find((s) => s.id === parseInt(studioId)));
+        const studioData = data.find((s) => s.id === parseInt(studioId));
+        setStudio({ id: studioData.id, name: studioData.name, maxseats:studioData.maxseats,location:studioData.location });
       } catch (error) {
         console.error("Error fetching studio:", error);
       }
@@ -135,6 +137,12 @@ export default function MovieSeat() {
       setErrors(errors.response?.data?.message || "Something went wrong");
     }
   };
+
+  console.log(movie)
+  console.log(studio)
+  console.log(showtime)
+  console.log(showdate_start)
+  console.log(totalPrice)
 
   return (
     <div className="flex flex-col items-center justify-center dark:bg-gray-900 text-white w-full p-8 mt-24">
