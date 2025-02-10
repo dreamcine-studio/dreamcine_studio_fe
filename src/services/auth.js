@@ -22,8 +22,8 @@ export const register = async ({ name, email, password }) => {
 
 export const logout = () => {
   try {
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("userInfo");
+    sessionStorage.removeItem("accessToken");
+    sessionStorage.removeItem("userInfo");
   } catch (err) {
     console.log(err);
   }
