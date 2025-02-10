@@ -38,7 +38,8 @@ export default function MovieSeat() {
     const fetchStudio = async () => {
       try {
         const data = await getStudios();
-        setStudio(data.find((s) => s.id === parseInt(studioId)));
+        const studioData = data.find((s) => s.id === parseInt(studioId));
+        setStudio({ id: studioData.id, name: studioData.name, maxseats:studioData.maxseats,location:studioData.location });
       } catch (error) {
         console.error("Error fetching studio:", error);
       }
