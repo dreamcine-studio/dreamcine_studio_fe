@@ -20,14 +20,15 @@ export default function MovieList({ length }) {
         ]);
 
         // Filter hanya title dan poster untuk movies
-        const filteredMovies = moviesData.map(({ id, title, poster }) => ({
-          id,
+        const filteredMovies = moviesData.map(({id, title, poster }) => ({
+          id ,
           title,
           poster,
         }));
 
         // Filter hanya name untuk genres
         const filteredGenres = genresData.map(({ name }) => ({ name }));
+
 
         setMovies(filteredMovies);
         setGenres(filteredGenres);
@@ -102,11 +103,11 @@ export default function MovieList({ length }) {
           key={index}
           className="max-w-sm m-2 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700 transform transition-all duration-300 ease-in-out hover:scale-105 hover:translate-y-[-10px] hover:shadow-2xl hover:opacity-90 flex flex-col flex-wrap"
         >
-          <Link to={/movies/${movie.id}} className="flex flex-col">
+          <Link to={`/movies/${movie.id}`} className="flex flex-col">
             <div className="relative w-[220px] h-[300px] overflow-hidden mx-auto object-cover">
               <img
                 className="w-full h-full object-cover rounded-t-lg transition-all duration-300 ease-in-out hover:opacity-80"
-                src={http://127.0.0.1:8000/storage/movies/${movie.poster}}
+                src={`http://127.0.0.1:8000/storage/movies/${movie.poster}`}
                 alt={movie.title}
               />
             </div>
@@ -120,7 +121,7 @@ export default function MovieList({ length }) {
               </p>
               <div className="mt-auto">
                 <Link
-                  to={/movies/${movie.id}}
+                  to={`/movies/${movie.id}`}
                   className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                 >
                   Detail

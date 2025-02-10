@@ -12,12 +12,12 @@ export default function Dashboard() {
   const [genres, setGenres] = useState([]);
   const [studios, setStudios] = useState([]);
   const [paymentMethods, setPaymentMethods] = useState([]);
-  const [movies, setmovies] = useState([]);
-  const [schedules, setSchedules] = useState([]);
-  const [seats, setSeats] = useState([]);
-  const [bookings, setBookings] = useState([]);
-  const [payments, setPayments] = useState([]);
-  const [loading, setLoading] = useState([]);
+  const [Movies, setmovies] = useState([]);
+  const [Schedules, setSchedules] = useState([]);
+  const [Seats, setSeats] = useState([]);
+  const [Bookings, setBookings] = useState([]);
+  const [Payments, setPayments] = useState([]);
+  const [Loading, setLoading] = useState([]);
   const [error, setError] = useState([]);
 
 
@@ -51,14 +51,14 @@ const fetchData = async () => {
 
 
 
-	setGenres(genresData.length);
-	setStudios(studiosData.length);
-	setPaymentMethods(paymentMethodsData.length);
-	setmovies(moviesData.length);
-	setSchedules(schedulesData.length);
-	setSeats(seatsData.length);
-	setBookings(bookingsData.length);
-	setPayments(paymentsData.length);
+	setGenres(genresData);
+	setStudios(studiosData);
+	setPaymentMethods(paymentMethodsData);
+	setmovies(moviesData);
+	setSchedules(schedulesData);
+	setSeats(seatsData);
+	setBookings(bookingsData);
+	setPayments(paymentsData);
 	}catch (error){
 		setError("Failed to fetch data, please try again later : ")
 		console.log(error);
@@ -71,15 +71,10 @@ const fetchData = async () => {
 	fetchData();
 	
 }, []);
-console.log(genres);
-console.log(studios);
-console.log(paymentMethods);
-console.log(movies);
-console.log(schedules);
 
 
 
-if (loading) {
+if (Loading) {
     return (
       <main className="py-6 px-12 space-y-2 bg-gray-300 min-h-screen w-full flex items-center justify-center">
         {/* Loading Spinner */}
@@ -138,7 +133,7 @@ if (error){
      
 				<div className="fa-solid fa-masks-theater fa-lg   flex flex-col px-6 py-2 bg-white shadow rounded-lg overflow-hidden">
 					<div className="flex flex-col items-center space-y-2">
-						<div className="text-6xl font-bold tracking-tight leading-none text-blue-500">{genres}</div>
+						<div className="text-6xl font-bold tracking-tight leading-none text-blue-500">{genres.length}</div>
 						<div className="text-lg font-medium text-blue-500">Genres</div>
 					</div>
 				</div>
@@ -146,7 +141,7 @@ if (error){
 				{/* <!-- Studios --> */}
 				<div className="fa-solid fa-person-booth fa-lg flex flex-col px-6 py-2 bg-white shadow rounded-lg overflow-hidden">
 					<div className="flex flex-col items-center space-y-2">
-						<div className="text-6xl font-bold tracking-tight leading-none text-amber-500">{studios}</div>
+						<div className="text-6xl font-bold tracking-tight leading-none text-amber-500">{studios.length}</div>
 						<div className="text-lg font-medium text-amber-600">Studios</div>
 					</div>
 				</div>
@@ -155,7 +150,7 @@ if (error){
 				{/* <!-- Payment Methods --> */}
 				<div className="fa-solid fa-credit-card fa-lg  flex flex-col px-6 py-2 bg-white shadow rounded-lg overflow-hidden">
 					<div className="flex flex-col items-center space-y-2">
-						<div className="text-6xl font-bold tracking-tight leading-none text-red-500">{paymentMethods}</div>
+						<div className="text-6xl font-bold tracking-tight leading-none text-red-500">{paymentMethods.length}</div>
 						<div className="text-lg font-medium text-red-600">Payment Methods</div>
 					</div>
 				</div>
@@ -163,7 +158,7 @@ if (error){
 				{/* <!-- Movies --> */}
 				<div className="fa-solid fa-film fa-lg flex flex-col px-6 py-2 bg-white shadow rounded-lg overflow-hidden">
 					<div className="flex flex-col items-center space-y-2">
-						<div className="text-6xl font-bold tracking-tight leading-none text-primary-900">{movies}</div>
+						<div className="text-6xl font-bold tracking-tight leading-none text-primary-900">{Movies.length}</div>
 						<div className="text-lg font-medium text-primary-900">Movies</div>
 					</div>
 				</div>
@@ -173,7 +168,7 @@ if (error){
 						<div className="fa-solid fa-chair fa-lg fa-solid fa-film fa-lg flex flex-col px-6 py-2 bg-white shadow rounded-lg overflow-hidden">
 					<div className="flex flex-col items-center space-y-2">
 
-						<div className="text-6xl font-bold tracking-tight leading-none text-primary-900">{seats}</div>
+						<div className="text-6xl font-bold tracking-tight leading-none text-primary-900">{Seats.length}</div>
 						<div className="text-lg font-medium text-primary-900">Seats</div>
 					</div>
 				</div>
@@ -181,7 +176,7 @@ if (error){
 					{/* <!-- Schedules --> */}
 					<div className="fa-solid fa-calendar-days fa-xl flex flex-col px-6 py-2 bg-white shadow rounded-lg overflow-hidden">
 						<div className="flex flex-col items-center space-y-2">
-						<div className="text-7xl font-extrabold tracking-tight leading-none text-primary-900">{schedules}
+						<div className="text-7xl font-extrabold tracking-tight leading-none text-primary-900">{Schedules.length}
 					</div>
 					<div className="text-lg font-medium text-primary-900">Schedules</div>
 					</div>
@@ -192,7 +187,7 @@ if (error){
 					{/* <!-- Bookings --> */}
 					<div className="fa-solid fa-cart-shopping fa-lg  flex flex-col px-6 py-2 bg-white shadow rounded-lg overflow-hidden">
 						<div className="flex flex-col items-center space-y-2">
-						<div className="text-7xl font-extrabold tracking-tight leading-none text-primary-900">{bookings}
+						<div className="text-7xl font-extrabold tracking-tight leading-none text-primary-900">{Bookings.length}
 					</div>
 					<div className="text-lg font-medium text-primary-900">Bookings</div>
 					</div>
@@ -201,7 +196,7 @@ if (error){
 			   		{/* <!-- Payments --> */}
 					<div className="fa-solid fa-money-bill fa-lg  flex flex-col px-6 py-2 bg-white shadow rounded-lg overflow-hidden">
 						<div className="flex flex-col items-center space-y-2">
-						<div className="text-7xl font-extrabold tracking-tight leading-none text-primary-900">{payments}
+						<div className="text-7xl font-extrabold tracking-tight leading-none text-primary-900">{Payments.length}
 					</div>
 					<div className="text-lg font-medium text-primary-900">Payments</div>
 					</div>
