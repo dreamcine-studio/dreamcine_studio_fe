@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import { getPaymentmethods } from "../../../services/paymentMethod";
-import { getBooking } from "../../../services/booking";
+import { getBooking, showBooking } from "../../../services/booking";
 import { useParams } from "react-router-dom";
 import { getPayments } from "../../../services/payment";
-// import { useParams } from "react-router-dom";
 import { getMovies } from "../../../services/movies";
 import { getSchedules } from "../../../services/schedules";
 
@@ -24,16 +23,16 @@ export default function Payment() {
 
     const fetchBooking = async () => {
       try {
-        const data = await getBooking();
-        const booking = data.find(
-          (b) => b.id === parseInt(id)
-        );
-        setBooking(booking);
+        const data = await showBooking(id);
+        // const booking = data.find(
+        //   (b) => b.id === parseInt(id)
+        // );
+        setBooking(data);
       } catch (error) {
         console.error("Error fetching booking:", error);
         // Handle error, e.g., display a message to the user
       }
-    };
+    };    
     
     const fetchSchedule = async () => {
       try {
@@ -80,13 +79,17 @@ export default function Payment() {
     fetchPayment();
   }, []);
 
+  console.log('datab', booking);
+  console.log('datas', schedule);
+  
+
 
   const getMovie = (id) => {
     const movie = movies.find((item) => item.id === id);
     return movie ? movie.price : "Unknown movie";
   };
 
-  console.log("movie", schedule.id);
+  // console.log("movie", schedule.id);
   // console.log("tes", booking.amount)
 
   // useEffect(() => {
