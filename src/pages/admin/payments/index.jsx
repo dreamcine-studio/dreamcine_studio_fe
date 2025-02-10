@@ -33,6 +33,15 @@ export default function AdminPayments() {
     fetchData();
   }, []);
 
+  const formatRupiah = (number) => {
+    return new Intl.NumberFormat("id-ID", {
+      style: "currency",
+      currency: "IDR",
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 2,
+    }).format(number);
+  };
+
   if (Loading) {
     return (
       <main className="py-6 px-12 space-y-2 bg-gray-300 min-h-screen w-full flex items-center justify-center">
@@ -143,7 +152,7 @@ export default function AdminPayments() {
                     {getPMethodName(payment.payment_method_id)}
                   </td>
                   <td className="py-4 pl-5 dark:text-white">
-                    {payment.amount}
+                    {formatRupiah(payment.amount)}
                   </td>
                   <td className="py-4 pl-5 dark:text-white">
                     {payment.payment_date}
