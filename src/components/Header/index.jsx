@@ -5,7 +5,7 @@ import { logout } from "../../services/auth";
 export default function Header() {
   const [theme, setTheme] = useState("light"); // Default "light"
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+  const userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
   const navigate = useNavigate();
   const mobileMenuRef = useRef(null);
 

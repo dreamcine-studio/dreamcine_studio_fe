@@ -36,8 +36,8 @@ export default function Login() {
       const res = await login(inputData);
 
       // Jika login berhasil, simpan token dan user info
-      localStorage.setItem("accessToken", res.token);
-      localStorage.setItem("userInfo", JSON.stringify(res.user));
+      sessionStorage.setItem("accessToken", res.token);
+      sessionStorage.setItem("userInfo", JSON.stringify(res.user));
 
       const redirectTo = sessionStorage.getItem("redirectAfterLogin");
 if (redirectTo) {
@@ -62,7 +62,7 @@ if (redirectTo) {
     }
   };
 
-  const accessToken = localStorage.getItem("accessToken");
+  const accessToken = sessionStorage.getItem("accessToken");
 
   useEffect(() => {
     if (accessToken) {
