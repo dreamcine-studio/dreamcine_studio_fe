@@ -61,9 +61,9 @@ export default function Header() {
           <ul className="hidden lg:flex space-x-8">
             <li><Link to="/" className="text-gray-900 hover:text-indigo-700 dark:text-white">Home</Link></li>
             <li><Link to="/movies" className="text-gray-900 hover:text-indigo-700 dark:text-white">Movies</Link></li>
-            <li><Link to="/booking/pay/:id" className="text-gray-900 hover:text-indigo-700 dark:text-white">Payment</Link></li>
-            <li><Link to="/tickets" className="text-gray-900 hover:text-indigo-700 dark:text-white">Tickets</Link></li>
+            {userInfo && (
             <li><Link to="/booking" className="text-gray-900 hover:text-indigo-700 dark:text-white">Booking</Link></li>
+            )}
             <li><Link to="/teams" className="text-gray-900 hover:text-indigo-700 dark:text-white">Team</Link></li>
             <li><Link to="/contacts" className="text-gray-900 hover:text-indigo-700 dark:text-white">Contact</Link></li>
           </ul>
@@ -103,9 +103,9 @@ export default function Header() {
           <ul className="flex flex-col gap-4">
             <li><Link to="/" className="text-gray-900 hover:text-indigo-700 dark:text-white">Home</Link></li>
             <li><Link to="/movies" className="text-gray-900 hover:text-indigo-700 dark:text-white">Movies</Link></li>
-            <li><Link to="/booking/pay/:id" className="text-gray-900 hover:text-indigo-700 dark:text-white">Payment</Link></li>
-            <li><Link to="/tickets" className="text-gray-900 hover:text-indigo-700 dark:text-white">Tickets</Link></li>
+            {userInfo && (
             <li><Link to="/booking" className="text-gray-900 hover:text-indigo-700 dark:text-white">Booking</Link></li>
+            )}
             <li><Link to="/teams" className="text-gray-900 hover:text-indigo-700 dark:text-white">Team</Link></li>
             <li><Link to="/contacts" className="text-gray-900 hover:text-indigo-700 dark:text-white">Contact</Link></li>
           </ul>
