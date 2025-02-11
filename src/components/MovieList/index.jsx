@@ -3,10 +3,12 @@ import { Link } from "react-router-dom";
 import { getMovies } from "../../services/movies";
 import { getGenres } from "../../services/genre";
 import { publicStorage } from "../../api";
+import { getSchedules } from "../../services/schedules";
 
 export default function MovieList({ length }) {
   const [movies, setMovies] = useState([]);
   const [genres, setGenres] = useState([]);
+  const [schedules, setSchedules] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -15,21 +17,29 @@ export default function MovieList({ length }) {
       setLoading(true);
       setError(null);
       try {
-        const [moviesData, genresData] = await Promise.all([
+        const [schedulesData, moviesData, genresData] = await Promise.all([
+          getSchedules(),
           getMovies(),
           getGenres(),
         ]);
 
-        // Filter hanya title dan poster untuk movies
-        const filteredMovies = moviesData.map(({ id, title, poster }) => ({
-          id,
-          title,
-          poster,
-        }));
+        const movieIdsWithSchedule = new Set(
+          schedulesData.map((schedule) => schedule.movie_id)
+        );
+
+        // Filter hanya film yang memiliki jadwal tayang
+        const filteredMovies = moviesData
+          .filter((movie) => movieIdsWithSchedule.has(movie.id))
+          .map(({ id, title, poster}) => ({
+            id,
+            title,
+            poster,
+          }));
 
         // Filter hanya name untuk genres
         const filteredGenres = genresData.map(({ name }) => ({ name }));
 
+        setSchedules(schedulesData);
         setMovies(filteredMovies);
         setGenres(filteredGenres);
       } catch (err) {
@@ -41,9 +51,6 @@ export default function MovieList({ length }) {
 
     fetchData();
   }, []);
-
-  console.log(movies);
-  console.log(genres);
 
   if (loading) {
     return (

@@ -1,6 +1,6 @@
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { deletePayment, getPayments } from "../../../services/payment";
+import { deletePayment, getPayments, updatePayment } from "../../../services/payment";
 import { getPaymentmethods } from "../../../services/paymentMethod";
 
 export default function AdminPayments() {
@@ -33,6 +33,18 @@ export default function AdminPayments() {
     fetchData();
   }, []);
   
+  const updateStatus = async (id, newStatus) => {
+    try {
+      await updatePayment(id, { status: newStatus, _method: "PUT"});
+      setPayments((prevPayments) =>
+        prevPayments.map((payment) =>
+          payment.id === id ? { ...payment, status: newStatus } : payment
+        )
+      );
+    } catch (error) {
+      console.error("Failed to update status", error);
+    }
+  };
 
   const formatRupiah = (number) => {
     return new Intl.NumberFormat("id-ID", {
@@ -158,22 +170,22 @@ export default function AdminPayments() {
                   <td className="py-4 pl-5 dark:text-white">
                     {payment.payment_date}
                   </td>
-                  <td
-                    className={`py-4 pl-5 font-bold ${
-                      payment.status === "pending"
-                        ? "text-yellow-500"
-                        : payment.status === "confirmed"
-                        ? "text-green-500"
-                        : "text-red-500"
-                    }`}
+                  <td className="py-4 px-2">
+                  <select
+                    value={payment.status}
+                    onChange={(e) => updateStatus(payment.id, e.target.value)}
+                    className="border p-2 rounded-lg"
                   >
-                    {payment.status}
-                  </td>
+                    <option value="pending">Pending</option>
+                    <option value="confirmed">Confirmed</option>
+                    <option value="failed">Failed</option>
+                  </select>
+                </td>
                   <td className="py-4 pl-5 dark:text-white">
                     <div className="flex items-center gap-4 mx-2">
-                      <Link to={`/admin/payments/edit/${payment.id}`}>
+                      {/* <Link to={`/admin/payments/edit/${payment.id}`}>
                         <i className="fa-solid fa-pen-to-square text-orange-500"></i>
-                      </Link>
+                      </Link> */}
                       <button onClick={() => handleDelete(payment.id)}>
                         <i className="fa-solid fa-trash text-red-700 dark:text-red-500"></i>
                       </button>
