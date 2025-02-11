@@ -1,5 +1,5 @@
 // import { useEffect, useState } from "react"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { register } from "../../../services/auth";
 
@@ -12,6 +12,8 @@ export default function Register() {
   const [isChecked, setIsChecked] = useState(false);
   const [showTerms, setShowTerms] = useState(false);
   const [error, setError] = useState("");
+  const [theme, setTheme] = useState("light"); // Default "light"
+
   const navigate = useNavigate();
 
   const handleInputChange = (event) => {
@@ -23,6 +25,16 @@ export default function Register() {
     setIsChecked(!isChecked);
     if (!isChecked) setError("");
   };
+
+  useEffect(() => {
+      const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+      setTheme(mediaQuery.matches ? "dark" : "light");
+      const handleChange = (e) => setTheme(e.matches ? "dark" : "light");
+      mediaQuery.addEventListener("change", handleChange);
+      return () => {
+        mediaQuery.removeEventListener("change", handleChange);
+      };
+    }, []);
 
   // Handle form submit
   const storeRegister = async (e) => {
@@ -49,18 +61,18 @@ export default function Register() {
   };
 
   return (
-    <section className="bg-gray-50 dark:bg-gray-900">
-      <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+    <section className="bg-gray-50 dark:bg-gray-900 min-h-screen">
+      <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto h-screen lg:py-0">
         <Link
           to="/"
           className="bg-clip-text text-transparent bg-gradient-to-r from-red-500 to-violet-500 flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white"
         >
           <img
-            className="w-8 h-8 mr-2 size-14 rounded-full "
-            src="./public/dreamcine.jpeg"
+            className="w-24 h-24 size-14"
+            src={theme === "dark" ? "/logo-square-dark.png" : "/logo-square-light.png"}
             alt="logo"
           />
-          Dream-Cine Studio
+          {/* Dream-Cine Studio */}
         </Link>
         <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">

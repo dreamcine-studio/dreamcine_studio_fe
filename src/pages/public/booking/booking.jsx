@@ -95,8 +95,8 @@ export default function MovieSeat() {
   const createBookingDetails = async (e) => {
     e.preventDefault();
 
-    const token = sessionStorage.getItem("accessToken");
-    const userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
+    const token = localStorage.getItem("accessToken");
+    const userInfo = JSON.parse(localStorage.getItem("userInfo"));
 
     if (!token) {
       sessionStorage.setItem("redirectAfterLogin", `${window.location.pathname + window.location.search}`);
@@ -110,6 +110,8 @@ export default function MovieSeat() {
       return;
     }
 
+    const timestamp = new Date().toISOString();
+
     const bookingData = new FormData();
     bookingData.append("user_id", userInfo.id);
     bookingData.append("movie_id", movieId);
@@ -119,13 +121,14 @@ export default function MovieSeat() {
     bookingData.append("showdate_start", showdate_start);
     bookingData.append("quantity", selectedSeats.length);
     bookingData.append("amount", totalPrice);
+    bookingData.append("timestamp", timestamp)
 
     const seatData = new FormData();
     selectedSeats.forEach((seatNumber) => {
       seatData.append("seat_number[]", seatNumber);
     });
     seatData.append("studio_id", studioId);
-    bookingData.append("movie_id", movieId);
+    seatData.append("movie_id", movieId);
 
     try {
       await createBooking(bookingData);

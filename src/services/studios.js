@@ -13,7 +13,7 @@ export const createStudio = async (data) => {
   try {
     const response = await API.post("/studios", data, {
       headers: {
-        Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
       },
     });
     return response.data;
@@ -31,7 +31,7 @@ export const updateStudio = async (id, data) => {
   try {
     const response = await API.post(`/studios/${id}`, data, {
       headers: {
-        Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
       },
     });
     return response.data;
@@ -45,7 +45,7 @@ export const deleteStudio = async (id) => {
   try {
     await API.delete(`/studios/${id}`, {
       headers: {
-        Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
       },
     });
   } catch (err) {

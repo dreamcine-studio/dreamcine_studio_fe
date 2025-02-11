@@ -78,13 +78,13 @@ const fetchData = async () => {
                        <td className="px-4 py-5 pl-9 xl:pl-11">
                          <h5 className="font-medium text-black dark:text-white">
                            {/* {genre.name} */}
-                           Nama
+                           Admin
                          </h5>
                        </td>
                        <td className="px-4 py-5">
                          <p className="text-black dark:text-white">
                            {/* {genre.description} */}
-                           description
+                           Admin
                          </p>
                        </td>
      
