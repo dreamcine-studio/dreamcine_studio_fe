@@ -21,7 +21,7 @@ export default function Payment() {
 
   const [error, setError] = useState([]);
   const [loading, setLoading] = useState([]);
-  // const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+  // const userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
 
   const [payment_methods, setPaymentMethods] = useState([]);
   const [selectedMethod, setSelectedMethod] = useState(null);

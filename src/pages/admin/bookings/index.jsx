@@ -44,12 +44,12 @@ export default function AdminBookings() {
   };
 
   const getUserInfoName = (bookingId) => {
-    const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+    const userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
 
     if (userInfo) {
       const booking = bookings.find((b) => b.id === bookingId);
       if (booking && booking.user_id === userInfo.id) {
-        return userInfo.name; // Return name from localStorage if matched
+        return userInfo.name; // Return name from sessionStorage if matched
       }
     }
 
