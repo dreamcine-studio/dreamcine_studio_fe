@@ -4,6 +4,7 @@ import { login } from "../../../services/auth"; // Pastikan fungsi login menghub
 
 export default function Login() {
   const [theme, setTheme] = useState("light"); // Default "light"
+  const [showPassword, setShowPassword] = useState(false);
 
   const [inputData, setInput] = useState({
     email: "",
@@ -122,7 +123,7 @@ if (redirectTo) {
                 <input
                   value={inputData.password}
                   onChange={handleInput}
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   name="password"
                   id="password"
                   placeholder="••••••••"
@@ -130,6 +131,19 @@ if (redirectTo) {
                   required=""
                 />
               </div>
+              {/* Checkbox to toggle password visibility */}
+              <div className="flex items-center mt-2">
+                  <input
+                    type="checkbox"
+                    id="showPassword"
+                    checked={showPassword}
+                    onChange={() => setShowPassword(!showPassword)} // Toggle visibility
+                    className="mr-2"
+                  />
+                  <label htmlFor="showPassword" className="text-sm text-gray-900 dark:text-white">
+                    Show Password
+                  </label>
+                </div>
               {errorMessage && (
                 <div className="text-red-500 text-sm mt-2">{errorMessage}</div>
               )}
