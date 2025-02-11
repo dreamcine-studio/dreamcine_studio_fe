@@ -33,17 +33,14 @@ import AdminBookings from "./pages/admin/bookings/index.jsx";
 import MovieSeat from "./pages/public/booking/booking.jsx";
 import SeatCreate from "./pages/admin/seats/create.jsx";
 import SeatEdit from "./pages/admin/seats/edit.jsx";
-
-
-
 import AdminUsers from "./pages/admin/users/index.jsx";
 import Payment from "./pages/public/payment/pay.jsx";
 import BookingPage from "./pages/public/payment/index.jsx";
-import MovieDetail from "./pages/public/movie-detail/index.jsx";
 import ScheduleList from "./pages/admin/schedules/detail.jsx";
 import PublicMovies from "./pages/public/movies/index.jsx";
 import UserCreate from "./pages/admin/users/create.jsx";
 import UserEdit from "./pages/admin/users/edit.jsx";
+import MovieDetail from "./pages/public/moviedetail/index.jsx";
 
 
 function App() {
