@@ -6,9 +6,14 @@ export const getPaymentmethods = async () => {
   return data.data;
 };
 
+
 export const createPaymentmethod = async (data) => {
   try {
-    const response = await API.post("/payment_methods", data); // endpoint
+    const response = await API.post("/payment_methods", data, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
+    });
     return response.data;
   } catch (err) {
     console.log(err);
@@ -16,21 +21,32 @@ export const createPaymentmethod = async (data) => {
   }
 };
 
-export const updatePaymentmethod = async (id, data) => {
+
+export const updatePaymentmethod = async (data) => {
   try {
-    const response = await API.post(`/payment_methods/${id}`, data); // endpoint
+    const response = await API.post("/payment_methods", data, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
+    });
     return response.data;
   } catch (err) {
     console.log(err);
     throw err;
   }
 };
+
+
 
 export const deletePaymentmethod = async (id) => {
   try {
-    await API.delete(`/payment_methods/${id}`); // ini pakai backtick
-  } catch (error) {
-    console.log(error);
-    throw error;
+    await API.delete(`/payment_methods/${id}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
+    });
+  } catch (err) {
+    console.log(err);
+    throw err;
   }
 };

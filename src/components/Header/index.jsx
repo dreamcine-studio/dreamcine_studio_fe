@@ -121,6 +121,7 @@ export default function Header() {
           ) : (
             <div className="flex absolute left-0 bottom-0 flex-col items-center p-6">
               <Link to="/login" className="w-full text-center text-gray-800 dark:text-white px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700">Log in</Link>
+              
               <Link to="/register" className="w-full text-center mt-2 text-white bg-indigo-700 px-4 py-2 rounded-lg hover:bg-indigo-800">Register</Link>
             </div>
           )}

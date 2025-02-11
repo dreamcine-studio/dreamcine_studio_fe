@@ -116,6 +116,10 @@ export default function AdminStudios() {
                 Name
               </th>
               <th className="min-w-[220px] px-4 py-4 font-bold text-gray-700 dark:text-white uppercase">
+                Location
+              </th>
+              <th className="min-w-[220px] px-4 py-4 font-bold text-gray-700 dark:text-white uppercase">
+                Max Seats
                 Max Seat
               </th>
               <th className="min-w-[220px] px-4 py-4 font-bold text-gray-700 dark:text-white uppercase">
@@ -123,6 +127,8 @@ export default function AdminStudios() {
               </th>
             </tr>
           </thead>
+
+
           <tbody>
             {studios.length > 0 ? (
               studios.map((studio) => (
@@ -132,6 +138,11 @@ export default function AdminStudios() {
                       {studio.name}
                     </h5>
                   </td>
+                  <td className="px-4 py-5">
+                    <p className="text-black dark:text-white">{studio.location}</p>
+                  </td>
+
+
                   <td className="px-4 py-5">
                     <p className="text-black dark:text-white">{studio.maxseats}</p>
                   </td>
@@ -159,7 +170,7 @@ export default function AdminStudios() {
       {isModalOpen && (
         <div className="fixed inset-0 bg-gray-500 bg-opacity-50 flex items-center justify-center">
           <div className="bg-white p-6 rounded-md shadow-md w-1/3 text-center">
-            <h3 className="text-xl font-semibold text-black mb-4">Are you sure?</h3>
+            <h3 className="text-xl font-semibold text-black mb-4">Are you sure Delete ?</h3>
             <div className="flex justify-center gap-4">
               <button
                 onClick={confirmDelete}

@@ -1,22 +1,27 @@
-import { useState } from "react"
-// import { createGenre } from "../../../services/genres";
-import { useNavigate } from "react-router-dom";
-import { createGenre } from "../../../services/genre";
-import Error from "../../../components/Error";
+// import { useState } from "react"
+// // import { createGenre } from "../../../services/genres";
+// import { useNavigate } from "react-router-dom";
+// import { createGenre } from "../../../services/genre";
+// import Error from "../../../components/Error";
 
-export default function GenreCreate() {
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
+export default function UserCreate() {
 
   const[errors, setErrors] = useState({})
 
   const [genreData, setGenreData] = useState({
     name: "",
-    description: "",
+    role: "",
+    email: "",
   })
 
   const navigate = useNavigate();
   
 // Handle input change
 const handleInputChange = (event) => {
+
   const {name, value} = event.target
   setGenreData({...genreData, [name]: value});
 }
@@ -82,11 +87,34 @@ const storeGenre = async (e) => {
               />
             </div>
 
+
             <div className="mb-4.5">
               <label
                 className="mb-3 block text-base font-medium text-black dark:text-white"
               >
-                Description
+                Role
+              </label>
+              {errors.name && (
+                <Error res={errors.name[0]} />
+              )}
+              
+
+
+              <input
+                type="text"
+                name="name"
+                value={genreData.name}
+                onChange={handleInputChange}
+                className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-indigo-600 active:border-indigo-600 disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-indigo-600"
+              />
+            </div>
+
+
+            <div className="mb-4.5">
+              <label
+                className="mb-3 block text-base font-medium text-black dark:text-white"
+              >
+                Email
               </label>
               {errors.description && (
                 <Error res={errors.description[0]} />

@@ -157,7 +157,7 @@ export default function AdminGenres() {
       {isModalOpen && (
         <div className="fixed inset-0 bg-gray-500 bg-opacity-50 flex items-center justify-center">
           <div className="bg-white p-6 rounded-md shadow-md w-1/3 text-center">
-            <h3 className="text-xl font-semibold text-black mb-4">Are you sure?</h3>
+            <h3 className="text-xl font-semibold text-black mb-4">Are you sure Delete ?</h3>
             <div className="flex justify-center gap-4">
               <button
                 onClick={confirmDelete}

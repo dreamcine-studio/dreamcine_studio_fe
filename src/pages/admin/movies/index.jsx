@@ -10,27 +10,6 @@ export default function Movies() {
   const [Loading, setLoading] = useState([]);
   const [error, setError] = useState([]);
 
-
-  // useEffect(() => {
-  //   const fetchMovies = async () => {
-  //     const data = await getMovies();
-  //     setMovies(data);
-  //   };
-
-  //   const fetchGenres = async () => {
-  //     const data = await getGenres();
-  //     setGenres(data);
-  //   };
-
-  //   fetchMovies();
-  //   fetchGenres();
-  // }, []);
-
-  // console.log("tesm", movies);
-  // console.log("tesg", genres);
-
-
-
   useEffect(() => {
   
     const fetchData = async () => {

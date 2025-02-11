@@ -42,6 +42,7 @@ import BookingPage from "./pages/public/payment/index.jsx";
 import MovieDetail from "./pages/public/movie-detail/index.jsx";
 import ScheduleList from "./pages/admin/schedules/detail.jsx";
 import PublicMovies from "./pages/public/movies/index.jsx";
+import UserCreate from "./pages/admin/users/create.jsx";
 
 
 function App() {
@@ -127,7 +128,7 @@ function App() {
 
             <Route path="users">
               <Route index element={<AdminUsers />} />
-              <Route path="create" element={<BookingCreate />} />
+              <Route path="create" element={<UserCreate />} />
               <Route path="edit/:id" element={<BookingEdit />} />
             </Route>
           </Route>
