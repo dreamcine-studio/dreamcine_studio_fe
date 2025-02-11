@@ -11,7 +11,7 @@ export const createPaymentmethod = async (data) => {
   try {
     const response = await API.post("/payment_methods", data, {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
       },
     });
     return response.data;
@@ -26,7 +26,7 @@ export const updatePaymentmethod = async (data) => {
   try {
     const response = await API.post("/payment_methods", data, {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
       },
     });
     return response.data;
@@ -42,7 +42,7 @@ export const deletePaymentmethod = async (id) => {
   try {
     await API.delete(`/payment_methods/${id}`, {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
       },
     });
   } catch (err) {
