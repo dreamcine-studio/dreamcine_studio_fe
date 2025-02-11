@@ -1,4 +1,4 @@
-import API from "../api";
+import { API } from "../api";
 
 export const login = async ({ email, password }) => {
   try {
@@ -22,8 +22,8 @@ export const register = async ({ name, email, password }) => {
 
 export const logout = () => {
   try {
-    sessionStorage.removeItem("accessToken");
-    sessionStorage.removeItem("userInfo");
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("userInfo");
   } catch (err) {
     console.log(err);
   }

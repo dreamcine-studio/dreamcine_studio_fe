@@ -1,8 +1,7 @@
 import axios from "axios";
 
-const API = axios.create({
-  baseURL: 'http://127.0.0.1:8000/api'
+export const API = axios.create({
+  baseURL: 'https://api-studio.karyakreasi.id/api'
 })
 
-
-export default API
+export const publicStorage = 'https://api-studio.karyakreasi.id/storage/movies/'

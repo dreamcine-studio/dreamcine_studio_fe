@@ -1,4 +1,5 @@
-import API from "../api";
+import { API } from "../api";
+
 
 export const getPaymentmethods = async () => {
   const { data } = await API.get("/payment_methods");

@@ -133,7 +133,7 @@ export default function AdminStudios() {
                     </h5>
                   </td>
                   <td className="px-4 py-5">
-                    <p className="text-black dark:text-white">{studio.description}</p>
+                    <p className="text-black dark:text-white">{studio.location}</p>
                   </td>
 
                   <td className="px-4 py-5">
