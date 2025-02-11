@@ -24,12 +24,12 @@ export default function Login() {
       const res = await login(inputData);
 
       // Jika login berhasil, simpan token dan user info
-      sessionStorage.setItem("accessToken", res.token);
-      sessionStorage.setItem("userInfo", JSON.stringify(res.user));
+      localStorage.setItem("accessToken", res.token);
+      localStorage.setItem("userInfo", JSON.stringify(res.user));
 
-      const redirectTo = sessionStorage.getItem("redirectAfterLogin");
+      const redirectTo = localStorage.getItem("redirectAfterLogin");
 if (redirectTo) {
-  sessionStorage.removeItem("redirectAfterLogin");
+  localStorage.removeItem("redirectAfterLogin");
   return navigate(redirectTo); 
 }
 
@@ -50,7 +50,7 @@ if (redirectTo) {
     }
   };
 
-  const accessToken = sessionStorage.getItem("accessToken");
+  const accessToken = localStorage.getItem("accessToken");
 
   useEffect(() => {
     if (accessToken) {
