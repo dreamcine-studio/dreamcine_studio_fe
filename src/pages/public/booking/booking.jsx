@@ -95,8 +95,8 @@ export default function MovieSeat() {
   const createBookingDetails = async (e) => {
     e.preventDefault();
 
-    const token = localStorage.getItem("accessToken");
-    const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+    const token = sessionStorage.getItem("accessToken");
+    const userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
 
     if (!token) {
       sessionStorage.setItem("redirectAfterLogin", `${window.location.pathname + window.location.search}`);
