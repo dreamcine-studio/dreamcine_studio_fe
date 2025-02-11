@@ -33,6 +33,9 @@ export default function AdminPayments() {
     fetchData();
   }, []);
 
+  console.log(paymentMethods);
+  
+
   const formatRupiah = (number) => {
     return new Intl.NumberFormat("id-ID", {
       style: "currency",
