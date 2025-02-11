@@ -82,7 +82,7 @@ export default function AdminSeats() {
       <div className="overflow-x-auto">
         <table className="w-full table-auto mt-6">
           <thead className="border p-1 bg-gray-50 dark:bg-gray-900 text-white">
-          <tr className="bg-gray-2 dark:bg-meta-4">
+            <tr className="bg-gray-2 dark:bg-meta-4">
               <th className="min-w-[220px] py-4 font-bold text-gray-700 dark:text-white uppercase border text-center">Studio</th>
               <th className="min-w-[220px] py-4 font-bold text-gray-700 dark:text-white uppercase border text-center">Seat Info</th>
               <th className="min-w-[220px] py-4 font-bold text-gray-700 dark:text-white uppercase border text-center">Seat Number</th>
@@ -96,23 +96,46 @@ export default function AdminSeats() {
                 <tr key={row.id}>
                   {index === 0 && (
                     <>
-                      <td rowSpan={data.rows.length} className="px-4 py-5 font-bold text-black dark:text-white border">
+                      <td
+                        rowSpan={data.rows.length}
+                        className="px-4 py-5 font-bold text-black dark:text-white border"
+                      >
                         {key.split(" | ")[0]}
                       </td>
-                      <td rowSpan={data.rows.length} className="px-4 py-5 font-medium text-black dark:text-white border">
+                      <td
+                        rowSpan={data.rows.length}
+                        className="px-4 py-5 font-medium text-black dark:text-white border"
+                      >
                         <span className="text-green-500 font-bold">
-                          Seat Available: {data.maxseats - data.rows.length}
+                          Seat Available:{" "}
+                          {getStudioDetails(data.rows[0].id).maxseats -
+                            data.rows.reduce(
+                              (total, r) =>
+                                total +
+                                (Array.isArray(r.seatNumber)
+                                  ? r.seatNumber.length
+                                  : 1),
+                              0
+                            )}
                         </span>
                         <br />
                         <span className="text-red-500 font-bold">
-                          Seat Sold: {data.rows.length}
+                          Seat Sold:{" "}
+                          {data.rows.reduce(
+                            (total, r) =>
+                              total +
+                              (Array.isArray(r.seatNumber)
+                                ? r.seatNumber.length
+                                : 1),
+                            0
+                          )}
                         </span>
                       </td>
                     </>
                   )}
                   <td className="px-4 py-5 font-medium text-black dark:text-white border">
                     <p className="px-4">{row.seatNumber.join(", ")}</p>
-                    </td>
+                  </td>
                   <td className="px-4 py-5 border text-center">
                     <select
                       value={row.isBooked ? "true" : "false"}
