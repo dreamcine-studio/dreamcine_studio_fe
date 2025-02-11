@@ -4,6 +4,7 @@ import { login } from "../../../services/auth"; // Pastikan fungsi login menghub
 
 export default function Login() {
   const [theme, setTheme] = useState("light"); // Default "light"
+  const[errors, setErrors] = useState({})
 
   const [inputData, setInput] = useState({
     email: "",
@@ -60,6 +61,9 @@ if (redirectTo) {
         setErrorMessage("Terjadi kesalahan, silakan coba lagi.");
       }
     }
+    
+    // console.log(error.response.data.message)
+
   };
 
   const accessToken = localStorage.getItem("accessToken");
@@ -101,6 +105,10 @@ if (redirectTo) {
                 >
                   Your email
                 </label>
+                {errors.description && (
+                     <Error res={errors.description[0]} />
+                 )}
+                
                 <input
                   value={inputData.email}
                   onChange={handleInput}

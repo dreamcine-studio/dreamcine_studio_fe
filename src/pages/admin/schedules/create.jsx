@@ -3,6 +3,7 @@ import { getMovies } from "../../../services/movies";
 import { getStudios } from "../../../services/studios";
 import { useNavigate } from "react-router-dom";
 import { createSchedules } from "../../../services/schedules";
+import Error from "../../../components/Error";
 
 export default function ScheduleCreate() {
   const [errors, setErrors] = useState([]);
@@ -91,6 +92,10 @@ export default function ScheduleCreate() {
                 <label className="mb-3 block text-sm font-bold text-gray-900 dark:text-white">
                   Movie
                 </label>
+                 {errors.movie_id && (
+                       <Error res={errors.movie_id[0]} />
+                     )}
+
                 <select
                   name="movie_id"
                   onChange={handleInputChange}
@@ -110,6 +115,11 @@ export default function ScheduleCreate() {
                 <label className="mb-3 block text-sm font-bold text-gray-900 dark:text-white">
                   Studio
                 </label>
+                {errors.studio_id && (
+                       <Error res={errors.studio_id[0]} />
+                     )}
+
+
                 <select
                   name="studio_id"
                   onChange={handleInputChange}
@@ -129,6 +139,11 @@ export default function ScheduleCreate() {
                 <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white :text-white dark:text-white">
                   Showdate Start
                 </label>
+                {errors.showdate_start && (
+                       <Error res={errors.showdate_start[0]} />
+                     )}
+
+
                 <input
                   type="date"
                   name="showdate_start"
@@ -141,6 +156,10 @@ export default function ScheduleCreate() {
                 <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white :text-white">
                   Showdate End
                 </label>
+                {errors.showdate_end && (
+                       <Error res={errors.showdate_end[0]} />
+                     )}
+
                 <input
                   type="date"
                   name="showdate_end"
@@ -155,6 +174,10 @@ export default function ScheduleCreate() {
                     <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                       Showtime {index + 1}
                     </label>
+                    {errors.showtime && (
+                       <Error res={errors.showtime[0]} />
+                     )}
+
                     <input
                       type="time"
                       name={`showtime[${index}]`} // Penting: name tetap seperti ini

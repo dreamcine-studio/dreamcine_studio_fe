@@ -32,23 +32,16 @@ export default function GenreEdit() {
     }
   };
 
-  // untuk menjalakan fetch nya, kayka function biasa
-  // fetchBookDetails()
 
-  // lebih baik kita pakai useEffect
 
   useEffect(() => {
     fetchGenreDetails();
   }, []);
 
-  //update book data
-  // ini pakai async karena di service nya pakai async pada update
-  // ini untuk ke form
   const updateGenreDetails = async (e) => {
     e.preventDefault();
 
-    // di React untuk menampung data yang di edit, kita menggunakan nama nya FormData
-    // bawaan React
+
 
     // buat FormData
     const genreData = new FormData();
