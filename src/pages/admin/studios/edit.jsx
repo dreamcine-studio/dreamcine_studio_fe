@@ -7,7 +7,6 @@ export default function StudioEdit() {
 
   // ini dari masing masing,
   const [name, setName] = useState("");
-  const [location, setLocation] = useState("");
   const [maxseats, setMaxSeat] = useState("");
 
   // destruct id dari URL
@@ -21,7 +20,6 @@ export default function StudioEdit() {
     const studio = data.find((book) => book.id === parseInt(id));
     if (studio) {
       setName(studio.name);
-      setLocation(studio.location);
       setMaxSeat(studio.maxseats);
     }
   };
@@ -44,7 +42,6 @@ export default function StudioEdit() {
     const studioData = new FormData();
 
     studioData.append("name", name);
-    studioData.append("location", location);
     studioData.append("maxseats", maxseats);
 
     studioData.append("_method", "PUT");
@@ -83,25 +80,6 @@ export default function StudioEdit() {
                 name="name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-blue-600 active:border-blue-600 disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-blue-600 dark:text-white"
-              />
-            </div>
-
-            <div className="mb-4.5">
-              <label className="mb-3 block text-base font-medium text-black dark:text-white">
-                Location
-              </label>
-              {errors.location && (
-                <div className="p-2 my-2 text-sm text-red-800 rounded-lg bg-red-50">
-                  <span className="font-medium">{errors.location[0]}</span>
-                </div>
-              )}
-
-              <input
-                type="text"
-                name="location"
-                value={location}
-                onChange={(e) => setLocation(e.target.value)}
                 className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-blue-600 active:border-blue-600 disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-blue-600 dark:text-white"
               />
             </div>

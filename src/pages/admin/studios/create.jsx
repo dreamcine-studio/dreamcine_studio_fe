@@ -8,7 +8,6 @@ export default function StudioCreate() {
 
   const [studioData, setGenreData] = useState({
     name: "",
-    location: "",
     maxseats: "",
   });
 
@@ -26,7 +25,6 @@ export default function StudioCreate() {
     const formDataToSendGenre = new FormData();
 
     formDataToSendGenre.append("name", studioData.name);
-    formDataToSendGenre.append("location", studioData.location);
     formDataToSendGenre.append("maxseats", studioData.maxseats);
 
     try {
@@ -67,24 +65,6 @@ export default function StudioCreate() {
               />
             </div>
 
-            <div className="mb-4.5">
-              <label className="mb-3 block text-base font-medium text-black dark:text-white">
-                Location
-              </label>
-              {errors.location && (
-                <Error res={errors.location[0]} />
-               )}
-
-
-              <input
-                placeholder="Masukkan Lokasi Studio"
-                type="text"
-                name="location"
-                value={studioData.location}
-                onChange={handleInputChange}
-                className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-blue-600 active:border-blue-600 disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-blue-600"
-              />
-            </div>
 
             <div className="mb-4.5">
               <label className="mb-3 block text-base font-medium text-black dark:text-white">

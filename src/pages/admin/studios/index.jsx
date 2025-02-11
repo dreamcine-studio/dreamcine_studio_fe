@@ -116,7 +116,7 @@ export default function AdminStudios() {
                 Name
               </th>
               <th className="min-w-[220px] px-4 py-4 font-bold text-gray-700 dark:text-white uppercase">
-                Description
+                Max Seat
               </th>
               <th className="min-w-[220px] px-4 py-4 font-bold text-gray-700 dark:text-white uppercase">
                 Action
@@ -133,7 +133,7 @@ export default function AdminStudios() {
                     </h5>
                   </td>
                   <td className="px-4 py-5">
-                    <p className="text-black dark:text-white">{studio.location}</p>
+                    <p className="text-black dark:text-white">{studio.maxseats}</p>
                   </td>
 
                   <td className="px-4 py-5">

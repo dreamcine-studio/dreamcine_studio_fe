@@ -130,6 +130,7 @@ export default function MovieSeat() {
     seatData.append("studio_id", studioId);
     seatData.append("movie_id", movieId);
 
+    console.log(bookingData)
     try {
       await createBooking(bookingData);
       await createSeat(seatData);
