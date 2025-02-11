@@ -17,7 +17,6 @@ export default function GenreCreate() {
   
 // Handle input change
 const handleInputChange = (event) => {
-
   const {name, value} = event.target
   setGenreData({...genreData, [name]: value});
 }

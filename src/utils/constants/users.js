@@ -5,7 +5,7 @@ const users = [
     email: "admin@example.com"
   },
   {
-    name: "customer",
+    name: "Azhar Fikri",
     role: "customer",
     email: "customer@example.com"
   }

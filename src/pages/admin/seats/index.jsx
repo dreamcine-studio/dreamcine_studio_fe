@@ -34,8 +34,8 @@ export default function AdminSeats() {
   };
 
   const groupedSeats = seats.reduce((acc, seat) => {
-    const { name, location, maxseats } = getStudioDetails(seat.studio_id);
-    const key = `${name} | ${location}`;
+    const { name, maxseats } = getStudioDetails(seat.studio_id);
+    const key = `${name}`;
 
     if (!acc[key]) {
       acc[key] = { rows: [], maxseats };
@@ -84,7 +84,6 @@ export default function AdminSeats() {
           <thead className="border p-1 bg-gray-50 dark:bg-gray-900 text-white">
           <tr className="bg-gray-2 dark:bg-meta-4">
               <th className="min-w-[220px] py-4 font-bold text-gray-700 dark:text-white uppercase border text-center">Studio</th>
-              <th className="min-w-[220px] py-4 font-bold text-gray-700 dark:text-white uppercase border text-center">Location</th>
               <th className="min-w-[220px] py-4 font-bold text-gray-700 dark:text-white uppercase border text-center">Seat Info</th>
               <th className="min-w-[220px] py-4 font-bold text-gray-700 dark:text-white uppercase border text-center">Seat Number</th>
               <th className="min-w-[220px] py-4 font-bold text-gray-700 dark:text-white uppercase border text-center">Is Booked</th>
@@ -99,9 +98,6 @@ export default function AdminSeats() {
                     <>
                       <td rowSpan={data.rows.length} className="px-4 py-5 font-bold text-black dark:text-white border">
                         {key.split(" | ")[0]}
-                      </td>
-                      <td rowSpan={data.rows.length} className="px-4 py-5 font-medium text-black dark:text-white border">
-                        {key.split(" | ")[1]}
                       </td>
                       <td rowSpan={data.rows.length} className="px-4 py-5 font-medium text-black dark:text-white border">
                         <span className="text-green-500 font-bold">

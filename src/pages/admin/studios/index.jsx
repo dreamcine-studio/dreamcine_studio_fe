@@ -120,6 +120,7 @@ export default function AdminStudios() {
               </th>
               <th className="min-w-[220px] px-4 py-4 font-bold text-gray-700 dark:text-white uppercase">
                 Max Seats
+                Max Seat
               </th>
               <th className="min-w-[220px] px-4 py-4 font-bold text-gray-700 dark:text-white uppercase">
                 Action

@@ -21,7 +21,7 @@ export default function Payment() {
 
   const [error, setError] = useState([]);
   const [loading, setLoading] = useState([]);
-  // const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+  // const userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
 
   const [payment_methods, setPaymentMethods] = useState([]);
   const [selectedMethod, setSelectedMethod] = useState(null);
@@ -66,7 +66,7 @@ export default function Payment() {
     fetchData();
   }, []);
 
-  // console.log("datab", booking);
+  console.log("datab", booking.amount);
   // console.log("datas", schedule);
 
   const getMovie = (id) => {
@@ -103,9 +103,9 @@ export default function Payment() {
     e.preventDefault();
 
     const formDataToSendPayment = new FormData();
-    formDataToSendPayment.append("booking_id", paymentData.booking_id);
-    formDataToSendPayment.append("payment_method_id", paymentData.payment_method_id);
-    formDataToSendPayment.append("amount", paymentData.amount);
+    formDataToSendPayment.append("booking_id", booking.id);
+    formDataToSendPayment.append("payment_method_id", selectedMethod);
+    formDataToSendPayment.append("amount", booking.amount);
 
     try {
       await createPayments(formDataToSendPayment);
@@ -135,8 +135,6 @@ export default function Payment() {
           account_number: "",
         };
   };
-  console.log(selectedMethod);
-  
 
   return (
     <form onSubmit={storePayment} className="max-w-md mx-auto bg-white shadow-lg rounded-lg p-6"> 
@@ -176,7 +174,7 @@ export default function Payment() {
       {/* Order Summary */}
       <div className="space-y-2 mt-4">
         <dl
-          onChange={handleInputChange}
+          // onChange={handleInputChange}
           className="flex items-center justify-between gap-4 border-t border-gray-200 pt-2"
         >
           <dt className="text-base text-gray-900">Original price</dt>
@@ -186,7 +184,7 @@ export default function Payment() {
         </dl>
 
         <dl
-          onChange={handleInputChange}
+          // onChange={handleInputChange}
           className="flex items-center justify-between gap-4 border-gray-200 pt-2"
         >
           <dt className="text-base text-gray-900">Seat</dt>
