@@ -26,3 +26,21 @@ export const deleteUsers = async (id) => {
     throw err;
   }
 };
+
+
+
+// update, kita butuh id dan data
+
+export const updateUsers = async (id, data) => {
+  try {
+    const response = await API.post(`/users/${id}`, data, {
+      headers: {
+        Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
+      },
+    });
+    return response.data;
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+};

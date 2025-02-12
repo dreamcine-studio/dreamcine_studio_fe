@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { getGenres, updateGenre } from "../../../services/genre";
+import { getUsers, updateUsers } from "../../../services/user";
 
 export default function UserEdit() {
   // menanpilkan error
@@ -8,7 +8,8 @@ export default function UserEdit() {
 
   // ini dari masing masing,
   const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
+  const [role, setRole] = useState("");
+  const [email, setEmail] = useState("");
 
   // destruct id dari URL
   const { id } = useParams();
@@ -16,29 +17,30 @@ export default function UserEdit() {
   const navigate = useNavigate();
 
   // kita coba fetch data buku berdasarkan ID
-  const fetchGenreDetails = async () => {
+  const fetchUserDetails = async () => {
     // dari sini kita ambil data nya dari sevices getBooks
 
     // getBooks ini kita masukan ke dalam variable nama nya data
-    const data = await getGenres(); // getBooks() mengambil semua data buku
+    const data = await getUsers(); // getBooks() mengambil semua data buku
 
-    // kita coba, cari data buku berdasarkan id
-    const genre = data.find((book) => book.id === parseInt(id));
+    // kita coba, cari data user berdasarkan id
+    const user = data.find((user) => user.id === parseInt(id));
     // console.log(book)
-    if (genre) {
+    if (user) {
       // assign data to state (ini setter function  nya yang di pakai)
-      setName(genre.name); // ini format nya object json pakai titik
-      setDescription(genre.description);
+      setName(user.name); // ini format nya object json pakai titik
+      setRole(user.role);
+      setEmail(user.email);
     }
   };
 
 
 
   useEffect(() => {
-    fetchGenreDetails();
+    fetchUserDetails();
   }, []);
 
-  const updateGenreDetails = async (e) => {
+  const updateUserDetails = async (e) => {
     e.preventDefault();
 
 
@@ -48,18 +50,19 @@ export default function UserEdit() {
 
 
     genreData.append("name", name);
-    genreData.append("description", description);
+    genreData.append("role", role);
+    genreData.append("email", email);
 
     // ini kita tambahkan _method    put
     genreData.append("_method", "PUT");
 
 
     // ini updateBook ambil dari service books.js
-    await updateGenre(id, genreData)
+    await updateUsers(id, genreData)
       // jika berhasil kita mau apa, kita pindah pakai navigate
       .then(() => {
         //berhasil, kita redirect ke halaman index.
-        navigate("/admin/genres");
+        navigate("/admin/users");
         // console.log(genreData)
       })
       .catch((err) => {
@@ -75,7 +78,7 @@ export default function UserEdit() {
             Edit Genre Data
           </h3>
         </div>
-        <form onSubmit={updateGenreDetails} className="py-5">
+        <form onSubmit={updateUserDetails} className="py-5">
           <div className="p-6.5 flex flex-col gap-5">
             <div className="mb-4.5">
               <label className="mb-3 block text-base font-medium text-black dark:text-white">
@@ -98,23 +101,48 @@ export default function UserEdit() {
 
             <div className="mb-4.5">
               <label className="mb-3 block text-base font-medium text-black dark:text-white">
-                Description
+                Role
               </label>
 
-              {errors.description && (
+              {errors.role && (
                 <div className="p-2 my-2 text-sm text-red-800 rounded-lg bg-red-50">
-                  <span className="font-medium">{errors.description[0]}</span>
+                  <span className="font-medium">{errors.role[0]}</span>
                 </div>
               )}
 
-              <textarea
+              <input
                 rows="6"
-                value={description}
-                name="description"
-                onChange={(e) => setDescription(e.target.value)}
+                value={role}
+                name="role"
+                onChange={(e) => setRole(e.target.value)}
                 className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-blue-600 active:border-blue-600 disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-blue-600 dark:text-white"
-              ></textarea>
+              ></input>
             </div>
+
+
+
+            <div className="mb-4.5">
+              <label className="mb-3 block text-base font-medium text-black dark:text-white">
+                Email
+              </label>
+
+              {errors.email && (
+                <div className="p-2 my-2 text-sm text-red-800 rounded-lg bg-red-50">
+                  <span className="font-medium">{errors.email[0]}</span>
+                </div>
+              )}
+
+              <input
+                rows="6"
+                value={email}
+                name="email"
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-blue-600 active:border-blue-600 disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-blue-600 dark:text-white"
+              ></input>
+            </div>
+
+
+
 
             <button
               type="submit"
