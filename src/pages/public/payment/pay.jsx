@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { getPaymentmethods } from "../../../services/paymentMethod";
 import { showBooking } from "../../../services/booking";
 import { useNavigate, useParams } from "react-router-dom";
-// import { getPayments } from "../../../services/payment";
 import { getMovies } from "../../../services/movies";
 import { getSchedules } from "../../../services/schedules";
 import { createPayments } from "../../../services/payment";
@@ -11,6 +10,11 @@ export default function Payment() {
   const [booking, setBooking] = useState([]);
   const [schedule, setSchedule] = useState([]);
   const [movies, setMovie] = useState([]);
+  const [error, setError] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  const [payment_methods, setPaymentMethods] = useState([]);
+  const [selectedMethod, setSelectedMethod] = useState(null);
   const [paymentData, setPaymentData] = useState({
     booking_id: "",
     payment_method_id: "",
@@ -18,14 +22,6 @@ export default function Payment() {
   });
 
   const navigate = useNavigate();
-
-  const [error, setError] = useState([]);
-  const [loading, setLoading] = useState([]);
-  // const userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
-
-  const [payment_methods, setPaymentMethods] = useState([]);
-  const [selectedMethod, setSelectedMethod] = useState(null);
-  // const [timeRemaining, setTimeRemaining] = useState(30 * 60); // 30 menit dalam detik
 
   const { id } = useParams();
 
@@ -74,17 +70,6 @@ export default function Payment() {
     return movie ? movie.price : "Unknown movie";
   };
 
-  // console.log("movie", schedule.id);
-  // console.log("tes", booking.amount)
-
-  // useEffect(() => {
-  //   const timer = setInterval(() => {
-  //     setTimeRemaining((prev) => (prev > 0 ? prev - 1 : 0));
-  //   }, 1000);
-
-  //   return () => clearInterval(timer);
-  // }, []);
-
   const formatRupiah = (number) => {
     return new Intl.NumberFormat("id-ID", {
       style: "currency",
@@ -117,12 +102,6 @@ export default function Payment() {
     }
   };
 
-  // const formatTime = (seconds) => {
-  //   const minutes = Math.floor(seconds / 60);
-  //   const secs = seconds % 60;
-  //   return `${minutes}:${secs < 10 ? "0" : ""}${secs}`;
-  // };
-
   const getPaymentMethodsName = (id) => {
     const payment_method = payment_methods.find((pm) => pm.id === id);
     return payment_method
@@ -137,7 +116,10 @@ export default function Payment() {
   };
 
   return (
-    <form onSubmit={storePayment} className="max-w-md mx-auto bg-white shadow-lg rounded-lg p-6"> 
+    <form
+      onSubmit={storePayment}
+      className="max-w-md mx-auto bg-white shadow-lg rounded-lg p-6"
+    >
       <h2 className="text-lg font-semibold mb-4">Payment</h2>
 
       {payment_methods.length > 0 ? (
@@ -209,15 +191,15 @@ export default function Payment() {
             {formatRupiah(booking.amount)}
           </dd>
         </dl>
-        </div>
-        {/* Buttons */}
-        <div className="flex justify-between mt-4">
-          <button
-            type="submit"
-            className="bg-red-500 text-white w-full hover:bg-red-600 px-4 py-2 rounded-lg"
-          >
-            Pay now
-          </button>
+      </div>
+      {/* Buttons */}
+      <div className="flex justify-between mt-4">
+        <button
+          type="submit"
+          className="bg-red-500 text-white w-full hover:bg-red-600 px-4 py-2 rounded-lg"
+        >
+          Pay now
+        </button>
       </div>
     </form>
   );
