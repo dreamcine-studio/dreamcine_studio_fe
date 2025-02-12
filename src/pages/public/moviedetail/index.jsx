@@ -4,6 +4,7 @@ import { getGenres } from "../../../services/genre";
 import { getSchedules } from "../../../services/schedules";
 import { getStudios } from "../../../services/studios";
 import { Link, useParams } from "react-router-dom";
+import { publicStorage } from "../../../api";
 
 export default function MovieDetail() {
   const [movie, setMovie] = useState({});
@@ -102,7 +103,8 @@ export default function MovieDetail() {
             {movie.poster ? (
               <img
                 // src={movie.poster}
-                src={`http://127.0.0.1:8000/storage/movies/${movie.poster}`}
+              src={publicStorage + movie.poster}
+                
                 className="h-96 w-auto rounded-lg shadow-md mx-auto mb-4"
                 alt={movie.title}
               />
