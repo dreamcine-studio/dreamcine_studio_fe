@@ -16,42 +16,40 @@ export default function AdminBookings() {
     const fetchData = async () => {
       setLoading(true);
       setError(null);
+
       try {
-              const [bookingData, paymentData] =
-                await Promise.all([
-                  getBooking(),
-                  getPayments(),
-                ]);
-      
-              const booking = bookingData.filter(
-                (booking) => booking.user_id === parseInt(userInfo.id)
-              );
-              setBooking(booking);
+        const [bookingData, paymentData] = await Promise.all([
+          getBooking(),
+          getPayments(),
+        ]);
 
-              const payment = paymentData.filter(
-                (payment) => payment.booking_id === parseInt(id)
-              );
-              setPayment(payment);
-      
+        const booking = bookingData.filter(
+          (booking) => booking.user_id === parseInt(userInfo.id)
+        );
+        const payment = paymentData.filter(
+          (payment) => payment.booking_id === parseInt(id)
+        );
 
+        setBooking(booking);
+        setPayment(payment);
 
-              // Extract schedule ID from booking data
-              if (paymentData && paymentData.booking_id) {
-                const selectedbooking = bookingData.filter(
-                  (b) => b.id === paymentData.booking_id
-                );
-                setBooking(selectedbooking);
-              } else {
-                setPayment(null);
-              }
-            } catch (error) {
-              setError("Failed to fetch data, please try again later.");
-              console.log(error);
-            } finally {
-              setLoading(false);
-            }
-          };
-          fetchData();
+        // // Extract schedule ID from booking data
+        // if (paymentData && paymentData.booking_id) {
+        //   const selectedbooking = bookingData.filter(
+        //     (b) => b.id === paymentData.booking_id
+        //   );
+        //   setBooking(selectedbooking);
+        // } else {
+        //   setPayment(null);
+        // }
+      } catch (error) {
+        setError("Failed to fetch data, please try again later.");
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
     // const fetchBooking = async () => {
     //   try {
     //     const data = await getBooking();
@@ -73,8 +71,8 @@ export default function AdminBookings() {
     return pay ? pay.id : "Unknown pay";
   };
 
-    console.log("test", booking);
-    console.log("pay", payment);
+  console.log("test", booking);
+  console.log("pay", payment);
 
   const formatRupiah = (number) => {
     return new Intl.NumberFormat("id-ID", {
@@ -93,8 +91,6 @@ export default function AdminBookings() {
           <table className="w-full table-auto border-collapse border border-gray-200">
             <thead className="bg-gray-50">
               <tr>
-
-
                 <th className="border px-4 py-2 text-left">User</th>
                 <th className="border px-4 py-2 text-left">Quantity</th>
                 <th className="border px-4 py-2 text-left">Amount</th>
@@ -102,22 +98,23 @@ export default function AdminBookings() {
               </tr>
             </thead>
             <tbody>
-
               {booking.map((booking) => (
-              <tr key={booking.user_id} className="hover:bg-gray-50">
-                <td className="border px-4 py-2">{userInfo.id}</td>
-                <td className="border px-4 py-2">{booking.quantity}</td>
-                <td className="border px-4 py-2">{formatRupiah(booking.amount)}</td>
+                <tr key={booking.user_id} className="hover:bg-gray-50">
+                  <td className="border px-4 py-2">{userInfo.id}</td>
+                  <td className="border px-4 py-2">{booking.quantity}</td>
+                  <td className="border px-4 py-2">
+                    {formatRupiah(booking.amount)}
+                  </td>
 
-                <td className="border px-4 py-2">
-                  <Link
-                    to={`/booking/pay/${booking.id}`}
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-6"
-                  >
-                    Pay
-                  </Link>
-                </td>
-              </tr>
+                  <td className="border px-4 py-2">
+                    <Link
+                      to={`/booking/pay/${booking.id}`}
+                      className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-6"
+                    >
+                      Pay
+                    </Link>
+                  </td>
+                </tr>
               ))}
             </tbody>
           </table>
