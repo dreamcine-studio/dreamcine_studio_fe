@@ -30,7 +30,7 @@ export default function MovieList({ length }) {
         // Filter hanya film yang memiliki jadwal tayang
         const filteredMovies = moviesData
           .filter((movie) => movieIdsWithSchedule.has(movie.id))
-          .map(({ id, title, poster}) => ({
+          .map(({ id, title, poster }) => ({
             id,
             title,
             poster,

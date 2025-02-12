@@ -22,9 +22,9 @@ export const createPaymentmethod = async (data) => {
 };
 
 
-export const updatePaymentmethod = async (data) => {
+export const updatePaymentmethod = async (id, data) => {
   try {
-    const response = await API.post("/payment_methods", data, {
+    const response = await API.post(`/payment_methods/${id}`, data, {
       headers: {
         Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
       },

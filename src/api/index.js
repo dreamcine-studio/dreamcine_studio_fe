@@ -6,4 +6,4 @@ export const API = axios.create({
   baseURL: `${url}/api`
 })
 
-export const publicStorage = `${url}/storage/movies`
+export const publicStorage = `${url}/storage/movies/`
