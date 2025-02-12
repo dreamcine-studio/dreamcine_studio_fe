@@ -88,7 +88,9 @@ export default function MovieEdit() {
     <div className="flex flex-col gap-9 min-h-screen">
       <div className="rounded-sm shadow-default dark:bg-boxdark">
         <div className="border-b border-stroke px-6.5 py-4 dark:border-strokedark">
-          <h3 className="text-xl font-semibold text-black dark:text-white uppercase">Edit Movie Data</h3>
+          <h3 className="text-xl font-semibold text-black dark:text-white uppercase">
+            Edit Movie Data
+          </h3>
         </div>
         <form onSubmit={updateMovieDetail} className="py-5">
           <div className="p-6.5 flex flex-col gap-5">
