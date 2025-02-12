@@ -62,7 +62,7 @@ export default function Payment() {
     fetchData();
   }, []);
 
-  console.log("datab", booking.amount);
+  // console.log("datab", booking.amount);
   // console.log("datas", schedule);
 
   const getMovie = (id) => {

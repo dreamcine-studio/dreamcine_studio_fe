@@ -94,6 +94,14 @@ export default function MovieDetail() {
     }, 200);
   };
 
+  const formatRupiah = (number) => {
+    return new Intl.NumberFormat("id-ID", {
+      style: "currency",
+      currency: "IDR",
+      minimumFractionDigits: 0,
+    }).format(number);
+  };
+
   return (
     <div className="w-full p-4 dark:bg-gray-900 mt-24">
       <div className="container mx-auto px-4 py-8">
@@ -167,7 +175,10 @@ export default function MovieDetail() {
                           formatDateString(schedule.showdate_start)}
                       </h4>
                       <p>
-                        Studio:{" "}
+                        Harga : {formatRupiah(movie.price)}
+                      </p>
+                      <p>
+                        Studio :{" "}
                         {studios.find(
                           (studio) => studio.id === schedule.studio_id
                         )?.name || "Unknown Studio"}
