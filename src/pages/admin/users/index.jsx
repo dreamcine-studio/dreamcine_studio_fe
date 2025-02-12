@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { getUsers } from "../../../services/user";
-// import { deleteUsers, getUsers } from "../../../services/user";
 // import { Link } from "react-router-dom";
 
 export default function AdminUsers() {
@@ -17,7 +16,7 @@ export default function AdminUsers() {
       try {
         const userData = await getUsers();
         // Memfilter data untuk mengecualikan user dengan role 'Admin'
-        const filteredUsers = userData.filter(user => user.role !== 'admin');
+        const filteredUsers = userData.filter(user => user.role !== 'Admin');
         setUsers(filteredUsers);
       } catch (error) {
         setError("Failed to fetch data, please try again later.");
@@ -55,18 +54,7 @@ export default function AdminUsers() {
     );
   }
 
-  // const handleDelete = async (id) => {
-  //   const confirmDelete = window.confirm("Apakah Anda yakin ingin Menghapus Data ini ?");
 
-  //   if (confirmDelete) {
-  //     await deleteUsers(id);
-
-  //     // Update users list after deletion
-  //     setUsers(users.filter(user => user.id !== id));
-  //     alert("Data berhasil di hapus");
-
-  //   }
-  // }
 
   return (
     <div className="space-y-2 min-h-screen w-full rounded-sm shadow-default dark:bg-boxdark sm:px-7.5 xl:pb-1">
@@ -88,7 +76,6 @@ export default function AdminUsers() {
               <th className="min-w-[150px] px-4 py-4 font-bold text-gray-700 dark:text-white xl:pl-11 uppercase">Name</th>
               <th className="min-w-[220px] px-4 py-4 font-bold text-gray-700 dark:text-white uppercase">Role</th>
               <th className="min-w-[220px] px-4 py-4 font-bold text-gray-700 dark:text-white uppercase">Email</th>
-              {/* <th className="min-w-[220px] px-4 py-4 font-bold text-gray-700 dark:text-white uppercase">Action</th> */}
             </tr>
           </thead>
 
@@ -105,16 +92,8 @@ export default function AdminUsers() {
                   <td className="px-4 py-5">
                     <p className="text-black dark:text-white">{user.email}</p>
                   </td>
-                  {/* <td className="px-4 py-5">
-                    <div className="flex items-center space-x-3.5">
-                      <Link to={`/admin/users/edit/${user.id}`}>
-                        <i className="fa-solid fa-pen-to-square text-yellow-500"></i>
-                      </Link>
-                      <button onClick={() => handleDelete(user.id)}>
-                        <i className="fa-solid fa-trash text-red-700 dark:text-red-500"></i>
-                      </button>
-                    </div>
-                  </td> */}
+                  
+                  
                 </tr>
               ))
             ) : (
