@@ -23,15 +23,15 @@ export default function AdminBookings() {
           getPayments(),
         ]);
 
-        const booking = bookingData.filter(
+        const filteredBooking = bookingData.filter(
           (booking) => booking.user_id === parseInt(userInfo.id)
         );
-        const payment = paymentData.filter(
+        const filteredPayment = paymentData.filter(
           (payment) => payment.booking_id === parseInt(id)
         );
 
-        setBooking(booking);
-        setPayment(payment);
+        setBooking(filteredBooking);
+        setPayment(paymentData);
 
         // // Extract schedule ID from booking data
         // if (paymentData && paymentData.booking_id) {
@@ -64,11 +64,20 @@ export default function AdminBookings() {
     // };
 
     // fetchBooking();
-  }, []);
+  }, [userInfo.id, id]);
 
-  const getPay = (id) => {
-    const pay = payment.filter((item) => item.id === id);
-    return pay ? pay.id : "Unknown pay";
+  // const hasPayment = (bookingId) => {
+  //   return payment.some((payment) => payment.id === bookingId);
+  // };
+
+  // const hasPayment = (id) => {
+  //   const pay = payment.filter((item) => item.id === id);
+  //   return pay ? pay.id : "Unknown pay";
+  // };
+
+  const hasPaymentCode = (bookingId) => {
+    const paymentForBooking = payment.find((item) => item.booking_id === bookingId);
+    return paymentForBooking ? paymentForBooking.payment_code : null;
   };
 
   console.log("test", booking);
@@ -107,12 +116,21 @@ export default function AdminBookings() {
                   </td>
 
                   <td className="border px-4 py-2">
-                    <Link
-                      to={`/booking/pay/${booking.id}`}
-                      className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-6"
-                    >
-                      Pay
-                    </Link>
+                  {hasPaymentCode(booking.id) ? (
+                      <Link
+                        to={`/ticket`}
+                        className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mt-6"
+                      >
+                        Barcode
+                      </Link>
+                    ) : (
+                      <Link
+                        to={`/booking/pay/${booking.id}`}
+                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-6"
+                      >
+                        Pay
+                      </Link>
+                    )}
                   </td>
                 </tr>
               ))}
