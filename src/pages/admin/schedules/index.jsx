@@ -143,63 +143,53 @@ if (error){
                 <th className="py-4 px-4 font-bold text-gray-700 dark:text-white uppercase">Photo</th>
                 <th className="py-4 px-4 font-bold text-gray-700 dark:text-white uppercase">Title</th>
                 <th className="py-4 px-4 font-bold text-gray-700 dark:text-white uppercase">Studio</th>
-                <th className="py-4 px-4 font-bold text-gray-700 dark:text-white uppercase">Showtime</th>
                 <th className="py-4 px-4 font-bold text-gray-700 dark:text-white uppercase">Showdate</th>
                 <th className="py-4 px-4 font-bold text-gray-700 dark:text-white uppercase">Controls</th>
               </tr>
             </thead>
             <tbody>
-              {schedules.map((schedule, index) => (
-                <tr key={index} className="hover:bg-gray-100 dark:hover:bg-gray-600">
-                  <td className="py-4 px-4">
-                    <img
-                      src={getMovieData(schedule.movie_id).poster}
-                      alt={getMovieData(schedule.movie_id).title}
-                      className="w-16 h-16 object-cover rounded-lg"
-                    />
-                  </td>
-                  <td className="py-4 px-4 text-black dark:text-white">
-                    {getMovieData(schedule.movie_id).title}
-                  </td>
-                  <td className="py-4 px-4 text-black dark:text-white">
-                    {getStudioData(schedule.studio_id).name}
-                  </td>
-                  <td className="py-4 px-4">
-                    <div className="flex flex-wrap gap-2">
-                      {schedule.showtime && schedule.showtime.length > 0 ? (
-                        schedule.showtime.map((time, timeIndex) => (
-                          <div
-                            key={`${schedule.id}-${timeIndex}`}
-                            className="bg-gray-200 
-                            text-gray-800 py-1 px-3 rounded-lg text-sm"
-                          >
-                            {time}
-                          </div>
-                        ))
-                      ) : (
-                        <div className="text-gray-500">No showtimes available</div>
-                      )}
-                    </div>
-                  </td>
-                  <td className="py-4 px-4 text-black dark:text-white">
-                    {schedule.showdate_start} - {schedule.showdate_end}
-                  </td>
-                  <td className="py-4 px-4">
-                    <div className="flex items-center space-x-3.5">
-                      <Link to={`/admin/schedules/edit/${schedule.id}`}>
-                        <i className="fa-solid fa-pen-to-square text-orange-500"></i>
-                      </Link>
-                      {/* <Link to={`/admin/schedules/detail/${schedule.id}`}>
-                        <i class="fa-solid fa-circle-info"></i>
-                      </Link> */}
-                      <button onClick={() => handleDelete(schedule.id)}>
-                        <i className="fa-solid fa-trash text-red-700 dark:text-red-500"></i>
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
+  {schedules.length === 0 && (
+    <tr>
+      <td colSpan="5" className="text-center text-red-500 py-4">
+        No schedules found.
+      </td>
+    </tr>
+  )}
+  {schedules.map((schedule, index) => {
+    console.log("Schedule:", schedule); // Debug tiap schedule
+    return (
+      <tr key={index} className="hover:bg-gray-100 dark:hover:bg-gray-600">
+        <td className="py-4 px-4">
+          <img
+            src={getMovieData(schedule.movie_id).poster}
+            alt={getMovieData(schedule.movie_id).title}
+            className="w-16 h-16 object-cover rounded-lg"
+          />
+        </td>
+        <td className="py-4 px-4 text-black dark:text-white">
+          {getMovieData(schedule.movie_id).title}
+        </td>
+        <td className="py-4 px-4 text-black dark:text-white">
+          {getStudioData(schedule.studio_id).name}
+        </td>
+        <td className="py-4 px-4 text-black dark:text-white">
+          {schedule.showdate_start} - {schedule.showdate_end}
+        </td>
+        <td className="py-4 px-4">
+          <div className="flex items-center space-x-3.5">
+            <Link to={`/admin/schedules/edit/${schedule.id}`}>
+              <i className="fa-solid fa-pen-to-square text-orange-500"></i>
+            </Link>
+            <button onClick={() => handleDelete(schedule.id)}>
+              <i className="fa-solid fa-trash text-red-700 dark:text-red-500"></i>
+            </button>
+          </div>
+        </td>
+      </tr>
+    );
+  })}
+</tbody>
+
           </table>
         </div>
       </div>
