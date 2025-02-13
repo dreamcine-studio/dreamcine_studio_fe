@@ -30,7 +30,7 @@ import AdminStudios from "./pages/admin/studios";
 import AdminSchedules from "./pages/admin/schedules";
 import AdminSeats from "./pages/admin/seats";
 import AdminBookings from "./pages/admin/bookings/index.jsx";
-import MovieSeat from "./pages/public/booking/booking.jsx";
+import MovieSeat from "./pages/public/movieseat/index.jsx";
 import SeatCreate from "./pages/admin/seats/create.jsx";
 import SeatEdit from "./pages/admin/seats/edit.jsx";
 import AdminUsers from "./pages/admin/users/index.jsx";
@@ -40,6 +40,12 @@ import ScheduleList from "./pages/admin/schedules/detail.jsx";
 import PublicMovies from "./pages/public/movies/index.jsx";
 import UserCreate from "./pages/admin/users/create.jsx";
 import MovieDetail from "./pages/public/moviedetail/index.jsx";
+import AdminShowtimes from "./pages/admin/showtimes/index.jsx";
+import ShowtimeEdit from "./pages/admin/showtimes/edit.jsx";
+import ShowtimeCreate from "./pages/admin/showtimes/create.jsx";
+import AdminScheduleShowtime from "./pages/admin/schedule_showtimes/index.jsx";
+import ScheduleShowtimeCreate from "./pages/admin/schedule_showtimes/create.jsx";
+import ScheduleShowtimeEdit from "./pages/admin/schedule_showtimes/edit.jsx";
 
 
 function App() {
@@ -92,6 +98,12 @@ function App() {
               <Route path="edit/:id" element={<PaymentMethodEdit />} />
             </Route>
 
+            <Route path="showtimes">
+              <Route index element={<AdminShowtimes />} />
+              <Route path="create" element={<ShowtimeCreate />} />
+              <Route path="edit/:id" element={<ShowtimeEdit />} />
+            </Route>
+
             <Route path="payments">
               <Route index element={<AdminPayments />} />
               <Route path="edit/:id" element={<PaymentEdit />} />
@@ -108,6 +120,13 @@ function App() {
               <Route index element={<AdminSchedules />} />
               <Route path="create" element={<ScheduleCreate />} />
               <Route path="edit/:id" element={<ScheduleEdit />} />
+              <Route path="detail/:id" element={<ScheduleList />} />
+            </Route>
+
+            <Route path="schedule_showtimes">
+              <Route index element={<AdminScheduleShowtime />} />
+              <Route path="create" element={<ScheduleShowtimeCreate />} />
+              <Route path="edit/:id" element={<ScheduleShowtimeEdit />} />
               <Route path="detail/:id" element={<ScheduleList />} />
             </Route>
 
