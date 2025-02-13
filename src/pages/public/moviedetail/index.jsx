@@ -5,12 +5,16 @@ import { getSchedules } from "../../../services/schedules";
 import { getStudios } from "../../../services/studios";
 import { Link, useParams } from "react-router-dom";
 import { publicStorage } from "../../../api";
+import { getScheduleShowtimes } from "../../../services/scheduleshowtime";
+import { getShowtimes, showShowtimes } from "../../../services/showtime";
 
 export default function MovieDetail() {
   const [movie, setMovie] = useState({});
   const [genres, setGenres] = useState([]);
   const [schedules, setSchedules] = useState([]);
+  const [scheduleshowtimes, setScheduleShowtimes] = useState([]);
   const [studios, setStudios] = useState([]);
+  const [showtimes, setShowtimes] = useState([]);
   const [selectedShowtime, setSelectedShowtime] = useState(null);
   const [showSchedule, setShowSchedule] = useState(false);
   const { id } = useParams();
@@ -31,6 +35,15 @@ export default function MovieDetail() {
         const data = await showMovie(id);
         setMovie(data);
       } catch (error) {
+        console.error("Failed to fetch movie:", error);
+      }
+    };
+
+    const fetchShowtime = async () => {
+      try {
+        const data = await getShowtimes();
+        setShowtimes(data);
+      }catch (error) {
         console.error("Failed to fetch movie:", error);
       }
     };
@@ -66,10 +79,21 @@ export default function MovieDetail() {
       }
     };
 
+    const fetchScheduleShowtimes = async () => {
+      try {
+        const data = await getScheduleShowtimes();
+        setScheduleShowtimes(data);
+      } catch (error) {
+        console.error("Failed to fetch studios:", error);
+      }
+    };
+
     fetchMovie();
     fetchGenres();
     fetchSchedules();
     fetchStudios();
+    fetchShowtime();
+    fetchScheduleShowtimes()
   }, [id]);
 
   const getGenreName = (id) => {
@@ -77,14 +101,27 @@ export default function MovieDetail() {
     return genre ? genre.name : "Unknown Genre";
   };
 
-  const handleShowtimeClick = (schedule, timeIndex) => {
+  const handleShowtimeClick = (schedule, showtime) => {
+    const showtimeDetail = showtimes.find((s) => s.id === showtime.showtime_id);
+    
+    // Cari schedule_showtime.id berdasarkan schedule_id dan showtime_id
+    const scheduleShowtime = scheduleshowtimes.find(
+      (s) => s.schedule_id === schedule.id && s.showtime_id === showtime.showtime_id
+    );
+  
     const selected = {
       ...schedule,
-      time: schedule.showtime[timeIndex], // Mengambil waktu yang diklik dari showtime
+      time: showtimeDetail?.sequence || "Unknown Time",
+      scheduleShowtimeId: scheduleShowtime?.id || null, // Simpan ID schedule_showtime
     };
+  
     setSelectedShowtime(selected);
-    console.log(schedule);
+    console.log("Selected Showtime:", selected);
   };
+  
+  
+  
+  
 
   const handleShowSchedule = () => {
     setShowSchedule(true);
@@ -153,73 +190,77 @@ export default function MovieDetail() {
           </div>
 
           {showSchedule && (
-            <div className="w-full p-4" ref={scheduleRef}>
-              <div>
-                <h3 className="text-lg font-bold text-gray-800 dark:text-gray-200">
-                  Jadwal Tayang:
-                </h3>
-                <div className="flex flex-wrap gap-4">
-                  {schedules.map((schedule) => (
-                    <div
-                      key={schedule.id}
-                      className="bg-gray-100 mb-4 dark:text-gray-200 dark:bg-gray-800 p-4 rounded-lg shadow-md md:w-1/4"
-                    >
-                      <h4 className="text-lg font-bold mb-2 dark:text-white">
-                        {schedule.showdate_start &&
-                          formatDateString(schedule.showdate_start)}
-                      </h4>
-                      <p>
-                        Studio:{" "}
-                        {studios.find(
-                          (studio) => studio.id === schedule.studio_id
-                        )?.name || "Unknown Studio"}
-                      </p>
-                      <div className="flex flex-wrap gap-2">
-                        {schedule.showtime && schedule.showtime.length > 0 ? (
-                          schedule.showtime.map((time, timeIndex) => (
-                            <div
-                              key={`${schedule.id}-${timeIndex}`}
-                              className="bg-gray-200 text-gray-800 py-2 px-4 rounded cursor-pointer"
-                              onClick={() =>
-                                handleShowtimeClick(schedule, timeIndex)
-                              }
-                            >
-                              {time}
-                            </div>
-                          ))
-                        ) : (
-                          <div>No showtimes available</div>
-                        )}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
+  <div className="w-full p-4" ref={scheduleRef}>
+    <div>
+      <h3 className="text-lg font-bold text-gray-800 dark:text-gray-200">
+        Jadwal Tayang:
+      </h3>
+      <div className="flex flex-wrap gap-4">
+        {schedules.map((schedule) => (
+          <div
+            key={schedule.id}
+            className="bg-gray-100 mb-4 dark:text-gray-200 dark:bg-gray-800 p-4 rounded-lg shadow-md md:w-1/4"
+          >
+            <h4 className="text-lg font-bold mb-2 dark:text-white">
+              {schedule.showdate_start &&
+                formatDateString(schedule.showdate_start)}
+            </h4>
+            <p>
+              Studio:{" "}
+              {studios.find(
+                (studio) => studio.id === schedule.studio_id
+              )?.name || "Unknown Studio"}
+            </p>
 
-              {selectedShowtime && (
-                <div className="mt-4 p-4 bg-gray-200 rounded-lg">
-                  <h4 className="text-lg font-bold">Selected Showtime:</h4>
-                  <p>
-                    Date: {formatDateString(selectedShowtime.showdate_start)}
-                  </p>
-                  <p>Time: {selectedShowtime.time}</p>
-                  <p>
-                    Studio:{" "}
-                    {studios.find(
-                      (studio) => studio.id === selectedShowtime.studio_id
-                    )?.name || "Unknown Studio"}
-                  </p>
-                  <Link
-                    to={`/moviebooking?schedule_id=${selectedShowtime.id}&movie_id=${movie.id}&showtime=${selectedShowtime.time}&studio_id=${selectedShowtime.studio_id}`}
-                    className="bg-indigo-600 flex gap-2 items-center text-white px-6 py-2 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                  >
-                    <i className="fa-solid fa-ticket"></i>
-                    Book Your Ticket Here
-                  </Link>
-                </div>
-              )}
-            </div>
-          )}
+            <div className="flex flex-wrap gap-2">
+  {/* Filter showtimes berdasarkan schedule_id */}
+  {scheduleshowtimes
+    .filter((showtime) => showtime.schedule_id === schedule.id) // Memfilter showtimes berdasarkan schedule_id
+    .map((showtime) => (
+      <div
+        key={showtime.id}
+        className="bg-gray-200 text-gray-800 py-2 px-4 rounded cursor-pointer"
+        onClick={() => handleShowtimeClick(schedule, showtime)} // Mengirimkan schedule dan showtime
+      >
+        {showtimes.find((s) => s.id === showtime.showtime_id)?.sequence.slice(0, 5) || "Unknown Time"}
+
+      </div>
+    ))}
+</div>
+
+          </div>
+        ))}
+      </div>
+    </div>
+
+    {selectedShowtime && (
+  <div className="mt-4 p-4 bg-gray-200 rounded-lg">
+    <h4 className="text-lg font-bold">Selected Showtime:</h4>
+    <p>
+      Date: {formatDateString(selectedShowtime.showdate_start)}
+    </p>
+    <p>Time: {selectedShowtime.time.slice(0, 5)}</p>
+
+    <p>
+      Studio:{" "}
+      {studios.find(
+        (studio) => studio.id === selectedShowtime.studio_id
+      )?.name || "Unknown Studio"}
+    </p>
+    <Link
+  to={`/moviebooking?schedule_id=${selectedShowtime.id}&movie_id=${movie.id}&showtime=${selectedShowtime.time}&studio_id=${selectedShowtime.studio_id}&showdate_start=${selectedShowtime.showdate_start}&scheduleshowtime=${selectedShowtime.scheduleShowtimeId}`}
+  className="bg-indigo-600 flex gap-2 items-center text-white px-6 py-2 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+>
+  <i className="fa-solid fa-ticket"></i>
+  Book Your Ticket Here
+</Link>
+
+  </div>
+)}
+
+  </div>
+)}
+
         </div>
       </div>
     </div>
