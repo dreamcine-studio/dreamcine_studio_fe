@@ -1,29 +1,87 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { getBooking } from "../../../services/booking";
+import { getPayments } from "../../../services/payment";
 
 export default function AdminBookings() {
   const [booking, setBooking] = useState([]);
+  const [payment, setPayment] = useState([]);
+  const [error, setError] = useState([]);
+  const [loading, setLoading] = useState(false);
   const userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
 
+  const { id } = useParams();
+
   useEffect(() => {
-    const fetchBooking = async () => {
+    const fetchData = async () => {
+      setLoading(true);
+      setError(null);
+
       try {
-        const data = await getBooking();
-        const booking = data.filter(
+        const [bookingData, paymentData] = await Promise.all([
+          getBooking(),
+          getPayments(),
+        ]);
+
+        const filteredBooking = bookingData.filter(
           (booking) => booking.user_id === parseInt(userInfo.id)
         );
-        setBooking(booking);
+        const filteredPayment = paymentData.filter(
+          (payment) => payment.booking_id === parseInt(id)
+        );
+
+        setBooking(filteredBooking);
+        setPayment(paymentData);
+
+        // // Extract schedule ID from booking data
+        // if (paymentData && paymentData.booking_id) {
+        //   const selectedbooking = bookingData.filter(
+        //     (b) => b.id === paymentData.booking_id
+        //   );
+        //   setBooking(selectedbooking);
+        // } else {
+        //   setPayment(null);
+        // }
       } catch (error) {
-        console.error("Error fetching booking:", error);
-        // Handle error, e.g., display a message to the user
+        setError("Failed to fetch data, please try again later.");
+        console.log(error);
+      } finally {
+        setLoading(false);
       }
     };
+    fetchData();
+    // const fetchBooking = async () => {
+    //   try {
+    //     const data = await getBooking();
+    //     const booking = data.filter(
+    //       (booking) => booking.user_id === parseInt(userInfo.id)
+    //     );
+    //     setBooking(booking);
+    //   } catch (error) {
+    //     console.error("Error fetching booking:", error);
+    //     // Handle error, e.g., display a message to the user
+    //   }
+    // };
 
-    fetchBooking();
-  }, []);
+    // fetchBooking();
+  }, [userInfo.id, id]);
 
-    console.log("test", booking);
+  // const hasPayment = (bookingId) => {
+  //   return payment.some((payment) => payment.id === bookingId);
+  // };
+
+  // const hasPayment = (id) => {
+  //   const pay = payment.filter((item) => item.id === id);
+  //   return pay ? pay.id : "Unknown pay";
+  // };
+
+  const hasPaymentCode = (bookingId) => {
+    const paymentForBooking = payment.find((item) => item.booking_id === bookingId);
+    return paymentForBooking ? paymentForBooking.payment_code : null;
+  };
+
+  console.log("test", booking);
+  console.log("pay", payment);
 
   const formatRupiah = (number) => {
     return new Intl.NumberFormat("id-ID", {
@@ -42,8 +100,6 @@ export default function AdminBookings() {
           <table className="w-full table-auto border-collapse border border-gray-200">
             <thead className="bg-gray-50">
               <tr>
-
-
                 <th className="border px-4 py-2 text-left">User</th>
                 <th className="border px-4 py-2 text-left">Quantity</th>
                 <th className="border px-4 py-2 text-left">Amount</th>
@@ -51,22 +107,32 @@ export default function AdminBookings() {
               </tr>
             </thead>
             <tbody>
-
               {booking.map((booking) => (
-              <tr key={booking.user_id} className="hover:bg-gray-50">
-                <td className="border px-4 py-2">{userInfo.id}</td>
-                <td className="border px-4 py-2">{booking.quantity}</td>
-                <td className="border px-4 py-2">{formatRupiah(booking.amount)}</td>
+                <tr key={booking.user_id} className="hover:bg-gray-50">
+                  <td className="border px-4 py-2">{userInfo.id}</td>
+                  <td className="border px-4 py-2">{booking.quantity}</td>
+                  <td className="border px-4 py-2">
+                    {formatRupiah(booking.amount)}
+                  </td>
 
-                <td className="border px-4 py-2">
-                  <Link
-                    to={`/booking/pay/${booking.id}`}
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-6"
-                  >
-                    Pay
-                  </Link>
-                </td>
-              </tr>
+                  <td className="border px-4 py-2">
+                  {hasPaymentCode(booking.id) ? (
+                      <Link
+                        to={`/ticket`}
+                        className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mt-6"
+                      >
+                        Barcode
+                      </Link>
+                    ) : (
+                      <Link
+                        to={`/booking/pay/${booking.id}`}
+                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-6"
+                      >
+                        Pay
+                      </Link>
+                    )}
+                  </td>
+                </tr>
               ))}
             </tbody>
           </table>

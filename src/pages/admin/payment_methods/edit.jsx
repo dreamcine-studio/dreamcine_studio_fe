@@ -28,7 +28,7 @@ export default function PaymentMethodEdit() {
       setName(paymentMethod.name);
       setAccountNumber(paymentMethod.account_number);
     }
-    //    console.log(pmethod)
+      //  console.log(pmethod)
   };
 
   useEffect(() => {
@@ -54,11 +54,11 @@ export default function PaymentMethodEdit() {
         console.log("data", PaymentMethodData);
       })
       .catch((err) => {
-        console.log(err.response.data.message);
+        // console.log(err.response.data.message);
         setErrors(err.response.data.message);
       });
 
-    // console.log(PaymentMethodData)
+    console.log(PaymentMethodData)
   };
 
   return (
