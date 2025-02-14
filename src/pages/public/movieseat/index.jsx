@@ -5,7 +5,6 @@ import { getStudios } from "../../../services/studios";
 import { createBooking } from "../../../services/booking";
 import { getSchedules } from "../../../services/schedules";
 import { createSeat, getSeats } from "../../../services/seat";
-import { createScheduleShowtimes, getScheduleShowtimes } from "../../../services/scheduleshowtime";
 
 export default function MovieSeat() {
   const [selectedSeats, setSelectedSeats] = useState([]);
@@ -74,16 +73,8 @@ export default function MovieSeat() {
     fetchStudio();
     fetchSchedule();
     fetchSeat();
-<<<<<<< HEAD:src/pages/public/booking/booking.jsx
-  }, [movieId, studioId, scheduleId]); // Perbarui saat booking selesai
-
-  console.log("dat",seat);
-  
-
-=======
   }, [movieId, studioId, scheduleId, scheduleshowtimeId]); // Perbarui saat ID berubah
   
->>>>>>> a6e403bda96d1498275f11a0b31bc13a36cf66dc:src/pages/public/movieseat/index.jsx
   const handleSeatClick = (seatNumber) => {
     setSelectedSeats((prevSelectedSeats) => {
       if (prevSelectedSeats.includes(seatNumber)) {

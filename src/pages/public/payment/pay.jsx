@@ -95,7 +95,7 @@ export default function Payment() {
     try {
       await createPayments(formDataToSendPayment);
       alert("Payment Successful");
-      navigate("/");
+      navigate("/booking");
     } catch (err) {
       console.log(err.response.data.message);
       setError(err.response.data.message);
@@ -172,15 +172,6 @@ export default function Payment() {
           <dt className="text-base text-gray-900">Seat</dt>
           <dd className="text-base text-gray-900">{booking.quantity}</dd>
         </dl>
-
-        {/* <dl className="flex items-center justify-between gap-4 border-gray-200 pt-2">
-          <dt className="text-base text-gray-900">
-            Please complete the payment
-          </dt>
-          <dd className="text-base text-red-500 font-bold">
-            {formatTime(timeRemaining)}
-          </dd>
-        </dl> */}
 
         <dl
           onChange={handleInputChange}

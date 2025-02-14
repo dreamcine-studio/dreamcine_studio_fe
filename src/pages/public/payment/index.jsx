@@ -5,9 +5,10 @@ import { getPayments } from "../../../services/payment";
 
 export default function AdminBookings() {
   const [bookings, setBookings] = useState([]);
-  const [payments, setPayments] = useState([]);
+  const [payment, setPayment] = useState([]);
   const [error, setError] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [countdowns, setCountdowns] = useState({});
   const userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
 
   const { id } = useParams();
@@ -24,25 +25,20 @@ export default function AdminBookings() {
         ]);
 
         const filteredBookings = bookingData.filter(
-          (booking) => booking.user_id === parseInt(userInfo.id) // ambil data booking berdasarkan user yang sedang login
+          (booking) => booking.user_id === parseInt(userInfo.id) 
         );
 
-        console.log("Filter Bookings:", filteredBookings); // cek hasil booking yang difilter
-
-        const bookingId = filteredBookings.map((booking) => booking.id); // ambil data booking hanya id saja
-        console.log("Booking IDs:", bookingId); // cek ID booking
-
+        const bookingId = filteredBookings.map((booking) => booking.id); 
         const filteredPayments = paymentData.filter(
-          (payment) => bookingId.includes(payment.booking_id) // periksa apakah booking_id ada di bookingId
+          (payment) => bookingId.includes(payment.booking_id) 
         );
 
-        console.log("Filter Payments:", filteredPayments); // cek seluruh payment yang difilter
-        filteredPayments.forEach(payment => {
-          console.log("Payment ID:", payment.id); // Menampilkan ID dari setiap objek dalam array pembayaran
-        });
+        // filteredPayments.forEach(payment => {
+        //   console.log("Payment ID:", payment.id); // Menampilkan ID dari setiap objek dalam array pembayaran
+        // });
 
         setBookings(filteredBookings);
-        setPayments(filteredPayments);
+        setPayment(filteredPayments);
       } catch (error) {
         setError("Failed to fetch data, please try again later.");
         console.log(error);
@@ -53,10 +49,53 @@ export default function AdminBookings() {
     fetchData();
   }, [userInfo.id]);
 
+  useEffect(() => {
+    const intervals = {};
+
+    bookings.forEach((booking) => {
+      const deadline = new Date(booking.created_at);
+      deadline.setMinutes(deadline.getMinutes() + 1); // Tambahkan 30 menit ke waktu created_at
+
+      // Set interval untuk menghitung mundur setiap detik
+      intervals[booking.id] = setInterval(() => {
+        const now = new Date();
+        const timeRemaining = deadline - now; // Selisih waktu antara deadline dan waktu sekarang
+
+        if (timeRemaining <= 0) {
+          clearInterval(intervals[booking.id]); // Hentikan interval ketika waktu habis
+          if (!hasPaymentCode(booking.id)) {
+            setBookings((prevBookings) => prevBookings.filter((b) => b.id !== booking.id));
+          }
+        } else {
+          const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+          const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+          setCountdowns((prev) => ({
+            ...prev,
+            [booking.id]: `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`, // Format waktu MM:SS
+          }));
+        }
+      }, 1000); // Update setiap detik
+    });
+
+    return () => {
+      // Bersihkan interval saat komponen dihapus atau berubah
+      Object.values(intervals).forEach(clearInterval);
+    };
+  }, [bookings]);
+
+  payment.forEach((pay) => {
+    console.log(pay.status);
+    
+  })
+
+  console.log("bok", bookings);
+  console.log("pay", payment.id);
+
   const hasPaymentCode = (bookingId) => {
-    const paymentForBooking = payments.find((item) => item.booking_id === bookingId);
-    return paymentForBooking; // Kembalikan objek pembayaran yang sesuai
+    const paymentForBooking = payment.find((item) => item.booking_id === bookingId);
+    return paymentForBooking ? paymentForBooking.payment_code : null;
   };
+  
 
   const formatRupiah = (number) => {
     return new Intl.NumberFormat("id-ID", {
@@ -107,6 +146,9 @@ export default function AdminBookings() {
                 <th className="border px-4 py-2 text-left">User</th>
                 <th className="border px-4 py-2 text-left">Quantity</th>
                 <th className="border px-4 py-2 text-left">Amount</th>
+                <th className="border px-4 py-2 text-left">Time (Payment Countdown)</th>
+                <th className="border px-4 py-2 text-left">Action</th>
+                <th className="border px-4 py-2 text-left">Stat</th>
               </tr>
             </thead>
             <tbody>
@@ -117,6 +159,10 @@ export default function AdminBookings() {
                   <td className="border px-4 py-2">
                     {formatRupiah(booking.amount)}
                   </td>
+                  <td className="border px-4 py-2">
+                  {!hasPaymentCode(booking.id) && countdowns[booking.id]}
+                  </td>
+
 
                   <td className="border px-4 py-2">
                     {hasPaymentCode(booking.id) ? (
@@ -135,6 +181,9 @@ export default function AdminBookings() {
                       </Link>
                     )}
                   </td>
+                  {payment.map((pay) => (
+                  <td key={payment.id} className="border px-4 py-2">{pay.status}</td>
+                ))}
                 </tr>
               ))}
             </tbody>
