@@ -5,7 +5,6 @@ import { getStudios } from "../../../services/studios";
 import { createBooking } from "../../../services/booking";
 import { getSchedules } from "../../../services/schedules";
 import { createSeat, getSeats } from "../../../services/seat";
-import { createScheduleShowtimes, getScheduleShowtimes } from "../../../services/scheduleshowtime";
 
 export default function MovieSeat() {
   const [selectedSeats, setSelectedSeats] = useState([]);
