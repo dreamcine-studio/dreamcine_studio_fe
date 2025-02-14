@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { getBooking } from "../../../services/booking";
 import { getPayments } from "../../../services/payment";
 
@@ -11,7 +11,7 @@ export default function AdminBookings() {
   const [countdowns, setCountdowns] = useState({});
   const userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
 
-  const { id } = useParams();
+  // const { id } = useParams();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -25,14 +25,15 @@ export default function AdminBookings() {
         ]);
 
         const filteredBookings = bookingData.filter(
-          (booking) => booking.user_id === parseInt(userInfo.id) 
+          (booking) => booking.user_id === parseInt(userInfo.id)
         );
 
-        const bookingId = filteredBookings.map((booking) => booking.id); 
-        const filteredPayments = paymentData.filter(
-          (payment) => bookingId.includes(payment.booking_id) 
+        const bookingId = filteredBookings.map((booking) => booking.id);
+        const filteredPayments = paymentData.filter((payment) =>
+          bookingId.includes(payment.booking_id)
         );
 
+    
         // filteredPayments.forEach(payment => {
         //   console.log("Payment ID:", payment.id); // Menampilkan ID dari setiap objek dalam array pembayaran
         // });
@@ -49,6 +50,9 @@ export default function AdminBookings() {
     fetchData();
   }, [userInfo.id]);
 
+
+
+
   useEffect(() => {
     const intervals = {};
 
@@ -64,10 +68,14 @@ export default function AdminBookings() {
         if (timeRemaining <= 0) {
           clearInterval(intervals[booking.id]); // Hentikan interval ketika waktu habis
           if (!hasPaymentCode(booking.id)) {
-            setBookings((prevBookings) => prevBookings.filter((b) => b.id !== booking.id));
+            setBookings((prevBookings) =>
+              prevBookings.filter((b) => b.id !== booking.id)
+            );
           }
         } else {
-          const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+          const minutes = Math.floor(
+            (timeRemaining % (1000 * 60 * 60)) / (1000 * 60)
+          );
           const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
           setCountdowns((prev) => ({
             ...prev,
@@ -83,19 +91,22 @@ export default function AdminBookings() {
     };
   }, [bookings]);
 
-  payment.forEach((pay) => {
-    console.log(pay.status);
-    
-  })
-
   console.log("bok", bookings);
-  console.log("pay", payment.id);
+  console.log("pay", payment);
+
+  const getPaymentStatus = (bookingId) => {
+    const paymentForBooking = payment.find(
+      (item) => item.booking_id === bookingId
+    );
+    return paymentForBooking ? paymentForBooking.status : null;
+  };
 
   const hasPaymentCode = (bookingId) => {
-    const paymentForBooking = payment.find((item) => item.booking_id === bookingId);
-    return paymentForBooking ? paymentForBooking.payment_code : null;
+    const paymentForBooking = payment.find(
+      (item) => item.booking_id === bookingId
+    );
+    return paymentForBooking;
   };
-  
 
   const formatRupiah = (number) => {
     return new Intl.NumberFormat("id-ID", {
@@ -133,8 +144,6 @@ export default function AdminBookings() {
     );
   }
 
-
-
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <div className="bg-white shadow-lg rounded-lg p-6 w-full max-w-4xl">
@@ -146,9 +155,10 @@ export default function AdminBookings() {
                 <th className="border px-4 py-2 text-left">User</th>
                 <th className="border px-4 py-2 text-left">Quantity</th>
                 <th className="border px-4 py-2 text-left">Amount</th>
-                <th className="border px-4 py-2 text-left">Time (Payment Countdown)</th>
+                <th className="border px-4 py-2 text-left">
+                  Time (Payment Countdown)
+                </th>
                 <th className="border px-4 py-2 text-left">Action</th>
-                <th className="border px-4 py-2 text-left">Stat</th>
               </tr>
             </thead>
             <tbody>
@@ -160,18 +170,24 @@ export default function AdminBookings() {
                     {formatRupiah(booking.amount)}
                   </td>
                   <td className="border px-4 py-2">
-                  {!hasPaymentCode(booking.id) && countdowns[booking.id]}
+                    {!hasPaymentCode(booking.id) && countdowns[booking.id]}
                   </td>
+
+
 
 
                   <td className="border px-4 py-2">
                     {hasPaymentCode(booking.id) ? (
-                      <Link
-                        to={`/tickets/${hasPaymentCode(booking.id).id}`}
-                        className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mt-6"
-                      >
-                        Barcode
-                      </Link>
+                      getPaymentStatus(booking.id) === "pending" ? (
+                        <span className="text-yellow-500">Pending</span>
+                      ) : getPaymentStatus(booking.id) === "confirmed" ? (
+                        <Link
+                          to={`/tickets/${hasPaymentCode(booking.id).id}`}
+                          className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mt-6"
+                        >
+                          Barcode
+                        </Link>
+                      ) : null
                     ) : (
                       <Link
                         to={`/booking/pay/${booking.id}`}
@@ -181,9 +197,6 @@ export default function AdminBookings() {
                       </Link>
                     )}
                   </td>
-                  {payment.map((pay) => (
-                  <td key={payment.id} className="border px-4 py-2">{pay.status}</td>
-                ))}
                 </tr>
               ))}
             </tbody>
