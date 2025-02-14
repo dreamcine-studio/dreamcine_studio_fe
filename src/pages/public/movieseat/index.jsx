@@ -174,7 +174,7 @@ export default function MovieSeat() {
                 <td className="px-2 py-2">{movie.title}</td>
                 <td className="px-2 py-2">{studio.name}</td>
                 <td className="px-2 py-2">{showtime.slice(0, 5)}</td>
-                <td className="px-2 py-2">{schedule.showdate}</td>
+                <td className="px-2 py-2">{showdate}</td>
                 <td className="px-2 py-2">{formatRupiah(movie.price)}</td>
               </tr>
             </tbody>
