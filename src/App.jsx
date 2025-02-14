@@ -22,7 +22,6 @@ import Contact from "./components/Contact";
 import PaymentEdit from "./pages/admin/payments/edit";
 import BookingCreate from "./pages/admin/bookings/create.jsx";
 import BookingEdit from "./pages/admin/bookings/edit.jsx";
-import Ticket from "./components/ticket/index.jsx";
 import AdminGenres from "./pages/admin/genres";
 import AdminPaymentMethods from "./pages/admin/payment_methods";
 import AdminPayments from "./pages/admin/payments";
@@ -39,6 +38,7 @@ import BookingPage from "./pages/public/payment/index.jsx";
 import ScheduleList from "./pages/admin/schedules/detail.jsx";
 import PublicMovies from "./pages/public/movies/index.jsx";
 import MovieDetail from "./pages/public/moviedetail/index.jsx";
+import Ticket from "./components/Ticket/index.jsx";
 
 
 function App() {
@@ -62,7 +62,9 @@ function App() {
             
             <Route path="teams" element={<Team />} />
             <Route path="contacts" element={<Contact />} />
-            <Route path="tickets" element={<Ticket />} />
+            {/* <Route path="tickets" element={<Ticket />} /> */}
+            <Route path="tickets/:id" element={<Ticket />} />
+
           </Route>
 
           {/* Auth Routes */}
