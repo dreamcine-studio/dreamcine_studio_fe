@@ -37,9 +37,7 @@ export default function AdminBookings() {
         );
 
         console.log("Filter Payments:", filteredPayments); // cek seluruh payment yang difilter
-        filteredPayments.forEach(payment => {
-          console.log("Payment ID:", payment.id); // Menampilkan ID dari setiap objek dalam array pembayaran
-        });
+    
 
         setBookings(filteredBookings);
         setPayments(filteredPayments);
