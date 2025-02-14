@@ -23,29 +23,38 @@ export default function MovieSeat() {
   const scheduleId = query.get("schedule_id");
   const showtime = query.get("showtime");
   const showdate = query.get("showdate");
-  const scheduleshowtimeId = query.get("scheduleshowtime")
+  const scheduleshowtimeId = query.get("scheduleshowtime");
 
   useEffect(() => {
     const fetchMovie = async () => {
       try {
         const data = await getMovies();
         const movieData = data.find((m) => m.id === parseInt(movieId));
-        setMovie({ id: movieData.id, title: movieData.title, price: movieData.price });
+        setMovie({
+          id: movieData.id,
+          title: movieData.title,
+          price: movieData.price,
+        });
       } catch (error) {
         console.error("Error fetching movie:", error);
       }
     };
-  
+
     const fetchStudio = async () => {
       try {
         const data = await getStudios();
         const studioData = data.find((s) => s.id === parseInt(studioId));
-        setStudio({ id: studioData.id, name: studioData.name, maxseats: studioData.maxseats, location: studioData.location });
+        setStudio({
+          id: studioData.id,
+          name: studioData.name,
+          maxseats: studioData.maxseats,
+          location: studioData.location,
+        });
       } catch (error) {
         console.error("Error fetching studio:", error);
       }
     };
-  
+
     const fetchSchedule = async () => {
       try {
         const data = await getSchedules();
@@ -54,27 +63,43 @@ export default function MovieSeat() {
         console.error("Error fetching schedule:", error);
       }
     };
-  
+
     const fetchSeat = async () => {
       try {
         const data = await getSeats();
         console.log("Fetched seats data:", data); // Debugging
-  
+    
         if (Array.isArray(data)) {
-          const seatData = data.filter((s) => s.schedule_showtime_id === parseInt(scheduleshowtimeId));
-          setSeat(seatData);
+          // Filter seat yang sesuai dengan showdate & schedule_showtime_id user
+          const filteredSeats = data.filter(
+            (seat) =>
+              seat.showdate === showdate &&
+              seat.schedule_showtime_id === parseInt(scheduleshowtimeId)
+          );
+    
+          // Ambil hanya seat_number yang isbooked = 1
+          const soldSeats = filteredSeats
+            .filter((seat) => seat.isbooked === 1)
+            .flatMap((seat) => seat.seat_number);
+    
+          console.log("Sold seats:", soldSeats);
+    
+          // Simpan ke state
+          setSeat(soldSeats);
         }
       } catch (error) {
         console.error("Error fetching seat:", error);
       }
     };
-  
+    
+    
+
     fetchMovie();
     fetchStudio();
     fetchSchedule();
     fetchSeat();
   }, [movieId, studioId, scheduleId, scheduleshowtimeId]); // Perbarui saat ID berubah
-  
+
   const handleSeatClick = (seatNumber) => {
     setSelectedSeats((prevSelectedSeats) => {
       if (prevSelectedSeats.includes(seatNumber)) {
@@ -99,23 +124,26 @@ export default function MovieSeat() {
 
   const createBookingDetails = async (e) => {
     e.preventDefault();
-  
+
     const token = sessionStorage.getItem("accessToken");
     const userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
-  
+
     if (!token) {
-      sessionStorage.setItem("redirectAfterLogin", `${window.location.pathname + window.location.search}`);
+      sessionStorage.setItem(
+        "redirectAfterLogin",
+        `${window.location.pathname + window.location.search}`
+      );
       alert("You must log in to place an order.");
       return navigate("/login");
     }
-  
+
     if (selectedSeats.length === 0) {
       alert("Please select at least one seat.");
       return;
     }
-  
+
     const timestamp = new Date().toISOString();
-  
+
     const bookingData = new FormData();
     bookingData.append("user_id", userInfo.id);
     bookingData.append("movie_id", movieId);
@@ -126,33 +154,32 @@ export default function MovieSeat() {
     bookingData.append("quantity", selectedSeats.length);
     bookingData.append("amount", totalPrice);
     bookingData.append("timestamp", timestamp);
-  
+
     const seatData = new FormData();
     selectedSeats.forEach((seatNumber) => {
       seatData.append("seat_number[]", seatNumber);
     });
     seatData.append("schedule_showtime_id", scheduleshowtimeId);
-  
+    seatData.append("showdate", showdate);
+
     try {
       await createBooking(bookingData);
       await createSeat(seatData);
-      
+
       alert("Booking successful!");
-  
+
       navigate("/booking");
     } catch (errors) {
       console.error("Error:", errors);
       setErrors(errors.response?.data?.message || "Something went wrong");
     }
   };
-  
-  
 
-  console.log(movie)
-  console.log(studio)
-  console.log(showtime)
-  console.log(showdate)
-  console.log(totalPrice)
+  console.log(movie);
+  console.log(studio);
+  console.log(showtime);
+  console.log(showdate);
+  console.log(totalPrice);
 
   return (
     <div className="flex flex-col items-center justify-center dark:bg-gray-900 text-white w-full p-8 mt-24">
@@ -216,25 +243,22 @@ export default function MovieSeat() {
               >
                 {[...Array(8)].map((_, index) => {
                   const seatNumber = `${rowLabel}${index + 1}`;
-                  const isBooked = seat.some((s) => s.seat_number.includes(seatNumber));
-
-
+                  const isBooked = seat.includes(seatNumber);
                   return (
                     <div
   key={index}
   className={`h-[26px] w-[32px] m-[3px] rounded-t-[10px] text-[10px] text-center transition-all duration-200
     ${
       isBooked
-        ? "bg-gray-200 text-black cursor-not-allowed"
+        ? "bg-gray-200 text-black cursor-not-allowed" // Kursi sold
         : selectedSeats.includes(seatNumber)
-        ? "bg-orange-500"
-        : "bg-gray-700 hover:scale-110 cursor-pointer"
+        ? "bg-orange-500" // Kursi yang dipilih
+        : "bg-gray-700 hover:scale-110 cursor-pointer" // Kursi available
     }`}
   onClick={!isBooked ? () => handleSeatClick(seatNumber) : undefined}
 >
   {seatNumber}
 </div>
-
 
                   );
                 })}
@@ -243,17 +267,17 @@ export default function MovieSeat() {
                 </div>
                 {[...Array(6)].map((_, index) => {
                   const seatNumber = `${rowLabel}${index + 10}`;
-                  const isBooked = seat.some((s) => s.seat_number.includes(seatNumber));
+                  const isBooked = seat.includes(seatNumber);
                   return (
                     <div
   key={index}
   className={`h-[26px] w-[32px] m-[3px] rounded-t-[10px] text-[10px] text-center transition-all duration-200
     ${
       isBooked
-        ? "bg-gray-200 text-black cursor-not-allowed"
+        ? "bg-gray-200 text-black cursor-not-allowed" // Kursi sold
         : selectedSeats.includes(seatNumber)
-        ? "bg-orange-500"
-        : "bg-gray-700 hover:scale-110 cursor-pointer"
+        ? "bg-orange-500" // Kursi yang dipilih
+        : "bg-gray-700 hover:scale-110 cursor-pointer" // Kursi available
     }`}
   onClick={!isBooked ? () => handleSeatClick(seatNumber) : undefined}
 >

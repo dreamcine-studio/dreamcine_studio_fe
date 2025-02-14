@@ -144,6 +144,7 @@ if (error){
                 <th className="py-4 px-4 font-bold text-gray-700 dark:text-white uppercase">Title</th>
                 <th className="py-4 px-4 font-bold text-gray-700 dark:text-white uppercase">Studio</th>
                 <th className="py-4 px-4 font-bold text-gray-700 dark:text-white uppercase">Showdate</th>
+                <th className="py-4 px-4 font-bold text-gray-700 dark:text-white uppercase">Showdate</th>
                 <th className="py-4 px-4 font-bold text-gray-700 dark:text-white uppercase">Controls</th>
               </tr>
             </thead>
@@ -174,6 +175,9 @@ if (error){
         </td>
         <td className="py-4 px-4 text-black dark:text-white">
           {schedule.showdate_start} - {schedule.showdate_end}
+        </td>
+        <td className="py-4 px-4 text-black dark:text-white">
+          {schedule.showdate}
         </td>
         <td className="py-4 px-4">
           <div className="flex items-center space-x-3.5">
