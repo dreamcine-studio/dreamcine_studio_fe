@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { getBooking } from "../../../services/booking";
 import { getPayments } from "../../../services/payment";
 
 export default function AdminBookings() {
   const [bookings, setBookings] = useState([]);
-  const [payments, setPayments] = useState([]);
+  const [payment, setPayment] = useState([]);
   const [error, setError] = useState([]);
   const [loading, setLoading] = useState(false);
   const userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
 
-  const { id } = useParams();
+  // const { id } = useParams();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -40,7 +40,7 @@ export default function AdminBookings() {
     
 
         setBookings(filteredBookings);
-        setPayments(filteredPayments);
+        setPayment(filteredPayments);
       } catch (error) {
         setError("Failed to fetch data, please try again later.");
         console.log(error);
@@ -52,8 +52,10 @@ export default function AdminBookings() {
   }, [userInfo.id]);
 
   const hasPaymentCode = (bookingId) => {
-    const paymentForBooking = payments.find((item) => item.booking_id === bookingId);
-    return paymentForBooking; // Kembalikan objek pembayaran yang sesuai
+    const paymentForBooking = payment.find(
+      (item) => item.booking_id === bookingId
+    );
+    return paymentForBooking;
   };
 
   const formatRupiah = (number) => {
