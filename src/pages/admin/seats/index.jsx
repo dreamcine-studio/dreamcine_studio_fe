@@ -1,10 +1,18 @@
 import { useEffect, useState } from "react";
 import { deleteSeat, getSeats, updateSeat } from "../../../services/seat";
 import { getStudios } from "../../../services/studios";
+import { getSchedules } from "../../../services/schedules";
+import { getScheduleShowtimes } from "../../../services/scheduleshowtime";
+import { getMovies } from "../../../services/movies";
+import { getShowtimes } from "../../../services/showtime";
 
 export default function AdminSeats() {
   const [seats, setSeats] = useState([]);
   const [studios, setStudios] = useState([]);
+  const [movies, setMovies] = useState([]);
+  const [schedules, setSchedules] = useState([]);
+  const [showtimes, setShowtimes] = useState([]);
+  const [schedulesShowtimes, setSchedulesShowtimes] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -13,12 +21,27 @@ export default function AdminSeats() {
       setLoading(true);
       setError(null);
       try {
-        const [seatsData, studiosData] = await Promise.all([
+        const [
+          seatsData,
+          movieData,
+          studiosData,
+          schedulesData,
+          showtimesData,
+          scheduleShowtimesData,
+        ] = await Promise.all([
           getSeats(),
+          getMovies(),
           getStudios(),
+          getSchedules(),
+          getShowtimes(),
+          getScheduleShowtimes(),
         ]);
         setStudios(studiosData);
+        setMovies(movieData);
         setSeats(seatsData);
+        setSchedules(schedulesData);
+        setShowtimes(showtimesData);
+        setSchedulesShowtimes(scheduleShowtimesData);
       } catch (error) {
         setError("Failed to fetch data, please try again later.");
       } finally {
@@ -28,33 +51,25 @@ export default function AdminSeats() {
     fetchData();
   }, []);
 
-  const getStudioDetails = (id) => {
-    const studio = studios.find((s) => s.id === id);
-    return studio || { name: "Unknown", location: "Unknown", maxseats: 0 };
-  };
-
-  const groupedSeats = seats.reduce((acc, seat) => {
-    const { name, maxseats } = getStudioDetails(seat.studio_id);
-    const key = `${name}`;
-
-    if (!acc[key]) {
-      acc[key] = { rows: [], maxseats };
-    }
-    acc[key].rows.push({
-      id: seat.id,
-      seatNumber: seat.seat_number,
-      isBooked: seat.isbooked,
-    });
-    return acc;
-  }, {});
-
   const updateBookedStatus = async (seatId, newStatus) => {
     const isBooked = newStatus === "true";
-    const seat = seats.find((s) => s.id === seatId);
-    if (!seat) return;
-
     try {
-      await updateSeat(seatId, { ...seat, isbooked: isBooked, _method: "PUT" });
+      // Ambil seat yang sedang diupdate
+      const seatToUpdate = seats.find((s) => s.id === seatId);
+      if (!seatToUpdate) {
+        console.error("Seat not found");
+        return;
+      }
+  
+      // Kirim request update ke API
+      await updateSeat(seatId, {
+        schedule_showtime_id: seatToUpdate.schedule_showtime_id,
+        seat_number: seatToUpdate.seat_number,
+        isbooked: isBooked,
+        _method: "PUT",
+      });
+  
+      // Update state seats setelah sukses
       setSeats((prevSeats) =>
         prevSeats.map((s) =>
           s.id === seatId ? { ...s, isbooked: isBooked } : s
@@ -64,7 +79,7 @@ export default function AdminSeats() {
       console.error("Update failed:", error);
     }
   };
-
+  
   const handleDelete = async (id) => {
     if (window.confirm("Apakah Anda yakin ingin menghapus data ini?")) {
       await deleteSeat(id);
@@ -78,88 +93,84 @@ export default function AdminSeats() {
 
   return (
     <div className="p-6 min-h-screen">
-      <h1 className="text-2xl font-bold dark:text-white text-center mb-6">Seats</h1>
+      <h1 className="text-2xl font-bold dark:text-white text-center mb-6">
+        Seats Management
+      </h1>
       <div className="overflow-x-auto">
-        <table className="w-full table-auto mt-6">
-          <thead className="border p-1 bg-gray-50 dark:bg-gray-900 text-white">
-            <tr className="bg-gray-2 dark:bg-meta-4">
-              <th className="min-w-[220px] py-4 font-bold text-gray-700 dark:text-white uppercase border text-center">Studio</th>
-              <th className="min-w-[220px] py-4 font-bold text-gray-700 dark:text-white uppercase border text-center">Seat Info</th>
-              <th className="min-w-[220px] py-4 font-bold text-gray-700 dark:text-white uppercase border text-center">Seat Number</th>
-              <th className="min-w-[220px] py-4 font-bold text-gray-700 dark:text-white uppercase border text-center">Is Booked</th>
-              <th className="min-w-[220px] py-4 font-bold text-gray-700 dark:text-white uppercase border text-center min-w-[80px]">Action</th>
+        <table className="w-full table-auto mt-6 border-collapse border border-gray-300">
+          <thead className="bg-gray-200 dark:bg-gray-800 text-white">
+            <tr>
+              <th className="p-3 border">Studio</th>
+              <th className="p-3 border">Movie</th>
+              <th className="p-3 border">Showtime</th>
+              <th className="p-3 border">Seat Number</th>
+              <th className="p-3 border">Is Booked</th>
+              <th className="p-3 border">Action</th>
             </tr>
           </thead>
-          <tbody className="border p-1">
-            {Object.entries(groupedSeats).map(([key, data]) =>
-              data.rows.map((row, index) => (
-                <tr key={row.id}>
+          <tbody>
+            {schedulesShowtimes.map((scheduleShowtime) => {
+              const schedule = schedules.find(
+                (s) => s.id === scheduleShowtime.schedule_id
+              );
+              const movie = movies.find((m) => m.id === schedule?.movie_id) || {
+                title: "Unknown",
+              };
+              const studio = studios.find(
+                (s) => s.id === schedule?.studio_id
+              ) || { name: "Unknown" };
+              const showtime = showtimes.find(
+                (st) => st.id === scheduleShowtime.showtime_id
+              );
+
+              const filteredSeats = seats.filter(
+                (seat) => seat.schedule_showtime_id === scheduleShowtime.id
+              );
+
+              return filteredSeats.map((seat, index) => (
+                <tr key={seat.id} className="border">
                   {index === 0 && (
                     <>
-                      <td
-                        rowSpan={data.rows.length}
-                        className="px-4 py-5 font-bold text-black dark:text-white border"
-                      >
-                        {key.split(" | ")[0]}
+                      <td rowSpan={filteredSeats.length} className="p-3 border dark:text-white">
+                        {studio.name}
+                      </td>
+                      <td rowSpan={filteredSeats.length} className="p-3 border dark:text-white">
+                        {movie.title}
                       </td>
                       <td
-                        rowSpan={data.rows.length}
-                        className="px-4 py-5 font-medium text-black dark:text-white border"
+                        rowSpan={filteredSeats.length}
+                        className="px-2 py-4 border dark:text-white text-center"
                       >
-                        <span className="text-green-500 font-bold">
-                          Seat Available:{" "}
-                          {getStudioDetails(data.rows[0].id).maxseats -
-                            data.rows.reduce(
-                              (total, r) =>
-                                total +
-                                (Array.isArray(r.seatNumber)
-                                  ? r.seatNumber.length
-                                  : 1),
-                              0
-                            )}
-                        </span>
-                        <br />
-                        <span className="text-red-500 font-bold">
-                          Seat Sold:{" "}
-                          {data.rows.reduce(
-                            (total, r) =>
-                              total +
-                              (Array.isArray(r.seatNumber)
-                                ? r.seatNumber.length
-                                : 1),
-                            0
-                          )}
-                        </span>
+                        {showtime.sequence.slice(0, 5)}
                       </td>
                     </>
                   )}
-                  <td className="px-4 py-5 font-medium text-black dark:text-white border">
-                    <p className="px-4">{row.seatNumber.join(", ")}</p>
+                  <td className="p-3 border dark:text-white text-center">
+                    {seat.seat_number.join(", ")}
                   </td>
-                  <td className="px-4 py-5 border text-center">
+                  <td className="p-3 border text-center">
                     <select
-                      value={row.isBooked ? "true" : "false"}
+                      value={seat.isbooked ? "true" : "false"}
                       onChange={(e) =>
-                        updateBookedStatus(row.id, e.target.value)
+                        updateBookedStatus(seat.id, e.target.value)
                       }
-                      className="border p-2 border-gray-300 rounded-lg dark:bg-gray-300"
+                      className="border p-2 rounded-md"
                     >
                       <option value="true">Booked</option>
                       <option value="false">Available</option>
                     </select>
                   </td>
-                  <td className="px-4 py-5 border text-center">
+                  <td className="p-3 border text-center">
                     <button
-                      onClick={() => handleDelete(row.id)}
-                      className="text-red-500"
+                      onClick={() => handleDelete(seat.id)}
+                      className="text-red-500 hover:text-red-700"
                     >
-                      {" "}
-                      <i className="fa-solid fa-trash text-red-700 dark:text-red-500"></i>
+                      <i className="fa-solid fa-trash"></i>
                     </button>
                   </td>
                 </tr>
-              ))
-            )}
+              ));
+            })}
           </tbody>
         </table>
       </div>

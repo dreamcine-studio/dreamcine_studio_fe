@@ -4,8 +4,8 @@ import { getBooking } from "../../../services/booking";
 import { getPayments } from "../../../services/payment";
 
 export default function AdminBookings() {
-  const [booking, setBooking] = useState([]);
-  const [payment, setPayment] = useState([]);
+  const [bookings, setBookings] = useState([]);
+  const [payments, setPayments] = useState([]);
   const [error, setError] = useState([]);
   const [loading, setLoading] = useState(false);
   const userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
@@ -23,25 +23,26 @@ export default function AdminBookings() {
           getPayments(),
         ]);
 
-        const filteredBooking = bookingData.filter(
-          (booking) => booking.user_id === parseInt(userInfo.id)
-        );
-        const filteredPayment = paymentData.filter(
-          (payment) => payment.booking_id === parseInt(id)
+        const filteredBookings = bookingData.filter(
+          (booking) => booking.user_id === parseInt(userInfo.id) // ambil data booking berdasarkan user yang sedang login
         );
 
-        setBooking(filteredBooking);
-        setPayment(paymentData);
+        console.log("Filter Bookings:", filteredBookings); // cek hasil booking yang difilter
 
-        // // Extract schedule ID from booking data
-        // if (paymentData && paymentData.booking_id) {
-        //   const selectedbooking = bookingData.filter(
-        //     (b) => b.id === paymentData.booking_id
-        //   );
-        //   setBooking(selectedbooking);
-        // } else {
-        //   setPayment(null);
-        // }
+        const bookingId = filteredBookings.map((booking) => booking.id); // ambil data booking hanya id saja
+        console.log("Booking IDs:", bookingId); // cek ID booking
+
+        const filteredPayments = paymentData.filter(
+          (payment) => bookingId.includes(payment.booking_id) // periksa apakah booking_id ada di bookingId
+        );
+
+        console.log("Filter Payments:", filteredPayments); // cek seluruh payment yang difilter
+        filteredPayments.forEach(payment => {
+          console.log("Payment ID:", payment.id); // Menampilkan ID dari setiap objek dalam array pembayaran
+        });
+
+        setBookings(filteredBookings);
+        setPayments(filteredPayments);
       } catch (error) {
         setError("Failed to fetch data, please try again later.");
         console.log(error);
@@ -50,38 +51,12 @@ export default function AdminBookings() {
       }
     };
     fetchData();
-    // const fetchBooking = async () => {
-    //   try {
-    //     const data = await getBooking();
-    //     const booking = data.filter(
-    //       (booking) => booking.user_id === parseInt(userInfo.id)
-    //     );
-    //     setBooking(booking);
-    //   } catch (error) {
-    //     console.error("Error fetching booking:", error);
-    //     // Handle error, e.g., display a message to the user
-    //   }
-    // };
-
-    // fetchBooking();
-  }, [userInfo.id, id]);
-
-  // const hasPayment = (bookingId) => {
-  //   return payment.some((payment) => payment.id === bookingId);
-  // };
-
-  // const hasPayment = (id) => {
-  //   const pay = payment.filter((item) => item.id === id);
-  //   return pay ? pay.id : "Unknown pay";
-  // };
+  }, [userInfo.id]);
 
   const hasPaymentCode = (bookingId) => {
-    const paymentForBooking = payment.find((item) => item.booking_id === bookingId);
-    return paymentForBooking ? paymentForBooking.payment_code : null;
+    const paymentForBooking = payments.find((item) => item.booking_id === bookingId);
+    return paymentForBooking; // Kembalikan objek pembayaran yang sesuai
   };
-
-  console.log("test", booking);
-  console.log("pay", payment);
 
   const formatRupiah = (number) => {
     return new Intl.NumberFormat("id-ID", {
@@ -91,6 +66,35 @@ export default function AdminBookings() {
       maximumFractionDigits: 2,
     }).format(number);
   };
+
+  if (loading) {
+    return (
+      <main className="py-6 px-12 space-y-2 bg-gray-300 min-h-screen w-full flex items-center justify-center">
+        {/* Loading Spinner */}
+        <div className="flex items-center space-x-4">
+          <div
+            className="w-16 h-16 border-4 border-solid border-transparent rounded-full
+            animate-spin
+            border-t-purple-500 border-r-pink-500 border-b-purple-500 border-l-pink-500"
+          ></div>
+          {/* Teks dengan Efek Bounce */}
+          <div className="text-2xl font-bold text-gray-800 animate-bounce">
+            Please Wait ..
+          </div>
+        </div>
+      </main>
+    );
+  }
+
+  if (error) {
+    return (
+      <main className="py-l px-12 space-y-2 bg-gray-100 min-h-screen w-full flex items-center justify-center">
+        <div className="text-2xl font-bold text-gray-500"> {error} .. </div>
+      </main>
+    );
+  }
+
+
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
@@ -103,11 +107,10 @@ export default function AdminBookings() {
                 <th className="border px-4 py-2 text-left">User</th>
                 <th className="border px-4 py-2 text-left">Quantity</th>
                 <th className="border px-4 py-2 text-left">Amount</th>
-                {/* <th className="border px-4 py-2 text-left"></th> */}
               </tr>
             </thead>
             <tbody>
-              {booking.map((booking) => (
+              {bookings.map((booking) => (
                 <tr key={booking.user_id} className="hover:bg-gray-50">
                   <td className="border px-4 py-2">{userInfo.id}</td>
                   <td className="border px-4 py-2">{booking.quantity}</td>
@@ -116,9 +119,9 @@ export default function AdminBookings() {
                   </td>
 
                   <td className="border px-4 py-2">
-                  {hasPaymentCode(booking.id) ? (
+                    {hasPaymentCode(booking.id) ? (
                       <Link
-                        to={`/ticket`}
+                        to={`/tickets/${hasPaymentCode(booking.id).id}`}
                         className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mt-6"
                       >
                         Barcode

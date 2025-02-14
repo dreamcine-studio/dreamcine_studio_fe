@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { getMovies } from "../../../services/movies";
 import { getStudios } from "../../../services/studios";
 import { useNavigate } from "react-router-dom";
-import { createSchedules } from "../../../services/schedules";
+import { createSchedules, getSchedules } from "../../../services/schedules";
 import Error from "../../../components/Error";
 
 export default function ScheduleCreate() {
@@ -12,7 +12,6 @@ export default function ScheduleCreate() {
   const [scheduleData, setScheduleData] = useState({
     movie_id: "",
     studio_id: "",
-    showtime: ["", "", "", ""],
     showdate_start: "",
     showdate_end: "",
   });
@@ -37,12 +36,6 @@ export default function ScheduleCreate() {
     setScheduleData({ ...scheduleData, [name]: value });
   };
 
-  const handleShowtimeChange = (index, value) => {
-    const updatedShowtimes = [...scheduleData.showtime];
-    updatedShowtimes[index] = value;
-    setScheduleData({ ...scheduleData, showtime: updatedShowtimes });
-  };
-
   const handleInputChangeShowdate = (e) => {
     const { name, value } = e.target;
     setScheduleData({ ...scheduleData, [name]: value });
@@ -51,17 +44,12 @@ export default function ScheduleCreate() {
   const storeSchedule = async (e) => {
     e.preventDefault();
 
-    const showtimeArray = scheduleData.showtime.filter((time) => time !== ""); // Filter out empty strings
-
     const dataToSend = {
       ...scheduleData,
-      showtime: showtimeArray,
     };
 
-    console.log("Data yang akan dikirim:", showtimeArray); // Log data sebelum dikirim
-
     try {
-      const response = await createSchedules(dataToSend); // Kirim data yang sudah diformat sebagai JSON
+      const response = await createSchedules(dataToSend); 
       console.log("Response dari backend:", response);
       navigate("/admin/schedules");
     } catch (error) {
@@ -167,29 +155,6 @@ export default function ScheduleCreate() {
                   value={scheduleData.showdate_end}
                   className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent px-5 py-3 outline-none transition focus:border-blue-600 active:border-blue-600 :border-form-stroke :bg-form-input :focus:border-blue-600 dark:text-white"
                 />
-              </div>
-              <div className="flex gap-8">
-                {scheduleData.showtime.map((time, index) => (
-                  <div className="w-1/2" key={index}>
-                    <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                      Showtime {index + 1}
-                    </label>
-                    {errors.showtime && (
-                       <Error res={errors.showtime[0]} />
-                     )}
-
-                    <input
-                      type="time"
-                      name={`showtime[${index}]`} // Penting: name tetap seperti ini
-                      value={time}
-                      onChange={(e) =>
-                        handleShowtimeChange(index, e.target.value)
-                      }
-                      className="bg-gray-50 dark:bg-gray-200 border border-gray-300 text-gray-900 dark:text-black text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
-                      required=""
-                    />
-                  </div>
-                ))}
               </div>
             </div>
             <button

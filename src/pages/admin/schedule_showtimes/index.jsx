@@ -3,10 +3,14 @@ import { useEffect, useState } from "react";
 import { getMovies } from "../../../services/movies";
 import { deleteSchedules, getSchedules } from "../../../services/schedules";
 import { getStudios } from "../../../services/studios";
+import { getShowtimes, updateShowtimes } from "../../../services/showtime";
+import { deleteScheduleShowtimes, getScheduleShowtimes } from "../../../services/scheduleshowtime";
 
-export default function AdminSchedules() {
+export default function AdminScheduleShowtime() {
  
   const [schedules, setSchedules] = useState([]);
+  const [scheduleShowtimes, setSchedulesShowtimes] = useState([]);
+  const [showtimes, setShowtimes] = useState([]);
   const [movies, setMovies] = useState([]);
   const [studios, setStudios] = useState([]);
   const [Loading, setLoading] = useState([]);
@@ -25,16 +29,21 @@ export default function AdminSchedules() {
           schedulesData,
           moviesData,
           studiosData,
+          showtimesData,
+          scheduleShowtimesData,
       ] = await Promise.all( [
         getSchedules(),
         getMovies(),
         getStudios(),
-        
+        getShowtimes(),
+        getScheduleShowtimes(),
 		]);
 
     setStudios(studiosData);
     setMovies(moviesData);
     setSchedules(schedulesData);
+    setShowtimes(showtimesData);
+    setSchedulesShowtimes(scheduleShowtimesData);
 	}catch (error){
 		setError("Failed to fetch data, please try again later : ")
     console.log(error)
@@ -100,7 +109,7 @@ if (error){
           name: "Unknown Studio",
         };
   };
-
+  
   const handleDelete = async (id) => {
     const confirmDelete = window.confirm(
       "Are you sure you want to delete this schedule?"
@@ -108,8 +117,8 @@ if (error){
 
     if (confirmDelete) {
       try {
-        await deleteSchedules(id);
-        setSchedules(schedules.filter((schedule) => schedule.id !== id));
+        await deleteScheduleShowtimes(id);
+        setSchedulesShowtimes(scheduleShowtimes.filter((s) => s.id !== id));
         alert("Schedule deleted successfully");
       } catch (error) {
         console.error("Error deleting schedule:", error);
@@ -125,9 +134,9 @@ if (error){
     <>
       <div className="rounded-sm shadow-default dark:bg-boxdark sm:px-7.5 xl:pb-1 min-h-screen">
         <div className="flex items-center gap-6 justify-start">
-          <h1 className="text-2xl text-center font-bold dark:text-white">Schedules</h1>
+          <h1 className="text-2xl text-center font-bold dark:text-white">Schedule Showtimes</h1>
           <Link
-          to={`/admin/schedules/create`}
+          to={`/admin/schedule_showtimes/create`}
           className="bg-blue-500 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-500 text-white font-bold py-2 px-4 rounded"
         >
           <i className="fa-solid fa-plus mr-2"></i>
@@ -148,15 +157,10 @@ if (error){
               </tr>
             </thead>
             <tbody>
-  {schedules.length === 0 && (
-    <tr>
-      <td colSpan="5" className="text-center text-red-500 py-4">
-        No schedules found.
-      </td>
-    </tr>
-  )}
-  {schedules.map((schedule, index) => {
-    console.log("Schedule:", schedule); // Debug tiap schedule
+  {scheduleShowtimes.map((scheduleShowtime, index) => {
+    const schedule = schedules.find(s => s.id === scheduleShowtime.schedule_id);
+    if (!schedule) return null;
+
     return (
       <tr key={index} className="hover:bg-gray-100 dark:hover:bg-gray-600">
         <td className="py-4 px-4">
@@ -172,15 +176,18 @@ if (error){
         <td className="py-4 px-4 text-black dark:text-white">
           {getStudioData(schedule.studio_id).name}
         </td>
-        <td className="py-4 px-4 text-black dark:text-white">
-          {schedule.showdate_start} - {schedule.showdate_end}
-        </td>
+        <td className="py-4 px-4">
+  <span className="px-3 py-1 bg-gray-300 text-gray-700 rounded-md text-black">
+    {showtimes.find((s) => s.id === scheduleShowtime.showtime_id)?.sequence.slice(0, 5) || "No Showtime"}
+  </span>
+</td>
+
         <td className="py-4 px-4">
           <div className="flex items-center space-x-3.5">
-            <Link to={`/admin/schedules/edit/${schedule.id}`}>
+            <Link to={`/admin/schedule_showtimes/edit/${scheduleShowtime.id}`}>
               <i className="fa-solid fa-pen-to-square text-orange-500"></i>
             </Link>
-            <button onClick={() => handleDelete(schedule.id)}>
+            <button onClick={() => handleDelete(scheduleShowtime.id)}>
               <i className="fa-solid fa-trash text-red-700 dark:text-red-500"></i>
             </button>
           </div>
