@@ -70,6 +70,9 @@ export default function MovieSeat() {
     fetchSeat();
   }, [movieId, studioId, scheduleId]); // Perbarui saat booking selesai
 
+  console.log("dat",seat);
+  
+
   const handleSeatClick = (seatNumber) => {
     setSelectedSeats((prevSelectedSeats) => {
       if (prevSelectedSeats.includes(seatNumber)) {
