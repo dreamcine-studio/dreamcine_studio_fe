@@ -22,7 +22,7 @@ export default function MovieSeat() {
   const studioId = query.get("studio_id");
   const scheduleId = query.get("schedule_id");
   const showtime = query.get("showtime");
-  const showdate_start = query.get("showdate_start");
+  const showdate = query.get("showdate");
   const scheduleshowtimeId = query.get("scheduleshowtime")
 
   useEffect(() => {
@@ -122,7 +122,7 @@ export default function MovieSeat() {
     bookingData.append("studio_id", studioId);
     bookingData.append("schedule_id", scheduleId);
     bookingData.append("showtime", showtime.slice(0, 5));
-    bookingData.append("showdate_start", showdate_start);
+    bookingData.append("showdate", showdate);
     bookingData.append("quantity", selectedSeats.length);
     bookingData.append("amount", totalPrice);
     bookingData.append("timestamp", timestamp);
@@ -151,7 +151,7 @@ export default function MovieSeat() {
   console.log(movie)
   console.log(studio)
   console.log(showtime)
-  console.log(showdate_start)
+  console.log(showdate)
   console.log(totalPrice)
 
   return (
@@ -173,7 +173,7 @@ export default function MovieSeat() {
                 <td className="px-2 py-2">{movie.title}</td>
                 <td className="px-2 py-2">{studio.name}</td>
                 <td className="px-2 py-2">{showtime.slice(0, 5)}</td>
-                <td className="px-2 py-2">{schedule.showdate_start}</td>
+                <td className="px-2 py-2">{schedule.showdate}</td>
                 <td className="px-2 py-2">{formatRupiah(movie.price)}</td>
               </tr>
             </tbody>
@@ -225,7 +225,7 @@ export default function MovieSeat() {
   className={`h-[26px] w-[32px] m-[3px] rounded-t-[10px] text-[10px] text-center transition-all duration-200
     ${
       isBooked
-        ? "bg-gray-400 text-black cursor-not-allowed"
+        ? "bg-gray-200 text-black cursor-not-allowed"
         : selectedSeats.includes(seatNumber)
         ? "bg-orange-500"
         : "bg-gray-700 hover:scale-110 cursor-pointer"
@@ -250,7 +250,7 @@ export default function MovieSeat() {
   className={`h-[26px] w-[32px] m-[3px] rounded-t-[10px] text-[10px] text-center transition-all duration-200
     ${
       isBooked
-        ? "bg-gray-400 text-black cursor-not-allowed"
+        ? "bg-gray-200 text-black cursor-not-allowed"
         : selectedSeats.includes(seatNumber)
         ? "bg-orange-500"
         : "bg-gray-700 hover:scale-110 cursor-pointer"
