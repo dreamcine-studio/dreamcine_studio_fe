@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { getMovies } from "../../../services/movies";
 import { deleteSchedules, getSchedules } from "../../../services/schedules";
 import { getStudios } from "../../../services/studios";
+import { publicStorage } from "../../../api";
 
 export default function AdminSchedules() {
  
@@ -78,11 +79,10 @@ if (error){
 
   const getMovieData = (id) => {
     const movie = movies.find((m) => m.id === id);
-    const baseURL = "https://api-studio.karyakreasi.id/storage/movies/";
     return movie
       ? {
           title: movie.title,
-          poster: baseURL + movie.poster,
+          poster: publicStorage + movie.poster,
         }
       : {
           title: "Unknown Movie",

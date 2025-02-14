@@ -5,6 +5,7 @@ import { deleteSchedules, getSchedules } from "../../../services/schedules";
 import { getStudios } from "../../../services/studios";
 import { getShowtimes, updateShowtimes } from "../../../services/showtime";
 import { deleteScheduleShowtimes, getScheduleShowtimes } from "../../../services/scheduleshowtime";
+import { publicStorage } from "../../../api";
 
 export default function AdminScheduleShowtime() {
  
@@ -87,11 +88,10 @@ if (error){
 
   const getMovieData = (id) => {
     const movie = movies.find((m) => m.id === id);
-    const baseURL = "https://api-studio.karyakreasi.id/storage/movies/";
     return movie
       ? {
           title: movie.title,
-          poster: baseURL + movie.poster,
+          poster: publicStorage + poster,
         }
       : {
           title: "Unknown Movie",
