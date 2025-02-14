@@ -36,7 +36,6 @@ export default function AdminBookings() {
           (payment) => bookingId.includes(payment.booking_id) // periksa apakah booking_id ada di bookingId
         );
 
-        console.log("Filter Payments:", filteredPayments); // cek seluruh payment yang difilter
     
 
         setBookings(filteredBookings);
