@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { getBooking } from "../../../services/booking";
 import { getPayments } from "../../../services/payment";
 
 export default function AdminBookings() {
   const [bookings, setBookings] = useState([]);
-  const [payment, setPayment] = useState([]);
+  const [payments, setPayments] = useState([]);
   const [error, setError] = useState([]);
   const [loading, setLoading] = useState(false);
   const userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
 
-  // const { id } = useParams();
+  const { id } = useParams();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -36,10 +36,11 @@ export default function AdminBookings() {
           (payment) => bookingId.includes(payment.booking_id) // periksa apakah booking_id ada di bookingId
         );
 
+        console.log("Filter Payments:", filteredPayments); // cek seluruh payment yang difilter
     
 
         setBookings(filteredBookings);
-        setPayment(filteredPayments);
+        setPayments(filteredPayments);
       } catch (error) {
         setError("Failed to fetch data, please try again later.");
         console.log(error);
