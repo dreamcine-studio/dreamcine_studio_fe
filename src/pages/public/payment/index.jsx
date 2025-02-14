@@ -50,6 +50,9 @@ export default function AdminBookings() {
     fetchData();
   }, [userInfo.id]);
 
+
+
+  
   useEffect(() => {
     const intervals = {};
 
