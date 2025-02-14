@@ -20,27 +20,16 @@ export default function AdminBookings() {
 
       try {
         const [bookingData, paymentData] = await Promise.all([
-          getBooking(),
+          getBooking(id),
           getPayments(),
         ]);
 
-        const filteredBookings = bookingData.filter(
-          (booking) => booking.user_id === parseInt(userInfo.id) 
+        const filteredBooking = bookingData.filter(
+          (booking) => booking.user_id === parseInt(userInfo.id)
         );
 
-        const bookingId = filteredBookings.map((booking) => booking.id); 
-        const filteredPayments = paymentData.filter(
-          (payment) => bookingId.includes(payment.booking_id) 
-        );
-
-        console.log("Filter Payments:", filteredPayments); // cek seluruh payment yang difilter
-    
-        // filteredPayments.forEach(payment => {
-        //   console.log("Payment ID:", payment.id); // Menampilkan ID dari setiap objek dalam array pembayaran
-        // });
-
-        setBookings(filteredBookings);
-        setPayment(filteredPayments);
+        setBookings(filteredBooking);
+        setPayment(paymentData);
       } catch (error) {
         setError("Failed to fetch data, please try again later.");
         console.log(error);
@@ -49,8 +38,9 @@ export default function AdminBookings() {
       }
     };
     fetchData();
-  }, [userInfo.id]);
+  }, [userInfo.id, id]);
 
+  // Ambil jam dan menit dari booking.created_at
   useEffect(() => {
     const intervals = {};
 
@@ -85,19 +75,14 @@ export default function AdminBookings() {
     };
   }, [bookings]);
 
-  payment.forEach((pay) => {
-    console.log(pay.status);
-    
-  })
-
   console.log("bok", bookings);
-  console.log("pay", payment.id);
+  console.log("pay", payment);
+  
 
   const hasPaymentCode = (bookingId) => {
     const paymentForBooking = payment.find((item) => item.booking_id === bookingId);
     return paymentForBooking ? paymentForBooking.payment_code : null;
   };
-  
 
   const formatRupiah = (number) => {
     return new Intl.NumberFormat("id-ID", {
@@ -107,35 +92,6 @@ export default function AdminBookings() {
       maximumFractionDigits: 2,
     }).format(number);
   };
-
-  if (loading) {
-    return (
-      <main className="py-6 px-12 space-y-2 bg-gray-300 min-h-screen w-full flex items-center justify-center">
-        {/* Loading Spinner */}
-        <div className="flex items-center space-x-4">
-          <div
-            className="w-16 h-16 border-4 border-solid border-transparent rounded-full
-            animate-spin
-            border-t-purple-500 border-r-pink-500 border-b-purple-500 border-l-pink-500"
-          ></div>
-          {/* Teks dengan Efek Bounce */}
-          <div className="text-2xl font-bold text-gray-800 animate-bounce">
-            Please Wait ..
-          </div>
-        </div>
-      </main>
-    );
-  }
-
-  if (error) {
-    return (
-      <main className="py-l px-12 space-y-2 bg-gray-100 min-h-screen w-full flex items-center justify-center">
-        <div className="text-2xl font-bold text-gray-500"> {error} .. </div>
-      </main>
-    );
-  }
-
-
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
@@ -149,43 +105,37 @@ export default function AdminBookings() {
                 <th className="border px-4 py-2 text-left">Quantity</th>
                 <th className="border px-4 py-2 text-left">Amount</th>
                 <th className="border px-4 py-2 text-left">Time (Payment Countdown)</th>
-                <th className="border px-4 py-2 text-left">Action</th>
-                <th className="border px-4 py-2 text-left">Stat</th>
+                <th className="border px-4 py-2 text-left"></th>
               </tr>
             </thead>
             <tbody>
               {bookings.map((booking) => (
-                <tr key={booking.user_id} className="hover:bg-gray-50">
-                  <td className="border px-4 py-2">{userInfo.id}</td>
+                <tr key={booking.id} className="hover:bg-gray-50">
+                  <td className="border px-4 py-2">{userInfo.name || userInfo.id}</td>
                   <td className="border px-4 py-2">{booking.quantity}</td>
                   <td className="border px-4 py-2">
-                    {formatRupiah(booking.amount)}
+                    {!hasPaymentCode(booking.id) && countdowns[booking.id]}
                   </td>
-                  <td className="border px-4 py-2">
-                  {!hasPaymentCode(booking.id) && countdowns[booking.id]}
-                  </td>
-
-
+                  <td className="border px-4 py-2">{formatRupiah(booking.amount)}</td>
                   <td className="border px-4 py-2">
                     {hasPaymentCode(booking.id) ? (
                       <Link
-                        to={`/tickets/${hasPaymentCode(booking.id).id}`}
+                        to={`/ticket`}
                         className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mt-6"
                       >
                         Barcode
                       </Link>
                     ) : (
-                      <Link
-                        to={`/booking/pay/${booking.id}`}
-                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-6"
-                      >
-                        Pay
-                      </Link>
+                      countdowns[booking.id] && (
+                        <Link
+                          to={`/booking/pay/${booking.id}`}
+                          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-6"
+                        >
+                          Pay
+                        </Link>
+                      )
                     )}
                   </td>
-                  {payment.map((pay) => (
-                  <td key={payment.id} className="border px-4 py-2">{pay.status}</td>
-                ))}
                 </tr>
               ))}
             </tbody>
