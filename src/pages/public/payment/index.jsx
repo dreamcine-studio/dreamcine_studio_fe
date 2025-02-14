@@ -51,6 +51,56 @@ export default function AdminBookings() {
     fetchData();
   }, [userInfo.id]);
 
+
+  useEffect(() => {
+    const intervals = {};
+
+    bookings.forEach((booking) => {
+      const deadline = new Date(booking.created_at);
+      deadline.setMinutes(deadline.getMinutes() + 1); // Tambahkan 30 menit ke waktu created_at
+
+      // Set interval untuk menghitung mundur setiap detik
+      intervals[booking.id] = setInterval(() => {
+        const now = new Date();
+        const timeRemaining = deadline - now; // Selisih waktu antara deadline dan waktu sekarang
+
+        if (timeRemaining <= 0) {
+          clearInterval(intervals[booking.id]); // Hentikan interval ketika waktu habis
+          if (!hasPaymentCode(booking.id)) {
+            setBookings((prevBookings) =>
+              prevBookings.filter((b) => b.id !== booking.id)
+            );
+          }
+        } else {
+          const minutes = Math.floor(
+            (timeRemaining % (1000 * 60 * 60)) / (1000 * 60)
+          );
+          const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+          setCountdowns((prev) => ({
+            ...prev,
+            [booking.id]: `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`, // Format waktu MM:SS
+          }));
+        }
+      }, 1000); // Update setiap detik
+    });
+
+    return () => {
+      // Bersihkan interval saat komponen dihapus atau berubah
+      Object.values(intervals).forEach(clearInterval);
+    };
+  }, [bookings]);
+
+  console.log("bok", bookings);
+  console.log("pay", payment);
+
+  const getPaymentStatus = (bookingId) => {
+    const paymentForBooking = payment.find(
+      (item) => item.booking_id === bookingId
+    );
+    return paymentForBooking ? paymentForBooking.status : null;
+  };
+
+
   const hasPaymentCode = (bookingId) => {
     const paymentForBooking = payment.find(
       (item) => item.booking_id === bookingId
@@ -118,17 +168,23 @@ export default function AdminBookings() {
                     {formatRupiah(booking.amount)}
                   </td>
 
+
+
                   <td className="border px-4 py-2">
                     {hasPaymentCode(booking.id) ? (
-                      <Link
-                        to={`/tickets/${hasPaymentCode(booking.id).id}`}
-                        className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mt-6"
-                      >
-                        Barcode
-                      </Link>
+                      getPaymentStatus(booking.id) === "pending" ? (
+                        <span className="text-yellow-500">Pending</span>
+                      ) : getPaymentStatus(booking.id) === "confirmed" ? (
+                        <Link
+                          to={/tickets/${hasPaymentCode(booking.id).id}}
+                          className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mt-6"
+                        >
+                          Barcode
+                        </Link>
+                      ) : null
                     ) : (
                       <Link
-                        to={`/booking/pay/${booking.id}`}
+                        to={/booking/pay/${booking.id}}
                         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-6"
                       >
                         Pay
