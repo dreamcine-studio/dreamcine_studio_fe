@@ -17,7 +17,7 @@ export default function StudioEdit() {
   const fetchStudiosDetails = async () => {
     const data = await getStudios();
 
-    const studio = data.find((book) => book.id === parseInt(id));
+    const studio = data.find((s) => s.id === parseInt(id));
     if (studio) {
       setName(studio.name);
       setMaxSeat(studio.maxseats);

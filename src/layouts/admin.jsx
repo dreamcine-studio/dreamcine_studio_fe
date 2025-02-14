@@ -212,20 +212,41 @@ export default function AdminLayout() {
                 <span className="flex-1 ms-3 whitespace-nowrap">Movies</span>
               </Link>
             </li>
-          </ul>
 
           <div className="border-t border-gray-200 dark:border-gray-700"></div>
 
-          <ul className="space-y-2 font-medium">
+            <li>
+              <Link
+                to="/admin/showtimes"
+                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+              >
+                <i className="fa-solid fa-clock fa-lg"></i>
+                <span className="flex-1 ms-3 whitespace-nowrap">Showtimes</span>
+              </Link>
+            </li>
             <li>
               <Link
                 to="/admin/schedules"
                 className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
               >
-                <i className="fa-solid fa-calendar-days fa-xl"></i>
+                <i className="fa-solid fa-calendar-days fa-lg"></i>
                 <span className="flex-1 ms-3 whitespace-nowrap">Schedules</span>
               </Link>
             </li>
+            <li>
+              <Link
+                to="/admin/schedule_showtimes"
+                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+              >
+                <i className="fa-solid fa-clipboard-list fa-lg"></i>
+                <span className="flex-1 ms-3 whitespace-nowrap">Schedule Showtime</span>
+              </Link>
+            </li>
+          </ul>
+
+          <div className="border-t border-gray-200 dark:border-gray-700"></div>
+
+          <ul className="space-y-2 font-medium">
             <li>
               <Link
                 to="/admin/seats"
@@ -265,7 +286,7 @@ export default function AdminLayout() {
                 <span className="flex-1 ms-3 whitespace-nowrap">Users</span>
               </Link>
             </li>
-            <div className="absolute py-14 bottom-0">
+            <div className="absoulute bottom-0 p-14">
             
             <li>
               <button
