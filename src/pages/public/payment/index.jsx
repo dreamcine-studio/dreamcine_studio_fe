@@ -103,7 +103,7 @@ export default function AdminBookings() {
     const paymentForBooking = payment.find(
       (item) => item.booking_id === bookingId
     );
-    return paymentForBooking ? paymentForBooking.payment_code : null;
+    return paymentForBooking;
   };
 
   const formatRupiah = (number) => {
