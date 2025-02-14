@@ -33,6 +33,8 @@ export default function AdminBookings() {
           bookingId.includes(payment.booking_id)
         );
 
+        console.log("Filter Payments:", filteredPayments); // cek seluruh payment yang difilter
+    
         // filteredPayments.forEach(payment => {
         //   console.log("Payment ID:", payment.id); // Menampilkan ID dari setiap objek dalam array pembayaran
         // });

@@ -103,6 +103,8 @@ export default function AdminSeats() {
               <th className="p-3 border">Studio</th>
               <th className="p-3 border">Movie</th>
               <th className="p-3 border">Showtime</th>
+              <th className="p-3 border">MaxSeats</th>
+              <th className="p-3 border">Available</th>
               <th className="p-3 border">Seat Number</th>
               <th className="p-3 border">Is Booked</th>
               <th className="p-3 border">Action</th>
@@ -145,6 +147,14 @@ export default function AdminSeats() {
                       </td>
                     </>
                   )}
+              
+                <td className="p-3 border text-center">
+                    <p className="text-black dark:text-white">{studio.maxseats}</p>
+                  </td>
+
+                  <td className="p-3 border text-center">
+                    tes
+                  </td >
                   <td className="p-3 border dark:text-white text-center">
                     {seat.seat_number.join(", ")}
                   </td>
