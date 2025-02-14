@@ -52,7 +52,7 @@ export default function AdminBookings() {
 
 
 
-  
+
   useEffect(() => {
     const intervals = {};
 
@@ -172,6 +172,9 @@ export default function AdminBookings() {
                   <td className="border px-4 py-2">
                     {!hasPaymentCode(booking.id) && countdowns[booking.id]}
                   </td>
+
+
+
 
                   <td className="border px-4 py-2">
                     {hasPaymentCode(booking.id) ? (
