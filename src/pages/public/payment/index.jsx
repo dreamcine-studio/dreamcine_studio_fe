@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { getBooking } from "../../../services/booking";
 import { getPayments } from "../../../services/payment";
 
 export default function AdminBookings() {
   const [bookings, setBookings] = useState([]);
-  const [payments, setPayments] = useState([]);
+  const [payment, setPayment] = useState([]);
   const [error, setError] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [countdowns, setCountdowns] = useState({});
   const userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
 
-  const { id } = useParams();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -40,7 +40,7 @@ export default function AdminBookings() {
     
 
         setBookings(filteredBookings);
-        setPayments(filteredPayments);
+        setPayment(filteredPayments);
       } catch (error) {
         setError("Failed to fetch data, please try again later.");
         console.log(error);
@@ -157,6 +157,10 @@ export default function AdminBookings() {
                 <th className="border px-4 py-2 text-left">User</th>
                 <th className="border px-4 py-2 text-left">Quantity</th>
                 <th className="border px-4 py-2 text-left">Amount</th>
+                <th className="border px-4 py-2 text-left">
+                  Time (Payment Countdown)
+                </th>
+                <th className="border px-4 py-2 text-left">Action</th>
               </tr>
             </thead>
             <tbody>
@@ -167,8 +171,9 @@ export default function AdminBookings() {
                   <td className="border px-4 py-2">
                     {formatRupiah(booking.amount)}
                   </td>
-
-
+                  <td className="border px-4 py-2">
+                    {!hasPaymentCode(booking.id) && countdowns[booking.id]}
+                  </td>
 
                   <td className="border px-4 py-2">
                     {hasPaymentCode(booking.id) ? (
@@ -176,7 +181,7 @@ export default function AdminBookings() {
                         <span className="text-yellow-500">Pending</span>
                       ) : getPaymentStatus(booking.id) === "confirmed" ? (
                         <Link
-                          to={/tickets/${hasPaymentCode(booking.id).id}}
+                          to={`/tickets/${hasPaymentCode(booking.id).id}`}
                           className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mt-6"
                         >
                           Barcode
@@ -184,7 +189,7 @@ export default function AdminBookings() {
                       ) : null
                     ) : (
                       <Link
-                        to={/booking/pay/${booking.id}}
+                        to={`/booking/pay/${booking.id}`}
                         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-6"
                       >
                         Pay

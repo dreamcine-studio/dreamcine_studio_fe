@@ -1,28 +1,30 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams  } from "react-router-dom";
 import Barcode from "react-barcode";
-import { getPayments } from "../../services/payment";
-
+import { showPayment } from "../../services/payment";
+import { showBooking } from "../../services/booking";
+import { showScheduleShowtimes } from "../../services/scheduleshowtime";
 
 export default function Ticket() {
-  const [paymentCodes, setPaymentCodes] = useState('');
-  const [paymentDates, setPaymentDates] = useState('');
-  const [payments, setPayments] = useState('');
+  
+  const [payment, setPayment] = useState([]);
+  const [booking , setBooking] = useState([]);
+  const [scheduleShowTime , setScheduleShowTime] = useState([]);
 
+
+  
   const { id } = useParams(); // Menangkap ID dari URL
 
-  // Fungsi untuk mengambil detail pembayaran berdasarkan ID
+  // Menambahkan state untuk movie title
+  const [movieTitle, setMovieTitle] = useState('');
+
+
   const fetchPaymentDetails = async () => {
     try {
-      const data = await getPayments(); // Mendapatkan data pembayaran dari API
-      const payment = data.find((payment) => payment.id === parseInt(id)); // Mencari berdasarkan ID
+      const data = await showPayment(id); 
 
-
-      if (payment) {
-        // Menyimpan data yang ditemukan ke state
-        setPaymentCodes(payment.payment_code);
-        setPaymentDates(payment.payment_date);
-        setPayments(payment.status);  // status pembayaran (misalnya: "pending" atau "confirmed")
+      if (data) {
+        setPayment(data);
       }
     } catch (error) {
       console.error("Error fetching payment details", error);
@@ -31,13 +33,47 @@ export default function Ticket() {
 
 
 
+
+  const fetchSchedulShowTime = async () => {
+
+    try {
+
+      const data = await showScheduleShowtimes(payment.booking.id); // Ambil data booking menggunakan payment_method_id
+      if (data) {
+        setBooking(data); // Set data booking ke state booking
+      }
+    } catch (error) {
+      console.error("Error fetching booking details", error);
+    }
+  };
+
+
+
   // Mengambil data saat pertama kali load dan saat ID berubah
   useEffect(() => {
     fetchPaymentDetails();
+    
+    // Ambil movie title dari sessionStorage
+    const storedMovieTitle = sessionStorage.getItem("movie_title");
+    setMovieTitle(storedMovieTitle || "Movie Title Not Available");
   }, [id]); // Hanya dipanggil saat ID berubah
 
+
+  useEffect(() => {
+    if (payment && payment.schedule_id) {
+      setScheduleShowTime(); // Panggil fetchBookings ketika payment sudah terisi
+    }
+  }, [scheduleShowTime]); // Trigger jika payment berubah
+
+
+
+  console.log("payment" , payment);
+  console.log("scheduleShowTime" , scheduleShowTime);
+  // console.log("scheuleShotime" , scheduleShowTime);
+  
+
   // Jika data belum tersedia, tampilkan loading
-  if (!paymentCodes || !payments) {
+  if (!payment.payment_code || !payment) {
     return <div>Loading...</div>;
   }
 
@@ -46,7 +82,7 @@ export default function Ticket() {
       {/* Bagian Header */}
       <div className="text-center mb-6">
         <h2 className="text-3xl font-semibold text-gray-800 tracking-tight">Cinema Ticket</h2>
-        <p className="mt-2 text-gray-500 text-lg">Your Movie Experience Begins Here</p>
+        <p className="mt-2 text-gray-500 text-lg">{movieTitle}</p> {/* Menampilkan Movie Title */}
       </div>
 
       {/* Bagian Detail Pembayaran dan Film */}
@@ -55,21 +91,21 @@ export default function Ticket() {
           {/* Menampilkan Status Pembayaran */}
           <div className="flex justify-between items-center text-gray-700 mb-4">
             <p className="text-sm font-medium">Payment Status</p>
-            <p className="font-semibold text-lg">{payments || "N/A"}</p>
+            <p className="font-semibold text-lg">{payment.status || "N/A"}</p>
           </div>
 
           {/* Menampilkan Payment Date */}
           <div className="flex justify-between items-center text-gray-700 mb-4">
             <p className="text-sm font-medium">Payment Date</p>
-            <p className="font-semibold text-lg">{paymentDates || "Not Available"}</p>
+            <p className="font-semibold text-lg">{payment.payment_date || "Not Available"}</p>
           </div>
 
           {/* Menampilkan Barcode hanya jika status "confirmed" */}
           <div className="mt-6">
-            {payments === "confirmed" ? (
-              <Barcode className="mx-auto text-xl text-gray-800" value={paymentCodes} />
+            {payment.status === "confirmed" ? (
+              <Barcode className="mx-auto text-xl text-gray-800" value={payment.payment_code} />
             ) : (
-              <p className="text-gray-500">Tiket belum tersedia. Status pembayaran: {payments}</p>
+              <p className="text-gray-500">Tiket belum tersedia. Status pembayaran: {payment.status}</p>
             )}
           </div>
         </div>
