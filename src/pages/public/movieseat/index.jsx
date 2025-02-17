@@ -101,6 +101,8 @@ export default function MovieSeat() {
     fetchSeat();
   }, [movieId, studioId, scheduleId, scheduleshowtimeId]); // Perbarui saat ID berubah
 
+  
+
   const handleSeatClick = (seatNumber) => {
     setSelectedSeats((prevSelectedSeats) => {
       if (prevSelectedSeats.includes(seatNumber)) {
@@ -176,8 +178,9 @@ export default function MovieSeat() {
     }
   };
 
-  console.log(movie);
-  console.log(studio);
+  console.log("mo", movie);
+  console.log("stu",studio);
+  console.log("seat",seat);
   console.log(showtime);
   console.log(showdate);
   console.log(totalPrice);
