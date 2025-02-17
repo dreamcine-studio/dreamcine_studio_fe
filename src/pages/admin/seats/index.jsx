@@ -93,9 +93,7 @@ export default function AdminSeats() {
 
   return (
     <div className="p-6 min-h-screen">
-      <h1 className="text-2xl font-bold dark:text-white text-center mb-6">
-        Seats Management
-      </h1>
+      <h1 className="text-2xl font-bold dark:text-white text-center mb-6">Seats</h1>
       <div className="overflow-x-auto">
         <table className="w-full table-auto mt-6 border-collapse border border-gray-300">
           <thead className="bg-gray-200 dark:bg-gray-800 text-white">
@@ -103,9 +101,8 @@ export default function AdminSeats() {
               <th className="p-3 border">Studio</th>
               <th className="p-3 border">Movie</th>
               <th className="p-3 border">Showtime</th>
-              <th className="p-3 border">MaxSeats</th>
-              <th className="p-3 border">Available</th>
-              <th className="p-3 border">Seat Number</th>
+              <th className="p-3 border">Showdate</th>
+              <th className="p-3 border">Seat Numbers</th>
               <th className="p-3 border">Is Booked</th>
               <th className="p-3 border">Action</th>
             </tr>
@@ -125,45 +122,42 @@ export default function AdminSeats() {
                 (st) => st.id === scheduleShowtime.showtime_id
               );
 
-              const filteredSeats = seats.filter(
-                (seat) => seat.schedule_showtime_id === scheduleShowtime.id
-              );
+              // Mengelompokkan seat berdasarkan showdate
+              const groupedSeats = seats
+                .filter((seat) => seat.schedule_showtime_id === scheduleShowtime.id)
+                .reduce((acc, seat) => {
+                  if (!acc[seat.showdate]) {
+                    acc[seat.showdate] = { seatNumbers: [], isBooked: seat.isbooked };
+                  }
+                  acc[seat.showdate].seatNumbers.push(...seat.seat_number);
+                  return acc;
+                }, {});
 
-              return filteredSeats.map((seat, index) => (
-                <tr key={seat.id} className="border">
+              return Object.entries(groupedSeats).map(([showdate, seatData], index) => (
+                <tr key={showdate} className="border">
                   {index === 0 && (
                     <>
-                      <td rowSpan={filteredSeats.length} className="p-3 border dark:text-white">
+                      <td rowSpan={Object.keys(groupedSeats).length} className="p-3 border dark:text-white">
                         {studio.name}
                       </td>
-                      <td rowSpan={filteredSeats.length} className="p-3 border dark:text-white">
+                      <td rowSpan={Object.keys(groupedSeats).length} className="p-3 border dark:text-white">
                         {movie.title}
                       </td>
-                      <td
-                        rowSpan={filteredSeats.length}
-                        className="px-2 py-4 border dark:text-white text-center"
-                      >
+                      <td rowSpan={Object.keys(groupedSeats).length} className="px-2 py-4 border dark:text-white text-center">
                         {showtime.sequence.slice(0, 5)}
                       </td>
                     </>
                   )}
-              
-                <td className="p-3 border text-center">
-                    <p className="text-black dark:text-white">{studio.maxseats}</p>
+                  <td className="px-2 border dark:text-white text-center">
+                    {showdate}
                   </td>
-
-                  <td className="p-3 border text-center">
-                    tes
-                  </td >
                   <td className="p-3 border dark:text-white text-center">
-                    {seat.seat_number.join(", ")}
+                    {seatData.seatNumbers.join(", ")}
                   </td>
                   <td className="p-3 border text-center">
                     <select
-                      value={seat.isbooked ? "true" : "false"}
-                      onChange={(e) =>
-                        updateBookedStatus(seat.id, e.target.value)
-                      }
+                      value={seatData.isBooked ? "true" : "false"}
+                      onChange={(e) => updateBookedStatus(scheduleShowtime.id, e.target.value)}
                       className="border p-2 rounded-md"
                     >
                       <option value="true">Booked</option>
@@ -172,7 +166,7 @@ export default function AdminSeats() {
                   </td>
                   <td className="p-3 border text-center">
                     <button
-                      onClick={() => handleDelete(seat.id)}
+                      onClick={() => handleDelete(scheduleShowtime.id)}
                       className="text-red-500 hover:text-red-700"
                     >
                       <i className="fa-solid fa-trash"></i>
@@ -187,3 +181,4 @@ export default function AdminSeats() {
     </div>
   );
 }
+

@@ -57,9 +57,8 @@ export default function AdminBookings() {
 
     bookings.forEach((booking) => {
       const deadline = new Date(booking.created_at);
-      deadline.setMinutes(deadline.getMinutes() + 1); // Tambahkan 30 menit ke waktu created_at
+      deadline.setMinutes(deadline.getMinutes() + 2); // Tambahkan 30 menit ke waktu created_at
 
-      // Set interval untuk menghitung mundur setiap detik
       intervals[booking.id] = setInterval(() => {
         const now = new Date();
         const timeRemaining = deadline - now; // Selisih waktu antara deadline dan waktu sekarang
@@ -67,8 +66,11 @@ export default function AdminBookings() {
         if (timeRemaining <= 0) {
           clearInterval(intervals[booking.id]); // Hentikan interval ketika waktu habis
           if (!hasPaymentCode(booking.id)) {
+            // Set status failed setelah waktu habis
             setBookings((prevBookings) =>
-              prevBookings.filter((b) => b.id !== booking.id)
+              prevBookings.map((b) =>
+                b.id === booking.id ? { ...b, status: "failed" } : b
+              )
             );
           }
         } else {
@@ -176,9 +178,11 @@ export default function AdminBookings() {
                   </td>
 
                   <td className="border px-4 py-2">
-                    {hasPaymentCode(booking.id) ? (
+                    {booking.status === "failed" ? (
+                      <span className="text-red-500">time-out</span>
+                    ) : hasPaymentCode(booking.id) ? (
                       getPaymentStatus(booking.id) === "pending" ? (
-                        <span className="text-yellow-500">Pending</span>
+                        <span className="text-yellow-500">Waiting for confirmation</span>
                       ) : getPaymentStatus(booking.id) === "confirmed" ? (
                         <Link
                           to={`/tickets/${hasPaymentCode(booking.id).id}`}

@@ -3,11 +3,13 @@ import { Link } from "react-router-dom";
 import { deleteBooking, getBooking } from "../../../services/booking";
 import { getSchedules } from "../../../services/schedules";
 import { getMovies } from "../../../services/movies";
+import { getUsers } from "../../../services/user";
 
 export default function AdminBookings() {
   const [bookings, setBooking] = useState([]);
   const [schedules, setSchedules] = useState([]);
   const [movies, setMovies] = useState([]);
+  const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState([]);
   const [error, setError] = useState([]);
 
@@ -17,14 +19,16 @@ export default function AdminBookings() {
       setError(null);
 
       try {
-        const [bookingsData, schedulesData, movieData] = await Promise.all([
+        const [bookingsData, schedulesData, movieData, userData] = await Promise.all([
           getBooking(),
           getSchedules(),
           getMovies(),
+          getUsers(),
         ]);
         setBooking(bookingsData);
         setSchedules(schedulesData);
         setMovies(movieData);
+        setUsers(userData);
       } catch (error) {
         setError("Failed to fetch data, please try again later : ");
         console.log(error);
@@ -43,17 +47,9 @@ export default function AdminBookings() {
     return movie || { title: "Unknown Movie" };
   };
 
-  const getUserInfoName = (bookingId) => {
-    const userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
-
-    if (userInfo) {
-      const booking = bookings.find((b) => b.id === bookingId);
-      if (booking && booking.user_id === userInfo.id) {
-        return userInfo.name; // Return name from sessionStorage if matched
-      }
-    }
-
-    return "Unknown User"; // Default name if no match found
+  const getUserInfoName = (userId) => {
+    const user = users.find((u) => u.id === userId);
+    return user ? user.name : "Unknown User";
   };
 
   const formatRupiah = (number) => {
@@ -74,25 +70,18 @@ export default function AdminBookings() {
   
     const parts = formattedDate.split(' ');
   
-    // Add a comma after the weekday (first part)
     parts[0] = parts[0] + ','; 
   
     return parts.join(' ');
   };
   
-  
-
   if (loading) {
     return (
       <main className="py-6 px-12 space-y-2 bg-gray-300 min-h-screen w-full flex items-center justify-center">
-        {/* Loading Spinner */}
         <div className="flex items-center space-x-4">
           <div
-            className="w-16 h-16 border-4 border-solid border-transparent rounded-full
-            animate-spin
-            border-t-purple-500 border-r-pink-500 border-b-purple-500 border-l-pink-500"
+            className="w-16 h-16 border-4 border-solid border-transparent rounded-full animate-spin border-t-purple-500 border-r-pink-500 border-b-purple-500 border-l-pink-500"
           ></div>
-          {/* Teks dengan Efek Bounce */}
           <div className="text-2xl font-bold text-gray-800 animate-bounce">
             Please Wait ..
           </div>
@@ -110,10 +99,7 @@ export default function AdminBookings() {
   }
 
   const handleDelete = async (id) => {
-    const confirmDelete = window.confirm(
-      "Apakah Anda yakin ingin Menghapus Data ini ?"
-    );
-
+    const confirmDelete = window.confirm("Apakah Anda yakin ingin Menghapus Data ini ?");
     if (confirmDelete) {
       await deleteBooking(id);
       setBooking(bookings.filter((booking) => booking.id !== id));
@@ -133,13 +119,13 @@ export default function AdminBookings() {
           <thead className="border-b bg-gray-50 dark:bg-gray-900 text-white">
             <tr className="bg-gray-2 text-left dark:bg-meta-4">
               <th className="px-4 py-4 font-bold text-gray-700 dark:text-white uppercase">
-                user
+                User
               </th>
               <th className="px-4 py-4 font-bold text-gray-700 dark:text-white uppercase">
                 Movie
               </th>
               <th className="px-4 py-4 font-bold text-gray-700 dark:text-white uppercase">
-                quantity
+                Quantity
               </th>
               <th className="px-4 py-4 font-bold text-gray-700 dark:text-white uppercase">
                 Total Price
@@ -161,46 +147,38 @@ export default function AdminBookings() {
                 <tr key={booking.id} className="hover:bg-gray-100 dark:hover:bg-gray-600">
                   <td className="px-4 py-5">
                     <p className="text-black dark:text-white">
-                      {getUserInfoName(booking.id)} {/* Call function to get user name */}
+                      {getUserInfoName(booking.user_id)}
                     </p>
                   </td>
-
                   <td className="px-4 py-5">
                     <p className="text-black dark:text-white">
                       {getMovieDetails(booking.schedule_id).title}
                     </p>
                   </td>
-
                   <td className="px-4 py-5">
                     <p className="px-4 text-black dark:text-white">
                       {booking.quantity}
                     </p>
                   </td>
-
                   <td className="px-4 py-5">
                     <p className="text-black dark:text-white">
                       {formatRupiah(booking.amount)}
                     </p>
                   </td>
-
                   <td className="px-4 py-5">
                     <p className="px-4 text-black dark:text-white">
                       {booking.showtime.slice(0, 5)}
                     </p>
                   </td>
-
                   <td className="py-5">
                     <p className="px-4 text-black dark:text-white">
                       {formatTimestamp(booking.created_at)}
                     </p>
                   </td>
-
                   <td className="px-4 py-5">
-                    <div className="flex items-center space-x-3.5">
-                      <button onClick={() => handleDelete(booking.id)}>
-                        <i className="fa-solid fa-trash text-red-700 dark:text-red-500"></i>
-                      </button>
-                    </div>
+                    <button onClick={() => handleDelete(booking.id)}>
+                      <i className="fa-solid fa-trash text-red-700 dark:text-red-500"></i>
+                    </button>
                   </td>
                 </tr>
               ))

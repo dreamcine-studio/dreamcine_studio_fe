@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { deleteMovie, getMovies } from "../../../services/movies";
 import { getGenres } from "../../../services/genre";
+import { publicStorage } from "../../../api";
 
 export default function Movies() {
   const [movies, setMovies] = useState([]);
@@ -151,7 +152,8 @@ export default function Movies() {
                   </td>
                   <td className="px-4 py-5">
                     <img
-                      src={`http://127.0.0.1:8000/storage/movies/${movie.poster}`}
+                    src={publicStorage + movie.poster}
+                    
                       className="w-20 h-20"
                     />
                   </td>

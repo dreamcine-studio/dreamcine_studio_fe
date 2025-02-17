@@ -87,7 +87,7 @@ if (error){
 
   const getMovieData = (id) => {
     const movie = movies.find((m) => m.id === id);
-    const baseURL = "http://127.0.0.1:8000/storage/movies/";
+    const baseURL = "https://api-studio.karyakreasi.id/storage/movies/";
     return movie
       ? {
           title: movie.title,
