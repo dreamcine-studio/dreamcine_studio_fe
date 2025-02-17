@@ -14,6 +14,7 @@ export default function MovieSeat() {
   const [seat, setSeat] = useState([]);
   const [schedule, setSchedule] = useState([]);
   const [errors, setErrors] = useState([]);
+  
 
   const location = useLocation();
   const navigate = useNavigate();

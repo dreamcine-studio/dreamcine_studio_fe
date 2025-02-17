@@ -61,7 +61,7 @@ export default function Ticket() {
 
   useEffect(() => {
     if (payment && payment.schedule_id) {
-      setScheduleShowTime(); // Panggil fetchBookings ketika payment sudah terisi
+      fetchSchedulShowTime(); // Panggil fetchBookings ketika payment sudah terisi
     }
   }, [scheduleShowTime]); // Trigger jika payment berubah
 
