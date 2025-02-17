@@ -33,7 +33,6 @@ export default function AdminBookings() {
           bookingId.includes(payment.booking_id)
         );
 
-    
         // filteredPayments.forEach(payment => {
         //   console.log("Payment ID:", payment.id); // Menampilkan ID dari setiap objek dalam array pembayaran
         // });
@@ -49,9 +48,6 @@ export default function AdminBookings() {
     };
     fetchData();
   }, [userInfo.id]);
-
-
-
 
   useEffect(() => {
     const intervals = {};
@@ -185,11 +181,16 @@ export default function AdminBookings() {
                   </td>
 
                   <td className="border px-4 py-2">
-                    {booking.status === "failed" ? (
-                      <span className="text-red-500">time-out</span>
+                    {payment.some(
+                      (p) =>
+                        p.booking_id === booking.id && p.status === "failed"
+                    ) ? (
+                      <span className="text-red-500">Failed</span>
                     ) : hasPaymentCode(booking.id) ? (
                       getPaymentStatus(booking.id) === "pending" ? (
-                        <span className="text-yellow-500">Waiting for confirmation</span>
+                        <span className="text-yellow-500">
+                          Waiting for confirmation
+                        </span>
                       ) : getPaymentStatus(booking.id) === "confirmed" ? (
                         <Link
                           to={`/tickets/${hasPaymentCode(booking.id).id}`}

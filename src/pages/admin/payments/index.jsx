@@ -38,9 +38,10 @@ export default function AdminPayments() {
       await updatePayment(id, { status: newStatus, _method: "PUT"});
       setPayments((prevPayments) =>
         prevPayments.map((payment) =>
-          payment.id === id ? { ...payment, status: newStatus } : payment
+          payment.id === id ? { ...payment, status: newStatus ?? payment.status } : payment
         )
       );
+      
     } catch (error) {
       console.error("Failed to update status", error);
     }
