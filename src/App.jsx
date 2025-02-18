@@ -30,7 +30,6 @@ import MovieSeat from "./pages/public/movieseat/index.jsx";
 import AdminUsers from "./pages/admin/users/index.jsx";
 import Payment from "./pages/public/payment/pay.jsx";
 import BookingPage from "./pages/public/payment/index.jsx";
-import ScheduleList from "./pages/admin/schedules/detail.jsx";
 import PublicMovies from "./pages/public/movies/index.jsx";
 import MovieDetail from "./pages/public/moviedetail/index.jsx";
 import AdminShowtimes from "./pages/admin/showtimes/index.jsx";
@@ -114,14 +113,12 @@ function App() {
               <Route index element={<AdminSchedules />} />
               <Route path="create" element={<ScheduleCreate />} />
               <Route path="edit/:id" element={<ScheduleEdit />} />
-              <Route path="detail/:id" element={<ScheduleList />} />
             </Route>
 
             <Route path="schedule_showtimes">
               <Route index element={<AdminScheduleShowtime />} />
               <Route path="create" element={<ScheduleShowtimeCreate />} />
               <Route path="edit/:id" element={<ScheduleShowtimeEdit />} />
-              <Route path="detail/:id" element={<ScheduleList />} />
             </Route>
 
             <Route path="seats">
