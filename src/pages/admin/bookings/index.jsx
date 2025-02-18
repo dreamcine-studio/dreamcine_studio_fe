@@ -162,7 +162,7 @@ export default function AdminBookings() {
                                 const showtime = details.showtime;
                                 const movieTitle = details.schedule ? details.schedule.movie?.title : "Unknown Movie";
                                 const userName = getUserInfoName(booking.user_id);
-                                const paymentStatus = getPaymentStatus(booking.id);  // Get payment status for each booking
+                                const paymentStatus = getPaymentStatus(booking.id);  
                                 return (
                                     <tr key={booking.id} className="hover:bg-gray-100 dark:hover:bg-gray-600">
                                         <td className="px-4 py-5">{userName}</td>

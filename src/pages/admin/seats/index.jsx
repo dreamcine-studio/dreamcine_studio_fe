@@ -23,7 +23,7 @@ export default function AdminSeats() {
     const fetchData = async () => {
       setLoading(true);
       setError(null);
-  
+
       try {
         const [
           seatsData,
@@ -44,52 +44,66 @@ export default function AdminSeats() {
           getBooking(),
           getPayments(),
         ]);
-  
+
         // Update seats with payment status
-        const updatedSeats = await Promise.all(seatsData.map(async (seat) => {
-          const payment = paymentDatas.find(
-            (p) => p.booking_id === seat.id // Match payment booking_id with seat.id
-          );
-          const booking = bookingDatas.find(b => b.id === seat.booking_id); // Find the booking
-        
-          let isBooked = seat.isbooked; // Initialize with the original value
-          if (payment) {
-            if (payment.status === "failed") {
-              isBooked = 0; // If payment failed, set isbooked to 0
-            } else if (booking && (payment.status === "confirmed" || payment.status === "pending")) {
-              isBooked = 1; // If payment is confirmed or pending, set isbooked to 1
+        const updatedSeats = await Promise.all(
+          seatsData.map(async (seat) => {
+            const payment = paymentDatas.find((p) => p.booking_id === seat.id);
+            const booking = bookingDatas.find((b) => b.id === seat.booking_id);
+
+            let isBooked = seat.isbooked;
+            if (payment) {
+              if (payment.status === "failed") {
+                isBooked = 0;
+              } else if (
+                booking &&
+                (payment.status === "confirmed" || payment.status === "pending")
+              ) {
+                isBooked = 1;
+              }
             }
-          }
-        
-          // Update the seat status in the backend
-          if (seat.isbooked !== isBooked) {
-            try {
-              // Call updateSeat API with PUT method using _method
-              await updateSeat(seat.id, {
-                _method: 'PUT',  // Add _method to emulate PUT request
-                isbooked: isBooked,
-                schedule_showtime_id: seat.schedule_showtime_id, // Add schedule_showtime_id
-                seat_number: seat.seat_number, // Add seat_number
-                showdate: seat.showdate, // Add showdate
-              });
-            } catch (error) {
-              console.error("Failed to update seat:", error);
+
+            // Update seat status in the backend
+            if (seat.isbooked !== isBooked) {
+              try {
+                await updateSeat(seat.id, {
+                  _method: "PUT",
+                  isbooked: isBooked,
+                  schedule_showtime_id: seat.schedule_showtime_id,
+                  seat_number: seat.seat_number,
+                  showdate: seat.showdate,
+                });
+              } catch (error) {
+                console.error("Failed to update seat:", error);
+              }
             }
+
+            return {
+              ...seat,
+              paymentStatus: payment ? payment.status : "pending",
+              isbooked: isBooked,
+            };
+          })
+        );
+
+        // Kelompokkan kursi berdasarkan schedule_showtime_id dan showdate
+        const groupedSeats = updatedSeats.reduce((acc, seat) => {
+          const key = `${seat.schedule_showtime_id}-${seat.showdate}`;
+
+          if (!acc[key]) {
+            acc[key] = [];
           }
-        
-          return {
-            ...seat,
-            paymentStatus: payment ? payment.status : "pending",
-            isbooked: isBooked, // Update isbooked based on payment status
-          };
-        }));
-        
-        setSeats(updatedSeats);  // Update state with new seats data
-        
-  
+          acc[key].push(seat); // Setiap kursi tetap dibuat row sendiri
+
+          return acc;
+        }, {});
+
+        // Konversi hasil reduce ke array dengan format yang lebih terstruktur
+        setSeats(Object.values(groupedSeats).flat());
+
         setStudios(studiosData);
         setMovies(movieData);
-        setSeats(updatedSeats);  // Updated seats with payment status
+        setSeats(updatedSeats); // Updated seats with payment status
         setSchedules(schedulesData);
         setShowtimes(showtimesData);
         setSchedulesShowtimes(scheduleShowtimesData);
@@ -100,10 +114,9 @@ export default function AdminSeats() {
         setLoading(false);
       }
     };
-  
+
     fetchData();
   }, []);
-  
 
   // const updateBookedStatus = async (seatId, status) => {
   //   try {
@@ -118,7 +131,7 @@ export default function AdminSeats() {
   //     console.error("Update failed:", error);
   //   }
   // };
-  
+
   const handleDelete = async (id) => {
     if (window.confirm("Apakah Anda yakin ingin menghapus data ini?")) {
       await deleteSeat(id);
@@ -127,7 +140,8 @@ export default function AdminSeats() {
   };
 
   if (loading) return <div className="text-center py-10">Loading...</div>;
-  if (error) return <div className="text-center py-10 text-red-500">{error}</div>;
+  if (error)
+    return <div className="text-center py-10 text-red-500">{error}</div>;
 
   return (
     <div className="p-6 min-h-screen">
@@ -136,7 +150,7 @@ export default function AdminSeats() {
       </h1>
       <div className="overflow-x-auto">
         <table className="w-full table-auto mt-6 border-collapse border border-gray-300">
-          <thead className="bg-gray-200 dark:bg-gray-800 text-white">
+          <thead className="bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-white">
             <tr>
               <th className="p-3 border">Studio</th>
               <th className="p-3 border">Movie</th>
@@ -149,7 +163,7 @@ export default function AdminSeats() {
             </tr>
           </thead>
           <tbody>
-            {schedulesShowtimes.map((scheduleShowtime) => {
+            {schedulesShowtimes.flatMap((scheduleShowtime) => {
               const schedule = schedules.find(
                 (s) => s.id === scheduleShowtime.schedule_id
               );
@@ -163,94 +177,71 @@ export default function AdminSeats() {
                 (st) => st.id === scheduleShowtime.showtime_id
               );
 
-              const groupedSeats = seats
-                .filter(
-                  (seat) => seat.schedule_showtime_id === scheduleShowtime.id
-                )
-                .reduce((acc, seat) => {
-                  if (!acc[seat.showdate]) {
-                    acc[seat.showdate] = {
-                      seatNumbers: [],
-                      isBooked: seat.isbooked,
-                    };
-                  }
-                  acc[seat.showdate].seatNumbers.push(...seat.seat_number);
-                  return acc;
-                }, {});
-
-              return Object.entries(groupedSeats).map(
-                ([showdate, seatData], index) => (
-                  <tr key={showdate} className="border">
-                    {index === 0 && (
-                      <>
-                        <td
-                          rowSpan={Object.keys(groupedSeats).length}
-                          className="p-3 border dark:text-white"
-                        >
-                          {studio.name}
-                        </td>
-                        <td
-                          rowSpan={Object.keys(groupedSeats).length}
-                          className="p-3 border dark:text-white"
-                        >
-                          {movie.title}
-                        </td>
-                        <td
-                          rowSpan={Object.keys(groupedSeats).length}
-                          className="px-2 py-4 border dark:text-white text-center"
-                        >
-                          {showtime.sequence.slice(0, 5)}
-                        </td>
-                      </>
-                    )}
-                    <td className="px-2 border dark:text-white text-center">
-                      {showdate}
-                    </td>
-                    <td className="p-3 border dark:text-white text-center">
-                      {seatData.seatNumbers.join(", ")}
-                    </td>
-                    <td className="p-3 border text-center">
-                    <select
-  value={seatData.isBooked ? "Booked" : "Available"}
-  onChange={(e) => {
-    const selectedSeat = seats.find(
-      (seat) =>
-        seat.schedule_showtime_id === scheduleShowtime.id &&
-        seat.showdate === showdate &&
-        seat.seat_number.some((sn) => seatData.seatNumbers.includes(sn))
-    );
-    
-    if (selectedSeat) {
-      updateBookedStatus(selectedSeat.id, e.target.value); // Pass the correct seat ID and status
-    }
-  }}
-  className="p-1 border rounded"
->
-  <option value="Available">Available</option>
-  <option value="Booked">Booked</option>
-</select>
-
-</td>
-
-                    <td className="p-3 border text-center">
-                      {seats.find(
-                        (seat) =>
-                          seat.schedule_showtime_id === scheduleShowtime.id &&
-                          seat.showdate === showdate
-                      )?.paymentStatus || "Pending"}
-                    </td>
-                    <td className="p-3 border text-center">
-                     
-                      <button
-                        onClick={() => handleDelete(scheduleShowtime.id)}
-                        className="ml-2 text-red-500 hover:text-red-700"
-                      >
-                        <i className="fa-solid fa-trash"></i>
-                      </button>
-                    </td>
-                  </tr>
-                )
+              // Dapatkan semua kursi untuk schedule_showtime_id ini
+              const filteredSeats = seats.filter(
+                (seat) => seat.schedule_showtime_id === scheduleShowtime.id
               );
+
+              return filteredSeats.map((seat, index) => (
+                <tr
+                  key={`${scheduleShowtime.id}-${seat.id}`}
+                  className="border"
+                >
+                  {/* Hanya tampilkan Studio, Movie, Showtime pada kursi pertama di setiap kelompok */}
+                  {index === 0 && (
+                    <>
+                      <td
+                        rowSpan={filteredSeats.length}
+                        className="p-3 border dark:text-white"
+                      >
+                        {studio.name}
+                      </td>
+                      <td
+                        rowSpan={filteredSeats.length}
+                        className="p-3 border dark:text-white"
+                      >
+                        {movie.title}
+                      </td>
+                      <td
+                        rowSpan={filteredSeats.length}
+                        className="p-3 border dark:text-white text-center"
+                      >
+                        {showtime.sequence.slice(0, 5)}
+                      </td>
+                    </>
+                  )}
+
+                  <td className="px-2 border dark:text-white text-center">
+                    {seat.showdate}
+                  </td>
+                  <td className="p-3 border dark:text-white text-center">
+                  {Array.isArray(seat.seat_number) ? seat.seat_number.join(", ") : seat.seat_number}
+                  </td>
+                  <td className="p-3 border text-center">
+                    <select
+                      value={seat.isbooked ? "Booked" : "Available"}
+                      onChange={(e) =>
+                        updateBookedStatus(seat.id, e.target.value)
+                      }
+                      className="p-1 border rounded"
+                    >
+                      <option value="Available">Available</option>
+                      <option value="Booked">Booked</option>
+                    </select>
+                  </td>
+                  <td className="p-3 border text-center">
+                    {seat.paymentStatus || "Pending"}
+                  </td>
+                  <td className="p-3 border text-center">
+                    <button
+                      onClick={() => handleDelete(seat.id)}
+                      className="ml-2 text-red-500 hover:text-red-700"
+                    >
+                      <i className="fa-solid fa-trash"></i>
+                    </button>
+                  </td>
+                </tr>
+              ));
             })}
           </tbody>
         </table>
