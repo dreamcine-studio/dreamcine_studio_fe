@@ -1,9 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import {
-  getPaymentmethods,
-  updatePaymentmethod,
-} from "../../../services/paymentMethod";
+import { getPaymentmethods, updatePaymentmethod } from "../../../services/paymentMethod";
 
 export default function PaymentMethodEdit() {
   const [errors, setErrors] = useState({});
@@ -19,16 +16,14 @@ export default function PaymentMethodEdit() {
   const fetchPmethodDetails = async () => {
     const data = await getPaymentmethods(); // ambil semua data buku
 
-
     const paymentMethod = data.find(
       (paymentMethod) => paymentMethod.id === parseInt(id)
-    ); 
+    );
     if (paymentMethod) {
       //Assign data to state
       setName(paymentMethod.name);
       setAccountNumber(paymentMethod.account_number);
     }
-      //  console.log(pmethod)
   };
 
   useEffect(() => {
@@ -51,14 +46,11 @@ export default function PaymentMethodEdit() {
       .then(() => {
         // redirect ke halaman index
         navigate("/admin/payment_methods");
-        console.log("data", PaymentMethodData);
       })
       .catch((err) => {
         // console.log(err.response.data.message);
         setErrors(err.response.data.message);
       });
-
-    console.log(PaymentMethodData)
   };
 
   return (

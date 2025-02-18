@@ -3,69 +3,81 @@ import { useNavigate, useParams } from "react-router-dom";
 import { getGenres, updateGenre } from "../../../services/genre";
 
 export default function GenreEdit() {
-  // menanpilkan error
+  // untuk menyimpan data
   const [errors, setErrors] = useState({});
-
-  // ini dari masing masing,
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-
-  // destruct id dari URL
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   const { id } = useParams();
-
   const navigate = useNavigate();
 
-  // kita coba fetch data buku berdasarkan ID
-  const fetchGenreDetails = async () => {
-    // dari sini kita ambil data nya dari sevices getBooks
-
-    // getBooks ini kita masukan ke dalam variable nama nya data
-    const data = await getGenres(); // getBooks() mengambil semua data buku
-
-    // kita coba, cari data buku berdasarkan id
-    const genre = data.find((book) => book.id === parseInt(id));
-    // console.log(book)
-    if (genre) {
-      // assign data to state (ini setter function  nya yang di pakai)
-      setName(genre.name); // ini format nya object json pakai titik
-      setDescription(genre.description);
-    }
-  };
-
-
-
   useEffect(() => {
+    setLoading(true);
+    setError(null);
+
+    const fetchGenreDetails = async () => {
+      setLoading(true);
+      setError(null);
+  
+      try {
+        const genres = await getGenres();
+        const genre = genres.find((g) => g.id === parseInt(id));
+  
+        if (genre) {
+          setName(genre.name);
+          setDescription(genre.description);
+        } else {
+          setError("Genre not found");
+        }
+      } catch (err) {
+        setError("Failed to fetch genre");
+      } finally {
+        setLoading(false);
+      }
+    };
+  
     fetchGenreDetails();
-  }, []);
+  }, [id]);
 
   const updateGenreDetails = async (e) => {
     e.preventDefault();
 
-
-
-    // buat FormData
     const genreData = new FormData();
-
 
     genreData.append("name", name);
     genreData.append("description", description);
-
-    // ini kita tambahkan _method    put
     genreData.append("_method", "PUT");
 
-
-    // ini updateBook ambil dari service books.js
     await updateGenre(id, genreData)
-      // jika berhasil kita mau apa, kita pindah pakai navigate
       .then(() => {
-        //berhasil, kita redirect ke halaman index.
         navigate("/admin/genres");
-        // console.log(genreData)
       })
       .catch((err) => {
         setErrors(err.response.data.message);
       });
   };
+
+  if (loading) {
+    return (
+      <main className="py-6 px-12 space-y-2 bg-gray-300 min-h-screen w-full flex items-center justify-center">
+        <div className="flex items-center space-x-4">
+          <div className="w-16 h-16 border-4 border-solid border-transparent rounded-full animate-spin border-t-purple-500 border-r-pink-500 border-b-purple-500 border-l-pink-500"></div>
+          <div className="text-2xl font-bold text-gray-800 animate-bounce">
+            Please Wait ..
+          </div>
+        </div>
+      </main>
+    );
+  }
+
+  if (error) {
+    return (
+      <main className="py-6 px-12 space-y-2 bg-gray-100 min-h-screen w-full flex items-center justify-center">
+        <div className="text-2xl font-bold text-gray-500">{error} ..</div>
+      </main>
+    );
+  }
 
   return (
     <div className="flex flex-col gap-9">

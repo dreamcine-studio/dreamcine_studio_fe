@@ -68,7 +68,6 @@ export default function MovieSeat() {
     const fetchSeat = async () => {
       try {
         const data = await getSeats();
-        console.log("Fetched seats data:", data); // Debugging
     
         if (Array.isArray(data)) {
           // Filter seat yang sesuai dengan showdate & schedule_showtime_id user
@@ -83,7 +82,6 @@ export default function MovieSeat() {
             .filter((seat) => seat.isbooked === 1)
             .flatMap((seat) => seat.seat_number);
     
-          console.log("Sold seats:", soldSeats);
     
           // Simpan ke state
           setSeat(soldSeats);
@@ -181,12 +179,6 @@ export default function MovieSeat() {
     }
   };
 
-  console.log("mo", movie);
-  console.log("stu",studio);
-  console.log("seat",seat);
-  console.log(showtime);
-  console.log(showdate);
-  console.log(totalPrice);
 
   return (
     <div className="flex flex-col items-center justify-center dark:bg-gray-900 text-white w-full p-8 mt-24">

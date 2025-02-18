@@ -6,7 +6,7 @@ import { getStudios } from "../../../services/studios";
 import { Link, useParams } from "react-router-dom";
 import { publicStorage } from "../../../api";
 import { getScheduleShowtimes } from "../../../services/scheduleshowtime";
-import { getShowtimes, showShowtimes } from "../../../services/showtime";
+import { getShowtimes } from "../../../services/showtime";
 
 export default function MovieDetail() {
   const [movie, setMovie] = useState({});
@@ -162,7 +162,6 @@ export default function MovieDetail() {
     };
 
     setSelectedShowtime(selected);
-    console.log("Selected Showtime:", selected);
   };
 
   const sortShowtime = (scheduleId) => {

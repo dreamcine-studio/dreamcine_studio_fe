@@ -26,7 +26,7 @@ export const createScheduleShowtimes = async (data) => {
 
 export const updateScheduleShowtimes = async (id, data) => {
   try {
-    const response = await API.post(`/scheduleshowtime/${id}`, data, {
+    const response = await API.post(`/scheduleshowtimes/${id}`, data, {
       headers: {
         Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
       },
@@ -40,7 +40,7 @@ export const updateScheduleShowtimes = async (id, data) => {
 
 export const deleteScheduleShowtimes = async (id) => {
   try {
-    const { data: response } = await API.delete(`/scheduleshowtime/${id}`, {
+    const { data: response } = await API.delete(`/scheduleshowtimes/${id}`, {
       headers: {
         Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
       },
@@ -54,7 +54,7 @@ export const deleteScheduleShowtimes = async (id) => {
 
 export const showScheduleShowtimes = async (id) => {
   try {
-    const { data } = await API.get(`/scheduleshowtime/${id}`, {
+    const { data } = await API.get(`/scheduleshowtimes/${id}`, {
       headers: {
         Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
       },

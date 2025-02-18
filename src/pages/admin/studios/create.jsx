@@ -35,7 +35,6 @@ export default function StudioCreate() {
     }
   };
 
-  console.log(studioData);
 
   return (
     <div className="flex flex-col gap-9 min-h-screen">

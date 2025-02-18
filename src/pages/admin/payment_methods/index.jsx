@@ -7,11 +7,11 @@ import {
 
 export default function AdminPaymentMethods() {
   const [paymentMethods, setPaymentMethods] = useState([]);
-  const [loading, setLoading] = useState(false); // menggunakan loading bukan Loading
+  const [loading, setLoading] = useState(false); 
   const [error, setError] = useState([]);
-  const [isModalOpen, setIsModalOpen] = useState(false); // Modal open state
-  const [paymentMethodToDelete, setPaymentMethodToDelete] = useState(null); // ID pembayaran yang akan dihapus
-  const [deleteError, setDeleteError] = useState(null); // error saat delete
+  const [isModalOpen, setIsModalOpen] = useState(false); 
+  const [paymentMethodToDelete, setPaymentMethodToDelete] = useState(null); 
+  const [deleteError, setDeleteError] = useState(null); 
 
   useEffect(() => {
     const fetchData = async () => {

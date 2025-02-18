@@ -2,12 +2,10 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Barcode from "react-barcode";
 import { showPayment } from "../../../services/payment";
-import { getBooking  } from "../../../services/booking";
+import { getBooking } from "../../../services/booking";
 import { getScheduleShowtimes } from "../../../services/scheduleshowtime";
 import { getSchedules } from "../../../services/schedules";
 import { getMovies } from "../../../services/movies";
-// import { showSchedule } from "../../services/schedule";
-// import { showMovie } from "../../services/movie"; // Import service untuk fetch movie
 
 
 export default function Ticket() {
@@ -38,7 +36,7 @@ export default function Ticket() {
           schedulesData,
           movieData
           
-        ] = await Promise.all( [
+        ] = await Promise.all( [  //untuk mengeksekusi beberapa request data secara bersamaan,
           showPayment(id),
           getBooking(),
           getScheduleShowtimes(),
@@ -47,16 +45,18 @@ export default function Ticket() {
         ]);
 
         
-    
-        setPayment(paymentData);
+        //Setelah data berhasil diambil, fungsi ini akan mengupdate state dengan data yang diterima
+        setPayment(paymentData); //untuk menyimpan data pembayaran.
         setBooking(bookingData);
         setScheduleShowTimes(scheduleShowTimeData),
         setScheduleS(schedulesData),
         setMovies(movieData)
 
-      if (paymentData && paymentData.booking_id) {
-        const relatedBooking = bookingData.find(b => b.id === paymentData.booking_id);
-        
+      
+      
+      if (paymentData && paymentData.booking_id) {    // Mengecek apakah data payment ditemukan, dan apakah ada Data booking_id pada data tersebut
+        const relatedBooking = bookingData.find(b => b.id === paymentData.booking_id);     // jika data booking_id ditemukan , mencari data booking berdasarkan id
+    
         if (relatedBooking && relatedBooking.schedule_showtime_id) {
           const relatedShowtime = scheduleShowTimeData.find(st => st.id === relatedBooking.schedule_showtime_id);
           
@@ -66,7 +66,7 @@ export default function Ticket() {
             if (relatedSchedule && relatedSchedule.movie_id) {
               const relatedMovie = movieData.find(m => m.id === relatedSchedule.movie_id);
               
-              if (relatedMovie) {
+              if (relatedMovie) { // jika data film ditemukan , akan mengatur judul film
                 setMovieTitle(relatedMovie.title);
               } else {
                 setMovieTitle("Movie Not Available");
@@ -87,6 +87,9 @@ export default function Ticket() {
     fetchData();
     
   }, []);
+
+
+
 
   if (loading) {
     return (
