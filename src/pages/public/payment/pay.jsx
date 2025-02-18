@@ -70,13 +70,20 @@ export default function Payment() {
     }).format(number);
   };
 
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setPaymentData({ ...paymentData, [name]: value });
-  };
+  // const handleInputChange = (event) => {
+  //   const { name, value } = event.target;
+  //   setPaymentData({ ...paymentData, [name]: value });
+  // };
 
   const storePayment = async (e) => {
     e.preventDefault();
+
+    // Check if a payment method is selected
+  if (!selectedMethod) {
+    alert("Please select a payment method");
+    return; // Stop further execution if no payment method is selected
+  }
+
 
     const formDataToSendPayment = new FormData();
     formDataToSendPayment.append("booking_id", booking.id);
