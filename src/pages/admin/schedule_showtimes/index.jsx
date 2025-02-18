@@ -92,7 +92,7 @@ if (error){
     return movie
       ? {
           title: movie.title,
-          poster: publicStorage + poster,
+          poster: baseURL + movie.poster,
         }
       : {
           title: "Unknown Movie",
