@@ -4,8 +4,6 @@ import { getStudios, updateStudio } from "../../../services/studios";
 
 export default function StudioEdit() {
   const [errors, setErrors] = useState({});
-
-  // ini dari masing masing,
   const [name, setName] = useState("");
   const [maxseats, setMaxSeat] = useState("");
 
@@ -24,18 +22,10 @@ export default function StudioEdit() {
     }
   };
 
-  // untuk menjalakan fetch nya, kayka function biasa
-  // fetchBookDetails()
-
-  // lebih baik kita pakai useEffect
-
   useEffect(() => {
     fetchStudiosDetails();
   }, []);
 
-  //update book data
-  // ini pakai async karena di service nya pakai async pada update
-  // ini untuk ke form
   const updateStudioDetails = async (e) => {
     e.preventDefault();
 
@@ -43,7 +33,6 @@ export default function StudioEdit() {
 
     studioData.append("name", name);
     studioData.append("maxseats", maxseats);
-
     studioData.append("_method", "PUT");
 
     await updateStudio(id, studioData)

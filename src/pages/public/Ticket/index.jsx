@@ -2,12 +2,10 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Barcode from "react-barcode";
 import { showPayment } from "../../../services/payment";
-import { getBooking, showBooking } from "../../../services/booking";
-import { getScheduleShowtimes, showScheduleShowtimes } from "../../../services/scheduleshowtime";
+import { getBooking } from "../../../services/booking";
+import { getScheduleShowtimes } from "../../../services/scheduleshowtime";
 import { getSchedules } from "../../../services/schedules";
 import { getMovies } from "../../../services/movies";
-// import { showSchedule } from "../../services/schedule";
-// import { showMovie } from "../../services/movie"; // Import service untuk fetch movie
 
 
 export default function Ticket() {
@@ -38,7 +36,7 @@ export default function Ticket() {
           schedulesData,
           movieData
           
-        ] = await Promise.all( [
+        ] = await Promise.all( [  //untuk mengeksekusi beberapa request data secara bersamaan,
           showPayment(id),
           getBooking(),
           getScheduleShowtimes(),
@@ -47,23 +45,18 @@ export default function Ticket() {
         ]);
 
         
-    
-        setPayment(paymentData);
+        //Setelah data berhasil diambil, fungsi ini akan mengupdate state dengan data yang diterima
+        setPayment(paymentData); //untuk menyimpan data pembayaran.
         setBooking(bookingData);
         setScheduleShowTimes(scheduleShowTimeData),
         setScheduleS(schedulesData),
         setMovies(movieData)
+
       
-      //       // Menentukan judul film jika movies ada
-      // if (movieData && movieData.length > 0) {
-      //   // Misalnya kita ambil film pertama dalam array
-      //   setMovieTitle(movieData[1].title);
-      // } else {
-      //   setMovieTitle("Movie Not Available");
-      // }
-      if (paymentData && paymentData.booking_id) {
-        const relatedBooking = bookingData.find(b => b.id === paymentData.booking_id);
-        
+      
+      if (paymentData && paymentData.booking_id) {    // Mengecek apakah data payment ditemukan, dan apakah ada Data booking_id pada data tersebut
+        const relatedBooking = bookingData.find(b => b.id === paymentData.booking_id);     // jika data booking_id ditemukan , mencari data booking berdasarkan id
+    
         if (relatedBooking && relatedBooking.schedule_showtime_id) {
           const relatedShowtime = scheduleShowTimeData.find(st => st.id === relatedBooking.schedule_showtime_id);
           
@@ -73,7 +66,7 @@ export default function Ticket() {
             if (relatedSchedule && relatedSchedule.movie_id) {
               const relatedMovie = movieData.find(m => m.id === relatedSchedule.movie_id);
               
-              if (relatedMovie) {
+              if (relatedMovie) { // jika data film ditemukan , akan mengatur judul film
                 setMovieTitle(relatedMovie.title);
               } else {
                 setMovieTitle("Movie Not Available");
@@ -95,16 +88,18 @@ export default function Ticket() {
     
   }, []);
 
-// console.log("Payment", payment);
-// console.log("booking", booking);
-// console.log("scheduleShowtimes", scheduleShowtimes);
-// console.log("schedule", schedule);
-// console.log("booking", payment.booking.id);
 
 
 
   if (loading) {
-    return <div className="text-center text-gray-600">Loading...</div>;
+    return (
+      <main className="py-6 px-12 space-y-2 bg-gray-300 min-h-screen w-full flex items-center justify-center">
+        <div className="flex items-center space-x-4">
+          <div className="w-16 h-16 border-4 border-solid border-transparent rounded-full animate-spin border-t-purple-500 border-r-pink-500 border-b-purple-500 border-l-pink-500"></div>
+          <div className="text-2xl font-bold text-gray-800 animate-bounce">Please Wait ..</div>
+        </div>
+      </main>
+    );
   }
 
   if (error) {
@@ -115,7 +110,6 @@ export default function Ticket() {
     <div className="max-w-lg mx-auto bg-white rounded-lg shadow-2xl p-8 pt-12 mt-8">
       <div className="text-center mb-6">
         <h2 className="text-3xl font-semibold text-gray-800 tracking-tight">Cinema Ticket</h2>
-        {/* <p className="mt-2 text-gray-500 text-lg">{movies.title || "Movie Not Yet"}</p> */}
         <p className="mt-2 text-gray-500 text-lg">{movieTitle}</p>
       </div>
 

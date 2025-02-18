@@ -30,12 +30,10 @@ export default function PaymentMethodCreate() {
       await createPaymentmethod(formDataToSend);
       return navigate("/admin/payment_methods");
     } catch (err) {
-      // console.log(err.response.data.message)
       setErrors(err.response.data.message);
     }
   };
 
-  console.log(paymentMethodData);
 
   return (
     <div className="flex flex-col gap-9 min-h-screen">
