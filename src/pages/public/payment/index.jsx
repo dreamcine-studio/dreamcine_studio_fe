@@ -100,7 +100,10 @@ export default function AdminBookings() {
 
 
   const hasPaymentCode = (bookingId) => {
-    return payment.some((item) => item.booking_id === bookingId);
+    const paymentForBooking = payment.find(
+      (item) => item.booking_id === bookingId
+    );
+    return paymentForBooking;
   };
 
   const formatRupiah = (number) => {
