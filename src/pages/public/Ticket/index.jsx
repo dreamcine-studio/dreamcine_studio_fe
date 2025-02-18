@@ -54,14 +54,34 @@ export default function Ticket() {
         setScheduleS(schedulesData),
         setMovies(movieData)
       
-            // Menentukan judul film jika movies ada
-      if (movieData && movieData.length > 0) {
-        // Misalnya kita ambil film pertama dalam array
-        setMovieTitle(movieData[1].title);
-      } else {
-        setMovieTitle("Movie Not Available");
+      //       // Menentukan judul film jika movies ada
+      // if (movieData && movieData.length > 0) {
+      //   // Misalnya kita ambil film pertama dalam array
+      //   setMovieTitle(movieData[1].title);
+      // } else {
+      //   setMovieTitle("Movie Not Available");
+      // }
+      if (paymentData && paymentData.booking_id) {
+        const relatedBooking = bookingData.find(b => b.id === paymentData.booking_id);
+        
+        if (relatedBooking && relatedBooking.schedule_showtime_id) {
+          const relatedShowtime = scheduleShowTimeData.find(st => st.id === relatedBooking.schedule_showtime_id);
+          
+          if (relatedShowtime && relatedShowtime.schedule_id) {
+            const relatedSchedule = schedulesData.find(s => s.id === relatedShowtime.schedule_id);
+            
+            if (relatedSchedule && relatedSchedule.movie_id) {
+              const relatedMovie = movieData.find(m => m.id === relatedSchedule.movie_id);
+              
+              if (relatedMovie) {
+                setMovieTitle(relatedMovie.title);
+              } else {
+                setMovieTitle("Movie Not Available");
+              }
+            }
+          }
+        }
       }
-
         }catch (error){
           setError("Failed to fetch data, please try again later : ")
           console.log(error)
@@ -79,7 +99,7 @@ export default function Ticket() {
 // console.log("booking", booking);
 // console.log("scheduleShowtimes", scheduleShowtimes);
 // console.log("schedule", schedule);
-// console.log("movies", movies);
+// console.log("booking", payment.booking.id);
 
 
 
