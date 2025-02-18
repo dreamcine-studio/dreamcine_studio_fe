@@ -49,9 +49,11 @@ export default function AdminSeats() {
           seatsData.map(async (seat) => {
             const payment = paymentDatas.find((p) => p.booking_id === seat.id);
             const booking = bookingDatas.find((b) => b.id === seat.booking_id);
-
             let isBooked = seat.isbooked;
-            if (payment) {
+
+            if (!payment) {
+              isBooked = 0; // Jika tidak ada payment, set isBooked ke 0
+            } else {
               if (payment.status === "failed") {
                 isBooked = 0;
               } else if (
@@ -78,7 +80,7 @@ export default function AdminSeats() {
 
             return {
               ...seat,
-              paymentStatus: payment ? payment.status : "pending",
+              paymentStatus: payment ? payment.status : "payment timeout",
               isbooked: isBooked,
             };
           })
@@ -217,9 +219,19 @@ export default function AdminSeats() {
                       <option value="Booked">Booked</option>
                     </select>
                   </td>
-                  <td className="p-3 border text-center">
-                    {seat.paymentStatus || "Pending"}
-                  </td>
+                  <td className="p-3 border text-center dark:text-white">
+                  <span
+                    className={
+                      seat.paymentStatus === "pending"
+                        ? "text-yellow-500 font-bold"
+                        : seat.paymentStatus === "confirmed"
+                        ? "text-green-500 font-bold"
+                        : "text-red-500 font-bold"
+                    }
+                  >
+                    {seat.paymentStatus}
+                  </span>
+                </td>
                 </tr>
               ));
             })}
