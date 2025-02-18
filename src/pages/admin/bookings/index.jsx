@@ -165,15 +165,15 @@ export default function AdminBookings() {
                                 const paymentStatus = getPaymentStatus(booking.id);  
                                 return (
                                     <tr key={booking.id} className="hover:bg-gray-100 dark:hover:bg-gray-600">
-                                        <td className="px-4 py-5">{userName}</td>
-                                        <td className="px-4 py-5">{seat ? seat.id: "Unknown Seat"}</td>
-                                        <td className="px-4 py-5">{movieTitle}</td>
-                                        <td className="px-4 py-5">{booking.quantity}</td>
-                                        <td className="px-4 py-5">{formatRupiah(booking.amount)}</td>
-                                        <td className="px-4 py-5">{showtime?.id || 'Unknown Showtime'}</td>
-                                        <td className="px-4 py-5">{formatTimestamp(booking.created_at)}</td>
-                                        <td className="px-4 py-5">{paymentStatus}</td>  {/* Display payment status */}
-                                        <td className="px-4 py-5">
+                                        <td className="px-4 py-5 dark:text-white uppercase">{userName}</td>
+                                        <td className="px-4 py-5 dark:text-white uppercase">{seat ? seat.id: "Unknown Seat"}</td>
+                                        <td className="px-4 py-5 dark:text-white uppercase">{movieTitle}</td>
+                                        <td className="px-4 py-5 dark:text-white uppercase">{booking.quantity}</td>
+                                        <td className="px-4 py-5 dark:text-white uppercase">{formatRupiah(booking.amount)}</td>
+                                        <td className="px-4 py-5 dark:text-white uppercase">{showtime?.id || 'Unknown Showtime'}</td>
+                                        <td className="px-4 py-5 dark:text-white uppercase">{formatTimestamp(booking.created_at)}</td>
+                                        <td className="px-4 py-5 dark:text-white uppercase">{paymentStatus}</td>  {/* Display payment status */}
+                                        <td className="px-4 py-5 dark:text-white uppercase">
                                             <button onClick={() => handleDelete(booking.id)}>
                                                 <i className="fa-solid fa-trash text-red-700 dark:text-red-500"></i>
                                             </button>
