@@ -19,9 +19,6 @@ import MovieEdit from "./pages/admin/movies/edit";
 import MovieCreate from "./pages/admin/movies/create";
 import Team from "./components/Team";
 import Contact from "./components/Contact";
-import PaymentEdit from "./pages/admin/payments/edit";
-import BookingCreate from "./pages/admin/bookings/create.jsx";
-import BookingEdit from "./pages/admin/bookings/edit.jsx";
 import AdminGenres from "./pages/admin/genres";
 import AdminPaymentMethods from "./pages/admin/payment_methods";
 import AdminPayments from "./pages/admin/payments";
@@ -30,8 +27,6 @@ import AdminSchedules from "./pages/admin/schedules";
 import AdminSeats from "./pages/admin/seats";
 import AdminBookings from "./pages/admin/bookings/index.jsx";
 import MovieSeat from "./pages/public/movieseat/index.jsx";
-import SeatCreate from "./pages/admin/seats/create.jsx";
-import SeatEdit from "./pages/admin/seats/edit.jsx";
 import AdminUsers from "./pages/admin/users/index.jsx";
 import Payment from "./pages/public/payment/pay.jsx";
 import BookingPage from "./pages/public/payment/index.jsx";
@@ -107,8 +102,6 @@ function App() {
 
             <Route path="payments">
               <Route index element={<AdminPayments />} />
-              <Route path="edit/:id" element={<PaymentEdit />} />
-              <Route path="create" element={<Payment />} />
             </Route>
 
             <Route path="studios">
@@ -133,14 +126,10 @@ function App() {
 
             <Route path="seats">
               <Route index element={<AdminSeats />} />
-              <Route path="create" element={<SeatCreate />} />
-              <Route path="edit" element={<SeatEdit />} />
             </Route>
 
             <Route path="bookings">
               <Route index element={<AdminBookings />} />
-              <Route path="create" element={<BookingCreate />} />
-              <Route path="edit/:id" element={<BookingEdit />} />
             </Route>
 
             <Route path="users">
