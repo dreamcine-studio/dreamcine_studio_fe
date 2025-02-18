@@ -6,11 +6,10 @@ import { getPayments } from "../../../services/payment";
 export default function AdminBookings() {
   const [bookings, setBookings] = useState([]);
   const [payment, setPayment] = useState([]);
-  const [error, setError] = useState([]);
+  const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [countdowns, setCountdowns] = useState({});
   const userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
-
 
   useEffect(() => {
     const fetchData = async () => {
@@ -36,10 +35,6 @@ export default function AdminBookings() {
           (payment) => bookingId.includes(payment.booking_id) // periksa apakah booking_id ada di bookingId
         );
 
-        // filteredPayments.forEach(payment => {
-        //   console.log("Payment ID:", payment.id); // Menampilkan ID dari setiap objek dalam array pembayaran
-        // });
-
         setBookings(filteredBookings);
         setPayment(filteredPayments);
       } catch (error) {
@@ -56,53 +51,45 @@ export default function AdminBookings() {
     const intervals = {};
 
     bookings.forEach((booking) => {
-      if (booking.status === "failed" || countdowns[booking.id]) return; // Cek jika sudah timeout atau sudah ada countdown
+      if (booking.status !== "failed") {
+        const deadline = new Date(booking.created_at);
+        deadline.setMinutes(deadline.getMinutes() + 1); // Tambahkan 1 menit ke waktu created_at
 
-      const deadline = new Date(booking.created_at);
-      deadline.setMinutes(deadline.getMinutes() + 2); // Tambahkan 2 menit ke waktu created_at
+        // Set interval untuk menghitung mundur setiap detik
+        intervals[booking.id] = setInterval(() => {
+          const now = new Date();
+          const timeRemaining = deadline - now; // Selisih waktu antara deadline dan waktu sekarang
 
-      intervals[booking.id] = setInterval(() => {
-        const now = new Date();
-        const timeRemaining = deadline - now; // Selisih waktu antara deadline dan waktu sekarang
-
-        if (timeRemaining <= 0) {
-          clearInterval(intervals[booking.id]); // Hentikan interval ketika waktu habis
-          if (!hasPaymentCode(booking.id)) {
-            // Set status failed setelah waktu habis, hanya sekali
-            setBookings((prevBookings) =>
-              prevBookings.map((b) =>
-                b.id === booking.id && b.status !== "failed"
-                  ? { ...b, status: "failed" }
-                  : b
-              )
+          if (timeRemaining <= 0) {
+            clearInterval(intervals[booking.id]); // Hentikan interval ketika waktu habis
+            if (!hasPaymentCode(booking.id)) {
+              setBookings((prevBookings) =>
+                prevBookings.map((b) =>
+                  b.id === booking.id ? { ...b, status: "failed" } : b
+                )
+              );
+            }
+          } else {
+            const minutes = Math.floor(
+              (timeRemaining % (1000 * 60 * 60)) / (1000 * 60)
             );
+            const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
             setCountdowns((prev) => ({
               ...prev,
-              [booking.id]: "", // Ketika timeout, set menjadi 00:00
+              [booking.id]: `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`,
             }));
           }
-        } else {
-          // Menghitung menit dan detik yang tersisa
-          const minutes = Math.floor(timeRemaining / (1000 * 60)); // Menit
-          const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000); // Detik
-
-          // Format MM:SS, menambahkan 0 di depan detik jika kurang dari 10
-          setCountdowns((prev) => ({
-            ...prev,
-            [booking.id]: `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`,
-          }));
-        }
-      }, 1000); // Update setiap detik
+        }, 1000);
+      }
     });
 
     return () => {
-      // Bersihkan interval saat komponen dihapus atau berubah
       Object.values(intervals).forEach(clearInterval);
     };
-  }, [bookings, countdowns]);
+  }, [bookings]);
 
-  console.log("bok", bookings);
-  console.log("pay", payment);
+  console.log("booking", bookings);
+  console.log("payment", payment);
 
   const getPaymentStatus = (bookingId) => {
     const paymentForBooking = payment.find(
@@ -113,10 +100,7 @@ export default function AdminBookings() {
 
 
   const hasPaymentCode = (bookingId) => {
-    const paymentForBooking = payment.find(
-      (item) => item.booking_id === bookingId
-    );
-    return paymentForBooking;
+    return payment.some((item) => item.booking_id === bookingId);
   };
 
   const formatRupiah = (number) => {
@@ -176,18 +160,20 @@ export default function AdminBookings() {
             </thead>
             <tbody>
               {bookings.map((booking) => (
-                <tr key={booking.user_id} className="hover:bg-gray-50">
+                <tr key={booking.id} className="hover:bg-gray-50">
                   <td className="border px-4 py-2">{userInfo.id}</td>
                   <td className="border px-4 py-2">{booking.quantity}</td>
                   <td className="border px-4 py-2">
                     {formatRupiah(booking.amount)}
                   </td>
                   <td className="border px-4 py-2">
-                    {!hasPaymentCode(booking.id) && countdowns[booking.id]}
+                    {booking.status === "failed"
+                      ? "Expired"
+                      : !hasPaymentCode(booking.id) && countdowns[booking.id]}
                   </td>
-
                   <td className="border px-4 py-2">
-                    {payment.some(
+                    {booking.status === "failed" ||
+                    payment.some(
                       (p) =>
                         p.booking_id === booking.id && p.status === "failed"
                     ) ? (
