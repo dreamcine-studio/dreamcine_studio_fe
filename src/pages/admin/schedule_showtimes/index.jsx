@@ -88,6 +88,7 @@ if (error){
 
   const getMovieData = (id) => {
     const movie = movies.find((m) => m.id === id);
+    const baseURL = publicStorage
     return movie
       ? {
           title: movie.title,
