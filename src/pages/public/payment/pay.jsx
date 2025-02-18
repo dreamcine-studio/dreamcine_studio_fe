@@ -61,6 +61,10 @@ export default function Payment() {
     return movie ? movie.price : "Unknown movie";
   };
 
+  console.log("film",movies);
+  console.log("sce",schedule);
+  
+
   const formatRupiah = (number) => {
     return new Intl.NumberFormat("id-ID", {
       style: "currency",
