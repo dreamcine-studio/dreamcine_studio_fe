@@ -33,13 +33,13 @@ import BookingPage from "./pages/public/payment/index.jsx";
 import ScheduleList from "./pages/admin/schedules/detail.jsx";
 import PublicMovies from "./pages/public/movies/index.jsx";
 import MovieDetail from "./pages/public/moviedetail/index.jsx";
-import Ticket from "./components/ticket/index.jsx";
 import AdminShowtimes from "./pages/admin/showtimes/index.jsx";
 import ShowtimeEdit from "./pages/admin/showtimes/edit.jsx";
 import ShowtimeCreate from "./pages/admin/showtimes/create.jsx";
 import AdminScheduleShowtime from "./pages/admin/schedule_showtimes/index.jsx";
 import ScheduleShowtimeCreate from "./pages/admin/schedule_showtimes/create.jsx";
 import ScheduleShowtimeEdit from "./pages/admin/schedule_showtimes/edit.jsx";
+import Ticket from "./pages/public/Ticket/index.jsx";
 
 
 function App() {

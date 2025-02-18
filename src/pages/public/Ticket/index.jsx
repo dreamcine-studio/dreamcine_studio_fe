@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Barcode from "react-barcode";
-import { showPayment } from "../../services/payment";
-import { getBooking, showBooking } from "../../services/booking";
-import { getScheduleShowtimes, showScheduleShowtimes } from "../../services/scheduleshowtime";
-import { getSchedules } from "../../services/schedules";
-import { getMovies } from "../../services/movies";
+import { showPayment } from "../../../services/payment";
+import { getBooking, showBooking } from "../../../services/booking";
+import { getScheduleShowtimes, showScheduleShowtimes } from "../../../services/scheduleshowtime";
+import { getSchedules } from "../../../services/schedules";
+import { getMovies } from "../../../services/movies";
 // import { showSchedule } from "../../services/schedule";
 // import { showMovie } from "../../services/movie"; // Import service untuk fetch movie
 
