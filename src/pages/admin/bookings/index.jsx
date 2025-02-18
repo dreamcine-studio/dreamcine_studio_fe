@@ -1,193 +1,192 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { deleteBooking, getBooking } from "../../../services/booking";
-import { getSchedules } from "../../../services/schedules";
-import { getMovies } from "../../../services/movies";
+import { getScheduleShowtimes } from "../../../services/scheduleshowtime";
 import { getUsers } from "../../../services/user";
+import { getSchedules } from "../../../services/schedules";
+import { getShowtimes } from "../../../services/showtime";
+import { getPayments } from "../../../services/payment";  // Import the getPayments function
 
 export default function AdminBookings() {
-  const [bookings, setBooking] = useState([]);
-  const [schedules, setSchedules] = useState([]);
-  const [movies, setMovies] = useState([]);
-  const [users, setUsers] = useState([]);
-  const [loading, setLoading] = useState([]);
-  const [error, setError] = useState([]);
+    const [bookings, setBooking] = useState([]);
+    const [scheduleShowtimes, setScheduleShowtimes] = useState([]);
+    const [users, setUsers] = useState([]);
+    const [showtimes, setShowtimes] = useState([]);
+    const [schedules, setSchedules] = useState([]);
+    const [payments, setPayments] = useState([]);  // State for storing payment data
+    
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      setError(null);
+    useEffect(() => {
+        const fetchData = async () => {
+            setLoading(true);
+            setError(null);
+            try {
+                const [bookingsData, scheduleShowtimesData, userData, schedulesData, showtimesData, paymentData] = await Promise.all([
+                    getBooking(),
+                    getScheduleShowtimes(),
+                    getUsers(),
+                    getSchedules(),
+                    getShowtimes(),
+                    getPayments()  // Fetch payment data
+                ]);
+                setBooking(bookingsData);
+                setScheduleShowtimes(scheduleShowtimesData);
+                setUsers(userData);
+                setSchedules(schedulesData);
+                setShowtimes(showtimesData);
+                setPayments(paymentData);  // Set payment data
+            } catch (error) {
+                setError("Failed to fetch data, please try again later.");
+                console.log(error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchData();
+    }, []);
 
-      try {
-        const [bookingsData, schedulesData, movieData, userData] = await Promise.all([
-          getBooking(),
-          getSchedules(),
-          getMovies(),
-          getUsers(),
-        ]);
-        setBooking(bookingsData);
-        setSchedules(schedulesData);
-        setMovies(movieData);
-        setUsers(userData);
-      } catch (error) {
-        setError("Failed to fetch data, please try again later : ");
-        console.log(error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchData();
-  }, []);
-
-  const getMovieDetails = (scheduleId) => {
-    const schedule = schedules.find((s) => s.id === scheduleId);
-    if (!schedule) return { title: "Unknown Movie" };
-
-    const movie = movies.find((m) => m.id === schedule.movie_id);
-    return movie || { title: "Unknown Movie" };
-  };
-
-  const getUserInfoName = (userId) => {
-    const user = users.find((u) => u.id === userId);
-    return user ? user.name : "Unknown User";
-  };
-
-  const formatRupiah = (number) => {
-    return new Intl.NumberFormat("id-ID", {
-      style: "currency",
-      currency: "IDR",
-      minimumFractionDigits: 0,
-    }).format(number);
-  };
-
-  const formatTimestamp = (timestamp) => {
-    const formattedDate = new Intl.DateTimeFormat('en-GB', {
-      weekday: 'long',
-      day: 'numeric',
-      month: 'long',
-      year: 'numeric',
-    }).format(new Date(timestamp));
+    useEffect(() => {
+      console.log(showtimes); // Log the showtimes state to confirm it's populated correctly
+  }, [showtimes]);
   
-    const parts = formattedDate.split(' ');
-  
-    parts[0] = parts[0] + ','; 
-  
-    return parts.join(' ');
-  };
-  
-  if (loading) {
-    return (
-      <main className="py-6 px-12 space-y-2 bg-gray-300 min-h-screen w-full flex items-center justify-center">
-        <div className="flex items-center space-x-4">
-          <div
-            className="w-16 h-16 border-4 border-solid border-transparent rounded-full animate-spin border-t-purple-500 border-r-pink-500 border-b-purple-500 border-l-pink-500"
-          ></div>
-          <div className="text-2xl font-bold text-gray-800 animate-bounce">
-            Please Wait ..
-          </div>
-        </div>
-      </main>
-    );
-  }
 
-  if (error) {
-    return (
-      <main className="py-l px-12 space-y-2 bg-gray-100 min-h-screen w-full flex items-center justify-center">
-        <div className="text-2xl font-bold text-gray-500"> {error} .. </div>
-      </main>
-    );
-  }
-
-  const handleDelete = async (id) => {
-    const confirmDelete = window.confirm("Apakah Anda yakin ingin Menghapus Data ini ?");
-    if (confirmDelete) {
-      await deleteBooking(id);
-      setBooking(bookings.filter((booking) => booking.id !== id));
+  const getDetails = (scheduleShowtimeId) => {
+    const scheduleShowtime = scheduleShowtimes.find(ss => ss.id === scheduleShowtimeId);
+    if (!scheduleShowtime) {
+        console.log("Schedule Showtime not found for ID:", scheduleShowtimeId);
+        return { schedule: null, showtime: null };
     }
-  };
 
-  return (
-    <div className="rounded-sm shadow-default dark:bg-boxdark sm:px-7.5 xl:pb-1 min-h-screen">
-      <div className="flex items-center gap-6 justify-center">
-        <h1 className="text-2xl text-center font-bold dark:text-white">
-          Bookings
-        </h1>
-      </div>
+    const schedule = schedules.find(s => s.id === scheduleShowtime.schedule_id);
+    const showtime = showtimes.find(st => st.id === scheduleShowtime.showtime_id);
 
-      <div className="max-w-full overflow-x-auto mt-4">
-        <table className="w-full table-auto">
-          <thead className="border-b bg-gray-50 dark:bg-gray-900 text-white">
-            <tr className="bg-gray-2 text-left dark:bg-meta-4">
-              <th className="px-4 py-4 font-bold text-gray-700 dark:text-white uppercase">
-                User
-              </th>
-              <th className="px-4 py-4 font-bold text-gray-700 dark:text-white uppercase">
-                Movie
-              </th>
-              <th className="px-4 py-4 font-bold text-gray-700 dark:text-white uppercase">
-                Quantity
-              </th>
-              <th className="px-4 py-4 font-bold text-gray-700 dark:text-white uppercase">
-                Total Price
-              </th>
-              <th className="px-4 py-4 font-bold text-gray-700 dark:text-white uppercase">
-                Showtime
-              </th>
-              <th className="px-4 py-4 font-bold text-gray-700 dark:text-white uppercase">
-                Booking Date
-              </th>
-              <th className="px-4 py-4 font-bold text-gray-700 dark:text-white uppercase">
-                Action
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {bookings.length > 0 ? (
-              bookings.map((booking) => (
-                <tr key={booking.id} className="hover:bg-gray-100 dark:hover:bg-gray-600">
-                  <td className="px-4 py-5">
-                    <p className="text-black dark:text-white">
-                      {getUserInfoName(booking.user_id)}
-                    </p>
-                  </td>
-                  <td className="px-4 py-5">
-                    <p className="text-black dark:text-white">
-                      {getMovieDetails(booking.schedule_id).title}
-                    </p>
-                  </td>
-                  <td className="px-4 py-5">
-                    <p className="px-4 text-black dark:text-white">
-                      {booking.quantity}
-                    </p>
-                  </td>
-                  <td className="px-4 py-5">
-                    <p className="text-black dark:text-white">
-                      {formatRupiah(booking.amount)}
-                    </p>
-                  </td>
-                  <td className="px-4 py-5">
-                    <p className="px-4 text-black dark:text-white">
-                      {booking.showtime.slice(0, 5)}
-                    </p>
-                  </td>
-                  <td className="py-5">
-                    <p className="px-4 text-black dark:text-white">
-                      {formatTimestamp(booking.created_at)}
-                    </p>
-                  </td>
-                  <td className="px-4 py-5">
-                    <button onClick={() => handleDelete(booking.id)}>
-                      <i className="fa-solid fa-trash text-red-700 dark:text-red-500"></i>
-                    </button>
-                  </td>
-                </tr>
-              ))
-            ) : (
-              <p>Tidak ada data Booking</p>
-            )}
-          </tbody>
-        </table>
-      </div>
-    </div>
-  );
+    console.log("Schedule Showtime: ", scheduleShowtime); // Verify the data
+    console.log("Schedule: ", schedule);
+    console.log("Showtime: ", showtime); // Check the structure of the showtime object
+
+    return { schedule, showtime };
+};
+
+
+    const getUserInfoName = (userId) => {
+        const user = users.find((u) => u.id === userId);
+        return user ? user.name : "Unknown User";
+    };
+
+    const getPaymentStatus = (bookingId) => {
+        const payment = payments.find(p => p.booking_id === bookingId);  // Find the payment for the booking
+        return payment ? payment.status : "Pending";  // Return the payment status or "Pending"
+    };
+
+    const formatRupiah = (number) => {
+        return new Intl.NumberFormat("id-ID", {
+            style: "currency",
+            currency: "IDR",
+            minimumFractionDigits: 0,
+        }).format(number);
+    };
+  
+    const formatTimestamp = (timestamp) => {
+        const formattedDate = new Intl.DateTimeFormat("en-GB", {
+            weekday: "long",
+            day: "numeric",
+            month: "long",
+            year: "numeric",
+        }).format(new Date(timestamp));
+  
+        const parts = formattedDate.split(" ");
+        parts[0] = parts[0] + ",";
+        return parts.join(" ");
+    };
+
+    const handleDelete = async (id) => {
+        const confirmDelete = window.confirm(
+            "Apakah Anda yakin ingin Menghapus Data ini ?"
+        );
+        if (confirmDelete) {
+            await deleteBooking(id);  // Ensure deleteBooking is imported correctly
+            setBooking(bookings.filter((booking) => booking.id !== id));
+        }
+    };
+
+    if (loading) {
+        return (
+            <main className="py-6 px-12 space-y-2 bg-gray-300 min-h-screen w-full flex items-center justify-center">
+                <div className="flex items-center space-x-4">
+                    <div className="w-16 h-16 border-4 border-solid border-transparent rounded-full animate-spin border-t-purple-500 border-r-pink-500 border-b-purple-500 border-l-pink-500"></div>
+                    <div className="text-2xl font-bold text-gray-800 animate-bounce">
+                        Please Wait ..
+                    </div>
+                </div>
+            </main>
+        );
+    }
+
+    if (error) {
+        return (
+            <main className="py-6 px-12 space-y-2 bg-gray-100 min-h-screen w-full flex items-center justify-center">
+                <div className="text-2xl font-bold text-gray-500"> {error} .. </div>
+            </main>
+        );
+    }
+
+    return (
+        <div className="rounded-sm shadow-default dark:bg-boxdark sm:px-7.5 xl:pb-1 min-h-screen">
+            <div className="flex items-center gap-6 justify-center">
+                <h1 className="text-2xl text-center font-bold dark:text-white">
+                    Bookings
+                </h1>
+            </div>
+
+            <div className="max-w-full overflow-x-auto mt-4">
+                <table className="w-full table-auto">
+                    <thead className="border-b bg-gray-50 dark:bg-gray-900 text-white">
+                        <tr className="bg-gray-2 text-left dark:bg-meta-4">
+                            <th className="px-4 py-4 font-bold text-gray-700 dark:text-white uppercase">User</th>
+                            <th className="px-4 py-4 font-bold text-gray-700 dark:text-white uppercase">Seat</th>
+                            <th className="px-4 py-4 font-bold text-gray-700 dark:text-white uppercase">Movie</th>
+                            <th className="px-4 py-4 font-bold text-gray-700 dark:text-white uppercase">Quantity</th>
+                            <th className="px-4 py-4 font-bold text-gray-700 dark:text-white uppercase">Total Price</th>
+                            <th className="px-4 py-4 font-bold text-gray-700 dark:text-white uppercase">Showtime</th>
+                            <th className="px-4 py-4 font-bold text-gray-700 dark:text-white uppercase">Booking Date</th>
+                            <th className="px-4 py-4 font-bold text-gray-700 dark:text-white uppercase">Payment Status</th>
+                            <th className="px-4 py-4 font-bold text-gray-700 dark:text-white uppercase">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {bookings.length > 0 ? (
+                            bookings.map((booking) => {
+                                const seat = booking.seat;
+                                const details = getDetails(booking.schedule_showtime_id);
+                                const showtime = details.showtime;
+                                const movieTitle = details.schedule ? details.schedule.movie?.title : "Unknown Movie";
+                                const userName = getUserInfoName(booking.user_id);
+                                const paymentStatus = getPaymentStatus(booking.id);  // Get payment status for each booking
+                                return (
+                                    <tr key={booking.id} className="hover:bg-gray-100 dark:hover:bg-gray-600">
+                                        <td className="px-4 py-5">{userName}</td>
+                                        <td className="px-4 py-5">{seat ? seat.id: "Unknown Seat"}</td>
+                                        <td className="px-4 py-5">{movieTitle}</td>
+                                        <td className="px-4 py-5">{booking.quantity}</td>
+                                        <td className="px-4 py-5">{formatRupiah(booking.amount)}</td>
+                                        <td className="px-4 py-5">{showtime?.id || 'Unknown Showtime'}</td>
+                                        <td className="px-4 py-5">{formatTimestamp(booking.created_at)}</td>
+                                        <td className="px-4 py-5">{paymentStatus}</td>  {/* Display payment status */}
+                                        <td className="px-4 py-5">
+                                            <button onClick={() => handleDelete(booking.id)}>
+                                                <i className="fa-solid fa-trash text-red-700 dark:text-red-500"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                );
+                            })
+                        ) : (
+                            <tr><td colSpan="9" className="px-4 py-5 text-center">Tidak ada data Booking</td></tr>
+                        )}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    );
 }

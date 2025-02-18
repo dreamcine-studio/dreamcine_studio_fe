@@ -34,7 +34,7 @@ export default function Ticket() {
 
 
 
-  const fetchSchedulShowTime = async () => {
+  const fetchPaymentBooking = async () => {
 
     try {
 
@@ -46,6 +46,8 @@ export default function Ticket() {
       console.error("Error fetching booking details", error);
     }
   };
+
+
 
 
 
@@ -61,14 +63,20 @@ export default function Ticket() {
 
   useEffect(() => {
     if (payment && payment.schedule_id) {
-      fetchSchedulShowTime(); // Panggil fetchBookings ketika payment sudah terisi
+      fetchPaymentBooking(); // Panggil fetchBookings ketika payment sudah terisi
     }
   }, [scheduleShowTime]); // Trigger jika payment berubah
 
 
 
+
+
+
   console.log("payment" , payment);
-  console.log("scheduleShowTime" , scheduleShowTime);
+  console.log("payment_Booking" , payment.booking_id);
+  console.log("schedule_id" , payment.schedule_id);
+
+  // console.log("payment_Booking_schedule-id" , payment.booking.schedule_id);
   // console.log("scheuleShotime" , scheduleShowTime);
   
 
@@ -93,6 +101,13 @@ export default function Ticket() {
             <p className="text-sm font-medium">Payment Status</p>
             <p className="font-semibold text-lg">{payment.status || "N/A"}</p>
           </div>
+
+      {/* Menampilkan Payment Date */}
+        <div className="flex justify-between items-center text-gray-700 mb-4">
+            <p className="text-sm font-medium">Payment Date</p>
+            <p className="font-semibold text-lg">{payment.booking.amount || "Not Available"}</p>
+          </div>
+
 
           {/* Menampilkan Payment Date */}
           <div className="flex justify-between items-center text-gray-700 mb-4">

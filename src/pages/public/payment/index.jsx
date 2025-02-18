@@ -36,8 +36,9 @@ export default function AdminBookings() {
           (payment) => bookingId.includes(payment.booking_id) // periksa apakah booking_id ada di bookingId
         );
 
-        console.log("Filter Payments:", filteredPayments); // cek seluruh payment yang difilter
-    
+        // filteredPayments.forEach(payment => {
+        //   console.log("Payment ID:", payment.id); // Menampilkan ID dari setiap objek dalam array pembayaran
+        // });
 
         setBookings(filteredBookings);
         setPayment(filteredPayments);
@@ -51,13 +52,14 @@ export default function AdminBookings() {
     fetchData();
   }, [userInfo.id]);
 
-
   useEffect(() => {
     const intervals = {};
 
     bookings.forEach((booking) => {
+      if (booking.status === "failed" || countdowns[booking.id]) return; // Cek jika sudah timeout atau sudah ada countdown
+
       const deadline = new Date(booking.created_at);
-      deadline.setMinutes(deadline.getMinutes() + 2); // Tambahkan 30 menit ke waktu created_at
+      deadline.setMinutes(deadline.getMinutes() + 2); // Tambahkan 2 menit ke waktu created_at
 
       intervals[booking.id] = setInterval(() => {
         const now = new Date();
@@ -66,21 +68,28 @@ export default function AdminBookings() {
         if (timeRemaining <= 0) {
           clearInterval(intervals[booking.id]); // Hentikan interval ketika waktu habis
           if (!hasPaymentCode(booking.id)) {
-            // Set status failed setelah waktu habis
+            // Set status failed setelah waktu habis, hanya sekali
             setBookings((prevBookings) =>
               prevBookings.map((b) =>
-                b.id === booking.id ? { ...b, status: "failed" } : b
+                b.id === booking.id && b.status !== "failed"
+                  ? { ...b, status: "failed" }
+                  : b
               )
             );
+            setCountdowns((prev) => ({
+              ...prev,
+              [booking.id]: "", // Ketika timeout, set menjadi 00:00
+            }));
           }
         } else {
-          const minutes = Math.floor(
-            (timeRemaining % (1000 * 60 * 60)) / (1000 * 60)
-          );
-          const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+          // Menghitung menit dan detik yang tersisa
+          const minutes = Math.floor(timeRemaining / (1000 * 60)); // Menit
+          const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000); // Detik
+
+          // Format MM:SS, menambahkan 0 di depan detik jika kurang dari 10
           setCountdowns((prev) => ({
             ...prev,
-            [booking.id]: `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`, // Format waktu MM:SS
+            [booking.id]: `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`,
           }));
         }
       }, 1000); // Update setiap detik
@@ -90,7 +99,7 @@ export default function AdminBookings() {
       // Bersihkan interval saat komponen dihapus atau berubah
       Object.values(intervals).forEach(clearInterval);
     };
-  }, [bookings]);
+  }, [bookings, countdowns]);
 
   console.log("bok", bookings);
   console.log("pay", payment);
@@ -178,11 +187,16 @@ export default function AdminBookings() {
                   </td>
 
                   <td className="border px-4 py-2">
-                    {booking.status === "failed" ? (
-                      <span className="text-red-500">time-out</span>
+                    {payment.some(
+                      (p) =>
+                        p.booking_id === booking.id && p.status === "failed"
+                    ) ? (
+                      <span className="text-red-500">Failed</span>
                     ) : hasPaymentCode(booking.id) ? (
                       getPaymentStatus(booking.id) === "pending" ? (
-                        <span className="text-yellow-500">Waiting for confirmation</span>
+                        <span className="text-yellow-500">
+                          Waiting for confirmation
+                        </span>
                       ) : getPaymentStatus(booking.id) === "confirmed" ? (
                         <Link
                           to={`/tickets/${hasPaymentCode(booking.id).id}`}
