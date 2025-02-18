@@ -14,6 +14,7 @@ export default function MovieSeat() {
   const [seat, setSeat] = useState([]);
   const [schedule, setSchedule] = useState([]);
   const [errors, setErrors] = useState([]);
+  
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -101,6 +102,8 @@ export default function MovieSeat() {
     fetchSeat();
   }, [movieId, studioId, scheduleId, scheduleshowtimeId]); // Perbarui saat ID berubah
 
+  
+
   const handleSeatClick = (seatNumber) => {
     setSelectedSeats((prevSelectedSeats) => {
       if (prevSelectedSeats.includes(seatNumber)) {
@@ -155,6 +158,8 @@ export default function MovieSeat() {
     bookingData.append("quantity", selectedSeats.length);
     bookingData.append("amount", totalPrice);
     bookingData.append("timestamp", timestamp);
+    bookingData.append("schedule_showtime_id", scheduleshowtimeId);
+
 
     const seatData = new FormData();
     selectedSeats.forEach((seatNumber) => {
@@ -162,6 +167,7 @@ export default function MovieSeat() {
     });
     seatData.append("schedule_showtime_id", scheduleshowtimeId);
     seatData.append("showdate", showdate);
+    seatData.append("isbooked", 1);
 
     try {
       await createBooking(bookingData);
@@ -176,8 +182,9 @@ export default function MovieSeat() {
     }
   };
 
-  console.log(movie);
-  console.log(studio);
+  console.log("mo", movie);
+  console.log("stu",studio);
+  console.log("seat",seat);
   console.log(showtime);
   console.log(showdate);
   console.log(totalPrice);
@@ -235,61 +242,53 @@ export default function MovieSeat() {
 
       <div className="my-6">
         <div className="seat-grid flex flex-col items-center">
-          {Array.from({ length: 11 }, (_, rowIndex) => {
-            const rowLabel = String.fromCharCode(65 + rowIndex);
-            return (
-              <div
-                key={rowIndex}
-                className="flex items-center justify-center gap-2 mb-2"
-              >
-                {[...Array(8)].map((_, index) => {
-                  const seatNumber = `${rowLabel}${index + 1}`;
-                  const isBooked = seat.includes(seatNumber);
-                  return (
-                    <div
-  key={index}
-  className={`h-[26px] w-[32px] m-[3px] rounded-t-[10px] text-[10px] text-center transition-all duration-200
-    ${
-      isBooked
-        ? "bg-gray-200 text-black cursor-not-allowed" // Kursi sold
-        : selectedSeats.includes(seatNumber)
-        ? "bg-orange-500" // Kursi yang dipilih
-        : "bg-gray-700 hover:scale-110 cursor-pointer" // Kursi available
-    }`}
-  onClick={!isBooked ? () => handleSeatClick(seatNumber) : undefined}
->
-  {seatNumber}
-</div>
+        {Array.from({ length: 11 }, (_, rowIndex) => {
+  const rowLabel = String.fromCharCode(65 + rowIndex);
+  return (
+    <div key={rowIndex} className="flex items-center justify-center gap-2 mb-2">
+      {[...Array(8)].map((_, index) => {
+        const seatNumber = `${rowLabel}${index + 1}`;
+        const isBooked = seat.includes(seatNumber);  // Seat is booked if it's in the `seat` array
+        return (
+          <div
+            key={index}
+            className={`h-[26px] w-[32px] m-[3px] rounded-t-[10px] text-[10px] text-center transition-all duration-200
+              ${isBooked
+                ? "bg-gray-200 text-black cursor-not-allowed"  // Sold seat: not clickable
+                : selectedSeats.includes(seatNumber)
+                ? "bg-orange-500"  // Selected seat: orange
+                : "bg-gray-700 hover:scale-110 cursor-pointer"  // Available seat: clickable
+              }`}
+            onClick={!isBooked ? () => handleSeatClick(seatNumber) : undefined}  // Click only if not booked
+          >
+            {seatNumber}
+          </div>
+        );
+      })}
+      <div className="mx-4 text-center text-black dark:text-white">{rowLabel}</div>
+      {[...Array(6)].map((_, index) => {
+        const seatNumber = `${rowLabel}${index + 10}`;
+        const isBooked = seat.includes(seatNumber);  // Check if this seat is booked
+        return (
+          <div
+            key={index}
+            className={`h-[26px] w-[32px] m-[3px] rounded-t-[10px] text-[10px] text-center transition-all duration-200
+              ${isBooked
+                ? "bg-gray-200 text-black cursor-not-allowed"  // Sold seat: not clickable
+                : selectedSeats.includes(seatNumber)
+                ? "bg-orange-500"  // Selected seat: orange
+                : "bg-gray-700 hover:scale-110 cursor-pointer"  // Available seat: clickable
+              }`}
+            onClick={!isBooked ? () => handleSeatClick(seatNumber) : undefined}  // Click only if not booked
+          >
+            {seatNumber}
+          </div>
+        );
+      })}
+    </div>
+  );
+})}
 
-                  );
-                })}
-                <div className="mx-4 text-center text-black dark:text-white">
-                  {rowLabel}
-                </div>
-                {[...Array(6)].map((_, index) => {
-                  const seatNumber = `${rowLabel}${index + 10}`;
-                  const isBooked = seat.includes(seatNumber);
-                  return (
-                    <div
-  key={index}
-  className={`h-[26px] w-[32px] m-[3px] rounded-t-[10px] text-[10px] text-center transition-all duration-200
-    ${
-      isBooked
-        ? "bg-gray-200 text-black cursor-not-allowed" // Kursi sold
-        : selectedSeats.includes(seatNumber)
-        ? "bg-orange-500" // Kursi yang dipilih
-        : "bg-gray-700 hover:scale-110 cursor-pointer" // Kursi available
-    }`}
-  onClick={!isBooked ? () => handleSeatClick(seatNumber) : undefined}
->
-  {seatNumber}
-</div>
-
-                  );
-                })}
-              </div>
-            );
-          })}
         </div>
       </div>
 

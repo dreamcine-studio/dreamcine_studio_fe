@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createShowtimes } from "../../../services/showtime";
+import Error from "../../../components/Error";
 
 export default function ShowtimeCreate() {
   const [errors, setErrors] = useState({});
@@ -46,6 +47,9 @@ export default function ShowtimeCreate() {
               <label className="mb-3 block text-base font-medium text-black dark:text-white">
                 Sequence
               </label>
+                {errors.sequence && (
+                  <Error res={errors.sequence[0]} />
+                )}
                             
               <input
                 type="time"

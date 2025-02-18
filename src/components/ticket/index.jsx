@@ -1,75 +1,123 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Barcode from "react-barcode";
-import { getPayments } from "../../services/payment";
+import { showPayment } from "../../services/payment";
+import { getBooking, showBooking } from "../../services/booking";
+import { getScheduleShowtimes, showScheduleShowtimes } from "../../services/scheduleshowtime";
+import { getSchedules } from "../../services/schedules";
+import { getMovies } from "../../services/movies";
+// import { showSchedule } from "../../services/schedule";
+// import { showMovie } from "../../services/movie"; // Import service untuk fetch movie
 
 
 export default function Ticket() {
-  const [paymentCodes, setPaymentCodes] = useState('');
-  const [paymentDates, setPaymentDates] = useState('');
-  const [payments, setPayments] = useState('');
-
   const { id } = useParams(); // Menangkap ID dari URL
+  const [payment, setPayment] = useState(null);
+  const [booking, setBooking] = useState(null);
+  const [scheduleShowtimes, setScheduleShowTimes] = useState(null);
+  const [schedule, setScheduleS] = useState(null);
+  const [movies, setMovies] = useState(null);
+  const [movieTitle, setMovieTitle] = useState("Loading...");
+  const [loading, setLoading] = useState(true); // Tambahkan state loading
+  const [error, setError] = useState(null); // Tambahkan state error
 
-  // Fungsi untuk mengambil detail pembayaran berdasarkan ID
-  const fetchPaymentDetails = async () => {
-    try {
-      const data = await getPayments(); // Mendapatkan data pembayaran dari API
-      const payment = data.find((payment) => payment.id === parseInt(id)); // Mencari berdasarkan ID
 
 
-      if (payment) {
-        // Menyimpan data yang ditemukan ke state
-        setPaymentCodes(payment.payment_code);
-        setPaymentDates(payment.payment_date);
-        setPayments(payment.status);  // status pembayaran (misalnya: "pending" atau "confirmed")
+
+ useEffect(() => {
+  
+    const fetchData = async () => {
+      setLoading(true);
+      setError(null);
+    
+      try {
+        const [
+          paymentData,
+          bookingData,
+          scheduleShowTimeData,
+          schedulesData,
+          movieData
+          
+        ] = await Promise.all( [
+          showPayment(id),
+          getBooking(),
+          getScheduleShowtimes(),
+          getSchedules(),
+          getMovies()
+        ]);
+
+        
+    
+        setPayment(paymentData);
+        setBooking(bookingData);
+        setScheduleShowTimes(scheduleShowTimeData),
+        setScheduleS(schedulesData),
+        setMovies(movieData)
+      
+            // Menentukan judul film jika movies ada
+      if (movieData && movieData.length > 0) {
+        // Misalnya kita ambil film pertama dalam array
+        setMovieTitle(movieData[1].title);
+      } else {
+        setMovieTitle("Movie Not Available");
       }
-    } catch (error) {
-      console.error("Error fetching payment details", error);
-    }
-  };
+
+        }catch (error){
+          setError("Failed to fetch data, please try again later : ")
+          console.log(error)
+        } finally {
+          setLoading(false)
+        }
+      }
+      
+
+    fetchData();
+    
+  }, []);
+
+// console.log("Payment", payment);
+// console.log("booking", booking);
+// console.log("scheduleShowtimes", scheduleShowtimes);
+// console.log("schedule", schedule);
+// console.log("movies", movies);
 
 
 
-  // Mengambil data saat pertama kali load dan saat ID berubah
-  useEffect(() => {
-    fetchPaymentDetails();
-  }, [id]); // Hanya dipanggil saat ID berubah
+  if (loading) {
+    return <div className="text-center text-gray-600">Loading...</div>;
+  }
 
-  // Jika data belum tersedia, tampilkan loading
-  if (!paymentCodes || !payments) {
-    return <div>Loading...</div>;
+  if (error) {
+    return <div className="text-center text-red-600">Error: {error}</div>;
   }
 
   return (
     <div className="max-w-lg mx-auto bg-white rounded-lg shadow-2xl p-8 pt-12 mt-8">
-      {/* Bagian Header */}
       <div className="text-center mb-6">
         <h2 className="text-3xl font-semibold text-gray-800 tracking-tight">Cinema Ticket</h2>
-        <p className="mt-2 text-gray-500 text-lg">Your Movie Experience Begins Here</p>
+        {/* <p className="mt-2 text-gray-500 text-lg">{movies.title || "Movie Not Yet"}</p> */}
+        <p className="mt-2 text-gray-500 text-lg">{movieTitle}</p>
       </div>
 
-      {/* Bagian Detail Pembayaran dan Film */}
       <div className="mt-6">
         <div className="text-center space-y-6">
-          {/* Menampilkan Status Pembayaran */}
           <div className="flex justify-between items-center text-gray-700 mb-4">
             <p className="text-sm font-medium">Payment Status</p>
-            <p className="font-semibold text-lg">{payments || "N/A"}</p>
+            <p className="font-semibold text-lg">{payment.status || "N/A"}</p>
           </div>
 
-          {/* Menampilkan Payment Date */}
           <div className="flex justify-between items-center text-gray-700 mb-4">
             <p className="text-sm font-medium">Payment Date</p>
-            <p className="font-semibold text-lg">{paymentDates || "Not Available"}</p>
+            <p className="font-semibold text-lg">{payment.payment_date || "Not Available"}</p>
           </div>
 
-          {/* Menampilkan Barcode hanya jika status "confirmed" */}
           <div className="mt-6">
-            {payments === "confirmed" ? (
-              <Barcode className="mx-auto text-xl text-gray-800" value={paymentCodes} />
+            {payment.status === "confirmed" && payment.payment_code ? (
+              <Barcode className="block mx-auto text-xl text-gray-800" value={String(payment.payment_code)} />
             ) : (
-              <p className="text-gray-500">Tiket belum tersedia. Status pembayaran: {payments}</p>
+              <p className="text-gray-500">
+                Tiket belum tersedia. Status pembayaran: {payment.status}
+              </p>
             )}
           </div>
         </div>

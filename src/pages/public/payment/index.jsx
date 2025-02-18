@@ -6,12 +6,10 @@ import { getPayments } from "../../../services/payment";
 export default function AdminBookings() {
   const [bookings, setBookings] = useState([]);
   const [payment, setPayment] = useState([]);
-  const [error, setError] = useState([]);
+  const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [countdowns, setCountdowns] = useState({});
   const userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
-
-  // const { id } = useParams();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -25,18 +23,17 @@ export default function AdminBookings() {
         ]);
 
         const filteredBookings = bookingData.filter(
-          (booking) => booking.user_id === parseInt(userInfo.id)
+          (booking) => booking.user_id === parseInt(userInfo.id) // ambil data booking berdasarkan user yang sedang login
         );
 
-        const bookingId = filteredBookings.map((booking) => booking.id);
-        const filteredPayments = paymentData.filter((payment) =>
-          bookingId.includes(payment.booking_id)
-        );
+        console.log("Filter Bookings:", filteredBookings); // cek hasil booking yang difilter
 
-    
-        // filteredPayments.forEach(payment => {
-        //   console.log("Payment ID:", payment.id); // Menampilkan ID dari setiap objek dalam array pembayaran
-        // });
+        const bookingId = filteredBookings.map((booking) => booking.id); // ambil data booking hanya id saja
+        console.log("Booking IDs:", bookingId); // cek ID booking
+
+        const filteredPayments = paymentData.filter(
+          (payment) => bookingId.includes(payment.booking_id) // periksa apakah booking_id ada di bookingId
+        );
 
         setBookings(filteredBookings);
         setPayment(filteredPayments);
@@ -50,49 +47,49 @@ export default function AdminBookings() {
     fetchData();
   }, [userInfo.id]);
 
-
-
-
   useEffect(() => {
     const intervals = {};
 
     bookings.forEach((booking) => {
-      const deadline = new Date(booking.created_at);
-      deadline.setMinutes(deadline.getMinutes() + 1); // Tambahkan 30 menit ke waktu created_at
+      if (booking.status !== "failed") {
+        const deadline = new Date(booking.created_at);
+        deadline.setMinutes(deadline.getMinutes() + 1); // Tambahkan 1 menit ke waktu created_at
 
-      // Set interval untuk menghitung mundur setiap detik
-      intervals[booking.id] = setInterval(() => {
-        const now = new Date();
-        const timeRemaining = deadline - now; // Selisih waktu antara deadline dan waktu sekarang
+        // Set interval untuk menghitung mundur setiap detik
+        intervals[booking.id] = setInterval(() => {
+          const now = new Date();
+          const timeRemaining = deadline - now; // Selisih waktu antara deadline dan waktu sekarang
 
-        if (timeRemaining <= 0) {
-          clearInterval(intervals[booking.id]); // Hentikan interval ketika waktu habis
-          if (!hasPaymentCode(booking.id)) {
-            setBookings((prevBookings) =>
-              prevBookings.filter((b) => b.id !== booking.id)
+          if (timeRemaining <= 0) {
+            clearInterval(intervals[booking.id]); // Hentikan interval ketika waktu habis
+            if (!hasPaymentCode(booking.id)) {
+              setBookings((prevBookings) =>
+                prevBookings.map((b) =>
+                  b.id === booking.id ? { ...b, status: "failed" } : b
+                )
+              );
+            }
+          } else {
+            const minutes = Math.floor(
+              (timeRemaining % (1000 * 60 * 60)) / (1000 * 60)
             );
+            const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+            setCountdowns((prev) => ({
+              ...prev,
+              [booking.id]: `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`,
+            }));
           }
-        } else {
-          const minutes = Math.floor(
-            (timeRemaining % (1000 * 60 * 60)) / (1000 * 60)
-          );
-          const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
-          setCountdowns((prev) => ({
-            ...prev,
-            [booking.id]: `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`, // Format waktu MM:SS
-          }));
-        }
-      }, 1000); // Update setiap detik
+        }, 1000);
+      }
     });
 
     return () => {
-      // Bersihkan interval saat komponen dihapus atau berubah
       Object.values(intervals).forEach(clearInterval);
     };
   }, [bookings]);
 
-  console.log("bok", bookings);
-  console.log("pay", payment);
+  console.log("booking", bookings);
+  console.log("payment", payment);
 
   const getPaymentStatus = (bookingId) => {
     const paymentForBooking = payment.find(
@@ -101,11 +98,9 @@ export default function AdminBookings() {
     return paymentForBooking ? paymentForBooking.status : null;
   };
 
+
   const hasPaymentCode = (bookingId) => {
-    const paymentForBooking = payment.find(
-      (item) => item.booking_id === bookingId
-    );
-    return paymentForBooking;
+    return payment.some((item) => item.booking_id === bookingId);
   };
 
   const formatRupiah = (number) => {
@@ -144,6 +139,8 @@ export default function AdminBookings() {
     );
   }
 
+
+
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <div className="bg-white shadow-lg rounded-lg p-6 w-full max-w-4xl">
@@ -163,23 +160,29 @@ export default function AdminBookings() {
             </thead>
             <tbody>
               {bookings.map((booking) => (
-                <tr key={booking.user_id} className="hover:bg-gray-50">
+                <tr key={booking.id} className="hover:bg-gray-50">
                   <td className="border px-4 py-2">{userInfo.id}</td>
                   <td className="border px-4 py-2">{booking.quantity}</td>
                   <td className="border px-4 py-2">
                     {formatRupiah(booking.amount)}
                   </td>
                   <td className="border px-4 py-2">
-                    {!hasPaymentCode(booking.id) && countdowns[booking.id]}
+                    {booking.status === "failed"
+                      ? "Expired"
+                      : !hasPaymentCode(booking.id) && countdowns[booking.id]}
                   </td>
-
-
-
-
                   <td className="border px-4 py-2">
-                    {hasPaymentCode(booking.id) ? (
+                    {booking.status === "failed" ||
+                    payment.some(
+                      (p) =>
+                        p.booking_id === booking.id && p.status === "failed"
+                    ) ? (
+                      <span className="text-red-500">Failed</span>
+                    ) : hasPaymentCode(booking.id) ? (
                       getPaymentStatus(booking.id) === "pending" ? (
-                        <span className="text-yellow-500">Pending</span>
+                        <span className="text-yellow-500">
+                          Waiting for confirmation
+                        </span>
                       ) : getPaymentStatus(booking.id) === "confirmed" ? (
                         <Link
                           to={`/tickets/${hasPaymentCode(booking.id).id}`}

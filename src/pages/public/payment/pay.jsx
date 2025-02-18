@@ -7,22 +7,16 @@ import { getSchedules } from "../../../services/schedules";
 import { createPayments } from "../../../services/payment";
 
 export default function Payment() {
-  const [booking, setBooking] = useState([]);
-  const [schedule, setSchedule] = useState([]);
+  const [booking, setBooking] = useState({});
+  const [schedule, setSchedule] = useState({});
   const [movies, setMovie] = useState([]);
-  const [error, setError] = useState([]);
+  const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
   const [payment_methods, setPaymentMethods] = useState([]);
   const [selectedMethod, setSelectedMethod] = useState(null);
-  const [paymentData, setPaymentData] = useState({
-    booking_id: "",
-    payment_method_id: "",
-    amount: "",
-  });
 
   const navigate = useNavigate();
-
   const { id } = useParams();
 
   useEffect(() => {
@@ -44,11 +38,11 @@ export default function Payment() {
         setPaymentMethods(paymentMethodData);
 
         // Extract schedule ID from booking data
-        if (bookingData && bookingData.schedule_id) {
+        if (bookingData && bookingData.schedule_showtime_id) {
           const selectedSchedule = scheduleData.find(
-            (s) => s.id === bookingData.schedule_id
+            (s) => s.id === bookingData.schedule_showtime_id
           );
-          setSchedule(selectedSchedule);
+          setSchedule(selectedSchedule || {});
         } else {
           setSchedule(null);
         }
@@ -60,12 +54,9 @@ export default function Payment() {
       }
     };
     fetchData();
-  }, []);
+  }, [id]);
 
-  console.log("datab", booking);
-  // console.log("datas", schedule);
-
-  const getMovie = (id) => {
+  const getMoviePrice = (id) => {
     const movie = movies.find((item) => item.id === id);
     return movie ? movie.price : "Unknown movie";
   };
@@ -79,13 +70,20 @@ export default function Payment() {
     }).format(number);
   };
 
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setPaymentData({ ...paymentData, [name]: value });
-  };
+  // const handleInputChange = (event) => {
+  //   const { name, value } = event.target;
+  //   setPaymentData({ ...paymentData, [name]: value });
+  // };
 
   const storePayment = async (e) => {
     e.preventDefault();
+
+    // Check if a payment method is selected
+  if (!selectedMethod) {
+    alert("Please select a payment method");
+    return; // Stop further execution if no payment method is selected
+  }
+
 
     const formDataToSendPayment = new FormData();
     formDataToSendPayment.append("booking_id", booking.id);
@@ -155,34 +153,26 @@ export default function Payment() {
 
       {/* Order Summary */}
       <div className="space-y-2 mt-4">
-        <dl
-          // onChange={handleInputChange}
-          className="flex items-center justify-between gap-4 border-t border-gray-200 pt-2"
-        >
+        <dl className="flex items-center justify-between gap-4 border-t border-gray-200 pt-2">
           <dt className="text-base text-gray-900">Original price</dt>
           <dd className="text-base text-gray-900">
-            {formatRupiah(getMovie(schedule.id))}
+            {formatRupiah(getMoviePrice(schedule?.movie_id))}
           </dd>
         </dl>
 
-        <dl
-          // onChange={handleInputChange}
-          className="flex items-center justify-between gap-4 border-gray-200 pt-2"
-        >
+        <dl className="flex items-center justify-between gap-4 border-gray-200 pt-2">
           <dt className="text-base text-gray-900">Seat</dt>
           <dd className="text-base text-gray-900">{booking.quantity}</dd>
         </dl>
 
-        <dl
-          onChange={handleInputChange}
-          className="flex items-center justify-between gap-4 border-t border-gray-200 pt-2"
-        >
+        <dl className="flex items-center justify-between gap-4 border-t border-gray-200 pt-2">
           <dt className="text-base font-bold text-gray-900">Total</dt>
           <dd className="text-base font-bold text-gray-900">
             {formatRupiah(booking.amount)}
           </dd>
         </dl>
       </div>
+
       {/* Buttons */}
       <div className="flex justify-between mt-4">
         <button

@@ -50,3 +50,19 @@ export const deletePayment = async (id) => {
     throw error;
   }
 };
+
+
+
+export const showPayment = async (id) => {
+  try {
+    const { data } = await API.get(`/payments/${id}`, {
+      headers: {
+        Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
+      },
+    }); // endpoint
+    return data.data;
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+};
