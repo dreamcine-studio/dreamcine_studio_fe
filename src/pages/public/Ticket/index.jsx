@@ -2,12 +2,10 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Barcode from "react-barcode";
 import { showPayment } from "../../../services/payment";
-import { getBooking, showBooking } from "../../../services/booking";
-import { getScheduleShowtimes, showScheduleShowtimes } from "../../../services/scheduleshowtime";
+import { getBooking } from "../../../services/booking";
+import { getScheduleShowtimes } from "../../../services/scheduleshowtime";
 import { getSchedules } from "../../../services/schedules";
 import { getMovies } from "../../../services/movies";
-// import { showSchedule } from "../../services/schedule";
-// import { showMovie } from "../../services/movie"; // Import service untuk fetch movie
 
 
 export default function Ticket() {
@@ -54,13 +52,6 @@ export default function Ticket() {
         setScheduleS(schedulesData),
         setMovies(movieData)
       
-      //       // Menentukan judul film jika movies ada
-      // if (movieData && movieData.length > 0) {
-      //   // Misalnya kita ambil film pertama dalam array
-      //   setMovieTitle(movieData[1].title);
-      // } else {
-      //   setMovieTitle("Movie Not Available");
-      // }
       if (paymentData && paymentData.booking_id) {
         const relatedBooking = bookingData.find(b => b.id === paymentData.booking_id);
         
@@ -95,11 +86,6 @@ export default function Ticket() {
     
   }, []);
 
-// console.log("Payment", payment);
-// console.log("booking", booking);
-// console.log("scheduleShowtimes", scheduleShowtimes);
-// console.log("schedule", schedule);
-// console.log("booking", payment.booking.id);
 
 
 

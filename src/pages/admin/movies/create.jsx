@@ -30,8 +30,6 @@ export default function MovieCreate() {
     fetchGenres();
   }, []);
 
-  console.log("tes",movieData )
-
   //Handle input chage
   const handleInputChange = (e) => {
     const { name, value } = e.target;

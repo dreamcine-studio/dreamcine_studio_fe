@@ -65,7 +65,6 @@ export default function ScheduleCreate() {
     }
   };
 
-  console.log(scheduleData);
 
   return (
     <>

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { login } from "../../../services/auth"; // Pastikan fungsi login menghubungi API backend
+import { login } from "../../../services/auth"; 
 
 export default function Login() {
   const [theme, setTheme] = useState("light"); // Default "light"

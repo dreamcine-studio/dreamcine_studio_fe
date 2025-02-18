@@ -11,7 +11,6 @@ export default function AdminBookings() {
   const [countdowns, setCountdowns] = useState({});
   const userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
 
-
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
@@ -27,10 +26,7 @@ export default function AdminBookings() {
           (booking) => booking.user_id === parseInt(userInfo.id) // ambil data booking berdasarkan user yang sedang login
         );
 
-        console.log("Filter Bookings:", filteredBookings); // cek hasil booking yang difilter
-
         const bookingId = filteredBookings.map((booking) => booking.id); // ambil data booking hanya id saja
-        console.log("Booking IDs:", bookingId); // cek ID booking
 
         const filteredPayments = paymentData.filter(
           (payment) => bookingId.includes(payment.booking_id) // periksa apakah booking_id ada di bookingId
@@ -89,16 +85,12 @@ export default function AdminBookings() {
     };
   }, [bookings]);
 
-  console.log("booking", bookings);
-  console.log("payment", payment);
-
   const getPaymentStatus = (bookingId) => {
     const paymentForBooking = payment.find(
       (item) => item.booking_id === bookingId
     );
     return paymentForBooking ? paymentForBooking.status : null;
   };
-
 
   const hasPaymentCode = (bookingId) => {
     const paymentForBooking = payment.find(
@@ -142,8 +134,6 @@ export default function AdminBookings() {
       </main>
     );
   }
-
-
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">

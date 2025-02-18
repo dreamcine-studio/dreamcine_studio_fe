@@ -1,4 +1,3 @@
-// import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { deletePayment, getPayments, updatePayment } from "../../../services/payment";
 import { getPaymentmethods } from "../../../services/paymentMethod";
@@ -47,7 +46,6 @@ export default function AdminPayments() {
     }
   };
 
-  console.log(paymentMethods);
   
 
   const formatRupiah = (number) => {
