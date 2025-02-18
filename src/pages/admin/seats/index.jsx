@@ -45,7 +45,6 @@ export default function AdminSeats() {
           getPayments(),
         ]);
 
-        // Update seats with payment status
         const updatedSeats = await Promise.all(
           seatsData.map(async (seat) => {
             const payment = paymentDatas.find((p) => p.booking_id === seat.id);
@@ -63,7 +62,6 @@ export default function AdminSeats() {
               }
             }
 
-            // Update seat status in the backend
             if (seat.isbooked !== isBooked) {
               try {
                 await updateSeat(seat.id, {
@@ -86,24 +84,22 @@ export default function AdminSeats() {
           })
         );
 
-        // Kelompokkan kursi berdasarkan schedule_showtime_id dan showdate
         const groupedSeats = updatedSeats.reduce((acc, seat) => {
           const key = `${seat.schedule_showtime_id}-${seat.showdate}`;
 
           if (!acc[key]) {
             acc[key] = [];
           }
-          acc[key].push(seat); // Setiap kursi tetap dibuat row sendiri
+          acc[key].push(seat); 
 
           return acc;
         }, {});
 
-        // Konversi hasil reduce ke array dengan format yang lebih terstruktur
         setSeats(Object.values(groupedSeats).flat());
 
         setStudios(studiosData);
         setMovies(movieData);
-        setSeats(updatedSeats); // Updated seats with payment status
+        setSeats(updatedSeats);
         setSchedules(schedulesData);
         setShowtimes(showtimesData);
         setSchedulesShowtimes(scheduleShowtimesData);
@@ -171,7 +167,6 @@ export default function AdminSeats() {
                 (st) => st.id === scheduleShowtime.showtime_id
               );
 
-              // Dapatkan semua kursi untuk schedule_showtime_id ini
               const filteredSeats = seats.filter(
                 (seat) => seat.schedule_showtime_id === scheduleShowtime.id
               );
@@ -181,7 +176,6 @@ export default function AdminSeats() {
                   key={`${scheduleShowtime.id}-${seat.id}`}
                   className="border"
                 >
-                  {/* Hanya tampilkan Studio, Movie, Showtime pada kursi pertama di setiap kelompok */}
                   {index === 0 && (
                     <>
                       <td
