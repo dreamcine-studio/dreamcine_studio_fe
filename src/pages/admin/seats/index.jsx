@@ -118,27 +118,6 @@ export default function AdminSeats() {
     fetchData();
   }, []);
 
-  // const updateBookedStatus = async (seatId, status) => {
-  //   try {
-  //     // Update status di backend
-  //     const response = await updateSeat(seatId, { isbooked: status === "Booked" ? 1 : 0 });
-  //     if (response.success) {
-  //       // Fetch data terbaru dan perbarui state seats
-  //       const updatedSeats = await getSeats();
-  //       setSeats(updatedSeats);
-  //     }
-  //   } catch (error) {
-  //     console.error("Update failed:", error);
-  //   }
-  // };
-
-  const handleDelete = async (id) => {
-    if (window.confirm("Apakah Anda yakin ingin menghapus data ini?")) {
-      await deleteSeat(id);
-      setSeats(seats.filter((seat) => seat.id !== id));
-    }
-  };
-
   if (loading) {
     return (
       <main className="py-6 px-12 space-y-2 bg-gray-300 min-h-screen w-full flex items-center justify-center">
@@ -175,7 +154,6 @@ export default function AdminSeats() {
               <th className="p-3 border">Seat Numbers</th>
               <th className="p-3 border">Is Booked</th>
               <th className="p-3 border">Payment Status</th>
-              <th className="p-3 border">Action</th>
             </tr>
           </thead>
           <tbody>
@@ -247,14 +225,6 @@ export default function AdminSeats() {
                   </td>
                   <td className="p-3 border text-center">
                     {seat.paymentStatus || "Pending"}
-                  </td>
-                  <td className="p-3 border text-center">
-                    <button
-                      onClick={() => handleDelete(seat.id)}
-                      className="ml-2 text-red-500 hover:text-red-700"
-                    >
-                      <i className="fa-solid fa-trash"></i>
-                    </button>
                   </td>
                 </tr>
               ));

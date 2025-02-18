@@ -4,7 +4,7 @@ import { getScheduleShowtimes } from "../../../services/scheduleshowtime";
 import { getUsers } from "../../../services/user";
 import { getSchedules } from "../../../services/schedules";
 import { getShowtimes } from "../../../services/showtime";
-import { getPayments } from "../../../services/payment";  // Import the getPayments function
+import { getPayments } from "../../../services/payment";  
 
 export default function AdminBookings() {
     const [bookings, setBooking] = useState([]);
@@ -12,7 +12,7 @@ export default function AdminBookings() {
     const [users, setUsers] = useState([]);
     const [showtimes, setShowtimes] = useState([]);
     const [schedules, setSchedules] = useState([]);
-    const [payments, setPayments] = useState([]);  // State for storing payment data
+    const [payments, setPayments] = useState([]);  
     
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -28,14 +28,14 @@ export default function AdminBookings() {
                     getUsers(),
                     getSchedules(),
                     getShowtimes(),
-                    getPayments()  // Fetch payment data
+                    getPayments()  
                 ]);
                 setBooking(bookingsData);
                 setScheduleShowtimes(scheduleShowtimesData);
                 setUsers(userData);
                 setSchedules(schedulesData);
                 setShowtimes(showtimesData);
-                setPayments(paymentData);  // Set payment data
+                setPayments(paymentData); 
             } catch (error) {
                 setError("Failed to fetch data, please try again later.");
                 console.log(error);
@@ -47,7 +47,7 @@ export default function AdminBookings() {
     }, []);
 
     useEffect(() => {
-      console.log(showtimes); // Log the showtimes state to confirm it's populated correctly
+      console.log(showtimes); 
   }, [showtimes]);
   
 
@@ -61,9 +61,9 @@ export default function AdminBookings() {
     const schedule = schedules.find(s => s.id === scheduleShowtime.schedule_id);
     const showtime = showtimes.find(st => st.id === scheduleShowtime.showtime_id);
 
-    console.log("Schedule Showtime: ", scheduleShowtime); // Verify the data
+    console.log("Schedule Showtime: ", scheduleShowtime); 
     console.log("Schedule: ", schedule);
-    console.log("Showtime: ", showtime); // Check the structure of the showtime object
+    console.log("Showtime: ", showtime);
 
     return { schedule, showtime };
 };
@@ -75,8 +75,8 @@ export default function AdminBookings() {
     };
 
     const getPaymentStatus = (bookingId) => {
-        const payment = payments.find(p => p.booking_id === bookingId);  // Find the payment for the booking
-        return payment ? payment.status : "Pending";  // Return the payment status or "Pending"
+        const payment = payments.find(p => p.booking_id === bookingId); 
+        return payment ? payment.status : "Pending";  
     };
 
     const formatRupiah = (number) => {
@@ -105,7 +105,7 @@ export default function AdminBookings() {
             "Apakah Anda yakin ingin Menghapus Data ini ?"
         );
         if (confirmDelete) {
-            await deleteBooking(id);  // Ensure deleteBooking is imported correctly
+            await deleteBooking(id);  
             setBooking(bookings.filter((booking) => booking.id !== id));
         }
     };
@@ -144,7 +144,6 @@ export default function AdminBookings() {
                     <thead className="border-b bg-gray-50 dark:bg-gray-900 text-white">
                         <tr className="bg-gray-2 text-left dark:bg-meta-4">
                             <th className="px-4 py-4 font-bold text-gray-700 dark:text-white uppercase">User</th>
-                            <th className="px-4 py-4 font-bold text-gray-700 dark:text-white uppercase">Seat</th>
                             <th className="px-4 py-4 font-bold text-gray-700 dark:text-white uppercase">Movie</th>
                             <th className="px-4 py-4 font-bold text-gray-700 dark:text-white uppercase">Quantity</th>
                             <th className="px-4 py-4 font-bold text-gray-700 dark:text-white uppercase">Total Price</th>
@@ -166,13 +165,12 @@ export default function AdminBookings() {
                                 return (
                                     <tr key={booking.id} className="hover:bg-gray-100 dark:hover:bg-gray-600">
                                         <td className="px-4 py-5 dark:text-white uppercase">{userName}</td>
-                                        <td className="px-4 py-5 dark:text-white uppercase">{seat ? seat.id: "Unknown Seat"}</td>
                                         <td className="px-4 py-5 dark:text-white uppercase">{movieTitle}</td>
                                         <td className="px-4 py-5 dark:text-white uppercase">{booking.quantity}</td>
                                         <td className="px-4 py-5 dark:text-white uppercase">{formatRupiah(booking.amount)}</td>
                                         <td className="px-4 py-5 dark:text-white uppercase">{showtime?.id || 'Unknown Showtime'}</td>
                                         <td className="px-4 py-5 dark:text-white uppercase">{formatTimestamp(booking.created_at)}</td>
-                                        <td className="px-4 py-5 dark:text-white uppercase">{paymentStatus}</td>  {/* Display payment status */}
+                                        <td className="px-4 py-5 dark:text-white uppercase">{paymentStatus}</td>  
                                         <td className="px-4 py-5 dark:text-white uppercase">
                                             <button onClick={() => handleDelete(booking.id)}>
                                                 <i className="fa-solid fa-trash text-red-700 dark:text-red-500"></i>
