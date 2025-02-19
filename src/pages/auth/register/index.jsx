@@ -52,7 +52,7 @@ export default function Register() {
 
   // Validasi email
   if (!validateEmail(registerData.email)) {
-    setError("Please enter a valid email address (e.g. example@domain.com).");
+    setError("Please enter a valid email address (e.g. contoh@google.com).");
     return;
   }
 
