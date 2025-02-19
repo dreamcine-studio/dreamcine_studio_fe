@@ -34,19 +34,6 @@ export default function GenreCreate() {
     }
   };
 
-  if (loading) {
-    return (
-      <main className="py-6 px-12 space-y-2 bg-gray-300 min-h-screen w-full flex items-center justify-center">
-        <div className="flex items-center space-x-4">
-          <div className="w-16 h-16 border-4 border-solid border-transparent rounded-full animate-spin border-t-purple-500 border-r-pink-500 border-b-purple-500 border-l-pink-500"></div>
-          <div className="text-2xl font-bold text-gray-800 animate-bounce">
-            Please Wait ..
-          </div>
-        </div>
-      </main>
-    );
-  }
-
   return (
     <div className="flex flex-col gap-9">
       <div className="rounded-sm bg-white shadow-default dark:bg-boxdark">
