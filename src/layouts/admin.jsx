@@ -70,10 +70,6 @@ export default function AdminLayout() {
                 <img src={theme === "dark" ? "/logo-dark.png" : "/logo-light.png"}
               className="rounded-full mr-3 h-20"
               alt="Dream Cine Studios" />
-                {/* <span className="bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500 text-xl  self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">
-                  DreamCine-Studio
-                </span> */}
-                {/* <span>  Admin</span> */}
               </Link>
             </div>
             <div className="flex items-center">
@@ -160,7 +156,7 @@ export default function AdminLayout() {
 
       <aside
         id="logo-sidebar"
-        className="fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform -translate-x-full bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700 mt-10"
+        className="fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform -translate-x-full bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700 mt-10 pb-10"
         aria-label="Sidebar"
       >
         <div className="flex flex-col gap-5 h-full px-3 pb-4 overflow-y-auto bg-white dark:bg-gray-800">
@@ -286,8 +282,7 @@ export default function AdminLayout() {
                 <span className="flex-1 ms-3 whitespace-nowrap">Users</span>
               </Link>
             </li>
-            <div className="absoulute bottom-0 p-14">
-            
+            <div className="relative bottom-0">
             <li>
               <button
                 onClick={handleLogout}

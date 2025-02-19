@@ -79,7 +79,7 @@ export default function AdminBookings() {
 
   const getPaymentStatus = (bookingId) => {
     const payment = payments.find((p) => p.booking_id === bookingId);
-    return payment ? payment.status : "Pending";
+    return payment ? payment.status : "payment timeout";
   };
 
   const formatRupiah = (number) => {
@@ -202,9 +202,19 @@ export default function AdminBookings() {
                       {formatTimestamp(booking.created_at)}
                     </td>
                     <td className="px-4 py-5 dark:text-white">
-                      {paymentStatus}
+                      <span
+                        className={
+                          paymentStatus === "pending"
+                            ? "text-yellow-500 font-bold"
+                            : paymentStatus === "confirmed"
+                            ? "text-green-500 font-bold"
+                            : "text-red-500 font-bold"
+                        }
+                      >
+                        {paymentStatus}
+                      </span>
                     </td>
-                    <td className="px-4 py-5 dark:text-white">
+                    <td className="px-4 py-5 dark:text-white text-center">
                       <button onClick={() => handleDelete(booking.id)}>
                         <i className="fa-solid fa-trash text-red-700 dark:text-red-500"></i>
                       </button>
