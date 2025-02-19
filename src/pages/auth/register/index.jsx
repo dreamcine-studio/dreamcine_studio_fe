@@ -24,7 +24,7 @@ export default function Register() {
   const handleCheckboxChange = () => {
     setIsChecked(!isChecked);
     if (!isChecked) setError("");
-  };
+  }; 
 
   useEffect(() => {
       const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
