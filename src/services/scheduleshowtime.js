@@ -2,7 +2,7 @@ import { API } from "../api";
 
 
 export const getScheduleShowtimes = async () => {
-  const { data } = await API.get("/scheduleshowtime", {
+  const { data } = await API.get("/scheduleshowtimes", {
     headers: {
       Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
     },
@@ -12,7 +12,7 @@ export const getScheduleShowtimes = async () => {
 
 export const createScheduleShowtimes = async (data) => {
   try {
-    const response = await API.post("/scheduleshowtime", data, {
+    const response = await API.post("/scheduleshowtimes", data, {
       headers: {
         Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
       },
