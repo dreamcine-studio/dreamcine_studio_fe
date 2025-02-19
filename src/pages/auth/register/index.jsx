@@ -36,6 +36,11 @@ export default function Register() {
       };
     }, []);
 
+    const validateEmail = (email) => {
+      const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      return emailRegex.test(email);
+    };
+
   // Handle form submit
   const storeRegister = async (e) => {
     e.preventDefault();
@@ -44,6 +49,12 @@ export default function Register() {
       setError("You must accept the Terms and Conditions.");
       return;
     }
+
+  // Validasi email
+  if (!validateEmail(registerData.email)) {
+    setError("Please enter a valid email address (e.g. example@domain.com).");
+    return;
+  }
 
     const formDataToSend = new FormData();
 
