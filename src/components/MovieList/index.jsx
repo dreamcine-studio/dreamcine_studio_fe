@@ -30,10 +30,14 @@ export default function MovieList({ length }) {
         // Filter hanya film yang memiliki jadwal tayang
         const filteredMovies = moviesData
           .filter((movie) => movieIdsWithSchedule.has(movie.id))
-          .map(({ id, title, poster }) => ({
+          .map(({ id, title, poster, genre, genre_id }) => ({
             id,
             title,
             poster,
+            genre: genre ||
+              genresData.find((g) => g.id === genre_id) || {
+                name: "Unknown Genre",
+              }, // Simpan genre di dalam movie
           }));
 
         // Filter hanya name untuk genres
@@ -124,7 +128,7 @@ export default function MovieList({ length }) {
                 {movie.title}
               </p>
               <p className="mb-4 text-base font-normal text-gray-700 dark:text-gray-400 overflow-hidden break-words line-clamp-1">
-                {getGenreName(movie.genre_id)}
+                {movie.genre?.name || "Unknown Genre"}
               </p>
               <div className="mt-auto">
                 <Link
