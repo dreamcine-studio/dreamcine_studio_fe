@@ -133,7 +133,7 @@ function App() {
             </Route>
           </Route>
         </Routes>
-      </Hash>
+      </HashRouter>
     </>
   );
 }
