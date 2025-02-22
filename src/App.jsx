@@ -1,5 +1,4 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-// import AdminLayout from './layouts/admin'
 import PublicLayout from "./layouts/public";
 import Home from "./pages/public";
 import AdminLayout from "./layouts/admin";
