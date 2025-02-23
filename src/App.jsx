@@ -1,4 +1,4 @@
-import { HashRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import PublicLayout from "./layouts/public";
 import Home from "./pages/public";
 import AdminLayout from "./layouts/admin";
@@ -43,7 +43,7 @@ import Ticket from "./pages/public/Ticket/index.jsx";
 function App() {
   return (
     <>
-      <HashRouter>
+      <BrowserRouter>
         <Routes>
           {/* Public Routes */}
           <Route element={<PublicLayout />}>
@@ -133,7 +133,7 @@ function App() {
             </Route>
           </Route>
         </Routes>
-      </HashRouter>
+      </BrowserRouter>
     </>
   );
 }

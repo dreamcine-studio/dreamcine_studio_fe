@@ -130,10 +130,8 @@ export default function MovieSeat() {
     const userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
 
     if (!token) {
-      sessionStorage.setItem(
-        "redirectAfterLogin",
-        `${window.location.pathname + window.location.search}`
-      );
+      const currentUrl = window.location.pathname + window.location.search;
+      sessionStorage.setItem("redirectAfterLogin", currentUrl);
       alert("You must log in to place an order.");
       return navigate("/login");
     }
