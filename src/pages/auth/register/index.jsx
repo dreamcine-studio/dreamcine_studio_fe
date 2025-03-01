@@ -1,4 +1,3 @@
-// import { useEffect, useState } from "react"
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { register } from "../../../services/auth";
@@ -11,65 +10,79 @@ export default function Register() {
   });
   const [isChecked, setIsChecked] = useState(false);
   const [showTerms, setShowTerms] = useState(false);
-  const [error, setError] = useState("");
-  const [theme, setTheme] = useState("light"); // Default "light"
+  const [errors, setErrors] = useState({});
+  const [theme, setTheme] = useState("light");
 
   const navigate = useNavigate();
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setRegisterData({ ...registerData, [name]: value });
+
+    // Menghapus error saat input mulai diisi
+    setErrors((prevErrors) => ({ ...prevErrors, [name]: "" }));
   };
 
   const handleCheckboxChange = () => {
     setIsChecked(!isChecked);
-    if (!isChecked) setError("");
-  }; 
+    if (!isChecked) setErrors((prevErrors) => ({ ...prevErrors, terms: "" }));
+  };
 
   useEffect(() => {
-      const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
-      setTheme(mediaQuery.matches ? "dark" : "light");
-      const handleChange = (e) => setTheme(e.matches ? "dark" : "light");
-      mediaQuery.addEventListener("change", handleChange);
-      return () => {
-        mediaQuery.removeEventListener("change", handleChange);
-      };
-    }, []);
-
-    const validateEmail = (email) => {
-      const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-      return emailRegex.test(email);
+    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+    setTheme(mediaQuery.matches ? "dark" : "light");
+    const handleChange = (e) => setTheme(e.matches ? "dark" : "light");
+    mediaQuery.addEventListener("change", handleChange);
+    return () => {
+      mediaQuery.removeEventListener("change", handleChange);
     };
+  }, []);
+
+  const validateEmail = (email) => {
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return emailRegex.test(email);
+  };
 
   // Handle form submit
   const storeRegister = async (e) => {
     e.preventDefault();
-
-    if (!isChecked) {
-      setError("You must accept the Terms and Conditions.");
+    let newErrors = {};
+  
+    // Validasi input di frontend
+    if (!registerData.name.trim()) newErrors.name = "Name is required.";
+    if (!registerData.email.trim()) {
+      newErrors.email = "Email is required.";
+    } else if (!validateEmail(registerData.email)) {
+      newErrors.email = "Please enter a valid email address.";
+    }
+    if (!registerData.password.trim()) newErrors.password = "Password is required.";
+    if (!isChecked) newErrors.terms = "You must accept the Terms and Conditions.";
+  
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
       return;
     }
-
-  // Validasi email
-  if (!validateEmail(registerData.email)) {
-    setError("Please enter a valid email address (e.g. contoh@google.com).");
-    return;
-  }
-
-    const formDataToSend = new FormData();
-
-    formDataToSend.append("email", registerData.name);
-    formDataToSend.append("email", registerData.email);
-    formDataToSend.append("password", registerData.password);
-
+  
     try {
       await register(registerData);
       alert("Register Success, Please Login");
       navigate("/login");
     } catch (error) {
-      console.log(error.response.data.message);
+      if (error.response) {
+        if (error.response.status === 409) {
+          // Jika email sudah terdaftar, tampilkan pesan spesifik
+          setErrors({ email: "Email already exists. Please login instead." });
+        } else if (error.response.status === 422) {
+          // Set error validasi dari backend ke state errors
+          setErrors(error.response.data.errors);
+        }
+      } else {
+        console.log(error);
+      }
     }
   };
+  
+  
 
   return (
     <section className="bg-gray-50 dark:bg-gray-900 min-h-screen">
@@ -83,24 +96,17 @@ export default function Register() {
             src={theme === "dark" ? "/logo-square-dark.png" : "/logo-square-light.png"}
             alt="logo"
           />
-          {/* Dream-Cine Studio */}
         </Link>
-        <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+        <div className="w-full bg-white rounded-lg shadow dark:border sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
               Create an account
             </h1>
 
-            <form
-              onSubmit={storeRegister}
-              className="space-y-4 md:space-y-6"
-              action="#"
-            >
+            <form onSubmit={storeRegister} className="space-y-4 md:space-y-6">
+              {/* Name Input */}
               <div>
-                <label
-                  htmlFor="name"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >
+                <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                   Name
                 </label>
                 <input
@@ -109,16 +115,15 @@ export default function Register() {
                   type="text"
                   name="name"
                   id="name"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-600 focus:border-indigo-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-indigo-500 dark:focus:border-indigo-500"
-                  placeholder="name"
-                  required=""
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                  placeholder="Your name"
                 />
+                {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
               </div>
+
+              {/* Email Input */}
               <div>
-                <label
-                  htmlFor="email"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >
+                <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                   Email
                 </label>
                 <input
@@ -127,16 +132,15 @@ export default function Register() {
                   type="email"
                   name="email"
                   id="email"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-600 focus:border-indigo-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-indigo-500 dark:focus:border-indigo-500"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                   placeholder="name@company.com"
-                  required=""
                 />
+                {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
               </div>
+
+              {/* Password Input */}
               <div>
-                <label
-                  htmlFor="password"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >
+                <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                   Password
                 </label>
                 <input
@@ -146,62 +150,37 @@ export default function Register() {
                   name="password"
                   id="password"
                   placeholder="••••••••"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-600 focus:border-indigo-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-indigo-500 dark:focus:border-indigo-500"
-                  required=""
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                 />
+                {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password}</p>}
               </div>
+
+              {/* Terms & Conditions */}
               <div className="flex items-start">
                 <div className="flex items-center h-5">
                   <input
                     id="terms"
-                    aria-describedby="terms"
                     type="checkbox"
                     checked={isChecked}
                     onChange={handleCheckboxChange}
-                    className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-indigo-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-indigo-600 dark:ring-offset-gray-800"
-                    required=""
+                    className="w-4 h-4 border border-gray-300 rounded bg-gray-50 dark:bg-gray-700 dark:border-gray-600"
                   />
                 </div>
                 <div className="ml-3 text-sm">
-                  <label
-                    htmlFor="terms"
-                    className="font-light text-gray-500 dark:text-gray-300"
-                  >
-                    I accept the
+                  <label htmlFor="terms" className="font-light text-gray-500 dark:text-gray-300">
+                    I accept the{" "}
                     <button
                       type="button"
                       onClick={() => setShowTerms(true)}
-                      className="text-indigo-500 hover:underline ml-1"
+                      className="text-indigo-500 hover:underline"
                     >
                       Terms and Conditions
                     </button>
                   </label>
                 </div>
               </div>
-              {error && <p className="text-red-500 text-sm">{error}</p>}
-
-              <button
-                type="submit"
-                disabled={!isChecked}
-                className="w-full text-white bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-              >
-                Create an account
-              </button>
-
-              <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                Already have an account?{" "}
-                <Link
-                  to="/login"
-                  className="font-medium text-indigo-600 hover:underline dark:text-indigo-500"
-                >
-                  Login here
-                </Link>
-              </p>
-            </form>
-          </div>
-        </div>
-      </div>
-      {showTerms && (
+              {errors.terms && <p className="text-red-500 text-sm mt-1">{errors.terms}</p>}
+              {showTerms && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
           <div className="bg-white p-6 rounded-lg shadow-lg w-[600px] h-[500px] overflow-y-auto">
             <h2 className="text-xl font-bold text-indigo-500">
@@ -293,6 +272,25 @@ export default function Register() {
           </div>
         </div>
       )}
+
+              {/* Submit Button */}
+              <button
+                type="submit"
+                className="w-full text-white bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gradient-to-br font-medium rounded-lg text-sm px-5 py-2.5"
+              >
+                Create an account
+              </button>
+
+              <p className="text-sm font-light text-gray-500 dark:text-gray-400">
+                Already have an account?{" "}
+                <Link to="/login" className="font-medium text-indigo-600 hover:underline dark:text-indigo-500">
+                  Login
+                </Link>
+              </p>
+            </form>
+          </div>
+        </div>
+      </div>
     </section>
   );
 }
