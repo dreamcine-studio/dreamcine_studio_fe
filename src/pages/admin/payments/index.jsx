@@ -103,13 +103,13 @@ export default function AdminPayments() {
   return (
     <>
       <div className="w-full min-h-screen">
-        <div>
+        <div className="flex items-center gap-6 justify-center">
           <h1 className="text-2xl text-center font-bold dark:text-white">
             Payment
           </h1>
         </div>
 
-        <div className="datatable-container">
+        <div className="max-w-full overflow-x-auto mt-4">
           <table className="table w-full table-auto datatable-table mt-4">
             <thead className="border-b bg-gray-50 dark:bg-gray-900 text-gray-700 dark:text-white">
               <tr className="bg-gray-2 text-left dark:bg-meta-4">

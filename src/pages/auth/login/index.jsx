@@ -113,6 +113,7 @@ if (redirectTo) {
                   required=""
                 />
               </div>
+              
               <div>
                 <label
                   htmlFor="password"
@@ -157,12 +158,12 @@ if (redirectTo) {
               
               <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                 Don’t have an account yet?{" "}
-                <a
-                  href="/register"
+                <Link
+                  to="/register"
                   className="font-medium text-indigo-600 hover:underline dark:text-indigo-500"
                 >
                   Sign up
-                </a>
+                </Link>
               </p>
             </form>
           </div>

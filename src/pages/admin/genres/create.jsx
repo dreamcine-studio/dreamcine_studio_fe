@@ -35,8 +35,8 @@ export default function GenreCreate() {
   };
 
   return (
-    <div className="flex flex-col gap-9">
-      <div className="rounded-sm bg-white shadow-default dark:bg-boxdark">
+    <div className="flex flex-col gap-9 min-h-screen">
+      <div className="rounded-sm shadow-default dark:bg-boxdark">
         <div className="border-b border-stroke px-6.5 py-4 dark:border-strokedark">
           <h3 className="font-medium text-black dark:text-white">
             Add Data Genres
