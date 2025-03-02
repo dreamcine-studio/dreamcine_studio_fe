@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { register } from "../../../services/auth";
+import SnackbarColors from "../../../components/ui/Snackbar";
 
 export default function Register() {
   const [registerData, setRegisterData] = useState({
@@ -9,17 +10,15 @@ export default function Register() {
     password: "",
   });
   const [isChecked, setIsChecked] = useState(false);
-  const [showTerms, setShowTerms] = useState(false);
   const [errors, setErrors] = useState({});
   const [theme, setTheme] = useState("light");
-
+  const [showTerms, setShowTerms] = useState(false);
+  const [openSnackbar, setOpenSnackbar] = useState(false); // State Snackbar
   const navigate = useNavigate();
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setRegisterData({ ...registerData, [name]: value });
-
-    // Menghapus error saat input mulai diisi
     setErrors((prevErrors) => ({ ...prevErrors, [name]: "" }));
   };
 
@@ -47,33 +46,26 @@ export default function Register() {
   const storeRegister = async (e) => {
     e.preventDefault();
     let newErrors = {};
-  
-    // Validasi input di frontend
+
     if (!registerData.name.trim()) newErrors.name = "Name is required.";
-    if (!registerData.email.trim()) {
-      newErrors.email = "Email is required.";
-    } else if (!validateEmail(registerData.email)) {
-      newErrors.email = "Please enter a valid email address.";
-    }
+    if (!registerData.email.trim()) newErrors.email = "Email is required.";
     if (!registerData.password.trim()) newErrors.password = "Password is required.";
     if (!isChecked) newErrors.terms = "You must accept the Terms and Conditions.";
-  
+
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       return;
     }
-  
+
     try {
       await register(registerData);
-      alert("Register Success, Please Login");
-      navigate("/login");
+      setOpenSnackbar(true); // Tampilkan Snackbar
+      setTimeout(() => navigate("/login"), 2000); // Redirect setelah snackbar muncul
     } catch (error) {
       if (error.response) {
         if (error.response.status === 409) {
-          // Jika email sudah terdaftar, tampilkan pesan spesifik
           setErrors({ email: "Email already exists. Please login instead." });
         } else if (error.response.status === 422) {
-          // Set error validasi dari backend ke state errors
           setErrors(error.response.data.errors);
         }
       } else {
@@ -81,22 +73,10 @@ export default function Register() {
       }
     }
   };
-  
-  
 
   return (
     <section className="bg-gray-50 dark:bg-gray-900 min-h-screen">
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto h-screen lg:py-0">
-        <Link
-          to="/"
-          className="bg-clip-text text-transparent bg-gradient-to-r from-red-500 to-violet-500 flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white"
-        >
-          <img
-            className="w-24 h-24 size-14"
-            src={theme === "dark" ? "/logo-square-dark.png" : "/logo-square-light.png"}
-            alt="logo"
-          />
-        </Link>
         <div className="w-full bg-white rounded-lg shadow dark:border sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
@@ -280,17 +260,18 @@ export default function Register() {
               >
                 Create an account
               </button>
-
-              <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                Already have an account?{" "}
-                <Link to="/login" className="font-medium text-indigo-600 hover:underline dark:text-indigo-500">
-                  Login
-                </Link>
-              </p>
             </form>
           </div>
         </div>
       </div>
+
+      <SnackbarColors
+        message="✅ Register Success, Please Login"
+        open={openSnackbar}
+        onClose={() => setOpenSnackbar(false)}
+        color="success"
+        variant="soft"
+      />
     </section>
   );
 }
