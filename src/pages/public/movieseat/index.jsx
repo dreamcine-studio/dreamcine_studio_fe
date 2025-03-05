@@ -5,6 +5,7 @@ import { getStudios } from "../../../services/studios";
 import { createBooking } from "../../../services/booking";
 import { getSchedules } from "../../../services/schedules";
 import { createSeat, getSeats } from "../../../services/seat";
+import ConfirmationDialog from "../../../components/ui/ModalDialog";
 
 export default function MovieSeat() {
   const [selectedSeats, setSelectedSeats] = useState([]);
@@ -13,7 +14,7 @@ export default function MovieSeat() {
   const [seat, setSeat] = useState([]);
   const [schedule, setSchedule] = useState([]);
   const [errors, setErrors] = useState([]);
-  
+  const [openDialog, setOpenDialog] = useState(false)
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -132,12 +133,12 @@ export default function MovieSeat() {
     if (!token) {
       const currentUrl = window.location.hash.slice(1);
       sessionStorage.setItem("redirectAfterLogin", currentUrl);
-      alert("You must log in to place an order.");
-      return navigate("/login");
+      setOpenDialog(true);
     }
 
     if (selectedSeats.length === 0) {
       alert("Please select at least one seat.");
+      setOpenDialog(false);
       return;
     }
 
@@ -301,9 +302,13 @@ export default function MovieSeat() {
         onClick={createBookingDetails}
         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-6"
       >
-        {/* <Link onChange={createBookingDetails} to={`/booking`} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-6"></Link> */}
         Book Your Ticket
       </button>
+      <ConfirmationDialog 
+      open={openDialog}
+      onClose={() => setOpenDialog(false)} 
+      onConfirm={() => navigate("/login")}
+        />
     </div>
   );
 }
