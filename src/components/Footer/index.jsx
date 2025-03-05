@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 export default function Footer() {
   const [theme, setTheme] = useState("light"); // Default "light"
@@ -37,21 +38,21 @@ export default function Footer() {
 
     {/* NAVIGATION LINKS */}
     <div className="flex flex-col sm:flex-row justify-center items-center sm:justify-between sm:items-start mt-6 sm:mt-0 space-y-3 sm:space-y-0 sm:space-x-8">
-      <a href="/movies">
+      <Link to="/movies">
         <h2 className="title-font font-medium text-gray-900 tracking-widest text-sm text-center sm:text-left dark:text-gray-400 hover:scale-110">
           MOVIES
         </h2>
-      </a>
-      <a href="/teams">
+      </Link>
+      <Link to="/teams">
         <h2 className="title-font font-medium text-gray-900 tracking-widest text-sm text-center sm:text-left dark:text-gray-400 hover:scale-110">
           TEAM
         </h2>
-      </a>
-      <a href="/contacts">
+      </Link>
+      <Link to="/contacts">
         <h2 className="title-font font-medium text-gray-900 tracking-widest text-sm text-center sm:text-left dark:text-gray-400 hover:scale-110">
           CONTACT US
         </h2>
-      </a>
+      </Link>
     </div>
     
   </div>
