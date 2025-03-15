@@ -1,6 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { deleteGenre, getGenres } from "../../../services/genre";
+import ModalDelete from "../../../components/ui/ModalDelete";
 
 export default function AdminGenres() {
   // untuk menyimpan data
@@ -10,7 +11,6 @@ export default function AdminGenres() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [genreToDelete, setGenreToDelete] = useState(null);
   const [successMessage, setSuccessMessage] = useState("");
-  const [deleteError, setDeleteError] = useState(null);
   const location = useLocation();
 
   useEffect(() => {
@@ -36,6 +36,22 @@ export default function AdminGenres() {
       setSuccessMessage(location.state.successMessage);
     }
   }, [location]);
+
+
+  const confirmDelete = async () => {
+    if (genreToDelete) {
+      try {
+        await deleteGenre(genreToDelete);
+        setGenres(genres.filter((genre) => genre.id !== genreToDelete));
+        setSuccessMessage("Genre successfully deleted!", 3000);
+      } catch (error) {
+        console.error("Failed to delete genre", error);
+      } finally {
+        setIsModalOpen(false);
+        setGenreToDelete(null);
+      }
+    }
+  };
 
   if (loading) {
     return (
@@ -63,29 +79,6 @@ export default function AdminGenres() {
     setIsModalOpen(true);
   };
 
-  const confirmDelete = async () => {
-    if (genreToDelete) {
-      try {
-        await deleteGenre(genreToDelete);
-        setGenres(genres.filter((genre) => genre.id !== genreToDelete));
-        setSuccessMessage("Genre successfully deleted!");
-        setIsModalOpen(false);
-        setGenreToDelete(null);
-
-        setTimeout(() => {
-          setSuccessMessage("");
-        }, 3000);
-      } catch (error) {
-        setDeleteError("Failed to delete the genre, please try again later.");
-      }
-    }
-  };
-
-  const cancelDelete = () => {
-    setIsModalOpen(false);
-    setGenreToDelete(null);
-    setDeleteError(null);
-  };
 
   return (
     <div className="space-y-2 min-h-screen w-full rounded-sm shadow-default dark:bg-boxdark sm:px-7.5 xl:pb-1">
@@ -161,33 +154,11 @@ export default function AdminGenres() {
         </table>
       </div>
 
-      {/* Modal Konfirmasi Penghapusan */}
-      {isModalOpen && (
-        <div className="fixed inset-0 bg-gray-500 bg-opacity-50 flex items-center justify-center">
-          <div className="bg-white p-6 rounded-md shadow-md w-1/3 text-center">
-            <h3 className="text-xl font-semibold text-black mb-4">
-              Are you sure to Delete data ?
-            </h3>
-            <div className="flex justify-center gap-4">
-              <button
-                onClick={confirmDelete}
-                className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-700"
-              >
-                Yes
-              </button>
-              <button
-                onClick={cancelDelete}
-                className="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-700"
-              >
-                No
-              </button>
-            </div>
-            {deleteError && (
-              <div className="mt-4 text-red-500">{deleteError}</div>
-            )}
-          </div>
-        </div>
-      )}
+      <ModalDelete
+        open={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onConfirm={confirmDelete}
+      />
     </div>
   );
 }
