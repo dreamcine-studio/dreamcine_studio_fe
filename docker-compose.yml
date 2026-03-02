@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"   # Vite's default development port
+    volumes:
+      - .:/app          # mount project files for live reload
+      - /app/node_modules
+    environment:
+      # enable polling for file changes on some host systems
+      - CHOKIDAR_USEPOLLING=true
+    command: npm run dev
